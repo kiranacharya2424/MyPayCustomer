@@ -1,0 +1,421 @@
+﻿@model MyPay.Models.Add.AddUser
+
+@{
+    ViewBag.Title = "UsersKYC";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+<div class="nk-content ">
+    <input type="hidden" id="hdndumpurl" value="@ViewBag.DumpURL" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">KYC Management</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>You have total <span id="kyctotalcount"></span> users.</p>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="exported()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" id="olduserexport" onclick="olduserexported(this, event)" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>All User KYC Dump Export</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="olduserdownload()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download"></em></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-between -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                <div class="nk-block-head">
+                                    <div class="nk-block-head-content">
+                                        <div id="dvMessage" class="form-group form-label" style="color:red; text-align:center;">
+                                            @ViewBag.Message
+                                        </div>
+                                        <div id="dvSuccess" class="form-group form-label" style="color: green; text-align: center;">
+                                            @ViewBag.SuccessMessage
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row gy-4">
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("StartDate", "", new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="fromdate">Start Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("ToDate", "", new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="todate">End Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("MemberId", "", new { @id = "MemberId", @placeholder = "Member Id", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @type = "number", @onkeypress = "return isNumberKey(event);" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Member Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("FirstName", "", new { @id = "FirstName", @placeholder = "First Name", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                @*<label class="form-label-outlined" for="FirstName">First Name</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("ContactNumber", "", new { @id = "ContactNumber", @placeholder = "Mobile Number", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @maxlength = 10, @onkeypress = "return isNumberKey(this, event);" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Mobile Number</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("Email", "", new { @id = "Email", @placeholder = "Email", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Email</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("RefCode", "", new { @id = "RefCode", @placeholder = "RefCode", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.EnumDropDownListFor(x => x.IsActiveStatusEnum, "--- Select User status ---", new { @class = "form-select form-control form-control-md" })
+                                                <label class="form-label-outlined" for="activestatus">User Status</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("StartReviewDate", "", new { @id = "fromreviewdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="fromreviewdate">Start ReviewDate</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("ToReviewDate", "", new { @id = "toreviewdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="toreviewdate">End ReviewDate</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            @*<button type="submit" class="btn btn-primary text-center">Search</button>*@
+                                            <a class="btn btn-primary text-center text-white" onclick="return bindtable();">Search</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="dvheading" class="nk-block">
+                                <div class="card card-bordered card-stretch">
+                                    <div class="card-inner-group">
+                                        <div class="card-inner">
+                                            <div class="card-title-group">
+                                                <div class="card-title">
+                                                    <h6 class="title">
+                                                        <span class="mr-2">KYC Requests</span>
+                                                        @*<a href="javascript:void(0);" class="link d-none d-sm-inline" style="color: #f98c45">See All</a>*@
+                                                    </h6>
+                                                </div>
+                                                <div class="card-tools">
+                                                    <ul class="card-tools-nav nav">
+                                                        <li class="nav-item" data-table="tblistpending"><a class="active nav-link" data-toggle="tab" id="tblpending" href="#pending" onclick="return BindDataTable('tblistpending')"><span>Pending</span></a></li>
+                                                        <li class="nav-item" data-table="tblistapproved"><a class="nav-link" data-toggle="tab" href="#pending" onclick="return BindDataTable('tblistapproved')"><span>Verified</span></a></li>
+                                                        <li class="nav-item" data-table="tblistrejected"><a class="nav-link" data-toggle="tab" href="#pending" onclick="return BindDataTable('tblistrejected')"><span>Rejected</span></a></li>
+                                                        <li class="nav-item" data-table="tblistnotfilled"><a class="nav-link" data-toggle="tab" href="#pending" onclick="return BindDataTable('tblistnotfilled')"><span>Not Filled</span></a></li>
+                                                        <li class="nav-item" data-table="tblistall"><a class="nav-link" data-toggle="tab" id="tblall" href="#pending" onclick="return BindDataTable('tblistall')"><span>All</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-content">
+                                            <div class="card-inner p-0 border-top tab-pane active" id="pending">
+                                                @Html.Hidden("kycstatus", "1", new { @id = "kycstatus" })
+                                                <div class="card-inner">
+                                                    <div class="table-responsive">
+                                                        <table id="tbllist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="nk-tb-col tb-col-md">
+                                                                        <span class="sub-text ">
+                                                                            @Html.DisplayName("SrNo")
+                                                                        </span>
+                                                                    </th>
+                                                                    <th class="nk-tb-col tb-col-md">
+                                                                        <span class="sub-text ">
+                                                                            @Html.DisplayName("Name")
+                                                                        </span>
+                                                                    </th>
+                                                                    <th class="nk-tb-col tb-col-md">
+                                                                        <span class="sub-text">
+                                                                            @Html.DisplayName("Mobile")
+                                                                        </span>
+                                                                    </th>
+                                                                    <th class="nk-tb-col tb-col-md">
+                                                                        <span class="sub-text">
+                                                                            @Html.DisplayName("Gender")
+                                                                        </span>
+                                                                    </th>
+
+                                                                    <th class="nk-tb-col tb-col-md">
+                                                                        <span class="sub-text">
+                                                                            @Html.DisplayName("Date Of Birth")
+                                                                        </span>
+                                                                    </th>
+                                                                    <th class="nk-tb-col tb-col-md">
+                                                                        <span class="sub-text">
+                                                                            @Html.DisplayName("DOBType")
+                                                                        </span>
+                                                                    </th>
+                                                                    <th class="nk-tb-col tb-col-md">
+                                                                        <span class="sub-text">
+                                                                            @Html.DisplayName("KYC Created Time")
+                                                                        </span>
+                                                                    </th>
+                                                                    <th class="nk-tb-col tb-col-md">
+                                                                        <span class="sub-text">
+                                                                            @Html.DisplayName("Review Date")
+                                                                        </span>
+                                                                    </th>
+                                                                    <th class="nk-tb-col tb-col-md">
+                                                                        <span class="sub-text">
+                                                                            @Html.DisplayName("Time Elapsed")
+                                                                        </span>
+                                                                    </th>
+                                                                    <th class="nk-tb-col tb-col-md">
+                                                                        <span class="sub-text">
+                                                                            @Html.DisplayName("Edit By")
+                                                                        </span>
+                                                                    </th>
+                                                                    <th class="nk-tb-col tb-col-md">
+                                                                        <span class="sub-text">
+                                                                            @Html.DisplayName("Remarks")
+                                                                        </span>
+                                                                    </th>
+                                                                    <th class="nk-tb-col tb-col-md">
+                                                                        <span class="sub-text">
+                                                                            @Html.DisplayName("Status")
+                                                                        </span>
+                                                                    </th>
+                                                                    <th class="nk-tb-col tb-col-md">
+                                                                        <span class="sub-text">
+                                                                            @Html.DisplayName("Edit")
+                                                                        </span>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div><!-- .card-inner -->
+                                            </div>
+
+                                            <!--</div>-->
+                                        </div>
+                                    </div><!-- .card-inner-group -->
+                                </div><!-- .card -->
+                            </div><!-- .nk-block -->
+                            <!-- .card-inner -->
+
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .dt-buttons.btn-group.flex-wrap {
+        display: none;
+    }
+</style>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="./content/assets/js/dtable_userskycrequest.js"></script>
+<script type="text/javascript" src="~/Content/assets/js/userscripts.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#dvtblist").css("display", "none");
+        $("#dvheading").css("display", "none");
+        //BindDataTable("tblistpending");
+    });
+    function bindtable() {
+        debugger;
+        $("#dvtblist").css("display", "block");
+        $("#dvheading").css("display", "block");
+        $('#tblall').trigger('click');
+    };
+
+    function exported(e) {
+        debugger;
+        var MemberId = $("#MemberId").val();
+        var Mobile = $("#ContactNumber").val();
+        var Name = $("#FirstName").val();
+        var Email = $("#Email").val();
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        var IsActive = $("#IsActiveStatusEnum").val();
+        var RefCode = $("#RefCode").val();
+        if (MemberId == "") {
+            MemberId = 0;
+        }
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ExportExcel", "UserKYC")', //call your controller and action
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            data: '{"Take":"' + parseInt(take) + '","Skip":"' + parseInt(skip) + '","Sort":"' + sort + '","SortOrder":"' + sortdir + '","KYCStatus":"' + parseInt(kycstatutsexport) + '","MemberId":"' + parseInt(MemberId) + '","ContactNumber":"' + Mobile + '","Name":"' + Name + '","Email":"' + Email + '","FromDate": "' + fromdate + '", "ToDate": "' + todate + '","IsActive": "' + IsActive + '","RefCode": "' + RefCode + '"}',
+
+        }).done(function (data) {
+            debugger;
+            //get the file name for download
+            if (data.fileName != "") {
+                //use window.location.href for redirect to download action for download the file
+                window.location.href = "@Url.RouteUrl(new { Controller = "UserKYC", Action = "Download" })/?fileName=" + data.fileName;
+            }
+        });
+    }
+
+
+    function olduserexported(obj, e) {
+        var errormsg = "";
+        var MemberId = $("#MemberId").val();
+        var Mobile = $("#ContactNumber").val();
+        var Name = $("#FirstName").val();
+        var Email = $("#Email").val();
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        var IsActive = $("#IsActiveStatusEnum").val();
+        var RefCode = $("#RefCode").val();
+        var fromreviewdate = $("#fromreviewdate").val();
+        var toreviewdate = $("#toreviewdate").val();
+        if (MemberId == "") {
+            MemberId = 0;
+        }
+        if (window.location.href.indexOf($("#hdndumpurl").val()) > -1) {
+            if (fromdate == "" && fromreviewdate == "") {
+                errormsg = "Please select Start Date or Start Review Date";
+            }
+            else if (todate == "" && toreviewdate == "") {
+                errormsg = "Please select End Date or End Review Date";
+            }
+            else if (fromdate != "" && todate != "") {
+                var enddate = new Date(todate);
+                var startdate = new Date(fromdate);
+                var difference = enddate - startdate;
+                var totaldays = Math.ceil(difference / (1000 * 3600 * 24));
+                if (totaldays > 5) {
+                    errormsg = "You cannot export report more than 5 days. So please select StartDate and EndDate accordingly.";
+
+                }
+            }
+            else if (fromreviewdate != "" && toreviewdate != "") {
+                var enddate = new Date(toreviewdate);
+                var startdate = new Date(fromreviewdate);
+                var difference = enddate - startdate;
+                var totaldays = Math.ceil(difference / (1000 * 3600 * 24));
+                if (totaldays > 5) {
+                    errormsg = "You cannot export report more than 5 days. So please select Start Review Date and End Review Date accordingly.";
+
+                }
+            }
+            if (errormsg == "") {
+                alert("Your exported file is being generated. Please download the new excel after 15 mins. Please note that you can request to generate new file after 4 hrs.");
+                //$("#olduserexport").attr('disabled', true);
+                $("#olduserexport").hide();
+            }
+            else {
+                alert(errormsg);
+                return false;
+            }
+        }
+        if (errormsg == "") {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("ExportExcelOldUser", "UserKyc")', //call your controller and action
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: true,
+                data: '{"KYCStatus":"' + parseInt(kycstatutsexport) + '","MemberId":"' + parseInt(MemberId) + '","ContactNumber":"' + Mobile + '","Name":"' + Name + '","Email":"' + Email + '","FromDate": "' + fromdate + '", "ToDate": "' + todate + '","IsActive": "' + IsActive + '","RefCode": "' + RefCode + '","FromReviewDate": "' + fromreviewdate + '", "ToReviewDate": "' + toreviewdate + '"}',
+
+            }).done(function (data) {
+                //get the file name for download
+                if (data.fileName != "") {
+                    //use window.location.href for redirect to download action for download the file
+                    //window.location.href = "@Url.RouteUrl(new { Controller = "UserKyc", Action = "Download" })/?fileName=" + data.fileName;
+                    //$("#olduserexport").removeAttr('disabled');
+                    //alert("File Saved");
+                }
+                else {
+                    alert(data.errorMessage);
+                }
+            });
+        }
+
+    }
+
+      function olduserdownload(e) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("DownloadOldUserFileName", "UserKYC")', //call your controller and action
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            data: '',
+
+        }).done(function (data) {
+            //get the file name for download
+            if (data!="" && data.fileName != "") {
+                //use window.location.href for redirect to download action for download the file
+                window.location.href = "@Url.RouteUrl(new { Controller = "UserKYC", Action = "DownloadOldUser" })?fileName=" + data.fileName;
+            }
+        });
+    }
+</script>

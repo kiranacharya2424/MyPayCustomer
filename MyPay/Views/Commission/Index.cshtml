@@ -1,0 +1,270 @@
+﻿@model MyPay.Models.Add.AddCommission
+
+@{
+    ViewBag.Title = "UsersList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- content --s -->
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Commission Setup</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>@*You have total 2,595 users.*@</p>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+
+
+
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        @*<li><a href="javascript:void(0);" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a></li>*@
+                                        <li class="nk-block-tools-opt">
+                                            <div class="drodown">
+                                                <a href="/Commission/CommissionUpdateHistory" class="btn btn-icon btn-primary" title="View History"><em class="icon ni ni-list"></em></a>
+                                                @*<div class="dropdown-menu dropdown-menu-right">
+                                                    <ul class="link-list-opt no-bdr">
+                                                        <li><a href="/Commission/CommissionUpdateHistory"><span>View History</span></a></li>
+
+                                                    </ul>
+                                                </div>*@
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+
+                            <div class="card-inner position-relative card-tools-toggle pb-3 pt-3">
+                                <!-- <span class="preview-title-lg overline-title mb-4">User List</span> -->
+                                <div class="card-title-group">
+                                    <div class="card-tools">
+                                        <span class="preview-title-lg overline-title pb-0">Commission</span>
+                                        <br />
+                                        <div class="nk-block-des text-soft">
+                                            <p><b>Note:</b> Service charge can be applied only on All GenderType and All KycType.</p>
+                                        </div>
+                                    </div><!-- .card-tools -->
+                                </div><!-- .card-title-group -->
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="nk-block">
+
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Category  <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownList("ProviderType", ViewBag.ProviderType as SelectList, "", new { @id = "drpProvider", @class = "form-select form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Provider Service <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.ServiceId, ViewBag.SERVICEId as SelectList, "", new { @id = "drpProviderServices", @class = "form-select form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">KYC Type <strong class="text-danger">*</strong></label>
+                                                    @Html.EnumDropDownListFor(x => x.KycTypeEnum, "--- Select Kyc Type ---", new { @class = "form-select form-control form-control-md" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Gender Type <strong class="text-danger">*</strong></label>
+                                                    @Html.EnumDropDownListFor(x => x.GenderTypeEnum, "--- Select Gender Type ---", new { @class = "form-select form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Type</label>
+                                                    @* @Html.DropDownList("Type", ViewBag.Type as SelectList, "", new { @id = "Type", @class = "form-select form-control form-control-md " })*@
+                                                    @Html.EnumDropDownListFor(m => m.EnumScheduleStatus, "--Select Status--", new { @class = "form-select form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="form-group">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <a id="anchor_SearchCommission" href="javascript:void(0);" onclick="return false;" class="btn btn-sm btn-success">  Search  </a>
+
+                                                    <a id="anchor_addCommissionRow" href="javascript:void(0);" onclick="return AddCommissionRow();" class="btn btn-sm btn-warning btnaddsearch"><em class="icon ni ni-plus"></em> Add New Commission . </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-search search-wrap" data-search="search">
+                                        <div class="card-body">
+                                            <div class="search-content">
+                                                <a href="javascript:void(0);" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                                                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by user or email">
+                                                <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                                            </div>
+                                        </div>
+                                    </div><!-- .card-search -->
+                                </div><!-- .card-inner -->
+                                <div id="dvMsgSuccess" class="tb-status text-success" style="text-align:center; font-weight:bold">
+                                    @ViewBag.Message
+                                </div>
+                                <div id="dvMsg" class="tb-status text-danger" style="text-align: center; font-weight: bold">
+                                    @ViewBag.SuccessMessage
+                                </div>
+                                <div class="table-responsive">
+
+                                    <table id="tbllist" class=" nk-tb-list nk-tb-ulist table table-striped" data-auto-responsive="false">
+                                        <thead class="lg-th-head">
+                                            <tr class="nk-tb-item nk-tb-head ">
+
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Sno")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Created Date")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Updated Date")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Service Name")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Min Slab Amount")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Max Slab Amount")
+                                                    </span>
+                                                </th>
+                                                @*<th class="nk-tb-col min-100">
+            <span class="sub-text">
+                @Html.DisplayName("Fixed Amount")
+            </span>
+        </th>*@
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Cashback Amount(%)")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("MP-Coins Credit(%)")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("MP-Coins Debit(%)")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Min Allowed Cashback")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Max Allowed  Cashback")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Service Charge(%)")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Min Allowed Service Charge")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Max Allowed Service Charge")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Gender Type ")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Kyc Type ")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-150">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("From Date")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-150">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("To Date")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-150">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Schedule Status")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Action")
+                                                    </span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                    </table>
+                                </div><!-- .table-responsive -->
+                            </div><!-- .card -->
+                        </div><!-- .nk-block -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="~/content/assets/js/dtable_admincommission.js"></script>
+

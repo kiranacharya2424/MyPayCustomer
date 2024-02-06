@@ -1,0 +1,104 @@
+
+a {
+    color: #E45415;
+}
+
+table {
+    width: 100%;
+}
+
+.kycVerified {
+    background: lightgreen;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.kycPending {
+    background: yellow;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.kycRejected {
+    background: red;
+    padding: 5px;
+    border-radius: 10px;
+    color: #fff;
+}
+
+p.marquee {
+    white-space: no-wrap;
+    overflow: hidden;
+}
+
+    p.marquee > marquee-text.marquee-text {
+        white-space: nowrap;
+        display: inline;
+        width: auto;
+    }
+
+.blacktxt {
+    color: #000;
+}
+
+#dvMessage {
+    text-align: center;
+}
+
+h6.fs-14px.mt-3.mb-4 {
+    text-align: center;
+}
+
+::-ms-reveal {
+    display: none
+}
+
+.clsBackButton {
+    text-align: center;
+}
+
+.form-control-wrap-more {
+    position: absolute;
+    top: 9px;
+    right: 10px;
+}
+
+.form-control-wrap-more-in {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form-control-wrap-more label.form-label {
+    margin: 0px;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.form-control-wrap-more input {
+    padding: 0;
+    border: none;
+    background: none !important;
+    box-shadow: none;
+    width: auto;
+    text-align: right;
+    height: auto;
+    max-width: 90px;
+    line-height: 18px;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.payment-method.active {
+    border-color: #e45415 !important;
+    border-width: 1.7px !important;
+    background-color: antiquewhite;
+}
+
+.payment-method {
+    border-radius: 20px;
+}
+
+.otp-form-group {
+    margin-top: .75rem;
+}

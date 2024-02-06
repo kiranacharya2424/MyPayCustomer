@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Failure";
+    Layout = "";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Error</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="~/Content/assets/css/failed.css" rel="stylesheet" />
+
+    <link id="skin-default" rel="stylesheet" href="/Content/assets/MyPayUserApp/css/theme.css?ver=2.9.1">
+    <script src="//code.jquery.com/jquery-3.5.1.js"></script>
+
+</head>
+<body>
+    <main class="h-100">
+        <div>
+            <figure class="icon">
+                <img src="~/Content/assets/Images/failed-error.svg" class="img-responsive" />
+            </figure>
+            <div class="mx-sm">
+                <h1>@ViewBag.Message</h1>
+            </div>
+            @*@if (HttpContext.Current.Session["MyPayUserMemberId"] != null)
+                {*@
+            @if (Request == null || MyPay.Models.Common.Common.IsMobileDevice(Request.UserAgent) == false)
+            {
+                if (MyPay.Models.Common.Common.ApplicationEnvironment.IsProduction)
+                {
+                    <div class="btnAction">
+                        <a class="btn btn-primary text-center text-white" href="@MyPay.Models.Common.Common.CustomerPortalLive/MyPayUserLogin/Dashboard">Go to Dashboard</a>
+                    </div>
+                }
+                else
+                {
+
+                    <div class="btnAction">
+                        <a class="btn btn-primary text-center text-white" href="@MyPay.Models.Common.Common.CustomerPortalTest/MyPayUserLogin/Dashboard">Go to Dashboard</a>
+                    </div>
+                }
+            }
+            @*}*@
+            <div class="bottom-artwork"><img src="~/Content/assets/Images/Artwork.png" class="img-responsive" /></div>
+
+        </div>
+    </main>
+    <link href="~/Content/assets/css/bankredirectstyle.css" rel="stylesheet" />
+
+</body>
+</html>
+

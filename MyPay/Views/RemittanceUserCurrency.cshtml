@@ -1,0 +1,281 @@
+﻿
+
+@model MyPay.Models.Add.AddRemittanceUserCurrencies
+
+@{
+    ViewBag.Title = "RemittanceUserCurrency";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+<div class="nk-content ">
+    <input type="hidden" id="hdnMerchantId" value="@ViewBag.MerchantUniqueId" />
+    <input type="hidden" id="hdnType" value="@ViewBag.Type" />
+    <input type="hidden" id="hdnIds" value="" />
+    <input type="hidden" id="hdnCurrencyId" value="" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Wallet Destination Currencies</h3>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                @*<a href="javascript:void(0);" class="btn btn-mw btn-success" onclick="return OpenCurrenciesModal();">Assign Destination Currencies</a>*@
+                                <span style="font:bold;">Source Currency: </span><label>@ViewBag.FromCurrency</label>
+                                <div class="row gy-4">
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @*<label class="form-label">Select Currency <strong class="text-danger">*</strong></label>*@
+                                                @Html.DropDownList("CurrencyList", ViewBag.CurrencyList as SelectList, new { @id = "CurrencyId", @class = "form-select form-control form-control-md" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <a class="btn btn-primary text-center text-white" onclick="return AddWalletCurrency();">Add Wallet</a>
+                                            @*<button type="submit" class="btn btn-primary text-center">Search</button>*@
+                                        </div>
+                                    </div>
+                                    <div class="nk-block-head">
+                                        <div id="dvFailedMsg" class="form-group" style="color:red">
+                                            @ViewBag.Message
+                                        </div>
+                                        <div id="dvSuccessMsg" class="form-group" style="color:green">
+                                            @ViewBag.SuccessMessage
+                                        </div>
+                                    </div><!-- .nk-block-head -->
+                                </div>
+
+                            </div>
+                            <div class="card-inner position-relative card-tools-toggle pb-3 pt-3">
+                                <!-- <span class="preview-title-lg overline-title mb-4">User List</span> -->
+                                <div class="card-title-group">
+                                    <div class="card-tools">
+                                        <span class="preview-title-lg overline-title pb-0">Wallet Currency List</span>
+                                    </div><!-- .card-tools -->
+                                </div><!-- .card-title-group -->
+                            </div><!-- .card-inner -->
+                            <div id="dvtblist" class="card-inner table-responsive">
+                                <table id="tblmerlist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                    <thead>
+                                        <tr class="nk-tb-item nk-tb-head">
+                                            <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("Date")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Merchant Unique Id")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Merchant Name")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Type")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("ODL")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Prefund")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Currency Id")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Currency Code")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Currency Image")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Country Name")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Created By")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Updated By")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Action")</span></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div><!-- .card-inner -->
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " tabindex="-1" id="CurrenciesList">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title text-center">Select Currencies</h4>
+                        <div class="nk-modal-text">
+                            @*<div width="100%" class="row">
+                                    @{
+                                        List<MyPay.Models.Add.AddRemittanceCurrencyList> objDisplayList = ViewBag.CurrencyList as List<MyPay.Models.Add.AddRemittanceCurrencyList>;
+                                        for (int i = 0; i < objDisplayList.Count; i++)
+                                        {
+                                            <div class="col-md-2 nk-tb-item" id="dv@objDisplayList[i].Id" onclick="return SelectCurrencies(@objDisplayList[i].Id,this);">
+                                                <div class="nk-tb-col" style=" height: 100px;  border-bottom: 1px solid #efefef;">
+                                                    <img src="@objDisplayList[i].Image" width="40" />
+                                                    @objDisplayList[i].CurrencyName.ToString()
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>*@
+                        </div>
+                        <div class="nk-modal-action mt-5 text-center">
+                            <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-success" onclick="return AssignCurrencies();">Assign</a>
+                            <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-danger" data-dismiss="modal">Cancel</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " tabindex="-1" id="AddFund">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title text-center">Add Fund</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="txtType">Type: </label>
+                                            <input type="text" readonly="readonly" id="txtType" name="txtType" class="form-control form-control-md form-control-outlined" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="drpSign">Select Sign  </label>
+                                            <select name="Sign" id="drpSign" onchange="getNewVal(this);" class="form-select form-control form-control-md form-control-outlined">
+                                                <option value="1">Credit</option>
+                                                <option value="2">Debit</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="txtAmount">Amount: </label>
+                                            <input type="text" id="txtAmount" name="txtAmount" autocomplete="off" maxlength="8" onkeypress="return isNumberKey(this, event);" placeholder="Enter Amount" class="form-control form-control-md form-control-outlined" />
+                                        </div>
+                                        <div class="col-md-6" id="dvtxnid">
+                                            <label for="txtTxnId">Txn ID: </label>
+                                            <input type="text" id="txtTxnId" name="txtTxnId" placeholder="Enter Txn ID" onkeypress="return isNumberKey(this, event);" class="form-control form-control-md form-control-outlined" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6" id="dvtxnid">
+                                            <label for="txtRemarks">Remarks: </label>
+                                            <textarea id="txtRemarks" name="txtRemarks" cols="40" placeholder="Enter Remarks" rows="5" class="form-control form-control-md form-control-outlined"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <span style="color:red" id="dvPopupMsg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nk-modal-action mt-5 text-center">
+                        <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-primary" onclick="SubmitAddFund();">Submit</a>
+                        <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+<style>
+    .form-icon-right + .form-control, div.dataTables_wrapper div.dataTables_filter .form-icon-right + input, .dual-listbox .form-icon-right + .dual-listbox__search {
+        padding-left: 1rem;
+        padding-right: calc(1rem + 24px);
+        background-color: white;
+    }
+
+    .dt-buttons.btn-group.flex-wrap {
+        display: none;
+    }
+</style>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="~/content/assets/js/dtable_RemittanceUserCurrencies.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#dvtblist").css("display", "block");
+        BindRemittanceUserCurrencyDataTable();
+    });
+
+    function getNewVal(item) {
+        if (item.value == 2) {
+            $("#dvtxnid").css("display", "none");
+
+        }
+        else if (item.value == 1) {
+            $("#dvtxnid").css("display", "block");
+        }
+    }
+
+    //var selectedvalue='';
+    //function OpenCurrenciesModal() {
+    //    $('#CurrenciesList').modal('show');
+    //}
+
+    //function SelectCurrencies(CurrencyId, obj) {
+    //    debugger;
+    //    selectedvalue = $("#hdnIds").val();
+    //    var msg = "";
+    //    var splitvalues = selectedvalue.split(',');
+    //    selectedvalue = '';
+    //    for (var i = 0; i < splitvalues.length; ++i)
+    //    {
+    //        if (splitvalues[i] == CurrencyId) {
+    //            $(obj).css('background-color', 'White');
+    //            msg = "Already selected";
+    //        }
+    //        else {
+    //            selectedvalue += splitvalues[i] + ',';
+    //        }
+    //    }
+    //    if (msg == "") {
+    //        selectedvalue += CurrencyId + ',';
+    //        $("#hdnIds").val(selectedvalue);
+
+    //        $(obj).css('background-color', 'Beige');
+    //    }
+    //    else {
+
+    //    }
+
+    //}
+
+    //function AssignCurrencies() {
+    //    debugger;
+    //    var selectedcurrencies = $("#hdnIds").val();
+    //    var MerchantUniqueId = $("#hdnMerchantId").val();
+    //    if (selectedcurrencies != "") {
+    //        $.ajax({
+    //            type: "POST",
+    //            url: "/Remittance/AssignCurrencies",
+    //            contentType: "application/json; charset=utf-8",
+    //            dataType: "json",
+    //            async: false,
+    //            data: '{"SelectedCurrencies":"' + selectedcurrencies + '","MerchantUniqueId":"' + MerchantUniqueId + '"}',
+    //            success: function (response) {
+    //                if (response == "success") {
+    //                    $("#dvMsgSuccess").html("Successfully Assign Selected Currencies");
+    //                    BindRemittanceUserCurrencyDataTable();
+    //                }
+    //                else {
+    //                    $("#dvMsg").html(response);
+    //                    return false;
+    //                }
+    //            },
+    //            failure: function (response) {
+    //                JsonOutput = (response.responseText);
+    //            },
+    //            error: function (response) {
+    //                JsonOutput = (response.responseText);
+    //            }
+    //        });
+    //    }
+    //    else {
+    //        alert("Please select currency first.");
+    //    }
+    //}
+
+</script>

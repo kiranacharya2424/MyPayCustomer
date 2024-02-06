@@ -1,0 +1,320 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <meta name="description" content="">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="/Content/assets/MyPayPayments/images/favicon.png">
+    <!-- Page Title  -->
+    <title>MyPay</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="/Content/assets/MyPayPayments/css/dashlite.css">
+    <link id="skin-default" rel="stylesheet" href="/Content/assets/MyPayPayments/css/theme.css?ver=2.9.1">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script src="//code.jquery.com/jquery-3.5.1.js"></script>
+</head>
+<body class="nk-body npc-general pg-auth">
+    <div class="loader" id="AjaxLoader" style="display:none;">
+        <div class="strip-holder">
+            <div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>
+        </div>
+    </div>
+    <form id="frm1" method="post" enctype="multipart/form-data"> 
+        <div class="nk-app-root">
+            <!-- main start -->
+            <div class="nk-main ">
+                <!-- wrap start -->
+                <div class="nk-wrap nk-wrap-nosidebar">
+                    <!-- content start -->
+                    <div class="nk-content ">
+                        <div class="nk-block nk-auth-body wide-xs p-0 loginscreen">
+                            <div class="brand-logo text-center bg-gradient py-5 circ-gr">
+                                <a href="javascript:void(0);" class="logo-link">
+
+                                    <img class="logo-dark logo-img logo-img-lg" src="/Content/assets/MyPayPayments/images/logo.png" srcset="/Content/assets/MyPayPayments/images/logo2x.png 2x" alt="logo-dark">
+                                </a>
+                                <h5 class="text-white mt-4 trusted">Welcome to MyPay Payments</h5>
+                            </div>
+                            <div class="card checkoutservicedown">
+                                <div class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto" style="text-align:center;">
+                                    <div class="bottom-artwork"><img src="/Content/assets/Images/failed-error.svg" class="img-responsive"></div>
+                                    <label class="form-label">Temporarily service Unavailable. Please try again later!</label>
+                                </div>
+                            </div>
+
+                        </div><!--loginscreen-->
+
+                    </div>
+                    <!-- wrap end -->
+                </div>
+                <!-- content end -->
+            </div>
+            <!-- main end -->
+        </div>
+        <!-- app-root end -->
+    </form>
+    <!-- JavaScript -->
+    <script src="/content/assets/js/bundle.js?ver=2.9.1"></script>
+    <script src="/content/assets/js/scripts.js?ver=2.9.1"></script>
+    <script src="/content/assets/js/libs/datatable-btns.js?ver=2.9.1"></script>
+    <script src="/content/assets/js/charts/chart-hotel.js?ver=2.9.1"></script>
+    <script src="/content/assets/js/charts/gd-default.js?ver=2.9.1"></script>
+
+    <script>
+        const togglePassword = document.querySelector(".passcode-switch");
+        const password = document.querySelector("#password");
+
+        togglePassword.addEventListener("click", function () {
+            // toggle the type attribute
+            const type = password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
+
+            // toggle the icon
+            this.classList.toggle("is-shown");
+        });
+
+
+        function isNumberKey(el, evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+
+            if (charCode == 46 && el.value.indexOf(".") !== -1) {
+                return false;
+            }
+
+            if (el.value.indexOf(".") !== -1) {
+                var range = document.selection.createRange();
+
+                if (range.text != "") {
+                }
+                else {
+                    var number = el.value.split('.');
+                    if (number.length == 2 && number[1].length > 1)
+                        return false;
+                }
+            }
+
+            return true;
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            $("#frm1").on("submit", function () {
+                debugger;
+                setTimeout(function () {
+                    $("#AjaxLoader").show();
+                }, 10);
+                $("form").first().submit();
+                return false;
+            })
+        });
+    </script>
+    <style>
+        @@media (min-width: 500px) {
+            .pagecontent {
+                width: 400px;
+                margin: auto;
+            }
+        }
+
+        .otp .form-control {
+            text-align: center;
+            letter-spacing: 35px;
+            padding-left: 56px;
+        }
+
+        .loader {
+            top: 0;
+            left: 0;
+            position: fixed;
+            opacity: 0.8;
+            z-index: 10000000;
+            background: Black;
+            height: 100%;
+            width: 100%;
+            margin: auto;
+        }
+
+        .strip-holder {
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            left: 50%;
+            margin-left: -50px;
+            position: relative;
+        }
+
+        .strip-1,
+        .strip-2,
+        .strip-3 {
+            width: 20px;
+            height: 20px;
+            background: #ffa353;
+            position: relative;
+            -webkit-animation: stripMove 2s ease infinite alternate;
+            animation: stripMove 2s ease infinite alternate;
+            -moz-animation: stripMove 2s ease infinite alternate;
+        }
+
+        .strip-2 {
+            -webkit-animation-duration: 2.1s;
+            animation-duration: 2.1s;
+            background-color: #F8E401;
+        }
+
+        .strip-3 {
+            -webkit-animation-duration: 2.2s;
+            animation-duration: 2.2s;
+            background-color: #E45415;
+        }
+
+        @@-webkit-keyframes stripMove {
+            0% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+        }
+
+        @@-moz-keyframes stripMove {
+            0% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(50px, 0px, 0px);
+                -webkit-transform: translate3d(50px, 0px, 0px);
+                -moz-transform: translate3d(50px, 0px, 0px);
+            }
+        }
+
+        @@keyframes stripMove {
+            0% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(50px, 0px, 0px);
+                -webkit-transform: translate3d(50px, 0px, 0px);
+                -moz-transform: translate3d(50px, 0px, 0px);
+            }
+        }
+
+        a {
+            color: #E45415;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        .kycVerified {
+            background: lightgreen;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .kycPending {
+            background: yellow;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .kycRejected {
+            background: red;
+            padding: 5px;
+            border-radius: 10px;
+            color: #fff;
+        }
+
+        p.marquee {
+            white-space: no-wrap;
+            overflow: hidden;
+        }
+
+            p.marquee > marquee-text.marquee-text {
+                white-space: nowrap;
+                display: inline;
+                width: auto;
+            }
+
+        .blacktxt {
+            color: #000;
+        }
+
+        #dvMessage {
+            text-align: center;
+        }
+
+        h6.fs-14px.mt-3.mb-4 {
+            text-align: center;
+        }
+
+        ::-ms-reveal {
+            display: none
+        }
+
+        .clsBackButton {
+            text-align: center;
+        }
+        .card.checkoutservicedown {
+            height: 50vh;
+        }
+    </style>
+
+</body>
+
+</html>

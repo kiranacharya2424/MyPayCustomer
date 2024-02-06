@@ -1,0 +1,227 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "RefCode Manage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm d-xxl-none">
+                    <div class="nk-block-between g-3">
+                        <div class="nk-block-head-content d-flex align-items-center">
+                            <div class="user-avatar lg mr-3">
+                                @if (!string.IsNullOrEmpty(Model.UserImage))
+                                {
+                                    <img src="~/UserDocuments/Images/@Model.UserImage" alt="">
+                                }
+                                else
+                                {
+                                    if (Model.FirstName.Length > 0 && Model.LastName.Length > 0)
+                                    {
+                                        <span>@Model.FirstName.Substring(0, 1)@Model.LastName.Substring(0, 1)</span>
+                                    }
+                                    else
+                                    {
+                                        <span>U</span>
+                                    }
+                                }
+                            </div>
+                            <div>
+                                <h3 class="nk-block-title page-title"><strong class="text-primary small">@Model.FirstName @Model.MiddleName @Model.LastName  </strong></h3>
+                                <div class="nk-block-des text-soft d-none d-sm-inline-flex">
+                                    <ul class="list-inline">
+
+                                        <li>Member ID: <span class="text-base">@Model.MemberId</span></li>
+                                        <li>RefCode: <span class="text-base">@Model.RefCode</span></li>
+                                        <li>Last Login: <span class="text-base">@(MyPay.Models.Common.Common.fnGetdatetimeFromInput( Model.LastLogin))</span></li>
+                                        <li>
+                                            KYC Status :
+                                            @if (Model.IsKYCApproved != 3)
+                                            {
+                                                <span style="color:red; font-weight:bold;">  @Enum.GetName(typeof(MyPay.Models.Add.AddUser.kyc), Convert.ToInt64(Model.IsKYCApproved == 0 ? 0 : Model.IsKYCApproved)).ToString().Replace("_", " ") </span>
+                                            }
+                                            else
+                                            {
+                                                <span style="color: #4acf1f !important; font-weight: bold;">    @Enum.GetName(typeof(MyPay.Models.Add.AddUser.kyc), Convert.ToInt64(Model.IsKYCApproved)).ToString()</span>
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nk-block-head-content">
+                            <div class="text-center">
+                                <img class="rounded-top" width="80" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.QRCode))" />
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card-aside-wrap">
+                            <div class="card-content">
+                                <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card">
+                                    <li class="nav-item nav-item-trigger d-xxl-none">
+                                        <a href="javascript:void(0);" class="toggle btn btn-icon btn-trigger" data-target="userAside"><em class="icon ni ni-user-list-fill"></em></a>
+                                    </li>
+                                </ul><!-- .nav-tabs -->
+                                <div class="card-inner col-sm-6" style="margin:auto">
+                                    <div class="nk-block-head">
+                                        <div class="nk-block-head-content">
+                                            <div id="dvMessage" class="form-group form-label" style="color:red; text-align:center;">
+                                                @ViewBag.Message
+                                            </div>
+                                            <div id="dvSuccess" class="form-group form-label" style="color: green; text-align: center;">
+                                                @ViewBag.SuccessMessage
+                                            </div>
+                                            <h4 class="nk-block-title">Change RefCode for Member ID : @Model.MemberId</h4>
+                                            <div class="nk-block-des">
+                                                <p>Note: RefCode should be 8 Characters without any special character.  </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="nk-block">
+                                        <div class="form-group">
+                                            <div class="form-label-group">
+                                                <label class="form-label" for="password">Enter New RefCode</label>
+
+                                            </div>
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("RefCode", null, new { @class = "form-control form-control-lg", @id = "RefCode", @placeholder = "Enter New RefCode",  @maxlength = "8" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="form-label-group">
+                                                <label class="form-label" for="password">Enter Remarks</label>
+                                            </div>
+                                            <div class="form-control-wrap">
+                                                @Html.TextArea("AdminRemarks", null, new { @class = "form-control form-control-lg", @id = "AdminRemarksCD", @placeholder = "Enter Remarks" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="btnSubmitRefCodeChange" class="btn btn-lg btn-primary btn-block">Submit</button>
+                                        </div>
+                                    </div><!-- .nk-block -->
+                                </div><!-- .card-inner -->
+                            </div><!-- .card-content -->
+                            <div class="card-aside card-aside-right user-aside toggle-slide toggle-slide-right toggle-break-xxl" data-content="userAside" data-toggle-screen="xxl" data-toggle-overlay="true" data-toggle-body="true">
+                                <div class="card-inner-group" data-simplebar>
+                                    <div class="card-inner">
+                                        <div class="user-card user-card-s2">
+                                            <div class="user-avatar lg bg-primary">
+                                                @if (!string.IsNullOrEmpty(Model.UserImage))
+                                                {
+                                                    <img src="~/UserDocuments/Images/@Model.UserImage" alt="">
+                                                }
+                                                else
+                                                {
+                                                    if (Model.FirstName.Length > 0 && Model.LastName.Length > 0)
+                                                    {
+                                                        <span>@Model.FirstName.Substring(0, 1)@Model.LastName.Substring(0, 1)</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>U</span>
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="user-info">
+
+                                                <h5>@Model.FirstName @Model.MiddleName @Model.LastName   </h5>
+                                                <span class="sub-text">(UserId :@Model.UserId)</span>
+                                                <span class="sub-text">@Model.Email</span>
+                                                @if (Model.IsActive)
+                                                {
+                                                    <span style="color:#4acf1f; font-weight:bold; text-align: center;">Active</span>
+                                                }
+                                                else
+                                                {
+                                                    <span style="color: red; font-weight: bold; text-align: center;">Suspended</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div><!-- .card-inner -->
+                                    <div class="card-inner card-inner-sm">
+                                        <ul class="btn-toolbar justify-center gx-1">
+
+
+                                            <li><a href="/User/ResetPassword?MemberId=@Model.MemberId" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reset Pass"><em class="icon ni ni-shield-star"></em></a></li>
+                                            @if (Model.IsActive)
+                                            {
+                                                <li><a href="javascript:void(0);" onclick="return BlockUnblockUser(@Model.MemberId,event)" class="btn btn-trigger btn-icon text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Disable User"><em class="icon ni ni-user-cross-fill"></em></a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="javascript:void(0);" onclick="return BlockUnblockUser(@Model.MemberId,event)" class="btn btn-trigger btn-icon text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Enable User"><em class="icon ni ni-user-check-fill"></em></a></li>
+                                            }
+                                        </ul>
+                                    </div><!-- .card-inner -->
+                                    <div class="card-inner">
+                                        <div class="overline-title-alt mb-2 text-center">Scan QR</div>
+                                        <div class="text-center">
+                                            <img class="rounded-top" width="150" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.QRCode))" />
+                                        </div>
+
+                                    </div><!-- .card-inner -->
+                                    <div class="card-inner">
+                                        <div class="row text-center">
+                                            <div class="col-12">
+                                                <div class="profile-stats">
+                                                    <span class="amount">@ViewBag.TotalTransactions </span>
+                                                    <span class="sub-text">Transactions</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- .card-inner -->
+                                    <div class="card-inner">
+                                        <h6 class="overline-title-alt mb-2">Additional</h6>
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <span class="sub-text">User ID:</span>
+                                                <span>@Model.UserId</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="sub-text">Last Login:</span>
+                                                <span>@(MyPay.Models.Common.Common.fnGetdatetimeFromInput( Model.LastLogin))</span>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <span class="sub-text">Register At:</span>
+                                                <span>@(MyPay.Models.Common.Common.fnGetdatetimeFromInput( Model.CreatedDate))</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="sub-text">Wallet Amount</span>
+                                                <span> Rs. @ViewBag.SumTransactions</span>
+                                            </div>
+                                        </div>
+                                    </div><!-- .card-inner -->
+
+                                </div><!-- .card-inner -->
+                            </div><!-- .card-aside -->
+                        </div><!-- .card-aside-wrap -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/Content/assets/js/userscripts.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnSubmitRefCodeChange").click(function () {
+            if ($("#RefCode").val() == "") {
+                $("#dvMessage").html("Please enter RefCode");
+                $("#dvSuccess").html("");
+                return false;
+            }
+            else if ($("textarea#AdminRemarksCD").val() == "") {
+                $("#dvMessage").html("Please enter Admin Remarks");
+                $("#dvSuccess").html("");
+                return false;
+            }
+        });
+    });
+</script>

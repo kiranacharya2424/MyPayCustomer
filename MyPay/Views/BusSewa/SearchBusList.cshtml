@@ -1,0 +1,280 @@
+﻿@model MyPay.Models.TripDatas
+@{
+    ViewBag.Title = "BusTrip";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+<style>
+    .aligned-text {
+        display: inline-block; /* This makes the elements behave like inline elements */
+        margin-right: 20px; /* Adjust this margin as needed */
+    }
+</style>
+<link href="Content/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="Content/assets/images/favicon.png">
+<!-- Select Css -->
+<link href="Content/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="Content/assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+
+<!-- Bootstrap Css -->
+<link href="Content/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+
+
+<!-- Icons Css -->
+<link href="Content/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+<!-- App Css-->
+<link href="Content/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+<link href="Content/assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
+
+<!-- Start right Content here -->
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row d-none d-lg-block">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <a id="btn_back" class="mb-sm-0 font-size-14 text-muted"><i class="bx bx-left-arrow-alt"></i> Back</a>
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Services</a></li>
+                            <li class="breadcrumb-item active">Bus</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+                                        <div class="card-inner border-bottom bg-lighter-">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title  d-sm-block w-100">
+                                                    <div class="card-title align-items-center d-flex w-100 mb-0">
+                                                        <div class="card ">
+                                                            <h5 class="card-header bg-transparent border-bottom ">Bus Ticket</h5>
+                                                            <div class="card-body">
+                                                                <div class="row g-3">
+                                                                    <div class="collapse show" id="collapseExample">
+                                                                        <div class="form-group mb-3  row traveller">
+                                                                            <div class="col-xxl-3 col-lg-3 mt-3">
+                                                                                <label class="form-label">From</label>
+                                                                                @Html.DropDownList("from", new SelectList(ViewBag.Routelist), "Choose Origin", new { @class = "form-control select2 text-sm-start", id = "from", value = @ViewData["from"] })
+                                                                            </div>
+                                                                            <div class="col-xxl-3 col-lg-3 mt-3">
+                                                                                <label class="form-label">To</label>
+                                                                                @Html.DropDownList("to", new SelectList(ViewBag.Routelist), "Choose Destination", new { @class = "form-control select2 text-sm-start", value = @ViewData["to"] })
+
+                                                                                @* @Html.DropDownListFor(model => model.to, new SelectList(ViewBag.Routelist), "Choose Destination", new { @class = "form-control select2 text-sm-start" })*@
+                                                                            </div>
+
+
+                                                                            <div class="col-xxl-2 col-lg-2 mt-3">
+                                                                                <label for="formrow-email-input" class="form-label">Departure</label>
+                                                                                <div class="input-group" id="datepicker1">
+                                                                                    <input type="text" class="form-control form-control-lg form-control-outlined date-picker rounded" placeholder="Date" id="date" value=@ViewData["date"]>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xxl-2 col-lg-2 mt-3">
+                                                                                <label class="form-label">Shift</label>
+                                                                                <select class="form-select  text-sm-start" id="shift">
+                                                                                    <option value="day">Day Shift</option>
+                                                                                    <option value="night">Night Shift</option>
+                                                                                    <option value="both">Both</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="col-xxl-2 col-lg-2 mt-3">
+                                                                                <a class="btn btn-primary w-100 mt-4 text-white" id="findBus"><i class="bx bx-search-alt align-middle"></i>Find</a>
+
+                                                                            </div>
+                                                                            <div class="col-md-6 mt-3">
+                                                                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" checked="">
+                                                                                    <label class="btn btn-outline-warning btn-sm" for="btnradio4">Today</label>
+
+                                                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+                                                                                    <label class="btn btn-outline-warning btn-sm" for="btnradio5">Tomorrow</label>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="table-responsive mt-2">
+
+                                                                    <div class="table-responsive">
+                                                                        <table class="table project-list-table table-nowrap align-middle ">
+                                                                            <thead class="">
+                                                                                <tr>
+                                                                                    <th scope="col" style="width: 40%">Travel</th>
+                                                                                    <th scope="col" style="width: 20%" class="text-center">Fare</th>
+                                                                                    <th scope="col" style="width: 15%">Seats</th>
+                                                                                    <th scope="col" style="width: 15%">Departure Date</th>
+
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @{ int i = 0;}
+                                                                                @foreach (var data in Model.trips)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <input type="hidden" value=@(data.id) id="id_@i" />
+                                                                                        <input type="hidden" value=@(data.inputTypeCode) id="inputTypeCode_@i" />
+                                                                                        <td>
+                                                                                            <a class="proceedBus" data-index="@i">
+                                                                                                <h5 class="fw-semibold mb-0 aligned-text" id="operator_@i">@data.operator_name</h5> <h5 class="fw-semibold mb-0 aligned-text" id="shift_@i"> (@data.shift)</h5>
+                                                                                                <p class="mb-0" id="busType_@i">@data.busType</p>
+                                                                                                <small>VIP Sofa Seat, Heating & Air Condition, Fan, Water Bottle</small>
+                                                                                            </a>
+                                                                                        </td>
+                                                                                        <td class="text-center pt-4">
+                                                                                            <h5 class="mb-0" id="ticketPrice_@i">Rs.@data.ticketPrice</h5>
+                                                                                            <p class="badge badge-soft-warning font-size-11">Cashback 0-2%</p><br>
+                                                                                        </td>
+
+                                                                                        <td>
+                                                                                            <p class="text-muted mb-0">Total Seats: @data.seatLayout.Where(x => x.displayName != "na" && x.displayName != "").Count() </p>
+                                                                                            <p class="text-muted mb-0">Available Seats: @data.seatLayout.Where(x => x.bookingStatus == "No").Count() </p>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <h5 class="mb-0 text-warning" id="departTime_@i">@data.departureTime</h5>
+                                                                                            <a class="proceedBus">View Seats</a>
+
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    i++;
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end row -->
+                                            </div>
+
+                                            <!-- container-fluid -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Error Message -->
+<div class="modal fade zoom" tabindex="-1" id="DivErrMessage" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnMsg" style="color:#313131"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageClose" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_bussewa.js"></script>
+
+<script src="Content/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+<!-- JAVASCRIPT -->
+<!-- select js -->
+<script src="Content/assets/libs/select2/js/select2.min.js"></script>
+<!-- form advanced init -->
+<script src="Content/assets/js/pages/form-advanced.init.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        $('.date-picker').datepicker({
+            format: "yyyy-mm-dd",
+            startDate: '+0d'
+        });
+
+        var currentDate = gettodaydate();
+        var tomorrowDate = gettommorowdate();
+
+        $("#shift").val('@ViewData["shift"]');
+
+        var date = document.getElementById("date").value;
+        document.getElementById("btnradio4").checked = false;
+
+        if (date == currentDate) {
+            document.getElementById("btnradio4").checked = true;
+        }
+        else if (date == tomorrowDate) {
+            document.getElementById("btnradio5").checked = true;
+        }
+        else {
+            document.getElementById("btnradio4").checked = false;
+            document.getElementById("btnradio5").checked = false;
+        }
+    });
+    function gettommorowdate() {
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = ("0" + (date.getMonth() + 1)).slice(-2);
+        var day = date.getDate();
+        if (day === new Date(year, month, 0).getDate()) {
+            day = 1;
+            month += 1;
+        } else {
+            day += 1;
+        }
+        month = month % 12 || 12;
+        return [year, month, ("0" + day).slice(-2)].join("-");
+    }
+    function gettodaydate() {
+        var date = new Date(),
+            year = date.getFullYear(),
+            mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+            day = ("0" + date.getDate()).slice(-2);
+        return [year, mnth, day].join("-");
+
+    }
+
+    $(".btn-check").click(function () {
+        debugger;
+        var btn4 = document.getElementById("btnradio4").checked;
+        var btn5 = document.getElementById("btnradio5").checked;
+        if (btn4 == true) {
+            //var datetime = new Date();
+            currentDate = gettodaydate();
+
+            $("#date").val(currentDate);
+            document.getElementById("btnradio4").checked = true;
+            BusSearch();
+        }
+        else if (btn5 == true) {
+            tomorrowDate = gettommorowdate();
+            $("#date").val(tomorrowDate);
+            document.getElementById("btnradio5").checked = true;
+            BusSearch();
+        }
+    })
+</script>

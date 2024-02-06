@@ -1,0 +1,82 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserCableCar";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+<!-- content -->
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+                                        <div class="card-inner border-bottom bg-lighter-">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title  d-sm-block w-100">
+                                                    <div class="card-title align-items-center d-flex w-100 mb-0">
+                                                        <div class="card">
+                                                            <h5 class="card-header bg-transparent border-bottom ">Cable Car</h5>
+                                                            <div class="card-body">
+
+                                                                <div class="row">
+                                                                    <div class="col-xl-8">
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-xl-3 col-md-4 col-6 ser-col">
+                                                                                <div class="card">
+                                                                                    <div class="card-body services-grid p-1">
+                                                                                        <div class="text-center mb-3">
+                                                                                            <a href="@Url.Action("MyPayUserCableCarList", "MypayUser")" class="text-body">
+                                                                                                <img src="Content/assets/images/services/cablecar/1.png" alt="" class="img-fluid">
+
+                                                                                                <h5 class="mt-0 mb-4 font-size-13">Annapurna Cable Car</h5>
+                                                                                            </a>
+                                                                                            <p></p>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div><!--end card-->
+                                                                            </div><!--end col-->
+
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-xl-4">
+                                                                        <div class="card">
+                                                                            <img class="card-img-top img-fluid" src="Content/assets/images/services/topup.jpeg" alt="Card image cap">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <!-- container-fluid -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<input type="hidden" id="hdnServiceID" value='@ViewBag.ServiceId.ToString()'>
+<input type="hidden" id="hdncouponcode">
+<input type="hidden" id="hfBankId" value="" />

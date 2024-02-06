@@ -1,0 +1,143 @@
+﻿@model MyPay.Models.Add.AddRemittanceBankDetail
+@{
+    ViewBag.Title = "AddReittanceBankDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="nk-content ">
+    <input type="hidden" id="hdnMerchantId" value="@ViewBag.MerchantId" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Add Bank Details (Remittance User)</h3>
+                        </div>
+                    </div>
+                    <div class="nk-block">
+                        <div class="card card-bordered">
+                            <div class="card-aside-wrap">
+                                <div class="card-inner">
+                                    <div class="nk-block">
+                                        <div class="nk-block-head">
+                                            <div class="form-group" style="color:red">
+                                                @ViewBag.Message
+                                            </div>
+                                            <div class="form-group" style="color:green">
+                                                @ViewBag.SuccessMessage
+                                            </div>
+                                        </div><!-- .nk-block-head -->
+                                        <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                            <h6 class="title overline-title text-base">Remittance Bank Detail</h6>
+                                        </div>
+                                        <div class="row gy-4 justify-center">
+                                            <div class="col-md-6">
+                                                <div class="col-lg-12 col-sm-12 mt-3">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Merchant Name <strong class="text-danger">*</strong></label>
+                                                            @Html.TextBox("Name",(object)ViewBag.Name, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                            @*@Html.DropDownListFor(m => m.MerchantId, ViewBag.MerchantId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                            @Html.Hidden(m => m.Name, ViewBag.Name)*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-sm-12 mt-3">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Bank Name <strong class="text-danger">*</strong></label>
+                                                            <div class="dropdown-mul-2">
+                                                                @Html.DropDownListFor(m => m.BankCode, ViewBag.BankCode as SelectList, "", new { @class = "", @style = "display:none" })
+                                                                @Html.HiddenFor(m => m.BankName)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-sm-12 mt-3">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Account Number <strong class="text-danger">*</strong></label>
+                                                            @Html.TextBoxFor(m => m.AccountNumber, new { @class = "form-control form-control-md" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-sm-12 mt-3">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Active</label>
+                                                            @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-control form-control-md" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- .nk-block -->
+                                    <div class="nk-divider divider my-5"></div>
+                                    <div class="nk-block ">
+                                        <div class="row mt-5">
+                                            <div class="col-lg-12 col-sm-6">
+                                                <div class="form-group">
+                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                        @ViewBag.Message
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary text-center mr-2" id="btnSubmitBankDetail">Save</button>
+                                                    <button type="button" onclick="window.location='/Remittance/RemittanceBankList'" class="btn btn-light text-center">List</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- .nk-block -->
+                                </div><!-- .card-content -->
+                            </div><!-- .card-aside-wrap -->
+                        </div><!-- .card -->
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" type="text/css" href="/Content/assets/js/libs/jquery-multiselect/jquery.dropdown.css">
+<script src="/Content/assets/js/libs/jquery-multiselect/jquery.dropdown.js"></script>
+<script type="text/javascript" src="~/Content/assets/js/userscripts.js"></script>
+
+<script>
+    /*$(function () {*/
+        //    $("#MerchantId").change(function () {
+        //        var value = $("#MerchantId option:selected");
+        //        $("#Name").val(value.text());
+        //    });
+        //});
+
+        $('.dropdown-mul-2').dropdown({
+            searchable: true,
+            choice: function () {
+                SetBankName();
+            }
+        });
+        function SetBankName() {
+            var value = $("#BankCode option:selected");
+            $("#BankName").val(value.text());
+        }
+
+        $(document).ready(function () {
+            $("#btnSubmitBankDetail").click(function () {
+                if ($("#hdnMerchantId").val() == "") {
+                    $("#dvMessage").html("Please Select Merchant Name");
+                    return false;
+                }
+                else if ($("#BankCode").val() == "") {
+                    $("#dvMessage").html("Please Select Bank Name");
+                    return false;
+                }
+                else if ($("#AccountNumber").val() == "") {
+                    $("#dvMessage").html("Please enter Account Number");
+                    return false;
+
+                }
+                else {
+                    $("#AjaxLoader").show();
+                }
+            });
+        });
+</script>
+

@@ -1,0 +1,374 @@
+﻿@model MyPay.Models.Add.AddMerchantOrders
+
+@{
+    ViewBag.Title = "MerchantOrdersList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />*@
+<div class="nk-content ">
+    <input type="hidden" id="hdndumpurl" value="@ViewBag.DumpURL" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Merchant Orders</h3>
+                            @*<div class="nk-block-des text-soft">
+                                    <p>You have total  <span id="merchanttotalcount"></span> Merchant.</p>
+                                </div>*@
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                @*<a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>*@
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li>
+                                            <a href="javascript:void(0);" id="AllMerchantOrderExport" onclick="AllMerchantOrderexported(this, event)" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Order Dump Export</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="AllMerchantOrdersDownload()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download"></em></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                <div class="row gy-4">
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("StartDate", "", new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="fromdate">Start Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("ToDate", "", new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="todate">End Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("MerchantUniqueId", "", new { @id = "MerchantId", @placeholder = "Merchant Id", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                @*<label class="form-label-outlined" for="MerchantId">Merchant Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("OrderId", "", new { @id = "OrderId", @placeholder = "Order Id", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                @*<label class="form-label-outlined" for="OrderId">OrderId</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("TransactionId", "", new { @id = "TransactionId", @placeholder = "Transaction Id", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                @*<label class="form-label-outlined" for="OrderId">Transaction Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("TrackerId", "", new { @id = "TrackerId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Tracker Id" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Txn Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("MemberName", "", new { @id = "MemberName", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Member Name" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Name</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("MemberContactNumber", "", new { @id = "MemberContactNumber", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @maxlength = 10, @onkeypress = "return isNumberKey(this, event);", @placeholder = "Member Mobile Number" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Mobile Number</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.DropDownList("Status", ViewBag.Status as SelectList, "", new { @id = "status", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                <label class="form-label-outlined" for="outlined-normal">Order Status</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.DropDownList("Sign", ViewBag.Sign as SelectList, "", new { @id = "Sign", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                <label class="form-label-outlined" for="outlined-normal">Sign</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.DropDownList("Type", ViewBag.Type as SelectList, "", new { @id = "Type", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                <label class="form-label-outlined" for="outlined-normal">Type</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <a class="btn btn-primary text-center text-white" onclick="return bindtable();">Search</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-inner position-relative card-tools-toggle pb-3 pt-3">
+                                <!-- <span class="preview-title-lg overline-title mb-4">User List</span> -->
+                                <div class="card-title-group">
+                                    <div class="card-tools">
+                                        <span class="preview-title-lg overline-title pb-0">Merchant Orders List</span>
+                                    </div><!-- .card-tools -->
+                                </div><!-- .card-title-group -->
+                                <div class="card-search search-wrap" data-search="search">
+                                    <div class="card-body">
+                                        <div class="search-content">
+                                            <a href="javascript:void(0);" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                                            <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by user or email">
+                                            <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                                        </div>
+                                    </div>
+                                </div><!-- .card-search -->
+                            </div><!-- .card-inner -->
+                            <div id="dvtblist" class="card-inner table-responsive">
+                                <div class="row">
+                                    <div class="col">
+                                        <b>Total:</b><span id="totaltra"></span>
+                                        <b>Credit:</b><span id="totalCredit"></span>
+                                        <b>Debit:</b><span id="totalDebit"></span>
+                                    </div>
+                                </div>
+                                <table id="tbllist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                    <thead>
+                                        <tr class="nk-tb-item nk-tb-head">
+                                            <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("SrNo")</span></th>
+                                            <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("Date")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Transaction Id")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Tracker Id")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Merchant Id")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Order Id")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Organization Name")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Member Id")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Member Name")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Member ContactNo")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Amount")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Service Charge")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Cashback Amount")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Discount")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Commission")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Contribution(%)")</span></th>
+                                            @* <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("PaidAmount")</span></th>*@
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Remarks")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Sign")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Status")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Type")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Available Balance")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Previous Balance")</span></th>
+                                            <th class="nk-tb-col nk-tb-col-tools text-right">@Html.DisplayName("View")</th>
+                                            @*<th class="nk-tb-col nk-tb-col-tools text-right">@Html.DisplayName("Status")</th>*@
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div><!-- .card-inner -->
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " tabindex="-1" id="singleOrder">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title text-center">Detail</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-12 " id="singleOrdr"></div>
+                            </div>
+                        </div>
+                        <div class="nk-modal-action mt-5 text-center">
+                            <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light " data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+            </div>
+        </div>
+    </div>
+</div>
+@*<style>
+    .form-icon-right + .form-control, div.dataTables_wrapper div.dataTables_filter .form-icon-right + input, .dual-listbox .form-icon-right + .dual-listbox__search {
+        padding-left: 1rem;
+        padding-right: calc(1rem + 24px);
+        background-color: white;
+    }
+
+    .dt-buttons.btn-group.flex-wrap {
+        display: none;
+    }
+</style>*@
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="~/content/assets/js/dtable_merchant.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#dvtblist").css("display", "none");
+        var MerchantUniqueId = '@ViewBag.MerchantUniqueId';
+        if (MerchantUniqueId == "") {
+            $('.date-picker').datepicker({
+                format: "dd-M-yyyy"
+            }).datepicker('setDate', 'today');
+        }
+        else {
+            $("#dvtblist").css("display", "block");
+            $('.date-picker').datepicker({
+                format: "dd-M-yyyy"
+            }).datepicker('setDate', 'today');
+            BindMerchantOrderDataTable();
+        }
+        //BindEmpDataTable();
+    });
+    function bindtable() {
+        $("#dvtblist").css("display", "block");
+        BindMerchantOrderDataTable();
+    };
+    function GetOrderDetail(Date, TxnId, TrackerId, MerchantId, OrderId, MemberId, MemberName, MemberContactNumber, Amount, Status, StatusName, ServiceCharges, TypeName) {
+        $("#singleOrdr").html("");
+        if (Date != "" && TxnId != "" && OrderId != "") {
+            var str = '<div class="table-responsive"><table class="nowrap nk-tb-list nk-tb-ulist table-bordered h-100">';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Date :</span></td><td class="nk-tb-col"><span>' + Date + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Transaction Id :</span></td><td class="nk-tb-col"><span><strong style="color: #f98c45">#' + TxnId + '</strong></span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Tracker Id :</span></td><td class="nk-tb-col"><span>' + TrackerId + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Merchant Id :</span></td><td class="nk-tb-col"><span>' + MerchantId + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Order Id :</span></td><td class="nk-tb-col"><span>' + OrderId + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Member Id :</span></td><td class="nk-tb-col"><span class="tb-lead">' + MemberId + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Member Name :</span></td><td class="nk-tb-col"><span>' + MemberName + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Member Contact Number :</span></td><td class="nk-tb-col"><span>' + MemberContactNumber + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Amount :</span></td><td class="nk-tb-col"><span>' + Amount + '</span></td></tr>';
+           if (Status == 1) {
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Status :</span></td><td class="nk-tb-col"><span class="tb-status text-success">' + StatusName + '</span></td></tr>';
+            }
+            else if (Status == 2) {
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Status :</span></td><td class="nk-tb-col"><span class="tb-status text-danger">' + StatusName + '</span></td></tr>';
+            }
+            else {
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Status :</span></td><td class="nk-tb-col"><span class="tb-status text-orange">' + StatusName + '</span></td></tr>';
+            }
+
+            //str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Service Charge :</span></td><td class="nk-tb-col"><span>' + ServiceCharges + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Type :</span></td><td class="nk-tb-col"><span>' + TypeName + '</span></td></tr>';
+            str += '</table></div>';
+            $("#singleOrdr").append(str);
+            $('#singleOrder').modal('show');
+            return false;
+        }
+    }
+
+    function AllMerchantOrderexported(obj, e) {
+        var MerchantId = $("#MerchantId").val();
+        var OrderId = $("#OrderId").val();
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        var TrackerId = $("#TrackerId").val();
+        var MemberName = $("#MemberName").val();
+        var MemberContactNumber = $("#MemberContactNumber").val();
+        var Status = $("#status :selected").val();
+        var Sign = $("#Sign :selected").val();
+        var TransactionId = $("#TransactionId").val();
+        var Type = $("#Type :selected").val();
+
+        if (window.location.href.indexOf($("#hdndumpurl").val()) > -1) {
+            if (fromdate == "") {
+                alert("Please select Start Date");
+                return false;
+            }
+            else if (todate == "") {
+                alert("Please select End Date");
+                return false;
+            }
+            else if (fromdate != "" && todate != "") {
+                var enddate = new Date(todate);
+                var startdate = new Date(fromdate);
+                var difference = enddate - startdate;
+                var totaldays = Math.ceil(difference / (1000 * 3600 * 24));
+                if (totaldays > 7) {
+                    alert("You cannot export report more than 7 days. So please select StartDate and EndDate accordingly.");
+                    return false;
+                }
+                else {
+                    $("#AllMerchantOrderExport").hide();
+                }
+            }
+        }
+        $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("ExportExcelAllMerchantOrdersDump", "Merchant")', //call your controller and action
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        async: true,
+                        data: '{"Type":"' + Type + '","TransactionId":"' + TransactionId + '","Sign":"' + Sign + '","Status":"' + Status + '","MerchantId":"' + MerchantId + '","OrderId": "' + OrderId + '", "TrackerId": "' + TrackerId + '","MemberName":"' + MemberName + '","fromdate":"' + fromdate + '","todate":"' + todate + '","MemberContactNumber":"' + MemberContactNumber + '"}',
+
+                    }).done(function (data) {
+                        //get the file name for download
+                        if (data.fileName != "") {
+                            alert("Your exported file is being generated.Please download the new excel from the download link.");
+                        }
+                        else {
+                            alert(data.errorMessage);
+                        }
+                    });
+    }
+
+    function AllMerchantOrdersDownload(e) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("DownloadMerchantOrdersFileName", "Merchant")', //call your controller and action
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            data: '',
+
+        }).done(function (data) {
+            //get the file name for download
+            if (data!="" && data.fileName != "") {
+                //use window.location.href for redirect to download action for download the file
+                window.location.href = "@Url.RouteUrl(new { Controller = "Merchant", Action = "DownloadMerchantOrdersFile" })?fileName=" + data.fileName;
+            }
+            else {
+
+                alert("No file found to download.");
+            }
+        });
+    }
+</script>

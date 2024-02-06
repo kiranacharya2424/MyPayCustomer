@@ -1,0 +1,202 @@
+﻿@model MyPay.Models.BusSewaTrip
+@{
+    ViewBag.Title = "BusTrip";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" />
+<!-- form advanced init -->
+<script src="assets/js/pages/form-advanced.init.js"></script>
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+
+
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-none d-sm-block">
+                                                    <h6 class="title">Bus Ticket</h6>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- step1 -->
+                                        <div class="p-2" id="DivTopup" style="display:none;">
+
+                                            <div class="row">
+                                                <div class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto">
+                                                    @*<div class="col-xl-8 mb-3">*@
+
+
+                                                    <form>
+                                                        <div class="form-group mb-3 row traveller">
+                                                            <div class="col-sm-6 mt-3">
+
+
+                                                                <div class="form-group">
+                                                                    <div class="form-control-wrap ">
+
+                                                                        <div class="dropdown-mul-2">
+                                                                            @Html.DropDownList("From", ViewBag.From as SelectList, "Counter", new { @id = "ddlCounter", @class = "", @style = "display:none", })
+                                                                            @Html.DropDownListFor(m => m.from, ViewBag.From as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                            @*@Html.HiddenFor(m => m.GenderName)*@
+                                                                            @*<input type="hidden" value="@ViewBag.ServiceId" id="hdnServiceID" />*@
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                @*<label class="form-label">From</label>
+                                                                    <select class="form-control select2 text-sm-start select2-hidden-accessible" tabindex="-1" aria-hidden="true" data-select2-id="19">
+                                                                        <option data-select2-id="21">Choose Origin</option>
+                                                                        <option value="AK">BhadrapurC</option>
+                                                                        <option value="HI">Bhairawa</option>
+                                                                        <option value="HI">Rajbiraj</option>
+                                                                        <option value="HI">Pokhara</option>
+                                                                        <option value="HI">Simara</option>
+                                                                        <option value="HI">Tumlingtar</option>
+                                                                        <option value="HI">Janakpur</option>
+                                                                        <option value="HI">Jomsom</option>
+                                                                        <option value="HI">Ilam</option>
+                                                                        <option value="HI">Dhangadi</option>
+                                                                        <option value="HI">Lukla</option>
+                                                                        <option value="HI">Surkhet</option>
+
+                                                                    </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="20" style="width: 219.906px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-2fjx-container"><span class="select2-selection__rendered" id="select2-2fjx-container" role="textbox" aria-readonly="true" title="Choose Origin">Choose Origin</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>*@
+                                                            </div>
+                                                            <div class="col-sm-6 mt-3">
+                                                                <label class="form-label">To</label>
+                                                                <select class="form-control select2 text-sm-start select2-hidden-accessible" tabindex="-1" aria-hidden="true" data-select2-id="35">
+                                                                    <option data-select2-id="37"> Chooe Destination </option>
+                                                                    <option value="AK">BhadrapurC</option>
+                                                                    <option value="HI">Bhairawa</option>
+                                                                    <option value="HI">Rajbiraj</option>
+                                                                    <option value="HI">Pokhara</option>
+                                                                    <option value="HI">Simara</option>
+                                                                    <option value="HI">Tumlingtar</option>
+                                                                    <option value="HI">Janakpur</option>
+                                                                    <option value="HI">Jomsom</option>
+                                                                    <option value="HI">Ilam</option>
+                                                                    <option value="HI">Dhangadi</option>
+                                                                    <option value="HI">Lukla</option>
+                                                                    <option value="HI">Surkhet</option>
+
+                                                                </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="36" style="width: 219.906px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-xlns-container"><span class="select2-selection__rendered" id="select2-xlns-container" role="textbox" aria-readonly="true" title=" Chooe Destination "> Chooe Destination </span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                                            </div>
+
+                                                            <div class="col-sm-6 mt-3">
+                                                                <label for="formrow-email-input" class="form-label">Departure Date</label>
+
+                                                                <div class="input-group" id="datepicker1">
+                                                                    <input type="text" class="form-control" placeholder="dd mm, yyyy" data-date-disabled="[
+                                          new Date('2020-02-05')]" data-date-format="dd M, yyyy" data-date-container="#datepicker1" data-provide="datepicker">
+
+                                                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6 mt-3">
+                                                                <label class="form-label">Shift</label>
+                                                                <select class="form-select  text-sm-start">
+                                                                    <option value="AK">Day Shift</option>
+                                                                    <option value="HI">NIght Shift</option>
+
+
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-6 mt-3">
+                                                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" checked="">
+                                                                    <label class="btn btn-outline-warning btn-sm" for="btnradio4">Today</label>
+
+                                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+                                                                    <label class="btn btn-outline-warning btn-sm" for="btnradio5">Tomorrow</label>
+
+
+                                                                </div>
+                                                            </div>
+
+
+
+                                                        </div>
+
+
+
+                                                        <a class="btn btn-warning w-full mt-3" href="bus-search.php">Search Bus</a>
+
+                                                    </form>
+                                                </div>
+
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+                                        @RenderPage("~/Views/MyPayUser/MyPayPaymentScreen.cshtml")
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Right Sidebar -->
+
+                        </div><!-- .row -->
+
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                        }
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<input type="hidden" id="hdnServiceID" value='0'>
+<input type="hidden" id="hdncouponcode">
+<input type="hidden" id="hfBankId" value="" />
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_topup.js"></script>
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_topup.js"></script>
+
+<script src="assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="assets/libs/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script src="assets/libs/spectrum-colorpicker2/spectrum.min.js"></script>
+<link href="~/Content/assets/css/Custom.css" rel="stylesheet" />
+<script src="assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+<script src="~/Content/assets/js/form-advanced.init.js"></script>
+<style>
+    .paymentoption {
+        min-height: 50px;
+        border: 1px solid cadetblue;
+        padding: 12px;
+        margin: 10px 0px 10px 0px;
+        border-radius: 3px;
+        font-weight: bold;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .content-light {
+        color: #afafaf;
+        font-weight: normal;
+        font-size: 14px;
+    }
+</style>
+

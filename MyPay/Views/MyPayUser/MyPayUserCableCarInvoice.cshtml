@@ -1,0 +1,117 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserCableCarInvoice";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+<!-- content -->
+
+<!-- Bootstrap Css -->
+<link href="Content/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+
+<!-- Icons Css -->
+<link href="Content/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+<!-- App Css-->
+<link href="Content/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+<link href="Content/assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
+<link href="Content/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css" />
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <!-- Start right Content here -->
+                            <!-- ============================================================== -->
+                            <div class="container-fluid">
+                                <!-- start page title -->
+                                <div class="card-inner border-bottom bg-lighter-">
+                                    <div class="card-title-group d-block d-sm-flex">
+                                        <div class="card-title  d-sm-block w-100">
+                                            <div class="card-title align-items-center d-flex w-100 mb-0">
+                                                <h6 class="title d-flex mb-0">MyPay Cable Car</h6>
+                                                <a id="btn_back" class="btn btn-sm btn-danger ml-auto color-black d-flex align-items-center text-white"> Back</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end page title -->
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="card">
+                                            <div class="card-header bg-transparent border-bottom">
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <h5 class="fw-semibold">Annapurna Cable Car</h5>
+                                                        <ul class="list-unstyled hstack gap-2 mb-0">
+                                                            @*<li>
+                                                                    <i class="mdi mdi-ticket-confirmation-outline"></i> <span class="text-muted">2 Normal | One way</span>
+                                                                </li>*@
+                                                            <li>
+                                                                <i class="bx bx-calendar"></i> <span class="text-muted">14 Sep, 2023, Thursday</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Cable Car Ticket Invoice -->
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- end row -->
+                                </div>
+
+                                <!-- container-fluid -->
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="Content/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- dashboard init -->
+<script src="Content/assets/js/pages/dashboard.init.js"></script>
+<script src="Content/assets/js/pages/modal.init.js"></script>
+<!-- select js -->
+<script src="Content/assets/libs/select2/js/select2.min.js"></script>
+
+<script src="Content/assets/js/pages/form-advanced.init.js"></script>
+
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+const checkbox = document.getElementById("square-switch1");
+    const body = document.body;
+
+    const savedSwitchState = localStorage.getItem("switchState");
+    if (savedSwitchState === "on") {
+        checkbox.checked = true;
+    body.setAttribute("data-sidebar", "dark");
+    body.setAttribute("data-layout-mode", "dark");
+}
+
+    checkbox.addEventListener("change", function() {
+ if (this.checked) {
+        body.setAttribute("data-sidebar", "dark");
+    body.setAttribute("data-layout-mode", "dark");
+    localStorage.setItem("switchState", "on");
+ } else {
+        body.setAttribute("data-sidebar", "light");
+    body.removeAttribute("data-layout-mode");
+    localStorage.setItem("switchState", "off");
+ }
+});
+});
+</script>
+

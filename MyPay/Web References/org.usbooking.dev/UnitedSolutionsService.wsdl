@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://booking.us.org/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="UnitedSolutionsService" targetNamespace="http://booking.us.org/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://dev.usbooking.org:80/us/UnitedSolutions?xsd=1" namespace="http://booking.us.org/" />
+    </xsd:schema>
+  </types>
+  <message name="GetFlightDetail">
+    <part name="parameters" element="tns:GetFlightDetail" />
+  </message>
+  <message name="GetFlightDetailResponse">
+    <part name="parameters" element="tns:GetFlightDetailResponse" />
+  </message>
+  <message name="IssueTicketB2B">
+    <part name="parameters" element="tns:IssueTicketB2B" />
+  </message>
+  <message name="IssueTicketB2BResponse">
+    <part name="parameters" element="tns:IssueTicketB2BResponse" />
+  </message>
+  <message name="CheckBalance">
+    <part name="parameters" element="tns:CheckBalance" />
+  </message>
+  <message name="CheckBalanceResponse">
+    <part name="parameters" element="tns:CheckBalanceResponse" />
+  </message>
+  <message name="SalesReport">
+    <part name="parameters" element="tns:SalesReport" />
+  </message>
+  <message name="SalesReportResponse">
+    <part name="parameters" element="tns:SalesReportResponse" />
+  </message>
+  <message name="SectorCode">
+    <part name="parameters" element="tns:SectorCode" />
+  </message>
+  <message name="SectorCodeResponse">
+    <part name="parameters" element="tns:SectorCodeResponse" />
+  </message>
+  <message name="FlightAvailability">
+    <part name="parameters" element="tns:FlightAvailability" />
+  </message>
+  <message name="FlightAvailabilityResponse">
+    <part name="parameters" element="tns:FlightAvailabilityResponse" />
+  </message>
+  <message name="Reservation">
+    <part name="parameters" element="tns:Reservation" />
+  </message>
+  <message name="ReservationResponse">
+    <part name="parameters" element="tns:ReservationResponse" />
+  </message>
+  <message name="IssueTicket">
+    <part name="parameters" element="tns:IssueTicket" />
+  </message>
+  <message name="IssueTicketResponse">
+    <part name="parameters" element="tns:IssueTicketResponse" />
+  </message>
+  <message name="GetItinerary">
+    <part name="parameters" element="tns:GetItinerary" />
+  </message>
+  <message name="GetItineraryResponse">
+    <part name="parameters" element="tns:GetItineraryResponse" />
+  </message>
+  <portType name="UnitedSolutions">
+    <operation name="GetFlightDetail">
+      <input wsam:Action="http://booking.us.org/UnitedSolutions/GetFlightDetailRequest" message="tns:GetFlightDetail" />
+      <output wsam:Action="http://booking.us.org/UnitedSolutions/GetFlightDetailResponse" message="tns:GetFlightDetailResponse" />
+    </operation>
+    <operation name="IssueTicketB2B">
+      <input wsam:Action="http://booking.us.org/UnitedSolutions/IssueTicketB2BRequest" message="tns:IssueTicketB2B" />
+      <output wsam:Action="http://booking.us.org/UnitedSolutions/IssueTicketB2BResponse" message="tns:IssueTicketB2BResponse" />
+    </operation>
+    <operation name="CheckBalance">
+      <input wsam:Action="http://booking.us.org/UnitedSolutions/CheckBalanceRequest" message="tns:CheckBalance" />
+      <output wsam:Action="http://booking.us.org/UnitedSolutions/CheckBalanceResponse" message="tns:CheckBalanceResponse" />
+    </operation>
+    <operation name="SalesReport">
+      <input wsam:Action="http://booking.us.org/UnitedSolutions/SalesReportRequest" message="tns:SalesReport" />
+      <output wsam:Action="http://booking.us.org/UnitedSolutions/SalesReportResponse" message="tns:SalesReportResponse" />
+    </operation>
+    <operation name="SectorCode">
+      <input wsam:Action="http://booking.us.org/UnitedSolutions/SectorCodeRequest" message="tns:SectorCode" />
+      <output wsam:Action="http://booking.us.org/UnitedSolutions/SectorCodeResponse" message="tns:SectorCodeResponse" />
+    </operation>
+    <operation name="FlightAvailability">
+      <input wsam:Action="http://booking.us.org/UnitedSolutions/FlightAvailabilityRequest" message="tns:FlightAvailability" />
+      <output wsam:Action="http://booking.us.org/UnitedSolutions/FlightAvailabilityResponse" message="tns:FlightAvailabilityResponse" />
+    </operation>
+    <operation name="Reservation">
+      <input wsam:Action="http://booking.us.org/UnitedSolutions/ReservationRequest" message="tns:Reservation" />
+      <output wsam:Action="http://booking.us.org/UnitedSolutions/ReservationResponse" message="tns:ReservationResponse" />
+    </operation>
+    <operation name="IssueTicket">
+      <input wsam:Action="http://booking.us.org/UnitedSolutions/IssueTicketRequest" message="tns:IssueTicket" />
+      <output wsam:Action="http://booking.us.org/UnitedSolutions/IssueTicketResponse" message="tns:IssueTicketResponse" />
+    </operation>
+    <operation name="GetItinerary">
+      <input wsam:Action="http://booking.us.org/UnitedSolutions/GetItineraryRequest" message="tns:GetItinerary" />
+      <output wsam:Action="http://booking.us.org/UnitedSolutions/GetItineraryResponse" message="tns:GetItineraryResponse" />
+    </operation>
+  </portType>
+  <binding name="UnitedSolutionsPortBinding" type="tns:UnitedSolutions">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="GetFlightDetail">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="IssueTicketB2B">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="CheckBalance">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SalesReport">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SectorCode">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="FlightAvailability">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Reservation">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="IssueTicket">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetItinerary">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="UnitedSolutionsService">
+    <port name="UnitedSolutionsPort" binding="tns:UnitedSolutionsPortBinding">
+      <soap:address location="http://dev.usbooking.org:80/us/UnitedSolutions" />
+    </port>
+  </service>
+</definitions>

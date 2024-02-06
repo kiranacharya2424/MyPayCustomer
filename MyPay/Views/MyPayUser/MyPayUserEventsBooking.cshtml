@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "MyPayUserEventBookings";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<!-- content -->
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group  d-flex">
+                                                <div class="card-title d-none- d-sm-block">
+                                                    <div class="card-title d-none- d-sm-block">
+                                                        <h6 class="title d-flex">My Events Booking</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="card-tools">
+                                                    <ul class="card-tools-nav nav justify-content-between">
+                                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#flightbooking"><span>Events</span></a></li>
+                                                        @*<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#busbooking"><span>Bus</span></a></li>
+                                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#trainbooking"><span>Train</span></a></li>*@
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-content">
+                                            <div class="card-inner tab-pane active" id="flightbooking">
+                                                <div class="row gy-4">
+                                                    <div class="col-12" id="dvEventBookings" style="display:none">
+                                                        <ul class="nk-support" id="table">
+                                                        </ul>
+                                                        @*<div id="dvMessage" class="form-group" style="color:red">
+                                                                <span id="errormsg" style="color:red">
+                                                                    @ViewBag.Message
+                                                                </span>
+                                                                <span id="successmsg" style="color:green">
+                                                                    @ViewBag.SuccessMessage
+                                                                </span>
+                                                            </div>*@
+                                                        <input type="hidden" value="10" id="hdnTake" />
+                                                        <input type="hidden" value="0" id="hdnSkip" />
+                                                    </div><!--col-12-->
+                                                </div><!--row gy-4-->
+                                            </div><!--card-inner-->
+                                            <!-- ENd -->
+
+                                        </div><!--tab-content-->
+
+                                        <div class="card-inner" id="dvSingleBookings" style="display:none">
+                                            <div class="row">
+                                                <div class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto">
+                                                    <div class="card-title-group mb-4" id="div-ticket-detail">
+                                                        <div class="card-title d-flex w-100 align-items-center pb-3 border-bottom">
+                                                            <h6 class="title mb-0 d-flex align-items-center">
+                                                                <span>Ticket Details</span>
+                                                            </h6>
+                                                            <a id="btnBackFlightBookings" href="javascript:void(0)" class="btn btn-sm btn-danger ml-auto color-black d-flex align-items-center text-white"> Back</a>
+                                                        </div><!--card-title-->
+                                                    </div>
+                                                    <div class="" id="dvBookingDetail">
+
+                                                    </div><!--round box-shadow-->
+                                                    <div class="card-inner mt-5" id="dvpassengerdetails">
+
+                                                    </div>
+
+                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                        <span id="errormsg" style="color:red">
+                                                            @ViewBag.Message
+                                                        </span>
+                                                        <span id="successmsg" style="color:green">
+                                                            @ViewBag.SuccessMessage
+                                                        </span>
+                                                    </div>
+                                                    <input type="hidden" value="10" id="hdnTake" />
+                                                    <input type="hidden" value="0" id="hdnSkip" />
+                                                </div><!--col-md-10-->
+                                            </div><!--row-->
+                                        </div><!--card-inner-->
+
+                                        <div class="nk-block-head">
+
+                                            <div class="nk-block">
+
+                                                <input type="hidden" value="10" id="hdnBookingTake" />
+                                                <input type="hidden" value="0" id="hdnBookingSkip" />
+                                                <input type="hidden" value="10" id="hdnFundTake" />
+                                                <input type="hidden" value="0" id="hdnFundSkip" />
+                                                <input type="hidden" value="0" id="hdnFinalAmount" />
+                                                <input type="hidden" value="@ViewBag.ServiceId" id="hdnServiceId" />
+                                                <input type="hidden" value="0" id="hdnBookingId" />
+                                                <input type="hidden" value="0" id="hdnFlightId" />
+                                                <input type="hidden" value="0" id="hdnReturnFlightId" />
+                                                <input type="hidden" value="@ViewBag.MyPayFullName" id="hdnContactName" />
+                                                <input type="hidden" value="@ViewBag.MyPayContactNumber" id="hdnContactNumber" />
+                                                <input type="hidden" value="@ViewBag.MyPayEmail" id="hdnContactEmail" />
+                                                <input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+
+                                                <div id="dvFormMessage" class="form-group" style="color:red;text-align:center;">
+
+                                                </div>
+                                            </div>
+                                        </div><!-- .nk-block-head -->
+
+                                    </div><!--card -->
+                                </div><!--col-md-12-->
+                            </div><!--row-->
+                        </div>
+
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                        }
+                    </div><!-- .row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content -->
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_eventBookings.js"></script>
+
+<script>
+    function DownloadTicket(MerchantCode, OrderId) {
+        $('#AjaxLoader').show();
+        setTimeout(
+            function () {
+
+    $.ajax({
+        type: "POST",
+        url: '@Url.Action("MyPayUserEventTicketDownload", "MyPayUser")', //call your controller and action
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        data: '{"MerchantCode":"' + MerchantCode + '","OrderId":"' + OrderId + '"}',
+
+    }).done(function (data) {
+        debugger;
+        var jsonData = $.parseJSON(data);
+        $('#AjaxLoader').show();
+        //get the file name for download
+        if (jsonData != null && jsonData.data != null &&  jsonData.data[0]!="") {
+            window.location.href = "@Url.RouteUrl(new { Controller = "MyPayUser", Action = "MyPayUserEventDownloadTicketFile" })?filePath=" + jsonData.data[0];
+            $('#AjaxLoader').hide();
+        }
+        else {
+            $("#dvMessage").html("No Ticket Found to download");
+            $('#AjaxLoader').hide();
+        }
+    });
+   }, 20);
+  }
+</script>

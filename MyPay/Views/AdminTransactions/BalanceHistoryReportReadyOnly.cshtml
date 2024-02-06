@@ -1,0 +1,413 @@
+﻿@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<div class="nk-content ">
+    <input type="hidden" id="hdnid" value="" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Balance History Report</h3>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="exported()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                <span class="preview-title-lg overline-title mb-4">Calculate Balance History</span>
+                                <div class="nk-block-head">
+                                    <div class="nk-block-head-content">
+                                        <div id="dvMessage" class="form-group form-label" style="color:red; text-align:center;">
+                                            @ViewBag.Message
+                                        </div>
+                                        <div id="dvSuccess" class="form-group form-label" style="color: green; text-align: center;">
+                                            @ViewBag.SuccessMessage
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row gy-4">
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("SelectDate", "", new { @id = "selectdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="fromdate">Select Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <a class="btn btn-primary text-center text-white" onclick="return CalculateBalance();">Calculate</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-inner">
+                                <div class="table-responsive">
+                                    <table id="tblist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                        <thead>
+                                            <tr>
+                                                <th class="nk-tb-col">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("SrNo")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Date")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Total Balance")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Type")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("User Count")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Active User")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("InActive User")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Total Coins Balance")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Edit")
+                                                    </span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div><!-- .card-inner -->
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " tabindex="-1" id="EditBalance">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title text-center">Edit BalanceHistory</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Type: </label>
+                                        <span id="spnType"></span>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>User Count: </label>
+                                        <span id="spnUserCount"></span>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>Active User: </label>
+                                        <span id="spnActiveUser"></span>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>InActive User: </label>
+                                        <span id="spnInActiveUser"></span>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>Total Coins Balance: </label>
+                                        <span id="spnTotalCoinsBalance"></span>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label for="txtTotalBalance">Total Balance: </label>
+                                        <input type="text" id="txtTotalBalance" name="txtTotalBalance" placeholder="Enter Total Balance" class="form-control form-control-md" />
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span style="color:red" id="dvPopupMsg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nk-modal-action mt-5 text-center">
+                        <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-primary" onclick="return SubmitEditBalance()">Submit</a>
+                        <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="./content/assets/js/dtable_balancehistory.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#dvMessage").html("");
+        $('.date-picker').datepicker({
+            format: "dd-M-yyyy"
+        }).datepicker('setDate', 'today');
+        BindDataTable();
+    });
+
+    function bindtable() {
+        BindDataTable();
+    };
+
+    function CalculateBalance() {
+        debugger;
+        $("#dvMessage").html("");
+
+        var selecteddate = $("#selectdate").val();
+
+        if (selecteddate == "") {
+            $("#dvMessage").html("Please select date.");
+            return false;
+        }
+        else {
+            $('#AjaxLoader').show();
+            setTimeout(
+                function () {
+            $.ajax({
+                type: "POST",
+                url: "/BalanceHistoryReport/CalculateBalanceHistory",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                data: '{"SelectedDate":"' + selecteddate + '"}',
+                success: function (response) {
+                    if (response == "success") {
+                        $('#AjaxLoader').hide();
+                        BindDataTable();
+                        //$("#PaymentSuccess").modal('show');
+                        return false;
+                    }
+                    else {
+                        $("#dvMessage").html(response);
+                        $('#AjaxLoader').hide();
+                        return false;
+                    }
+
+                },
+                failure: function (response) {
+                    $('#AjaxLoader').hide();
+                    JsonOutput = (response.responseText);
+                },
+                error: function (response) {
+                    $('#AjaxLoader').hide();
+                    JsonOutput = (response.responseText);
+                }
+            });
+                }, 100);
+        }
+    }
+
+ function exported(e) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ExportExcel", "BalanceHistoryReport")', //call your controller and action
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            data: '{"Take":"' + parseInt(take) + '","Skip":"' + parseInt(skip) + '","Sort":"' + sort + '","SortOrder":"' + sortdir + '"}',
+
+        }).done(function (data) {
+            debugger;
+            //get the file name for download
+            if (data.fileName != "") {
+                //use window.location.href for redirect to download action for download the file
+                window.location.href = "@Url.RouteUrl(new { Controller = "BalanceHistoryReport", Action = "Download" })/?fileName=" + data.fileName;
+            }
+        });
+    }
+</script>
+
+
+<!--@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<div class="nk-content ">
+    <input type="hidden" id="hdnid" value="" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Balance History Report</h3>
+                        </div><!-- .nk-block-head-content -->
+<!--<div class="nk-block-head-content">
+    <div class="toggle-wrap nk-block-tools-toggle">
+        <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+        <div class="toggle-expand-content" data-content="pageMenu">
+            <ul class="nk-block-tools g-3">
+                <li>
+                    <a href="javascript:void(0);" onclick="exported()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
+                </li>
+            </ul>-->
+@*<div class="col-lg-2 col-sm-6">
+        <div class="form-group">
+            <div class="form-control-wrap">
+                @Html.DropDownList("Status" )
+            </div>
+        </div>
+    </div>*@
+                                </div>
+                            </div>--><!-- .toggle-wrap -->
+<!--</div>--><!-- .nk-block-head-content -->
+<!--</div>--><!-- .nk-block-between -->
+<!--</div>--><!-- .nk-block-head -->
+<!--<div class="card-inner position-relative card-tools-toggle pb-5">
+        <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+        <div class="nk-block-head">
+            <div class="nk-block-head-content">
+                <div id="dvMessage" class="form-group form-label" style="color:red; text-align:center;">
+                    @ViewBag.Message
+                </div>
+                <div id="dvSuccess" class="form-group form-label" style="color: green; text-align: center;">
+                    @ViewBag.SuccessMessage
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="nk-block">
+    <div class="card card-bordered card-stretch">
+        <div class="card-inner-group">
+
+            <div class="card-inner">
+                <div class="table-responsive">
+                    <table id="tblist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                        <thead>
+                            <tr>
+                                <th class="nk-tb-col">
+                                    <span class="sub-text">
+                                        @Html.DisplayName("SrNo")
+                                    </span>
+                                </th>
+                                <th class="nk-tb-col tb-col-md">
+                                    <span class="sub-text">
+                                        @Html.DisplayName("Date")
+                                    </span>
+                                </th>
+                                <th class="nk-tb-col tb-col-md">
+                                    <span class="sub-text">
+                                        @Html.DisplayName("Total Balance")
+                                    </span>
+                                </th>
+                                <th class="nk-tb-col tb-col-md">
+                                    <span class="sub-text">
+                                        @Html.DisplayName("Type")
+                                    </span>
+                                </th>
+                                <th class="nk-tb-col tb-col-md">
+                                    <span class="sub-text">
+                                        @Html.DisplayName("User Count")
+                                    </span>
+                                </th>
+                                <th class="nk-tb-col tb-col-md">
+                                    <span class="sub-text">
+                                        @Html.DisplayName("Active User")
+                                    </span>
+                                </th>
+                                <th class="nk-tb-col tb-col-md">
+                                    <span class="sub-text">
+                                        @Html.DisplayName("InActive User")
+                                    </span>
+                                </th>
+                                <th class="nk-tb-col tb-col-md">
+                                    <span class="sub-text">
+                                        @Html.DisplayName("Total Coins Balance")
+                                    </span>
+                                </th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>-->
+<!-- .card-inner -->
+<!--</div>--><!-- .card-inner-group -->
+<!--</div>--><!-- .card -->
+<!--</div>--><!-- .nk-block -->
+<!--</div>
+    </div>
+</div>
+
+</div>
+
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="./content/assets/js/dtable_balancehistory.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#dvMessage").html("");
+        $('.date-picker').datepicker({
+            format: "dd-M-yyyy"
+        }).datepicker('setDate', 'today');
+        BindDataTableReadyOnly();
+    });
+
+    function bindtable() {
+        BindDataTableReadyOnly();
+    };
+    function exported(e) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ExportExcel", "BalanceHistoryReport")', //call your controller and action
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            data: '{"Take":"' + parseInt(take) + '","Skip":"' + parseInt(skip) + '","Sort":"' + sort + '","SortOrder":"' + sortdir + '"}',
+
+        }).done(function (data) {
+            debugger;
+            //get the file name for download
+            if (data.fileName != "") {
+                //use window.location.href for redirect to download action for download the file
+                window.location.href = "@Url.RouteUrl(new { Controller = "BalanceHistoryReport", Action = "Download" })/?fileName=" + data.fileName;
+            }
+        });
+    }
+
+
+
+</script>-->

@@ -1,0 +1,149 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserNotifications";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                    </div>
+
+                    <div class="nk-block">
+                        <div class="row g-gs">
+
+
+
+                            <div class="col-12 col-md-8 col-lg-9">
+                                <div class="row g-2 h-100">
+
+
+                                    <div class="col-md-12">
+                                        <div class="card card-bordered card-full border-bottom">
+
+                                            <div class="card-inner border-bottom">
+                                                <div class="card-title-group d-block d-sm-flex">
+                                                    <div class="card-title d-none d-sm-block">
+                                                        <h6 class="title">Notifications</h6>
+                                                    </div>
+                                                    <div class="card-tools">
+                                                        <ul class="card-tools-nav nav justify-content-between">
+                                                            <li class="nav-item" id="tab_Notifications"><a class="nav-link" data-toggle="tab" href="#allnotification" onclick="return NotificationsLoad()"><span>All Notifications</span></a></li>
+                                                            <li class="nav-item" id="tab_RequestTransfer"><a class="nav-link" data-toggle="tab" href="#requesttransfer" onclick="return FundRequest()"><span>Request Transfer</span></a></li>
+                                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#allNews" onclick="return loadNews()"><span>News</span></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-content">
+
+                                                <div class="card-inner tab-pane" id="allnotification">
+                                                    <div class="timeline">
+
+                                                        <ul id="ulistNotifications" class="timeline-list p-0 p-md-3">
+                                                        </ul>
+
+                                                        <a id="showmore" href="javacript:void(0);" onclick="ShowMore();" class="btn btn-block btn-primary text-center text-white">Show More</a>
+
+                                                    </div>
+                                                </div>
+                                                <!-- ENd -->
+
+                                                <div class="card-inner tab-pane" id="requesttransfer">
+                                                    <div class="timeline">
+
+                                                        <ul id="ulistFundRequest" class="timeline-list p-0 p-md-3">
+                                                        </ul>
+                                                        <a id="showmore" href="javacript:void(0);" onclick="FundLoad();" class="btn btn-block btn-primary text-center text-white">Show More</a>
+                                                    </div>
+                                                </div>
+                                                <!-- ENd -->
+
+                                                <div class="card-inner tab-pane" id="allNews">
+                                                    <div class="timeline">
+
+                                                        <ul id="ulistNews" class="timeline-list p-0 p-md-3">
+                                                        </ul>
+                                                        <a id="showMoreNews" href="javacript:void(0);" onclick="ShowMoreNews();" class="btn btn-block btn-primary text-center text-white">Show More</a>
+                                                        <div id="NewsDetail" style="display:none;">Detail </div>
+                                                    </div>
+                                                </div>
+                                                <!-- ENd -->
+
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+                                    <div class="nk-block-head">
+                                        <div id="dvMsgSuccess" class="form-group" style="color:red">
+                                            @ViewBag.Message
+                                        </div>
+                                        <div class="form-group" style="color:green">
+                                            @ViewBag.SuccessMessage
+                                        </div>
+                                        <div class="nk-block">
+                                            <div id="dvMessage" class="form-group" style="color:red">
+                                                <span id="errormsg" style="color:red">
+                                                    @ViewBag.Message
+                                                </span>
+                                                <span id="successmsg" style="color:green">
+                                                    @ViewBag.SuccessMessage
+                                                </span>
+                                            </div>
+
+                                            <input type="hidden" value="10" id="hdnNotificationTake" />
+                                            <input type="hidden" value="0" id="hdnNotificationSkip" />
+                                            <input type="hidden" value="10" id="hdnFundTake" />
+                                            <input type="hidden" value="0" id="hdnFundSkip" />
+                                            <input type="hidden" value="10" id="hdnNewsTake" />
+                                            <input type="hidden" value="0" id="hdnNewsSkip" />
+                                        </div>
+                                    </div><!-- .nk-block-head -->
+                                </div>
+                            </div>
+
+                            @if (@Session["IsKycVerified"] != null)
+                            {
+                                @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                            }
+
+                        </div><!-- .card -->
+
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_notifications.js"></script>
+@if (ViewBag.IsRequestFund != null && Convert.ToString(ViewBag.IsRequestFund) != "")
+{
+    <script>
+        $("#tab_RequestTransfer a").addClass("active").show();
+        $("#requesttransfer").addClass("active").show();
+        $('#AjaxLoader').show();
+        setTimeout(
+            function () {
+                FundRequest();
+            },10);
+    </script>
+}
+else
+{
+    <script>
+        $("#tab_Notifications a").addClass("active").show();
+        $("#allnotification").addClass("active").show();
+        $('#AjaxLoader').show();
+        setTimeout(
+            function () {
+                NotificationsLoad();
+            },10);
+    </script>
+}

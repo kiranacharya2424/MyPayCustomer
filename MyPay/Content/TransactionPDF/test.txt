@@ -1,0 +1,32 @@
+<form id="frm-nicasia" action="https://secureacceptance.cybersource.com/pay" method="post">
+        <div class="form-group">
+            <input type="hidden" name="access_key" value="f2ddcf81e6cf32ee992bdce1a71633b2">
+            <input type="hidden" name="profile_id" value="A6CCA219-2D15-4F83-BFD2-E72FF68172BD">
+            <input type="hidden" name="transaction_uuid" value="a2d7b08a-843e-4859-a936-b462fedaef9a">
+            <input type="hidden" name="signed_field_names" value="access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,auth_trans_ref_no,transaction_type,reference_number,amount,currency,payment_method,bill_to_forename,bill_to_surname,bill_to_email,bill_to_phone,bill_to_address_line1,bill_to_address_city,bill_to_address_state,bill_to_address_country,bill_to_address_postal_code">
+            <input type="hidden" name="unsigned_field_names" value="card_type,card_number,card_expiry_date">
+            <input type="hidden" name="signed_date_time" value="2022-08-10T11:20:40Z">
+            <input type="hidden" name="locale" value="en">
+            <input type="hidden" name="auth_trans_ref_no" value="10082022112040204076005406018">
+            <input type="hidden" name="amount" value="10.20">
+            <input type="hidden" name="bill_to_forename" value="Sanu">
+            <input type="hidden" name="bill_to_surname" value="Kumar">
+            <input type="hidden" name="bill_to_email" value="">
+            <input type="hidden" name="bill_to_phone" value="9841234553">
+            <input type="hidden" name="bill_to_address_line1" value="">
+            <input type="hidden" name="bill_to_address_city" value="">
+            <input type="hidden" name="bill_to_address_state" value="">
+            <input type="hidden" name="bill_to_address_country" value="NP">
+            <input type="hidden" name="bill_to_address_postal_code" value="">
+            <input type="hidden" name="transaction_type" value="sale">
+            <input type="hidden" name="reference_number" value="304084">
+            <input type="hidden" name="currency" value="NPR">
+            <input type="hidden" name="payment_method" value="card">
+            <input type="hidden" name="signature" value="pnHJ445HVEoVv8/MqQ2WzFGTWUHRikNh/Av9JUkR/Dc=">
+            <input type="hidden" name="card_type" value="001">
+            <input type="hidden" name="card_number" value="">
+            <input type="hidden" name="card_expiry_date" value="">
+            <input type="submit" style="display:none;" id="btnsubmit" value="Submit">
+        </div>
+         
+    </form>

@@ -1,0 +1,218 @@
+﻿@model MyPay.Models.Add.AddAgent
+@{
+    ViewBag.Title = "CreditDebit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm d-xxl-none">
+                    <div class="nk-block-between g-3">
+                        <div class="nk-block-head-content d-flex align-items-center">
+                            <div class="user-avatar lg mr-3">
+                                
+                            </div>
+                            <div>
+                                <h3 class="nk-block-title page-title"><strong class="text-primary small">@Model.OrganizationName  </strong></h3>
+                                <div class="nk-block-des text-soft d-none d-sm-inline-flex">
+                                    <ul class="list-inline">
+
+                                        <li>Agent ID: <span class="text-base">@Model.AgentUniqueId</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="nk-block-head-content">
+                            <div class="text-center">
+                                <img class="rounded-top" width="80" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.QRCode))" />
+                            </div>
+                        </div>*@
+                    </div>
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card-aside-wrap">
+                            <div class="card-content">
+                                @Html.Hidden("AgentUniqueId", (object)Model.AgentUniqueId, new { @id = "AgentUniqueId" })
+                                <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card">
+                                    <li class="nav-item nav-item-trigger d-xxl-none">
+                                        <a href="javascript:void(0);" class="toggle btn btn-icon btn-trigger" data-target="userAside"><em class="icon ni ni-user-list-fill"></em></a>
+                                    </li>
+                                </ul><!-- .nav-tabs -->
+                                <div class="card-inner col-sm-6" style="margin:auto">
+                                    <div class="nk-block-head">
+                                        <div class="nk-block-head-content">
+                                            <div id="dvMessage" class="form-group form-label" style="color:red; text-align:center;">
+                                                @ViewBag.Message
+                                            </div>
+                                            <div id="dvSuccess" class="form-group form-label" style="color: green; text-align: center;">
+                                                @ViewBag.SuccessMessage
+                                            </div>
+                                            <h4 class="nk-block-title">Credit Debit Funds for Agent ID : @Model.AgentUniqueId</h4>
+                                            <div class="nk-block-des">
+                                                <p>Transfer funds or Receive funds from user account.  </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" id="AgentUniqueId" value=@Model.AgentUniqueId />
+
+                                        <div class="form-label-group">
+                                            <label class="form-label" for="password">Type</label>
+
+                                        </div>
+                                        <div class="form-control-wrap">
+                                            <select name="Type" id="Type" class="form-select form-control form-control-md">
+                                                <option value="1">Wallet Balance</option>
+                                                @* <option value="1">MP Coins</option>*@
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="nk-block">
+                                        <div class="form-group">
+                                            <div class="form-label-group">
+                                                <label class="form-label" for="password">Enter Transaction Amount</label>
+
+                                            </div>
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("TransactionAmount", null, new { @class = "form-control form-control-lg", @id = "TransactionAmount", @placeholder = "Enter Amount", @onkeypress = "return isNumberKey(this, event);" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-label-group">
+                                                <label class="form-label" for="password">Transaction Type</label>
+
+                                            </div>
+                                            <div class="form-control-wrap">
+                                                @* @Html.DropDownList("Type", ViewBag.TransType as SelectList, "", new { @class = "form-select form-control form-control-md" })*@
+                                                <select name="TransactionType" id="TransactionType" class="form-select form-control form-control-md">
+                                                    <option value="0">---- Select Type ----</option>
+                                                    <option value="1">Credit</option>
+                                                    <option value="2">Debit</option>
+                                                   @* <option value="3">On Hold</option>*@
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-label-group">
+                                                <label class="form-label" for="password">Enter Remarks</label>
+                                            </div>
+                                            <div class="form-control-wrap">
+                                                @Html.TextArea("AdminRemarksCD", null, new { @class = "form-control form-control-lg", @id = "AdminRemarksCD", @placeholder = "Enter Remarks" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="btnSubmitAgentTransfer" class="btn btn-lg btn-primary btn-block">Submit</button>
+                                        </div>
+                                    </div><!-- .nk-block -->
+                                </div><!-- .card-inner -->
+                            </div><!-- .card-content -->
+                            <div class="card-aside card-aside-right user-aside toggle-slide toggle-slide-right toggle-break-xxl" data-content="userAside" data-toggle-screen="xxl" data-toggle-overlay="true" data-toggle-body="true">
+                                <div class="card-inner-group" data-simplebar>
+                                    <div class="card-inner">
+                                        <div class="user-card user-card-s2">
+                                            @*<div class="user-avatar lg bg-primary">
+                                                @if (!string.IsNullOrEmpty(Model.UserImage))
+                                                {
+                                                    <img src="~/UserDocuments/Images/@Model.UserImage" alt="">
+                                                }
+                                                else
+                                                {
+                                                    if (Model.FirstName.Length > 0 && Model.LastName.Length > 0)
+                                                    {
+                                                        <span>@Model.FirstName.Substring(0, 1)@Model.LastName.Substring(0, 1)</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>U</span>
+                                                    }
+                                                }
+                                            </div>*@
+                                            <div class="user-info">
+
+                                                <h5>@Model.FullName   </h5>
+                                                <span class="sub-text">(UserId :@Model.AgentUniqueId)</span>
+                                                <span class="sub-text">@Model.EmailID</span>
+                                                @if (Model.IsActive)
+                                                {
+                                                    <span style="color:#4acf1f; font-weight:bold; text-align: center;">Active</span>
+                                                }
+                                                else
+                                                {
+                                                    <span style="color: red; font-weight: bold; text-align: center;">Suspended</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="card-inner">
+                                        <div class="overline-title-alt mb-2 text-center">Scan QR</div>
+                                        <div class="text-center">
+                                            <img class="rounded-top" width="150" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.QRCode))" />
+                                        </div>
+
+                                    </div*@<!-- .card-inner -->
+                                    <!--<div class="card-inner">
+                                        <div class="row text-center">
+                                            <div class="col-12">
+                                                <div class="profile-stats">-->
+                                                    @*<span class="amount">@ViewBag.TotalTransactions </span>*@
+                                                    <!--<span class="sub-text">Transactions</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>--><!-- .card-inner -->
+                                    <div class="card-inner">
+                                        <h6 class="overline-title-alt mb-2">Additional</h6>
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <span class="sub-text">User ID:</span>
+                                                <span>@Model.AgentUniqueId</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="sub-text">Last Login:</span>
+                                               @* <span>@(MyPay.Models.Common.Common.fnGetdatetimeFromInput( Model.LastLogin))</span>*@
+                                            </div>
+
+                                            <div class="col-6">
+                                                <span class="sub-text">Register At:</span>
+                                                <span>@(MyPay.Models.Common.Common.fnGetdatetimeFromInput(Convert.ToDateTime( Model.CreatedDateDt)))</span>
+                                            </div>
+                                            @*<div class="col-6">
+                                                <span class="sub-text">Wallet Amount</span>
+                                                <span> Rs. @ViewBag.SumTransactions</span>
+                                            </div*@
+                                        </div>
+                                    </div><!-- .card-inner -->
+
+                                </div><!-- .card-inner -->
+                            </div><!-- .card-aside -->
+                        </div><!-- .card-aside-wrap -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/assets/js/dtable_agent.js"></script>
+<script>
+    $(function () {
+        $("#Type").change(function () {
+            var value = $("#Type option:selected").val();
+            if (value == "1") {
+                $("#TransactionType").html("");
+                $("#TransactionType").append($('<option></option>').val(0).html("---- Select Type ----"));
+                $("#TransactionType").append($('<option></option>').val(1).html("Credit"));
+                $("#TransactionType").append($('<option></option>').val(2).html("Debit"));
+            }
+            else if (value == "0") {
+                $("#TransactionType").html("");
+                $("#TransactionType").append($('<option></option>').val(0).html("---- Select Type ----"));
+                $("#TransactionType").append($('<option></option>').val(1).html("Credit"));
+                $("#TransactionType").append($('<option></option>').val(2).html("Debit"));
+                //$("#TransactionType").append($('<option></option>').val(3).html("On Hold"));
+            }
+        });
+    });
+</script>

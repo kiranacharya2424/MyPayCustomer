@@ -1,0 +1,137 @@
+﻿@model IEnumerable<WalletTransaction>
+@{
+    ViewBag.Title = "MyPayUserCableCarBookings";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<!-- content -->
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="card card-bordered card-full border-bottom">
+                                <div class="card-inner border-bottom bg-lighter">
+                                    <div class="card-title-group  d-flex">
+                                        <div class="card-title d-none- d-sm-block">
+                                            <div class="card-title d-none- d-sm-block">
+                                                <h6 class="title d-flex">Cable Car Booking</h6>
+                                            </div>
+                                        </div>
+                                        <div class="card-tools">
+                                            <ul class="card-tools-nav nav justify-content-between">
+                                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#"><span>Cable Car</span></a></li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-content">
+                                    <div class="card-inner tab-pane active" id="cablecarbooking">
+                                        <div class="row gy-4">
+                                            <div class="col-12" id="dvEventBookings" style="display: block;">
+                                                <ul class="nk-support" id="table">
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <li class="nk-support-item px-0 cursor-pointer" @*onclick="SingleTicketLoad('72271');*@>
+                                                            <div class="serv-icon">
+                                                                <img src="Content/assets/images/services/cablecar/1.png" width="35" alt="" class="bg-light rounded-circle p-1">
+                                                            </div><div class="nk-support-content">
+                                                                <span class="d-block fs-12px fw-normal text-soft">@item.CreatedDate.Date.ToString("yyyy-MM-dd")</span>
+                                                                <div class="title">
+                                                                    <span class="timeline-title mb-0">
+                                                                        Annapurna Cable Car
+                                                                        @*<div class="d-flex align-items-center fw-normal">
+                                                                                <span class="fs-12px">Chabahil, Chabahil, Chabahil</span>
+                                                                            </div>*@
+                                                                    </span>
+                                                                    <div class="d-flex align-items-center fw-normal"><a href="@Url.Action("MyPayUserCableCarTicketDownload", "MyPayUser", new { TransactionId = item.TransactionUniqueId })" class="btn btn-danger dwnTicket"> Download Ticket </a></div>
+                                                                    <span class="amount fw-medium fs-14px m-0 text-right"><small>Rs.</small>@item.Amount<br><label class="m-0 text-green fs-13px">@item.Remarks</label></span>
+                                                                </div>
+                                                                <div class="d-flex mt-1">
+                                                                    <p class="text-soft d-flex align-items-center fs-12px line-height-1 mt-0 mr-2">
+                                                                        <img src="/Content/assets/MyPayUserApp/images/user-group-solid.svg" class="mr-1">2 Tickets
+                                                                    </p>
+                                                                    <p class="text-soft d-flex align-items-center fs-12px line-height-1 mt-0"><img src="/Content/assets/MyPayUserApp/images/clock-solid.svg" class="mr-1">@item.CreatedDate.TimeOfDay</p>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    }
+                                                    @*<li class="nk-support-item px-0 cursor-pointer" onclick="SingleTicketLoad('72268');"><div class="serv-icon"><img src="https://testticketingapi.mypay.com.np/images/events/banners/202308160559289084_672e3c519224469c8fec21629e15e17f.jpg" width="35" alt="" class="bg-light rounded-circle p-1"></div><div class="nk-support-content"><span class="d-block fs-12px fw-normal text-soft">2023, 23 OCTOBER</span><div class="title"><span class="timeline-title mb-0">Global Dashain Fest<div class="d-flex align-items-center fw-normal"><span class="fs-12px">Dasharath Rangasala , Dasharath Rangasala , Kathmandu</span></div></span><span class="amount fw-medium fs-14px m-0 text-right"><small>Rs.</small>25<br><label class="m-0 text-green fs-13px">success</label></span></div><div class="d-flex mt-1"><p class="text-soft d-flex align-items-center fs-12px line-height-1 mt-0 mr-2"><img src="/Content/assets/MyPayUserApp/images/user-group-solid.svg" class="mr-1">1 Tickets</p><p class="text-soft d-flex align-items-center fs-12px line-height-1 mt-0"><img src="/Content/assets/MyPayUserApp/images/clock-solid.svg" class="mr-1">09:00 AM</p></div></div></li>*@
+                                                </ul>
+
+                                                <input type="hidden" value="10" id="hdnTake">
+                                                <input type="hidden" value="1" id="hdnSkip">
+                                            </div><!--col-12-->
+                                        </div><!--row gy-4-->
+                                    </div><!--card-inner-->
+                                    <!-- ENd -->
+
+                                </div><!--tab-content-->
+
+                                <div class="card-inner" id="dvSingleBookings" style="display:none">
+                                    <div class="row">
+                                        <div class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto">
+                                            <div class="card-title-group mb-4" id="div-ticket-detail">
+                                                <div class="card-title d-flex w-100 align-items-center pb-3 border-bottom">
+                                                    <h6 class="title mb-0 d-flex align-items-center">
+                                                        <span>Ticket Details</span>
+                                                    </h6>
+                                                    <a id="btnBackFlightBookings" href="javascript:void(0)" class="btn btn-sm btn-danger ml-auto color-black d-flex align-items-center text-white"> Back</a>
+                                                </div><!--card-title-->
+                                            </div>
+                                            <div class="" id="dvBookingDetail">
+
+                                            </div><!--round box-shadow-->
+                                            <div class="card-inner mt-5" id="dvpassengerdetails">
+
+                                            </div>
+
+                                            <div id="dvMessage" class="form-group" style="color:red"></div>
+                                            <input type="hidden" value="10" id="hdnTake">
+                                            <input type="hidden" value="0" id="hdnSkip">
+                                        </div><!--col-md-10-->
+                                    </div><!--row-->
+                                </div><!--card-inner-->
+
+                                <div class="nk-block-head">
+
+                                    <div class="nk-block">
+                                        <input type="hidden" value="10" id="hdnBookingTake" />
+                                        <input type="hidden" value="0" id="hdnBookingSkip" />
+                                        <input type="hidden" value="10" id="hdnFundTake" />
+                                        <input type="hidden" value="0" id="hdnFundSkip" />
+                                        <input type="hidden" value="0" id="hdnFinalAmount" />
+                                        <input type="hidden" value="@ViewBag.ServiceId" id="hdnServiceId" />
+                                        <input type="hidden" value="0" id="hdnBookingId" />
+                                        <input type="hidden" value="@ViewBag.MyPayFullName" id="hdnContactName" />
+                                        <input type="hidden" value="@ViewBag.MyPayContactNumber" id="hdnContactNumber" />
+                                        <input type="hidden" value="@ViewBag.MyPayEmail" id="hdnContactEmail" />
+                                        <input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+
+                                        <div id="dvFormMessage" class="form-group" style="color:red;text-align:center;">
+
+                                        </div>
+                                    </div>
+                                </div><!-- .nk-block-head -->
+
+                            </div><!--card -->
+
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                        }
+                    </div><!-- .row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content -->
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_cablecar.js"></script>
+
+</script>

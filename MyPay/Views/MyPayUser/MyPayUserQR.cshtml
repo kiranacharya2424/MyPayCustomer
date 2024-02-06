@@ -1,0 +1,67 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserProfile";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+
+
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+
+                                        <div class="card-inner py-0 bg-lighter">
+                                            <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card ">
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="/MyPayUser/MyPayUserProfile"><em class="icon ni ni-user-circle"></em><span>Profile</span></a>
+                                                </li>
+
+                                                <li class="nav-item active current-page">
+                                                    <a class="nav-link active" href="javascript:void(0)"><em class="icon icon ni ni-qr"></em><span>My QR Code</span></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="/MyPayUser/MyPayUserSettings"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="card-inner">
+                                            <div class="nk-block pt-5">
+                                                <div class="text-center">
+                                                    <p>Use below MY QR Code to <br>receive payments.</p>
+                                                    <img class="rounded-top" width="150" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.QRCode))" />
+                                                    <strong class="d-block mt-3 h5">(977) @ViewBag.MemberContactNumber</strong>
+                                                    <span class="sub-text">@ViewBag.MemberName</span>
+                                                </div>
+                                            </div><!-- .nk-block-head -->
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                        }
+                    </div><!-- .row -->
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div> 
+  

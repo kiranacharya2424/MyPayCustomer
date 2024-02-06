@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32.42" height="32.42" viewBox="0 0 32.42 32.42">
+  <g id="Group_4361" data-name="Group 4361" transform="translate(-18 -302)">
+    <g id="Ellipse_447" data-name="Ellipse 447" transform="translate(18 302)" fill="#fff2ec" stroke="#e45415" stroke-width="1">
+      <circle cx="16.21" cy="16.21" r="16.21" stroke="none"/>
+      <circle cx="16.21" cy="16.21" r="15.71" fill="none"/>
+    </g>
+    <g id="Group_1047" data-name="Group 1047" transform="translate(-901.99 2665.99)">
+      <g id="Group_1045" data-name="Group 1045" transform="translate(929.502 -2349.715)">
+        <path id="Path_997" data-name="Path 997" d="M943.289-2341.4l-6.505,4.436-6.474-4.436" transform="translate(-930.31 2341.4)" fill="none" stroke="#e45415" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <line id="Line_125" data-name="Line 125" y1="2.278" x2="3.322" transform="translate(0 6)" fill="none" stroke="#e45415" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <line id="Line_126" data-name="Line 126" x1="3.431" y1="2.34" transform="translate(9.548 5.938)" fill="none" stroke="#e45415" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Group_1046" data-name="Group 1046" transform="translate(928.99 -2354.99)">
+        <path id="Path_998" data-name="Path 998" d="M942.629-2350.367l-6.653-4.623-6.653,4.623a.774.774,0,0,0-.334.636v7.157a1.552,1.552,0,0,0,1.552,1.552H941.41a1.552,1.552,0,0,0,1.553-1.552v-7.157A.779.779,0,0,0,942.629-2350.367Z" transform="translate(-928.99 2354.99)" fill="none" stroke="#e45415" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+    </g>
+  </g>
+</svg>

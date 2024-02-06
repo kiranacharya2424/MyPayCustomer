@@ -1,0 +1,233 @@
+﻿@model MyPay.Models.Request.Req_Web_Menu
+@{
+    ViewBag.Title = "RoleAssign";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Hidden("hdnIds", "", new { @id = "hdnIds" })
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Role Assign</h3>
+                            @*<div class="nk-block-des text-soft">
+                                    <p>You have total  @Model.objData.Count users.</p>
+                                </div>*@
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                <div class="row gy-4">
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.DropDownList("ParentId", (IEnumerable<SelectListItem>)ViewBag.ParentId as SelectList, new { @id = "ParentId", @class = "form-select form-control form-control-md" })
+                                                @*@Html.HiddenFor(m => m.ParentId)*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.DropDownList("RoleId", (IEnumerable<SelectListItem>)ViewBag.RoleId as SelectList, new { @id = "RoleId", @class = "form-select form-control form-control-md" })
+                                                @*@Html.HiddenFor(m => m.RoleId)*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("MenuName", "", new { @id = "MenuName", @placeholder = "Menu Name", @class = "form-control form-control-md form-control", @autocomplete = "off" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <a class="btn btn-primary text-center text-white" onclick="return bindmenu();">Search</a>
+                                            @*<button id="btnSearch" type="submit" class="btn btn-primary text-center">Search</button>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-inner position-relative card-tools-toggle pb-3 pt-3">
+                                <!-- <span class="preview-title-lg overline-title mb-4">User List</span> -->
+                                <div class="card-title-group">
+                                    <div class="card-tools">
+                                        <span class="preview-title-lg overline-title pb-0">Role Assign</span>
+                                    </div><!-- .card-tools -->
+                                </div><!-- .card-title-group -->
+                                <div class="card-search search-wrap" data-search="search">
+                                    <div class="card-body">
+                                        <div class="search-content">
+                                            <a href="javascript:void(0);" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                                            <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by user or email">
+                                            <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                                        </div>
+                                    </div>
+                                </div><!-- .card-search -->
+                            </div><!-- .card-inner -->
+                            <div class="card-inner">
+                                <div id="dvMsgSuccess" class="tb-status text-success" style="text-align:center; font-weight:bold">@ViewBag.SuccessMessage</div>
+                                <div id="dvMsg" class="tb-status text-danger" style="text-align: center; font-weight: bold">
+                                    @ViewBag.Message
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                        <thead>
+                                            <tr class="nk-tb-item nk-tb-head">
+                                                <th class="nk-tb-col tb-col-md"><span class="sub-text">SrNo</span></th>
+                                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Manu Name</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">Parent Menu</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">URL</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">Inner URL</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">Status</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tblbody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button type="submit" class="btn btn-primary text-center mr-2">Save</button>
+
+                            </div><!-- .card-inner -->
+
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        debugger;
+        var msg = $("#dvMsgSuccess").html();
+        if (msg == "Successfully assign role.") {
+            bindmenu();
+        }
+    });
+    var sno = 0;
+    function bindmenu() {
+        var hdnids = "";
+        sno = 0;
+        $("#tblbody").html("");
+        debugger;
+        if ($("#RoleId").val() == "0" || $("#RoleId").val() == "") {
+            alert("Please select Role.");
+        }
+        else {
+            var roleid = $("#RoleId").val();
+            var parentid = $("#ParentId").val();
+            var menuname = $("#MenuName").val();
+            $.ajax({
+                url: "/Menu/GetMenuList",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: '{ "roleid":"' + roleid + '","parentid":"' + parentid + '","manuname":"' + menuname + '"}',
+                success: function (result) {
+                    debugger;
+                    for (var i = 0; i < result.data.length; i++) {
+                        debugger;
+                        var str = '';
+                        sno = sno + 1;
+                        if (result.data[i].ParentId == "0") {                           
+                            str += '<tr class="nk-tb-item">';
+                            str += '<td class="nk-tb-col tb-col-md"><span class="tb-lead">' + sno + '</span></td>';
+                            str += '<td class="nk-tb-col tb-col-md"><span class="tb-lead">' + result.data[i].MenuName + '</span></td>';
+                            str += '<td class="nk-tb-col tb-col-md"><span class="tb-lead">' + result.data[i].ParentName + '</span></td>';
+                            str += '<td class="nk-tb-col tb-col-md"><span class="tb-lead"></span></td>';
+                            str += '<td class="nk-tb-col tb-col-md">';
+                            if (result.data[i].IsInnerURL == true) {
+                                str += '<span class="tb-lead">Yes</span>';
+                            }
+                            else {
+                                str += '<span class="tb-lead">No</span>';
+                            }
+                            str += '</td>';
+                            str += '<td class="nk-tb-col tb-col-lg">';
+                            if (result.data[i].IsApprove == true) {
+                                str += '<input type="checkbox" data-roleid="' + result.data[i].RoleId + '" data-parentid="' + result.data[i].ParentId + '" data-Id="' + result.data[i].Id + '" Onchange = "return ApproveMenus(this);" Checked />';
+
+                            }
+                            else {
+                                str += '<input type="checkbox" data-roleid="' + result.data[i].RoleId + '" data-parentid="' + result.data[i].ParentId + '" data-Id="' + result.data[i].Id + '" Onchange = "return ApproveMenus(this);" />';
+
+                            }
+                            str += '</td>';
+                            str += '</tr>';
+                        }
+                        else {
+                            str += '<tr class="nk-tb-item">';
+                            str += '<td class="nk-tb-col tb-col-md"><span>' + sno + '</span></td>';
+                            str += '<td class="nk-tb-col tb-col-md"><span>' + result.data[i].MenuName + '</span></td>';
+                            str += '<td class="nk-tb-col tb-col-md"><span>' + result.data[i].ParentName + '</span></td>';
+                            str += '<td class="nk-tb-col tb-col-md"><span>' + result.data[i].Url + '</span></td>';
+                            str += '<td class="nk-tb-col tb-col-md">';
+                            if (result.data[i].IsInnerURL == true) {
+                                str += '<span>Yes</span>';
+                            }
+                            else {
+                                str += '<span>No</span>';
+                            }
+                            str += '</td>';
+                            str += '<td class="nk-tb-col tb-col-lg">';
+                            if (result.data[i].IsApprove == true) {
+                                str += '<input type="checkbox" data-roleid="' + result.data[i].RoleId + '" data-parentid="' + result.data[i].ParentId + '" data-Id="' + result.data[i].Id + '" Onchange = "return ApproveMenus(this);" Checked />';
+
+                            }
+                            else {
+                                str += '<input type="checkbox" data-roleid="' + result.data[i].RoleId + '" data-parentid="' + result.data[i].ParentId + '" data-Id="' + result.data[i].Id + '" Onchange = "return ApproveMenus(this);" />';
+
+                            }
+                            str += '</td>';
+                            str += '</tr>';
+                        }
+                        $("#tblbody").append(str);
+
+                        if (result.data[i].IsApprove == true) {
+                            hdnids += result.data[i].Id + "-" + result.data[i].ParentId + "-" + result.data[i].RoleId + ",";
+
+                        }
+                        $("#hdnIds").val(hdnids);
+                    }
+                    return false;
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $(".ticketssidebar").html('');
+                    alert(XMLHttpRequest.responseText, "danger")
+                    return false;
+                }
+            });
+
+            return false;
+        }
+    }
+
+    function ApproveMenus(obj) {
+        var id = $(obj).attr("data-id");
+        var parentid = $(obj).attr("data-parentid");
+        var roleid = $(obj).attr("data-roleid");
+        var MainId = id + "-" + parentid + "-" + roleid + ",";
+        var hdnIds = $("#hdnIds").val();
+        if (hdnIds.indexOf(MainId) > -1) {
+            hdnIds = hdnIds.replace(MainId, "");
+        }
+        else {
+            if (hdnIds.indexOf(MainId) == -1) {
+                hdnIds = hdnIds + MainId;
+            }
+        }
+        $("#hdnIds").val(hdnIds);
+        return false;
+    }
+</script>
+

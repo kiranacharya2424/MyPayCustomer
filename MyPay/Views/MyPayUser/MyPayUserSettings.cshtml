@@ -1,0 +1,131 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserSettings";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+
+
+}
+
+<!-- content -->
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row h-100">
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+                                        <div class="card-inner py-0 bg-lighter">
+                                            <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card ">
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="/MyPayUser/MyPayUserProfile"><em class="icon ni ni-user-circle"></em><span>Profile</span></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="/MyPayUser/MyPayUserQR"><em class="icon icon ni ni-qr"></em><span>My QR Code</span></a>
+                                                </li>
+                                                <li class="nav-item active current-page">
+                                                    <a class="nav-link active" href="javascript:void(0);"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="card-inner">
+                                            <div class="nk-support">
+                                                <a href="/MyPayUser/MyPayUserChangePin" class="nk-support-item px-0 cursor-pointer">
+                                                    <div class="serv-icon">
+                                                        <img src="/Content/assets/MyPayUserApp/images/mpin-icon.svg" width="30" alt="">
+                                                    </div>
+                                                    <div class="nk-support-content">
+                                                        <div class="title">
+                                                            <span>Change Transaction Pin</span>
+                                                            <em class="icon ni ni-forward-ios"></em>
+                                                        </div><!--title-->
+                                                    </div><!--nk-support-content-->
+                                                </a><!--nk-support-item-->
+                                                <a href="/MyPayUser/ChangePassword" class="nk-support-item px-0 cursor-pointer">
+                                                    <div class="serv-icon">
+                                                        <img src="/Content/assets/MyPayUserApp/images/password-icon.svg" width="30" alt="">
+                                                    </div>
+                                                    <div class="nk-support-content">
+                                                        <div class="title">
+                                                            <span>Change Password</span>
+                                                            <em class="icon ni ni-forward-ios"></em>
+                                                        </div><!--title-->
+                                                    </div><!--nk-support-content-->
+                                                </a><!--nk-support-item-->
+                                                <a href="javascript:void(0);" class="nk-support-item px-0 cursor-pointer">
+                                                    <div class="serv-icon">
+                                                        <img src="/Content/assets/MyPayUserApp/images/password-icon.svg" width="30" alt="">
+                                                    </div>
+                                                    <div class="nk-support-content">
+                                                        <div class="title">
+                                                            <span>Dark Theme</span>
+                                                            @if (@Session["MyPayDarkTheme"].ToString() == "True")
+                                                            {
+                                                                <div class="custom-control  custom-control-sm custom-switch"><input type="checkbox" checked class="custom-control-input" id="OneTimeSwitch"><label class="custom-control-label" for="OneTimeSwitch"></label></div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="custom-control  custom-control-sm custom-switch"><input type="checkbox" class="custom-control-input" id="OneTimeSwitch"><label class="custom-control-label" for="OneTimeSwitch"></label></div>
+                                                            }
+                                                        </div><!--title-->
+                                                    </div><!--nk-support-content-->
+                                                </a><!--nk-support-item-->
+                                            </div>
+                                        </div><!--card-inner-->
+                                    </div><!--card-->
+                                </div><!--col-md-12-->
+                            </div><!--row-->
+                        </div><!--col-12-->
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                        }
+                    </div><!-- .row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content -->
+<script>
+    $(document).on('change', '#OneTimeSwitch', function () {
+        $('#AjaxLoader').show();
+        setTimeout(
+            function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/MyPayUser/MyPayUserChangeTheme",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: '',
+                    success: function (response) {
+                        if (response == "success") {
+                            window.location.href = "/MyPayUser/MyPayUserSettings";
+                            $('#AjaxLoader').hide();
+                            return false;
+                        }
+                        else if (response == "Session Expired") {
+                            alert('Logged in from another device.');
+                            window.location.href = "/MyPayUserLogin/Index";
+                            $('#AjaxLoader').hide();
+                        }
+                        else {
+                            $('#AjaxLoader').hide();
+                        }
+                    },
+                    failure: function (response) {
+                        $('#AjaxLoader').hide();
+                        JsonOutput = (response.responseText);
+                    },
+                    error: function (response) {
+                        $('#AjaxLoader').hide();
+                        JsonOutput = (response.responseText);
+                    }
+                });
+            }, 100);
+    });
+</script>

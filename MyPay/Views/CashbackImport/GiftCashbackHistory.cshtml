@@ -1,0 +1,222 @@
+﻿@model MyPay.Models.Add.AddGiftCashbackHistory
+
+@{ ViewBag.Title = "GiftCashbackHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">GiftCashback History Report</h3>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li class="nk-block-tools-opt">
+                                            <div class="drodown">
+                                                <a href="/CashbackImport/Index" class="btn btn-icon btn-primary" title="Add Gift Cashback"><em class="icon ni ni-plus"></em></a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="exported()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                <div class="row gy-4">
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("StartDate", "", new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="fromdate">From Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("ToDate", "", new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="todate">To Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("MemberId", "", new { @id = "MemberId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Member Id" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Member Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("ContactNumber", "", new { @id = "ContactNumber", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @maxlength = 10, @onkeypress = "return isNumberKey(this, event);", @placeholder = "Mobile Number" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Mobile Number</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("Name", "", new { @id = "Name", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Name" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Name</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("TransactionId", "", new { @id = "TransactionId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Transaction Id" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Txn Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.EnumDropDownListFor(x => x.StatusEnum, "--- Select Status ---", new { @class = "form-select form-control form-control-md" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <a class="btn btn-primary text-center text-white" onclick="return bindtable();">Search</a>
+                                            @*<button type="submit" class="btn btn-primary text-center">Search</button>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-inner">
+                                <div class="table-responsive">
+                                    <table id="tblist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                        <thead>
+                                            <tr>
+                                                <th class="nk-tb-col">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("SrNo")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Date")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Contact No")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Transaction Id")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Prize")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Member Id")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Member Name")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Remarks")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Status")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("CreatedByName")
+                                                    </span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div><!-- .card-inner -->
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="./content/assets/js/dtable_giftcashbackhistory.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.date-picker').datepicker({
+            format: "dd-M-yyyy"
+        }).datepicker('setDate', 'today');
+        BindDataTable();
+    });
+
+    function bindtable() {
+        BindDataTable();
+    };
+
+ function exported(e) {
+     var MemberId = $("#MemberId").val();
+     var ContactNumber = $("#ContactNumber").val();
+     var Name = $("#Name").val();
+     var TransactionId = $("#TransactionId").val();
+     var fromdate = $("#fromdate").val();
+     var todate = $("#todate").val();
+     var Status = $("#StatusEnum :selected").val();
+        if (MemberId == "") {
+            MemberId = 0;
+        }
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ExportExcel", "CashbackImport")', //call your controller and action
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            data: '{"Take":"' + parseInt(take) + '","Skip":"' + parseInt(skip) + '","Sort":"' + sort + '","SortOrder":"' + sortdir + '","MemberId":"' + parseInt(MemberId) + '","ContactNo":"' + ContactNumber + '","Name":"' + Name + '","TxnId":"' + TransactionId + '","FromDate": "' + fromdate + '", "ToDate": "' + todate + '", "Status": "' + Status + '"}',
+
+        }).done(function (data) {
+            debugger;
+            //get the file name for download
+            if (data.fileName != "") {
+                //use window.location.href for redirect to download action for download the file
+                window.location.href = "@Url.RouteUrl(new { Controller = "CashbackImport", Action = "Download" })/?fileName=" + data.fileName;
+            }
+        });
+    }
+</script>

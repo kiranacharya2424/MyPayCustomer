@@ -1,0 +1,1109 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "UserEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm d-xxl-none">
+                    <div class="nk-block-between g-3">
+                        <div class="nk-block-head-content d-flex align-items-center">
+                            <div class="user-avatar lg mr-3">
+                                @if (!string.IsNullOrEmpty(Model.UserImage))
+                                {
+                                    <img src="~/UserDocuments/Images/@Model.UserImage" alt="">
+                                }
+                                else
+                                {
+                                    if (Model.FirstName.Length > 0 && Model.LastName.Length > 0)
+                                    {
+                                        <span>@Model.FirstName.Substring(0, 1)@Model.LastName.Substring(0, 1)</span>
+                                    }
+                                    else
+                                    {
+                                        <span>U</span>
+                                    }
+                                }
+                            </div>
+                            <div>
+                                <h3 class="nk-block-title page-title"><strong class="text-primary small">@Model.FirstName @Model.MiddleName @Model.LastName</strong></h3>
+                                <div class="nk-block-des text-soft d-none d-sm-inline-flex">
+                                    <ul class="list-inline">
+                                        <li>Member ID: <span class="text-base">@Model.MemberId</span></li>
+                                        <li>Status: <span class="text-@(Model.IsActive? "success" : "danger" )">@(Model.IsActive?"Active":"Suspended")</span></li>
+                                        <li>RefCode: <span class="text-base">@Model.RefCode</span></li>
+                                        <li>Last Login: <span class="text-base">@(MyPay.Models.Common.Common.fnGetdatetimeFromInput( Model.LastLogin))</span></li>
+                                        <li>
+                                            KYC Status :
+                                            @if (Model.IsKYCApproved != 3)
+                                            {
+                                                <span style="color:red; font-weight:bold;">  @Enum.GetName(typeof(MyPay.Models.Add.AddUser.kyc), Convert.ToInt64(Model.IsKYCApproved == 0 ? 0 : Model.IsKYCApproved)).ToString().Replace("_", " ") </span>
+                                            }
+                                            else
+                                            {
+                                                <span style="color: #4acf1f !important; font-weight: bold; ">    @Enum.GetName(typeof(MyPay.Models.Add.AddUser.kyc), Convert.ToInt64(Model.IsKYCApproved)).ToString()</span>
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nk-block-head-content">
+                            <div class="text-center">
+                                <img class="rounded-top" width="80" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.QRCode))" />
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card-aside-wrap">
+                            <div class="card-inner">
+                                <div class="nk-block">
+                                    <div class="nk-block-head">
+                                        <div>
+                                            <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card">
+                                                <li class="nav-item">
+                                                    <h5 class="title">KYC Details</h5>
+                                                </li>
+
+                                                <li class="nav-item">
+                                                </li>
+
+                                                <li class="nav-item nav-item-trigger d-xxl-none">
+                                                    <a href="javascript:void(0);" class="toggle btn btn-icon btn-trigger" data-target="userAside"><em class="icon ni ni-user-list-fill"></em></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <p>Below is the KYC information user filled on the MyPay Platform</p>
+
+                                        <div class="form-group" style="color:red">
+                                            @ViewBag.Message
+                                        </div>
+                                        <div class="form-group" style="color:green">
+                                            @ViewBag.SuccessMessage
+                                        </div>
+                                    </div><!-- .nk-block-head -->
+                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                        <h6 class="title overline-title text-base">Personal Details</h6>
+                                    </div>
+
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">First Name <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*<div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Middle Name</label>
+                                                        @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>*@
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Last Name <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- DOB -->
+
+
+                                        @if (Model.DateofBirth != "")
+                                        {
+                                            if (Model.DOBType2 == null || Model.DOBType2 == "")
+                                            {
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Old DOB</label> <br>
+                                                            @Html.TextBoxFor(m => m.DateofBirth, new { @class = "form-control-md", @readonly = true })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        }
+
+                                        <div class="col-lg-4 col-sm-6" readonly="true">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Date of Birth Type <strong class="text-danger">*</strong></label></br>
+                                                    @Html.RadioButtonFor(m => m.DOBType2, "AD", new { @class = "form-control-md" }) AD </br>
+                                                    @Html.RadioButtonFor(m => m.DOBType2, "BS", new { @class = "form-control-md" }) BS
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Day<strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownList("Day", Enumerable.Range(1, 31).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "-- Day --", new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Month <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownList("Month", new SelectList(new List<SelectListItem>(), "Value", "Text", Model.Month), "-- Month --", new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Year <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownList("Year", Enumerable.Range(1920, 2081 - 1920).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "-- Year --", new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Gender <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.Gender, ViewBag.Gender as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Mobile Number <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form-control form-control-md", @maxlength = 10, @onkeypress = "return isNumberKey(this, event);" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*<div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Alternative Mobile Number </label>
+                                                        @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>*@
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Email Address</label>
+                                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Martial Status <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.MeritalStatus, ViewBag.MeritalStatus as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Father's Name <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBoxFor(m => m.FatherName, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Grand Father's Name <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBoxFor(m => m.GrandFatherName, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Mother's Name <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBoxFor(m => m.MotherName, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*@if (Model.MeritalStatus == 2)
+                                            {
+                                                <div class="col-lg-4 col-sm-6" id="dvSpouse">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Spouse Name <strong class="text-danger">*</strong></label>
+                                                            @Html.TextBoxFor(m => m.SpouseName, new { @class = "form-control form-control-md" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }*@
+                                        <div class="col-lg-4 col-sm-6" id="dvSpouse">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Spouse Name <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBoxFor(m => m.SpouseName, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Occupation <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.EmployeeType, ViewBag.EmployeeType as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Nationality <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.Nationality, ViewBag.Nationality as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">User Role <strong class="text-danger">*</strong></label>
+                                                    @Html.EnumDropDownListFor(x => x.UserRoleEnumType, new { @class = "form-select form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div><!-- .nk-block -->
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                        <h6 class="title overline-title text-base">Permanent Address Information</h6>
+                                    </div>
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">State/Pradesh <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.StateId, ViewBag.StateId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                    @Html.HiddenFor(m => m.State)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">District <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.DistrictId, ViewBag.DistrictId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                    @Html.HiddenFor(m => m.City)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Municipality or Gaupalika <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.MunicipalityId, ViewBag.MunicipalityId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                    @Html.HiddenFor(m => m.Municipality)
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Ward No. <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBoxFor(m => m.WardNumber, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Street Name</label>
+                                                    @Html.TextBoxFor(m => m.StreetName, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">House Number </label>
+                                                    @Html.TextBoxFor(m => m.HouseNumber, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div><!-- .nk-block -->
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                        <h6 class="title overline-title text-base">Current Address Information</h6>
+                                    </div>
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Current State/Pradesh <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.CurrentStateId, ViewBag.CurrentStateId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                    @Html.HiddenFor(m => m.CurrentState)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Current District <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.CurrentDistrictId, ViewBag.CurrentDistrictId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                    @Html.HiddenFor(m => m.CurrentDistrict)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Current Municipality or Gaupalika <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.CurrentMunicipalityId, ViewBag.CurrentMunicipalityId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                    @Html.HiddenFor(m => m.CurrentMunicipality)
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Current Ward No. <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBoxFor(m => m.CurrentWardNumber, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Current Street Name </label>
+                                                    @Html.TextBoxFor(m => m.CurrentStreetName, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Current House Number </label>
+                                                    @Html.TextBoxFor(m => m.CurrentHouseNumber, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- .nk-block -->
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                        <h6 class="title overline-title text-base">Document Information</h6>
+                                    </div>
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">ID Type <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.ProofType, ViewBag.ProofType as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Document Number <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBoxFor(m => m.DocumentNumber, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Issued By State <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.IssueFromStateID, ViewBag.IssueFromStateID as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                    @Html.HiddenFor(m => m.IssueFromStateName)
+                                                    @*@Html.TextBoxFor(m => m.IssueFromStateName, new { @class = "form-control form-control-md" })*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Issued By District <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.IssueFromDistrictID, ViewBag.IssueFromDistrictID as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                    @Html.HiddenFor(m => m.IssueFromDistrictName)
+                                                    @*@Html.TextBoxFor(m => m.IssueFromDistrictName, new { @class = "form-control form-control-md" })*@
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- IssueDateType -->
+
+
+                                        @if (Model.IssueDate != "")
+                                        {
+                                            if (Model.IssueDateType == null || Model.IssueDateType == "")
+                                            {
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Old Issue Date</label> <br>
+                                                            @Html.TextBoxFor(m => m.IssueDate, new { @class = "form-control-md", @readonly = true })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        }
+
+                                        <div class="col-lg-4 col-sm-6" readonly="true">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Issue Date Type <strong class="text-danger">*</strong></label></br>
+                                                    @Html.RadioButtonFor(m => m.IssueDateType, "AD", new { @class = "form-control-md" }) AD </br>
+                                                    @Html.RadioButtonFor(m => m.IssueDateType, "BS", new { @class = "form-control-md" }) BS
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">IssuedDay<strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownList("IssueDay", Enumerable.Range(1, 31).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "-- Day --", new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">IssuedMonth <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownList("IssueMonth", new SelectList(new List<SelectListItem>(), "Value", "Text", Model.IssueMonth), "-- Month --", new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">IssuedYear <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownList("IssueYear", Enumerable.Range(1920, 2091 - 1920).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "-- Year --", new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        @*   <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Issue Date<strong class="text-danger">*</strong></label>
+                                                        @Html.TextBoxFor(m => m.IssueDate, new { @value = Model.IssueDate, @class = "form-control form-control-md date-picker" })
+                                                    </div>
+                                                </div>
+                                            </div>*@
+
+
+
+                                        @* ExpiryDateType*@
+
+                                        @if (Model.ExpiryDate != "")
+                                        {
+                                            if (Model.ExpiryDateType == null || Model.ExpiryDateType == "")
+                                            {
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Old Issue Date</label> <br>
+                                                            @Html.TextBoxFor(m => m.ExpiryDate, new { @class = "form-control-md", @readonly = true })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        }
+
+                                        <div class="col-lg-4 col-sm-6" readonly="true" id="adbs">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Expiry Date Type </label></br>
+                                                    @Html.RadioButtonFor(m => m.ExpiryDateType, "AD", new { @class = "form-control-md" }) AD </br>
+                                                    @Html.RadioButtonFor(m => m.ExpiryDateType, "BS", new { @class = "form-control-md" }) BS
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6" id="expiryday">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">ExpiryDay</label>
+                                                    @Html.DropDownList("ExpiryDay", Enumerable.Range(1, 31).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "-- Day --", new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6" id="expirymonth">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">ExpiryMonth </label>
+                                                    @Html.DropDownList("ExpiryMonth", new SelectList(new List<SelectListItem>(), "Value", "Text", Model.ExpiryMonth), "-- Month --", new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6" id="expiryyear">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">ExpiryYear </label>
+                                                    @Html.DropDownList("ExpiryYear", Enumerable.Range(1920, 2151 - 1920).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "-- Year --", new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @*@if (Model.ProofType == 4)
+                                            {
+                                                <div class="col-lg-4 col-sm-6" style="display:none;">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Expiry Date<strong class="text-danger"> </strong></label>
+                                                            @Html.TextBoxFor(m => m.ExpiryDate, new { @value = Model.ExpiryDate, @class = "form-control form-control-md date-picker" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Expiry Date<strong class="text-danger"> </strong></label>
+                                                            @Html.TextBoxFor(m => m.ExpiryDate, new { @value = Model.ExpiryDate, @class = "form-control form-control-md date-picker" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }*@
+                                    </div>
+                                    <div class="row mt-5">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group text-center mb-3">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">ID Front Image <strong class="text-danger">*</strong></label>
+                                                    <div class="">
+                                                        <a class="gallery-image popup-image" href="~/UserDocuments/Images/@Model.NationalIdProofFront">
+                                                            @if (string.IsNullOrEmpty(Model.NationalIdProofFront))
+                                                            {
+                                                                <img ID="targetNationalIdProofFront" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <img ID="targetNationalIdProofFront" class="custom-file-inputrounded-top" width="200" src="~/UserDocuments/Images/@Model.NationalIdProofFront" alt="">
+
+                                                            }
+                                                        </a>
+                                                        @Html.HiddenFor(m => m.NationalIdProofFront)
+                                                    </div>
+                                                    <div class="custom-file text-left mt-3">
+                                                        <input type="file" multiple class="custom-file-input" id="NationalIdProofFrontFile" onchange="PreviewImage(this,'NationalIdProofFront',10000)" name="NationalIdProofFrontFile">
+                                                        <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group text-center mb-3">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">ID Back Image <strong class="text-danger">*</strong></label>
+                                                    <div class="">
+                                                        <a class="gallery-image popup-image" href="~/UserDocuments/Images/@Model.NationalIdProofBack">
+                                                            @if (string.IsNullOrEmpty(Model.NationalIdProofBack))
+                                                            {
+                                                                <img ID="targetNationalIdProofBack" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <img ID="targetNationalIdProofBack" class="custom-file-inputrounded-top" width="200" src="~/UserDocuments/Images/@Model.NationalIdProofBack" alt="">
+
+                                                            }
+                                                        </a>
+                                                        @Html.HiddenFor(m => m.NationalIdProofBack)
+                                                    </div>
+                                                    <div class="custom-file text-left mt-3">
+                                                        <input type="file" multiple class="custom-file-input" id="NationalIdProofBackFile" onchange="PreviewImage(this,'NationalIdProofBack',10000)" name="NationalIdProofBackFile">
+                                                        <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group text-center">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Valid Profile Photo <strong class="text-danger">*</strong></label>
+                                                    <div class="">
+                                                        @*@if (!string.IsNullOrEmpty(Model.UserImage))
+                                                            {*@
+                                                        <a class="gallery-image popup-image" href="~/UserDocuments/Images/@Model.UserImage">
+                                                            @if (string.IsNullOrEmpty(Model.UserImage))
+                                                            {
+                                                                <img ID="targetUserImage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <img ID="targetUserImage" class="custom-file-inputrounded-top" width="200" src="~/UserDocuments/Images/@Model.UserImage" alt="">
+
+                                                            }
+                                                        </a>
+                                                        @*}*@
+                                                        @Html.HiddenFor(m => m.UserImage)
+
+                                                    </div>
+                                                    <div class="custom-file text-left mt-3">
+                                                        <input type="file" multiple class="custom-file-input" id="UserImageFile" onchange="PreviewImage(this,'UserImage',10000)" name="UserImageFile">
+                                                        <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-5">
+                                        <div class="col-lg-12 col-sm-6">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary text-center mr-2">Update</button>
+                                                <button type="button" onclick="window.location='/User/Index'" class="btn btn-light text-center">Back</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .nk-block -->
+                                <!-- .nk-block -->
+
+
+                            </div><!-- .card-content -->
+                            <!-- .nav-tabs -->
+                            <div class="card-aside card-aside-right user-aside toggle-slide toggle-slide-right toggle-break-xxl" data-content="userAside" data-toggle-screen="xxl" data-toggle-overlay="true" data-toggle-body="true">
+                                <div class="card-inner-group" data-simplebar>
+                                    <div class="card-inner">
+                                        <div class="user-card user-card-s2">
+                                            <div class="user-avatar lg bg-primary">
+                                                @if (!string.IsNullOrEmpty(Model.UserImage))
+                                                {
+                                                    <img src="~/UserDocuments/Images/@Model.UserImage" alt="">
+                                                }
+                                                else
+                                                {
+                                                    if (Model.FirstName.Length > 0 && Model.LastName.Length > 0)
+                                                    {
+                                                        <span>@Model.FirstName.Substring(0, 1)@Model.LastName.Substring(0, 1)</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>U</span>
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="user-info">
+
+                                                <h5>@Model.FirstName @Model.MiddleName @Model.LastName</h5>
+                                                <span class="sub-text">(RefCode :@Model.RefCode)</span>
+                                                <span class="sub-text">@Model.Email</span>
+                                                @if (Model.IsActive)
+                                                {
+                                                    <span style="color:#4acf1f; font-weight:bold; text-align: center;">Active</span>
+                                                }
+                                                else
+                                                {
+                                                    <span style="color: red; font-weight: bold; text-align: center;">Suspended</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div><!-- .card-inner -->
+                                    <div class="card-inner card-inner-sm">
+                                        <ul class="btn-toolbar justify-center gx-1">
+                                            <li><a href="/User/UserDetails?MemberId=@Model.MemberId" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit Details"><em class="icon ni ni-edit"></em></a></li>
+
+                                            <li><a href="/User/ResetPassword?MemberId=@Model.MemberId" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reset Pass"><em class="icon ni ni-shield-star"></em></a></li>
+
+                                            @if (Model.IsActive)
+                                            {
+                                                <li><a href="javascript:void(0);" onclick="return BlockUnblockUser(@Model.MemberId,event)" class="btn btn-trigger btn-icon text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Disable User"><em class="icon ni ni-user-cross-fill"></em></a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="javascript:void(0);" onclick="return BlockUnblockUser(@Model.MemberId,event)" class="btn btn-trigger btn-icon text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Enable User"><em class="icon ni ni-user-check-fill"></em></a></li>
+                                            }
+                                        </ul>
+                                    </div><!-- .card-inner -->
+                                    <div class="card-inner">
+                                        <div class="overline-title-alt mb-2 text-center">Scan QR</div>
+                                        <div class="text-center">
+                                            <img class="rounded-top" width="150" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.QRCode))" />
+                                        </div>
+
+                                    </div><!-- .card-inner -->
+                                    <div class="card-inner">
+                                        <div class="row text-center">
+
+                                            <div class="col-12">
+                                                <div class="profile-stats">
+                                                    <span class="amount">@ViewBag.TotalTransactions </span>
+                                                    <span class="sub-text">Transactions</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div><!-- .card-inner -->
+                                    <div class="card-inner">
+                                        <h6 class="overline-title-alt mb-2">Additional</h6>
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <span class="sub-text">Reference Code:</span>
+                                                <span>@Model.RefCode</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="sub-text">Last Login:</span>
+                                                <span>@(MyPay.Models.Common.Common.fnGetdatetimeFromInput( Model.LastLogin))</span>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <span class="sub-text">Register At:</span>
+
+                                                <span>
+                                                    @MyPay.Models.Common.Common.fnGetdatetimeFromInput(Model.CreatedDate)
+                                                </span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="sub-text">Wallet Amount</span>
+                                                <span> Rs. @ViewBag.SumTransactions</span>
+                                            </div>
+                                        </div>
+                                    </div><!-- .card-inner -->
+
+                                </div><!-- .card-inner -->
+                            </div><!-- .card-aside -->
+                        </div><!-- .card-aside-wrap -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/Content/assets/js/userscripts.js"></script>
+<script>
+    $(document).ready(function () {
+        var meritalstatus = '@ViewBag.MeritalStatuss';
+        if (meritalstatus != "") {
+            if (meritalstatus == "2") {
+                $("#dvSpouse").css("display", "block");
+            }
+            else {
+                $("#dvSpouse").css("display", "none");
+            }
+        }
+        var englishMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var nepaliMonths = ['बैशाख', 'जेठ', 'असार', 'श्रावण', 'भाद्र', 'आश्वयुज', 'कार्तिक', 'मंसिर', 'पुष', 'माघ', 'फागुन', 'चैत'];
+        for (var i = 0; i < nepaliMonths.length; i++) {
+            $("#Month").append('<option value="' + (i + 1) + '">' + nepaliMonths[i] + '</option>');
+        }
+        for (var day = 1; day <= 32; day++) {
+            $("#Day").append('<option value="' + day + '">' + day + '</option>');
+        }
+
+        debugger;
+        if ('@ViewBag.DOBType' == "AD") {
+
+            $("input[name='DOBType2'][value='AD']").prop('checked', true);
+            AD();
+
+        }
+        else {
+            $("input[name='DOBType2'][value='BS']").prop('checked', true);
+            BS();
+        }
+        $("#Month").val('@ViewBag.Month');
+        $("#Day").val('@ViewBag.Day');
+
+
+
+            var val = $("#ProofType").val();
+            debugger;
+            if (val == "1" || val == "2") {
+                $("#adbs").css("display", "block");
+                $("#expiryday").show();
+                $("#expirymonth").show();
+                $("#expiryyear").show();
+            } else {
+                $("#adbs").hide();
+                $("#expiryday").hide();
+                $("#expirymonth").hide();
+                $("#expiryyear").hide();
+            }
+
+
+
+        $("input[name='DOBType2']").click(function () {
+            debugger;
+
+            var DOBType2 = $('input[name=DOBType2]:checked').val();
+
+            console.log(DOBType2)
+            // Month names for English and Nepali
+
+            if (DOBType2 == "AD") {
+                AD();
+            }
+            else {
+                BS();
+            }
+        });
+
+        function AD() {
+            $("#Day").empty();
+            for (var day = 1; day <= 31; day++) {
+                $("#Day").append('<option value="' + day + '">' + day + '</option>');
+            }
+            var months = englishMonths;
+            $("#Month").empty();
+            for (var i = 0; i < months.length; i++) {
+                $("#Month").append('<option value="' + (i + 1) + '">' + months[i] + '</option>');
+            }
+            //$("#Year").empty();
+            //for (var i = 1920; i <= 2023; i++) {
+            //    $("#Year").append('<option value="' + i + '">' + i + '</option>');
+            //}
+            console.log(DOBType2);
+        };
+
+        function BS() {
+            $("#Day").empty();
+            for (var day = 1; day <= 32; day++) {
+                $("#Day").append('<option value="' + day + '">' + day + '</option>');
+            }
+            var months = nepaliMonths;
+            $("#Month").empty();
+            for (var i = 0; i < months.length; i++) {
+                $("#Month").append('<option value="' + (i + 1) + '">' + months[i] + '</option>');
+            }
+            //$("#Year").empty();
+            //for (var i = 2000; i <= 2080; i++) {
+            //    $("#Year").append('<option value="' + i + '">' + i + '</option>');
+            //}
+            console.log(DOBType2);
+        };
+
+        //For Issue Date
+
+             debugger;
+             for (var i = 0; i < nepaliMonths.length; i++) {
+
+                 $("#IssueMonth").append('<option value="' + (i + 1) + '">' + nepaliMonths[i] + '</option>');
+             }
+             for (var day = 1; day <= 32; day++) {
+                 $("#IssueDay").append('<option value="' + day + '">' + day + '</option>');
+             }
+
+              if ('@ViewBag.IssueType' == "AD") {
+
+                  $("input[name='IssueDateType'][value='AD']").prop('checked', true);
+                  $("#IssueDay").empty();
+                  for (var day = 1; day <= 31; day++) {
+                      $("#IssueDay").append('<option value="' + day + '">' + day + '</option>');
+                  }
+                  var months = englishMonths;
+                  $("#IssueMonth").empty();
+                  for (var i = 0; i < months.length; i++) {
+                      $("#IssueMonth").append('<option value="' + (i + 1) + '">' + months[i] + '</option>');
+                  }
+
+              }
+              else {
+                  $("input[name='IssueDateType'][value='BS']").prop('checked', true);
+                  $("#IssueDay").empty();
+                  for (var day = 1; day <= 32; day++) {
+                      $("#IssueDay").append('<option value="' + day + '">' + day + '</option>');
+                  }
+                  var months = nepaliMonths;
+                  $("#IssueMonth").empty();
+                  for (var i = 0; i < months.length; i++) {
+                      $("#IssueMonth").append('<option value="' + (i + 1) + '">' + months[i] + '</option>');
+                  }
+              }
+             $("#IssueMonth").val('@ViewBag.IssueMonth');
+            $("#IssueDay").val('@ViewBag.IssueDay');
+
+            $("input[name='IssueDateType']").click(function ()
+            {
+                    debugger;
+
+                var IssueDateType = $('input[name=IssueDateType]:checked').val();
+
+                console.log(IssueDateType)
+                    // Month names for English and Nepali
+
+                if (IssueDateType == "AD") {
+                    $("#IssueDay").empty();
+                    for (var day = 1; day <= 31; day++) {
+                        $("#IssueDay").append('<option value="' + day + '">' + day + '</option>');
+                    }
+                    var months = englishMonths;
+                    $("#IssueMonth").empty();
+                    for (var i = 0; i < months.length; i++) {
+                        $("#IssueMonth").append('<option value="' + (i + 1) + '">' + months[i] + '</option>');
+                    }
+                    }
+                    else {
+                    $("#IssueDay").empty();
+                    for (var day = 1; day <= 32; day++) {
+                        $("#IssueDay").append('<option value="' + day + '">' + day + '</option>');
+                    }
+                    var months = nepaliMonths;
+                    $("#IssueMonth").empty();
+                    for (var i = 0; i < months.length; i++) {
+                        $("#IssueMonth").append('<option value="' + (i + 1) + '">' + months[i] + '</option>');
+                    }
+                    }
+            });
+
+            //end for issue date
+
+            //ExpiryDate
+
+                  for (var i = 0; i < nepaliMonths.length; i++) {
+
+                      $("#ExpiryMonth").append('<option value="' + (i + 1) + '">' + nepaliMonths[i] + '</option>');
+                  }
+                  for (var day = 1; day <= 32; day++) {
+                      $("#ExpiryDay").append('<option value="' + day + '">' + day + '</option>');
+        }
+        debugger;
+            if ('@ViewBag.ExpiryType' == "AD") {
+
+        $("input[name='ExpiryDateType'][value='AD']").prop('checked', true);
+        $("#ExpiryDay").empty();
+        for (var day = 1; day <= 31; day++) {
+            $("#ExpiryDay").append('<option value="' + day + '">' + day + '</option>');
+        }
+        var months = englishMonths;
+        $("#ExpiryMonth").empty();
+        for (var i = 0; i < months.length; i++) {
+            $("#ExpiryMonth").append('<option value="' + (i + 1) + '">' + months[i] + '</option>');
+        }
+
+        }
+                   else {
+                       $("input[name='ExpiryDateType'][value='BS']").prop('checked', true);
+                       $("#ExpiryDay").empty();
+                       for (var day = 1; day <= 32; day++) {
+                           $("#ExpiryDay").append('<option value="' + day + '">' + day + '</option>');
+                       }
+                       var months = nepaliMonths;
+                       $("#ExpiryMonth").empty();
+                       for (var i = 0; i < months.length; i++) {
+                           $("#ExpiryMonth").append('<option value="' + (i + 1) + '">' + months[i] + '</option>');
+                       }
+                   }
+                $("#ExpiryMonth").val('@ViewBag.ExpiryMonth');
+        $("#ExpiryDay").val('@ViewBag.ExpiryDay');
+
+        $("input[name='ExpiryDateType']").click(function ()
+                 {
+                         debugger;
+
+            var ExpiryDateType = $('input[name=ExpiryDateType]:checked').val();
+
+            console.log(ExpiryDateType)
+                         // Month names for English and Nepali
+
+            if (ExpiryDateType == "AD") {
+                         $("#ExpiryDay").empty();
+                         for (var day = 1; day <= 31; day++) {
+                             $("#ExpiryDay").append('<option value="' + day + '">' + day + '</option>');
+                         }
+                         var months = englishMonths;
+                         $("#ExpiryMonth").empty();
+                         for (var i = 0; i < months.length; i++) {
+                             $("#ExpiryMonth").append('<option value="' + (i + 1) + '">' + months[i] + '</option>');
+                         }
+                         }
+                         else {
+                         $("#ExpiryDay").empty();
+                         for (var day = 1; day <= 32; day++) {
+                             $("#ExpiryDay").append('<option value="' + day + '">' + day + '</option>');
+                         }
+                         var months = nepaliMonths;
+                         $("#ExpiryMonth").empty();
+                         for (var i = 0; i < months.length; i++) {
+                             $("#ExpiryMonth").append('<option value="' + (i + 1) + '">' + months[i] + '</option>');
+                         }
+                         }
+                 });
+
+                    //end for Expiry date
+
+        $("#State").val($("#StateId option:selected").text());
+
+        $("#CurrentState").val($("#CurrentStateId option:selected").text());
+
+        $("#City").val($("#DistrictId option:selected").text());
+
+        $("#CurrentDistrict").val($("#CurrentDistrictId option:selected").text());
+
+        $("#Municipality").val($("#MunicipalityId option:selected").text());
+
+        $("#CurrentMunicipality").val($("#CurrentMunicipalityId option:selected").text());
+
+        $("#IssueFromStateName").val($("#IssueFromStateID option:selected").text());
+
+        $("#IssueFromDistrictName").val($("#IssueFromDistrictID option:selected").text());
+
+        debugger;
+
+        $("#ProofType").change(function () {
+        var val = $("#ProofType").val();
+            debugger;
+            if (val == "1" || val == "2") {
+                $("#adbs").show();
+                $("#expiryday").show();
+                $("#expirymonth").show();
+                $("#expiryyear").show();
+            } else {
+                $("#adbs").hide();
+                $("#expiryday").hide();
+                $("#expirymonth").hide();
+                $("#expiryyear").hide();
+            }
+
+        });
+
+    });
+
+    $(function () {
+        $("#MeritalStatus").change(function () {
+            var value = $("#MeritalStatus option:selected").val();
+            if (value == "2") {
+                $("#dvSpouse").css("display", "block");
+            }
+            else {
+                $("#dvSpouse").css("display", "none");
+            }
+        });
+    });
+
+
+
+</script>

@@ -1,0 +1,9 @@
+MyPay/obj
+MyPay.API/obj
+MyPay/bin
+MyPay.API/bin
+.vs
+MyPay/bin/.vs
+MyPay.API/bin/.vs
+MyPay/MyPay.csproj.user
+MyPay.API/MyPay.API.csproj.user

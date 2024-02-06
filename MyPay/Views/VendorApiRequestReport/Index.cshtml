@@ -1,0 +1,411 @@
+﻿
+
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Vendor API Requests</h3>
+                        </div><!-- .nk-block-head-content -->
+
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        @*<li>
+                                                <a href="/AdminTransactions/ExportTransactions" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
+                                                @Html.Hidden("MemberId", null, new { @id = "MemberId", @name = "MemberId", @value = ViewBag.MemberId })
+                                            </li>*@
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                <div class="row gy-4">
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("StartDate", "", new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="fromdate">From Date<strong class="text-danger">*</strong></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("ToDate", "", new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="todate">To Date<strong class="text-danger">*</strong></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("Name", "", new { @id = "Name", @placeholder = "Name", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Name</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("MemberId", "", new { @id = "MemberId", @placeholder = "Member Id", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Member Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("Res_Khalti_Id", "", new { @id = "Res_Khalti_Id", @placeholder = "Vendor Txn ID", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Member Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6" style="display:none">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("TransactionUniqueId", "", new { @id = "TransactionUniqueId", @placeholder = "Transaction Id", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Member Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <a class="btn btn-primary text-center text-white" onclick="return bindtable();">Search</a>
+                                            @*<button  class="btn btn-primary text-center" onclick="return bindtable();">Search</button>*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="dvMessage" class="form-group" style="color:red;text-align:center;margin-top:10px;">
+                                    @ViewBag.Message
+                                </div>
+                            </div>
+                        </div>
+                        <div id="dvtblist" class="card-inner">
+                            <div class="table-responsive">
+                                <table id="tblist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                    <thead>
+                                        <tr>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Date")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Created By")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("TransactionId")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Reference Number")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Vendor TxnId")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Member Id")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Member Name")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("VendorType")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Vendor Status")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("PlatForm")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Ip Address")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("View")
+                                                </span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div><!-- .card-inner -->
+
+                    </div><!-- .card-inner-group -->
+                </div><!-- .card -->
+            </div><!-- .nk-block -->
+        </div>
+    </div>
+    <div class="modal fade " tabindex="-1" id="mypayapijson">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-lg text-center">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title">Detail</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-6 border-right">
+                                    <h5>MyPay Request</h5>    <br />
+                                    <pre id="Reqapijson" class="text-left"></pre>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>MyPay Response</h5><br />
+                                    <pre id="Resapijson" class="text-left"></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nk-modal-action mt-5">
+                            <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="vendorapijson">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-lg text-center">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title">Detail</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-6 border-right">
+                                    <h5>Vendor Request</h5>    <br />
+                                    <pre id="Vendorreqapijson" class="text-left"></pre>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Vendor Response</h5><br />
+                                    <pre id="Vendorresapijson" class="text-left"></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nk-modal-action mt-5">
+                            <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " tabindex="-1" id="singleTransaction">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm text-center">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title">Detail</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-12 " id="singleTxn"></div>
+                            </div>
+                        </div>
+                        <div class="nk-modal-action mt-5">
+                            <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+            </div>
+        </div>
+    </div>
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script src="./content/assets/js/dtable_transactions.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#dvtblist").css("display", "none");
+            $('.date-picker').datepicker({
+                format: "dd-M-yyyy"
+            }).datepicker('setDate', 'today');
+            //BindVendorApiRequestDataTable();
+        });
+        function bindtable() {
+            $("#dvtblist").css("display", "block");
+            BindVendorApiRequestDataTable();
+        };
+        function GetMyPayApiDetail(transactionid) {
+            if (transactionid != "") {
+                var vendortype = "mypayreq";
+                $.ajax({
+                    url: "/VendorApiRequestReport/GetVendorApijsonDetails",
+                    type: "POST",
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: '{"transactionid":"' + transactionid + '","type":"' + vendortype + '"}',
+                    success: function (data) {
+                        debugger;
+                        var jsonPretty = JSON.stringify(data, null, '\t');
+                        $("#Reqapijson").text(jsonPretty);
+                        getMyPayresjsondetail(transactionid);
+                        $('#mypayapijson').modal('show');
+                        return false;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        debugger;
+                        alert(XMLHttpRequest.responseText, "warning")
+                        return false;
+                    }
+                });
+            }
+            return false;
+            //GetVendorApiJsonDetail(transactionid, "mypay");
+        };
+
+        function getMyPayresjsondetail(transactionid) {
+            if (transactionid != "") {
+                var vendortype = "mypayres";
+                $.ajax({
+                    url: "/VendorApiRequestReport/GetVendorApijsonDetails",
+                    type: "POST",
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: '{"transactionid":"' + transactionid + '","type":"' + vendortype + '"}',
+                    success: function (data) {
+                        debugger;
+                        var jsonPretty = JSON.stringify(data, null, '\t');
+                        $("#Resapijson").text(jsonPretty);
+                        //$('#vendorapijson').modal('show');
+                        return false;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        debugger;
+                        alert(XMLHttpRequest.responseText, "warning")
+                        return false;
+                    }
+                });
+            }
+            return false;
+        };
+
+        function GetVendorApiDetail(transactionid) {
+            if (transactionid != "") {
+                var vendortype = "vendorreq";
+
+                $('#AjaxLoader').show();
+                setTimeout(
+                    function () {
+                        $.ajax({
+                            url: "/VendorApiRequestReport/GetVendorApijsonDetails",
+                            type: "POST",
+                            async: false,
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: '{"transactionid":"' + transactionid + '","type":"' + vendortype + '"}',
+                            success: function (data) {
+                                debugger;
+                                var jsonPretty = JSON.stringify(data, null, '\t');
+                                $("#Vendorreqapijson").text(jsonPretty);
+                                getVendorresjsondetail(transactionid);
+                                $('#vendorapijson').modal('show');
+                                return false;
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                debugger;
+                                alert(XMLHttpRequest.responseText, "warning")
+                                return false;
+                            }
+                        });
+                        $('#AjaxLoader').hide();
+                    }, 100);
+            }
+            return false;
+        };
+
+        function getVendorresjsondetail(transactionid) {
+            if (transactionid != "") {
+                var vendortype = "vendorres";
+                $.ajax({
+                    url: "/VendorApiRequestReport/GetVendorApijsonDetails",
+                    type: "POST",
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: '{"transactionid":"' + transactionid + '","type":"' + vendortype + '"}',
+                    success: function (data) {
+                        debugger;
+                        var jsonPretty = JSON.stringify(data, null, '\t');
+                        $("#Vendorresapijson").text(jsonPretty);
+                        //$('#vendorapijson').modal('show');
+                        return false;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        debugger;
+                        alert(XMLHttpRequest.responseText, "warning")
+                        return false;
+                    }
+                });
+            }
+            return false;
+        };
+
+        function GetTxnDetail(Date, MemberId, TxnId, MemberName, ResKhaltiId, TypeName, ResKhaltiState, PlatForm, DeviceCode, IpAddress, Req_ReferenceNo) {
+            debugger;
+            $("#singleTxn").html("");
+            if (Date != "" && MemberId != "") {
+                var str = '<div class="table-responsive"><table class="nowrap nk-tb-list nk-tb-ulist table-bordered h-100">';
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Date :</span></td><td class="nk-tb-col text-left"><span>' + Date + '</span></td></tr>';
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Member Id :</span></td><td class="nk-tb-col text-left"><span class="tb-lead">' + MemberId + '</span></td></tr>';
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Transaction Id :</span></td><td class="nk-tb-col text-left"><span><strong style="color: #f98c45">#' + TxnId + '</strong></span></td></tr>';
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Member Name :</span></td><td class="nk-tb-col text-left"><span>' + MemberName + '</span></td></tr>';
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Vendor TxnId :</span></td><td class="nk-tb-col text-left"><span>' + ResKhaltiId + '</span></td></tr>';
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Vendor TrackerId :</span></td><td class="nk-tb-col text-left"><span>' + Req_ReferenceNo + '</span></td></tr>';
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Vendor Type :</span></td><td class="nk-tb-col text-left"><span>' + TypeName + '</span></td></tr>';
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Vendor Status :</span></td><td class="nk-tb-col text-left"><span>' + ResKhaltiState + '</span></td></tr>';
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>PlatForm :</span></td><td><span class="nk-tb-col text-left">' + PlatForm + '</span></td></tr>';
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Ip Address :</span></td><td><span class="nk-tb-col text-left">' + IpAddress + '</span></td></tr>';
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Device Code : </span></td><td><span class="nk-tb-col text-left">' + DeviceCode + '</span></td></tr>';
+                str += '</table></div>';
+                $("#singleTxn").append(str);
+                $('#singleTransaction').modal('show');
+                return false;
+            }
+        }
+
+    </script>

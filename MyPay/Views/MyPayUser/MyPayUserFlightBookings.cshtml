@@ -1,0 +1,286 @@
+﻿@{
+    ViewBag.Title = "MyPayUserFlightBookings";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<!-- content -->
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group  d-flex">
+                                                <div class="card-title d-none- d-sm-block">
+                                                    <div class="card-title d-none- d-sm-block">
+                                                        <h6 class="title d-flex">My Bookings</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="card-tools">
+                                                    <ul class="card-tools-nav nav justify-content-between">
+                                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#flightbooking"><span>Flight</span></a></li>
+                                                        @*<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#busbooking"><span>Bus</span></a></li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#trainbooking"><span>Train</span></a></li>*@
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-content">
+                                            <div class="card-inner tab-pane active" id="flightbooking">
+                                                <div class="row gy-4">
+                                                    <div class="col-12" id="dvFlightBookings" style="display:none">
+                                                        <ul class="nk-support" id="table">
+                                                        </ul>
+                                                        <div id="dvMessage" class="form-group" style="color:red">
+                                                            <span id="errormsg" style="color:red">
+                                                                @ViewBag.Message
+                                                            </span>
+                                                            <span id="successmsg" style="color:green">
+                                                                @ViewBag.SuccessMessage
+                                                            </span>
+                                                        </div>
+                                                        <input type="hidden" value="10" id="hdnTake" />
+                                                        <input type="hidden" value="0" id="hdnSkip" />
+                                                    </div><!--col-12-->
+                                                </div><!--row gy-4-->
+                                            </div><!--card-inner-->
+                                            <!-- ENd -->
+                                            <!--<div class="card-inner tab-pane" id="busbooking">
+        <div class="row gy-4">
+            <div class="col-12">
+                <ul class="nk-support">
+                    <li class="nk-support-item px-0 cursor-pointer">
+                        <div class="serv-icon">
+                            <img src="./images/airlines.png" width="35" alt="" class="bg-light rounded-circle p-1">
+                        </div>
+                        <div class="nk-support-content">
+                            <span class="d-block fs-12px fw-normal text-soft">12 Feb, 2022 | Saturday</span>
+                            <div class="title">
+                                <span class="timeline-title mb-0">
+                                    Yeti Airlines
+                                    <div class="d-flex align-items-center fw-normal">
+                                        <span class="fs-12px">Dhangadi</span>
+                                        <img src="./images/right_left_arrow.svg" class="ml-1 mr-1">
+                                        <span class="fs-12px">Everest View</span>
+                                    </div>
+                                </span>
+                                <span class="amount fw-medium fs-14px m-0 text-right">
+                                    <small>Rs.</small>12,000
+                                    <br><label class="m-0 text-green fs-13px">Success</label>
+                                </span>
+                            </div>-->
+                                            <!--title-->
+                                            <!--<div class="d-flex mt-1">
+            <p class="text-soft d-flex align-items-center fs-12px line-height-1 mt-0 mr-2">
+                <img src="./images/user-group-solid.svg" class="mr-1">1 Passenger
+            </p>
+            <p class="text-soft d-flex align-items-center fs-12px line-height-1 mt-0">
+                <img src="./images/clock-solid.svg" class="mr-1">04:55
+            </p>
+        </div>-->
+                                            <!--d-flex-->
+                                            <!--</div>--><!--nk-support-content-->
+                                            <!--</li>--><!--nk-support-item-->
+                                            <!--</ul>
+            <div id="dvMessage" class="form-group" style="color:red">
+                <span id="errormsg" style="color:red">
+                    @ViewBag.Message
+                </span>
+                <span id="successmsg" style="color:green">
+                    @ViewBag.SuccessMessage
+                </span>
+            </div>
+            <input type="hidden" value="10" id="hdnTake" />
+            <input type="hidden" value="0" id="hdnSkip" />
+        </div>-->
+                                            <!--col-12-->
+                                            <!--</div>--><!--row gy-4-->
+                                            <!--</div>--><!--card-inner-->
+                                            <!-- ENd -->
+                                            <!--<div class="card-inner tab-pane" id="trainbooking">
+        <div class="row gy-4">
+            <div class="col-12">
+                <ul class="nk-support">
+                    <li class="nk-support-item px-0 cursor-pointer">
+                        <div class="serv-icon">
+                            <img src="./images/airlines.png" width="35" alt="" class="bg-light rounded-circle p-1">
+                        </div>
+                        <div class="nk-support-content">
+                            <span class="d-block fs-12px fw-normal text-soft">12 Feb, 2022 | Saturday</span>
+                            <div class="title">
+                                <span class="timeline-title mb-0">
+                                    Yeti Airlines
+                                    <div class="d-flex align-items-center fw-normal">
+                                        <span class="fs-12px">Dhangadi</span>
+                                        <img src="./images/right_left_arrow.svg" class="ml-1 mr-1">
+                                        <span class="fs-12px">Everest View</span>
+                                    </div>
+                                </span>
+                                <span class="amount fw-medium fs-14px m-0 text-right">
+                                    <small>Rs.</small>12,000
+                                    <br><label class="m-0 text-green fs-13px">Success</label>
+                                </span>
+                            </div>-->
+                                            <!--title-->
+                                            <!--<div class="d-flex mt-1">
+            <p class="text-soft d-flex align-items-center fs-12px line-height-1 mt-0 mr-2">
+                <img src="./images/user-group-solid.svg" class="mr-1">1 Passenger
+            </p>
+            <p class="text-soft d-flex align-items-center fs-12px line-height-1 mt-0">
+                <img src="./images/clock-solid.svg" class="mr-1">04:55
+            </p>
+        </div>-->
+                                            <!--d-flex-->
+                                            <!--</div>--><!--nk-support-content-->
+                                            <!--</li>--><!--nk-support-item-->
+                                            <!--</ul>
+            <div id="dvMessage" class="form-group" style="color:red">
+                <span id="errormsg" style="color:red">
+                    @ViewBag.Message
+                </span>
+                <span id="successmsg" style="color:green">
+                    @ViewBag.SuccessMessage
+                </span>
+            </div>
+            <input type="hidden" value="10" id="hdnTake" />
+            <input type="hidden" value="0" id="hdnSkip" />
+        </div>-->
+                                            <!--col-12-->
+                                            <!--</div>--><!--row gy-4-->
+                                            <!--</div>--><!--card-inner-->
+                                            <!-- ENd -->
+                                        </div><!--tab-content-->
+
+                                        <div class="card-inner" id="dvSingleBookings" style="display:none">
+                                            <div class="row">
+                                                <div class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto">
+                                                    <div class="card-title-group mb-4" id="div-ticket-detail">
+                                                        <div class="card-title d-flex w-100 align-items-center pb-3 border-bottom">
+                                                            <h6 class="title mb-0 d-flex align-items-center">
+                                                                <span>Ticket Details</span>
+                                                            </h6>
+                                                            <a id="btnBackFlightBookings" href="javascript:void(0)" class="btn btn-sm btn-danger ml-auto color-black d-flex align-items-center text-white"> Back</a>
+                                                        </div><!--card-title-->
+                                                    </div>
+                                                    <div class="" id="dvBookingDetail">
+
+                                                    </div><!--round box-shadow-->
+                                                    <div class="card-inner mt-5" id="dvpassengerdetails">
+
+                                                    </div>
+                                                    <div class="p-3 bg-lighter mt-4" id="div_Payment" style="display:none;">
+                                                        @*<a href="javascript:void(0)" class="text-green fs-13px"><img src="./images/promocode.png" class="mr-1" width="19">Apply Promo Code</a>*@
+                                                        <div class="p-4 mt-4 mb-4 text-center border-dashed">
+                                                            <span class="fs-18px fw-medium"><small class="fw-normal">Rs.</small><span id="lblDivAmount">0.00</span></span>
+                                                            <p class="m-0 text-soft fs-12px">Total Payable Amount</p>
+                                                            <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
+                                                                <label class="text-soft fs-13px m-0">Cashback</label>
+                                                                <span class="fs-13px fw-medium">Rs. <span id="lblCashback">0.00</span></span>
+                                                            </div><!--d-flex-->
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <label class="text-soft fs-13px m-0">Service Charge</label>
+                                                                <span class="fs-13px fw-medium">Rs. <span id="lblServiceCharge">0.00</span></span>
+                                                            </div><!--d-flex-->
+                                                        </div><!--border-dashed-->
+                                                        <a href="javascript:void(0)" id="btnPay" class="btn btn-primary btn-lg d-block">Proceed</a>
+                                                    </div>
+                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                        <span id="errormsg" style="color:red">
+                                                            @ViewBag.Message
+                                                        </span>
+                                                        <span id="successmsg" style="color:green">
+                                                            @ViewBag.SuccessMessage
+                                                        </span>
+                                                    </div>
+                                                    <input type="hidden" value="10" id="hdnTake" />
+                                                    <input type="hidden" value="0" id="hdnSkip" />
+                                                </div><!--col-md-10-->
+                                            </div><!--row-->
+                                        </div><!--card-inner-->
+                                        @RenderPage("~/Views/MyPayUser/MyPayPaymentScreen.cshtml")
+                                        <div class="nk-block-head">
+                                            <div class="form-group" style="color:red">
+                                                @ViewBag.Message
+                                            </div>
+                                            <div class="form-group" style="color:green">
+                                                @ViewBag.SuccessMessage
+                                            </div>
+                                            <div class="nk-block">
+                                                <div id="dvMessage" class="form-group" style="color:red">
+                                                    <span id="errormsg" style="color:red">
+                                                        @ViewBag.Message
+                                                    </span>
+                                                    <span id="successmsg" style="color:green">
+                                                        @ViewBag.SuccessMessage
+                                                    </span>
+                                                </div>
+
+                                                <input type="hidden" value="10" id="hdnBookingTake" />
+                                                <input type="hidden" value="0" id="hdnBookingSkip" />
+                                                <input type="hidden" value="10" id="hdnFundTake" />
+                                                <input type="hidden" value="0" id="hdnFundSkip" />
+                                                <input type="hidden" value="0" id="hdnFinalAmount" />
+                                                <input type="hidden" value="@ViewBag.ServiceId" id="hdnServiceId" />
+                                                <input type="hidden" value="0" id="hdnBookingId" />
+                                                <input type="hidden" value="0" id="hdnFlightId" />
+                                                <input type="hidden" value="0" id="hdnReturnFlightId" />
+                                                <input type="hidden" value="@ViewBag.MyPayFullName" id="hdnContactName" />
+                                                <input type="hidden" value="@ViewBag.MyPayContactNumber" id="hdnContactNumber" />
+                                                <input type="hidden" value="@ViewBag.MyPayEmail" id="hdnContactEmail" />
+                                                <input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+                                                <input type="hidden" id="hfBankId" value="" />
+                                                <div id="dvFormMessage" class="form-group" style="color:red;text-align:center;">
+
+                                                </div>
+                                            </div>
+                                        </div><!-- .nk-block-head -->
+                                        
+                                    </div><!--card -->
+                                </div><!--col-md-12-->
+                            </div><!--row-->
+                        </div>
+                        
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                        }
+                    </div><!-- .row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content -->
+<div class="modal fade zoom" tabindex="-1" id="confirmPassengerDetails" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title text-center">
+                    <label class="mb-0">Confirm Passenger Details</label>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <span class="text-soft fs-13px w-100 d-inline-flex">Passenger's Information</span>
+                <span class="fs-14px w-100 d-inline-flex" id="popupDetail"></span>
+
+                <span class="text-soft fs-13px mt-3 w-100 d-inline-flex">Contact Person Details</span>
+                <span class="fs-14px w-100 d-inline-flex" id="popupContactName"></span>
+                <span class="fs-14px w-100 d-inline-flex" id="popupContactNumber"></span>
+                <span class="fs-14px w-100 d-inline-flex" id="popupContactEmail"></span>
+
+                <span class="text-soft fs-13px mt-3 w-100 d-inline-flex">Do you want to continue?</span>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="javascript:void();" class="btn btn-mw btn-light w-45" data-dismiss="modal">Cancel</a>
+                    <a href="javascript:void();" class="btn btn-mw btn-primary w-45" id="btnAddPassengerDetail">Ok</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_bookings.js"></script>

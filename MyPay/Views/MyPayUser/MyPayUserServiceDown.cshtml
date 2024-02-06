@@ -1,0 +1,101 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserServiceDown";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+
+
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom ">
+
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-none d-sm-block">
+                                                    <h6 class="title">  Service Unavailable </h6>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- step1 -->
+                                        <div class="p-2" id="DivUnavailable">
+
+
+                                            <div class="row">
+                                                <div class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto" style="text-align:center;">
+                                                    <div class="bottom-artwork"><img src="/Content/assets/Images/failed-error.svg" class="img-responsive"></div>
+                                                    <label class="form-label">Temporarily service Unavailable. Please try again later!</label>
+                                                    <div class="form-control-wrap">
+                                                        <a href="javascript:void(0)" onclick="history.go(-1)">Back</a>
+                                                        <div class="input-group">
+
+                                                            <input type="hidden" value="0" id="hdnServiceID" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="p-2" style="margin:10px; text-align:center">
+
+                                            <div id="dvMessage" class="form-group" style="color:red">
+                                                <span id="errormsg" style="color:red">
+                                                    @ViewBag.Message
+                                                </span>
+                                                <span id="successmsg" style="color:green">
+                                                    @ViewBag.SuccessMessage
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+                        }
+                    </div><!-- .row -->
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<style>
+    .paymentoption {
+        min-height: 50px;
+        border: 1px solid cadetblue;
+        padding: 12px;
+        margin: 10px 0px 10px 0px;
+        border-radius: 3px;
+        font-weight: bold;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .content-light {
+        color: #afafaf;
+        font-weight: normal;
+        font-size: 14px;
+    }
+</style>

@@ -1,0 +1,277 @@
+﻿@model MyPay.Models.Add.Agent.AgentCategory
+
+@{
+    ViewBag.Title = "MerchantList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .popupagent {
+        /* Set the width and height of your popup */
+        /* width: 300px;
+        height: 200px;*/
+        /* Add a border with solid style, black color, and 2px width */
+        border: 2px solid #fff;
+        /* Add some padding inside the border */
+       /* padding: 10px;*/
+        /* Optionally, you can center the popup on the screen */
+        position: absolute;
+        top: 35%;
+        left: 49%;
+        transform: translate(-50%, -50%);
+        /* Add other styles as needed */
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+</style>
+
+<div class="nk-content ">
+    <input type="hidden" id="hdnMerchantId" value="" />
+    <input type="hidden" id="hdnroleid" value="" />
+    <input type="hidden" id="hdndumpurl" value="@ViewBag.DumpURL" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Agent Category</h3>
+                            @*<div class="nk-block-des text-soft">
+                                    <p>You have total  <span id="merchanttotalcount"></span> Agent.</p>
+                                </div>*@
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                @*<a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>*@
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        @*<li>
+                        <a href="javascript:void(0);" id="AllMerchantExport" onclick="AllMerchantexported(this, event)" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Merchant Dump Export</span></a>
+                    </li>*@
+                                        @*<li>
+                        <a href="javascript:void(0);" onclick="AllAgentDownload()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download"></em></a>
+                    </li>*@
+                                        <li class="nk-block-tools-opt">
+                                            <div class="drodown">
+                                                <a href="~/Agent/AddAgentCategory" class="btn btn-icon btn-primary" title="Add Merchant"><em class="icon ni ni-plus"></em></a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+
+                            <div class="popupagent"  id="dvMsgSuccess1">
+                                <div  id="dvMsgSuccess" class="tb-status text-success" style="text-align:center; font-weight:bold">
+                                    @TempData["SuccessMessagecategory"]
+                                </div>
+                            </div>
+
+                            <div class="popupagent" id="dvMsg1">
+                                <div id="dvMsg" class="tb-status text-danger" style="text-align: center; font-weight: bold">
+                                  @TempData["Messagecategory"]
+                                @*@ViewBag.Message*@
+                                </div>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                          
+                                @*<div id="dvMsgSuccess" class="tb-status text-success" style="text-align:center; font-weight:bold">
+                                    @TempData["SuccessMessagecategory"]
+                                </div>*@
+              
+                           
+                            <!--<div id="dvMsg" class="tb-status text-danger" style="text-align: center; font-weight: bold">
+                                @TempData["Messagecategory"]-->
+                                @*@ViewBag.Message*@
+                            <!--</div>-->
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                <div class="row gy-4">
+
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+
+                                                @Html.DropDownList("Category", ViewBag.Category as SelectList, "", new { @id = "drpCategory", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                <label class="form-label-outlined">Category  <strong class="text-danger">*</strong></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+
+                                                @Html.DropDownListFor(m => m.Status, ViewBag.Status as SelectList, "", new { @id = "drpStatus", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                <label class="form-label-outlined">Status<strong class="text-danger">*</strong></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("StartDate", "", new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="fromdate">Start Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("EndDate", "", new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="todate">End Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <a class="btn btn-primary text-center text-white" onclick="return bindagentcategorytable();">Search</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-inner position-relative card-tools-toggle pb-3 pt-3">
+                                <!-- <span class="preview-title-lg overline-title mb-4">User List</span> -->
+                                <div class="card-title-group">
+                                    <div class="card-tools">
+                                        <span class="preview-title-lg overline-title pb-0">Agent Category List</span>
+                                    </div><!-- .card-tools -->
+                                </div><!-- .card-title-group -->
+                                <div class="card-search search-wrap" data-search="search">
+                                    <div class="card-body">
+                                        <div class="search-content">
+                                            <a href="javascript:void(0);" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                                            <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by user or email">
+                                            <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                                        </div>
+                                    </div>
+                                </div><!-- .card-search -->
+                            </div><!-- .card-inner -->
+                            <div id="dvtblist" class="card-inner table-responsive" style="min-height:400px;">
+                                <table id="tblagentlist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                    <thead>
+                                        <tr class="nk-tb-item nk-tb-head">
+                                            <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("SrNo")</span></th>
+                                            <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("Created Date")</span></th>
+                                            <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("Updated Date")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Category Name")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("No. of assigned Agent")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Status")</span></th>
+                                            <th class="nk-tb-col nk-tb-col-tools text-right"></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div><!-- .card-inner -->
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+@*<style>
+    .form-icon-right + .form-control, div.dataTables_wrapper div.dataTables_filter .form-icon-right + input, .dual-listbox .form-icon-right + .dual-listbox__search {
+        padding-left: 1rem;
+        padding-right: calc(1rem + 24px);
+        background-color: white;
+    }
+
+    .dt-buttons.btn-group.flex-wrap {
+        display: none;
+    }
+</style>*@
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/assets/js/dtable_agent.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+
+        //$("#dvtblist").css("display", "none");
+          BindAgentCategoryDataTable();
+         var Sucmessage = '@TempData["SuccessMessagecategory"]';
+         var failmessage = '@TempData["Messagecategory"]';
+        if (Sucmessage) {
+            // Display the message
+            $('#dvMsgSuccess').text(Sucmessage);
+            $('#dvMsgSuccess1').show();
+
+            // Hide the message after 10 seconds
+            setTimeout(function () {
+                debugger;
+                $('#dvMsgSuccess').text("");
+                $('#dvMsgSuccess1').hide();
+
+            }, 10000); // 10 seconds in milliseconds
+        }
+        if (failmessage) {
+        
+            // Display the message
+            $('#dvMsg').text(failmessage);
+            $('#dvMsg1').show();
+
+            // Hide the message after 10 seconds
+            setTimeout(function () {
+                $('#dvMsg').text("");
+                $('#dvMsg1').hide();
+            }, 10000); // 10 seconds in milliseconds
+        }
+
+
+      });
+
+    function bindagentcategorytable() {
+        debugger;
+        var Category = $("#drpCategory").val();
+        var Status = $("#drpStatus").val();
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        if ( fromdate == "" && todate == "") {
+            alert("Please select start date and end date.")
+        }
+        else {
+            debugger;
+            $("#dvtblist").css("display", "block");
+            BindAgentCategoryDataTable();
+        }
+
+    };
+
+     @*function AllAgentCategoryDownload(e) {
+     $.ajax({
+         type: "POST",
+         url: '@Url.Action("DownloadAgentFileName", "Merchant")', //call your controller and action
+         contentType: "application/json; charset=utf-8",
+         dataType: "json",
+         async: false,
+         data: '',
+
+     }).done(function (data) {
+         debugger;
+         //get the file name for download
+         if (data != "" && data.fileName != "") {
+             //use window.location.href for redirect to download action for download the file
+             window.location.href = "@Url.RouteUrl(new { Controller = "Merchant", Action = "DownloadMerchantFile" })?fileName=" + data.fileName;
+         }
+         else {
+
+             alert("No file found to download.");
+         }
+     });
+ }*@
+
+</script>

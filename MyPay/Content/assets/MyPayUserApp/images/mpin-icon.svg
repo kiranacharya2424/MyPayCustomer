@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32.42" height="32.42" viewBox="0 0 32.42 32.42">
+  <g id="Group_2899" data-name="Group 2899" transform="translate(-31.422 -202)">
+    <g id="Group_4390" data-name="Group 4390">
+      <g id="Group_4388" data-name="Group 4388" transform="translate(-0.578)">
+        <g id="Ellipse_422" data-name="Ellipse 422" transform="translate(32 202)" fill="#fff2ec" stroke="#e45415" stroke-width="1">
+          <circle cx="16.21" cy="16.21" r="16.21" stroke="none"/>
+          <circle cx="16.21" cy="16.21" r="15.71" fill="none"/>
+        </g>
+      </g>
+      <path id="icons8-lock" d="M11.092,1A5.307,5.307,0,0,0,5.773,6.319v.886A1.786,1.786,0,0,0,4,8.978v8.865a1.786,1.786,0,0,0,1.773,1.773H16.41a1.786,1.786,0,0,0,1.773-1.773V8.978A1.786,1.786,0,0,0,16.41,7.205V6.319A5.307,5.307,0,0,0,11.092,1Zm0,1.773a3.472,3.472,0,0,1,3.546,3.546v.886H7.546V6.319A3.472,3.472,0,0,1,11.092,2.773ZM5.773,8.978H16.41v8.865H5.773Zm5.319,2.659a1.773,1.773,0,1,0,1.773,1.773A1.778,1.778,0,0,0,11.092,11.638Z" transform="translate(36.54 206.902)" fill="#e45415" stroke="#fff2ec" stroke-width="0.5"/>
+      <rect id="Rectangle_622" data-name="Rectangle 622" width="5" height="5" transform="translate(45.422 218)" fill="#fff2ec"/>
+      <g id="Ellipse_460" data-name="Ellipse 460" transform="translate(48.422 219)" fill="#fea400" stroke="#fff2ec" stroke-width="1">
+        <circle cx="4" cy="4" r="4" stroke="none"/>
+        <circle cx="4" cy="4" r="3.5" fill="none"/>
+      </g>
+    </g>
+  </g>
+</svg>

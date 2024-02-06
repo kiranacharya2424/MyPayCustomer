@@ -1,0 +1,130 @@
+{
+	"services": [
+		{
+			"vendorAPIType": 125,
+			"mapping": {
+				"serviceName": "loksewa",
+				"applicationID": "MER-7-APP-7",
+				"refId": "voucherNo",
+				"amount": "amount"
+			}
+		},
+
+		{
+			"vendorAPIType": 126,
+			"mapping": {
+				"serviceName": "passport",
+				"applicationID": "MER-7-APP-4",
+				"refId": "voucherNo",
+				"amount": "amount"
+			}
+		},
+
+		{
+			"vendorAPIType": 124,
+			"mapping": {
+				"serviceName": "Inland Revenue Department",
+				"applicationID": "MER-7-APP-3",
+				"refId": "voucherNo",
+				"amount": "amount"
+			}
+		},
+
+		{
+			"vendorAPIType": 121,
+			"mapping": {
+				"serviceName": "Office of Company Registrar",
+				"applicationID": "MER-7-APP-6",
+				"refId": "voucherNo",
+				"amount": "amount"
+			}
+		},
+
+		{
+			"vendorAPIType": 133,
+			"mapping": {
+				"serviceName": "Social Security Fund",
+				"applicationID": "SSF-101-APP-1",
+				"refId": "submissionNo",
+				"freeText1": "employerNo",
+				"amount": "amount"
+			}
+		},
+
+		{
+			"vendorAPIType": 193,
+			"mapping": {
+				"serviceName": "Social Security Fund",
+				"applicationID": "MER-7-APP-16",
+				"refId": "voucherNo",
+				"amount": "amount"
+			}
+		},
+
+		{
+			"vendorAPIType": 151,
+			"mapping": {
+				"serviceName": "Traffic Fine",
+				"applicationID": "GON-7-TVRS-1",
+				"refId": "chitNo",
+				"amount": "amount",
+				"freeText4": "province",
+				"freeText5": "district",
+				"freeCode1": "fiscalYear"
+			}
+		},
+
+		{
+			"vendorAPIType": 143,
+			"mapping": {
+				"serviceName": "DOFE Individual",
+				"applicationID": "DOF-635-APP-1",
+				"refId": "passportNo",
+				"amount": "amount"
+			}
+		},
+
+		{
+			"vendorAPIType": 142,
+			"mapping": {
+				"serviceName": "DOFE G2G/Organization",
+				"applicationID": "DOF-635-APP-2",
+				"refId": "passportNo",
+				"amount": "amount",
+				"freeCode1": "lotNo"
+			}
+		},
+
+		{
+			"vendorAPIType": 80,
+			"mapping": {
+				"serviceName": "Credit card",
+				"appId": "Code",
+				"refId": "CardNumber",
+				"amount": "Amount",
+				"particulars": "Name"
+			}
+		},
+
+		{
+			"vendorAPIType": 154,
+			"mapping": {
+				"serviceName": "No Objection Certificate",
+				"applicationID": "GON-6-EBL-FDRL",
+				"refId": "voucherNo",
+				"amount": "amount"
+			}
+		},
+
+		{
+			"vendorAPIType": 134,
+			"mapping": {
+				"serviceName": "Financial Comptroller General Office",
+				"applicationID": "MER-7-APP-16",
+				"refId": "voucherNo",
+				"amount": "amount"
+			}
+		}
+
+	]
+}

@@ -1,0 +1,394 @@
+﻿<!-- Right Sidebar -->
+<div class="col-12 col-md-4 col-lg-3">
+    <div class="right-sidebar">
+        <!-- Hidr -->
+        @if (HttpContext.Current.Request.Url.ToString().ToLower().IndexOf("mypayuserlogin/dashboard") < 0)
+        {
+            <div class="card card-full d-none d-md-block">
+                <div class="card-inner-group">
+                    <div class="row g-2">
+                        <div class="col-12 d-none d-md-block">
+                            <div class="nk-order-ovwg-data buy">
+                                <div class="amount">
+                                    <small class="currenct currency-usd fw-bold">रु</small>
+
+                                    <span id="spnWalletDashboard" style="display:none;">@Session["MyPayUserWalletbalance"]</span>
+                                    <span id="spnWalletDashboardXXX">XXX</span>
+
+                                    <a href="javacript:void(0);" class="form-icon form-icon-right passcode-switch lg" onclick="showhideBalance('spnWalletDashboard')">
+                                        <em id="spnWalletDashboardOn" class="passcode-icon icon-show icon ni ni-eye-fill"></em>
+                                        <em id="spnWalletDashboardOff" class="passcode-icon icon-hide icon ni ni-eye-off-fill"></em>
+                                    </a>
+                                </div>
+                                <div class="title mt-1"><em class="mr-1"><img src="/Content/assets/MyPayUserApp/images/wallet.svg" width="20" height="20"></em> Wallet Balance</div>
+                            </div>
+                        </div>
+                        <div class="col-12 d-none d-md-block">
+                            <div class="nk-order-ovwg-data default">
+                                <div class="amount">
+                                    <span id="spnMPCoinsDashboard" style="display:none;">@Session["MyPayUserMPCoinsbalance"]</span>
+                                    <span id="spnMPCoinsDashboardXXX">XXX</span>
+                                    <a href="javacript:void(0);" class="form-icon form-icon-right passcode-switch lg" onclick="showhideBalance('spnMPCoinsDashboard')">
+                                        <em id="spnMPCoinsDashboardOn" class="passcode-icon icon-show icon ni ni-eye-fill"></em>
+                                        <em id="spnMPCoinsDashboardOff" class="passcode-icon icon-hide icon ni ni-eye-off-fill"></em>
+                                    </a>
+                                </div>
+                                <div class="title mt-1"><em class="mr-1"><img src="/Content/assets/MyPayUserApp/images/mypaycoin.svg" width="20" height="20"></em> MyPay Coins</div>
+                            </div>
+                        </div>
+                        <div class="col-12 d-none d-md-block">
+                            <div class="nk-order-ovwg-data default">
+                                <div class="amount">
+                                    <small class="currenct currency-usd fw-bold">रु</small>
+                                    <span id="spnCashBack" style="display:none;">@Session["MyPayUserTotalCashback"]</span>
+                                    <span id="spnCashBackXXX">XXX</span>
+
+                                    <a href="javacript:void(0);" class="form-icon form-icon-right passcode-switch lg" onclick="showhideBalance('spnCashBack')">
+                                        <em id="spnCashBackOn" class="passcode-icon icon-show icon ni ni-eye-fill"></em>
+                                        <em id="spnCashBackOff" class="passcode-icon icon-hide icon ni ni-eye-off-fill"></em>
+                                    </a>
+                                </div>
+                                <div class="title mt-1"><em class="mr-1"><img src="/Content/assets/MyPayUserApp/images/cashback.svg" width="20" height="20"></em> Total Cashback</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>}
+        <div id="dvCompleteKYC" style="display:none !important" class="card card-full bg-danger-dim text-danger text-center kycbg d-none d-md-block">
+            <div class="card-inner-group">
+                <div class="card-inner">
+                    <div class="preview-icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90"><path d="M62.92,87H10.08A4.08,4.08,0,0,1,6,82.92V7.08A4.08,4.08,0,0,1,10.08,3H47.82L67,21.23V82.92A4.08,4.08,0,0,1,62.92,87ZM47,3V16.92A4,4,0,0,0,50.88,21H66" fill="#fff" stroke="#e85347" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"></path><line x1="14" y1="14" x2="28" y2="14" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="19" x2="36" y2="19" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="37" x2="28" y2="37" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="42" x2="45" y2="42" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="49" x2="40" y2="49" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="56" x2="32" y2="56" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="63" x2="38" y2="63" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="70" x2="30" y2="70" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><path d="M67,40h9a9.59,9.59,0,0,0,8,8.32s.89,19-17,27.68C49.12,67.28,50,48.32,50,48.32A9.59,9.59,0,0,0,58,40Z" fill="#e85347"></path><path d="M67,72.51C52.12,65.35,52.86,49.82,52.86,49.82A7.94,7.94,0,0,0,59.52,43H67Z" fill="#fff"></path><path d="M62,61.77a11.05,11.05,0,0,1,12,0V65H62Z" fill="#fff"></path><circle cx="68.5" cy="54.5" r="3.5" fill="#fff"></circle><path d="M68.47,58.13a4,4,0,1,1,4-4,4,4,0,0,1-4,4Zm0-6.92a3,3,0,1,0,3,3,3,3,0,0,0-3-3Zm0,0" fill="#e85347"></path><path d="M74.5,66h-13a.51.51,0,0,1-.5-.5V62.1a1.46,1.46,0,0,1,.69-1.25,12.32,12.32,0,0,1,12.66,0A1.46,1.46,0,0,1,75,62.1v3.41a.49.49,0,0,1-.5.49ZM62,65H74V62.09a.47.47,0,0,0-.22-.41,11.28,11.28,0,0,0-11.56,0,.47.47,0,0,0-.22.41Zm.53,0" fill="#e85347"></path></svg></div>
+                    <h5 class="title mt-3">Complete KYC</h5>
+                    <div class="text-soft">This step makes MyPay secure and helps to comply with government regulation.</div>
+                    <a href="/MyPayUser/MyPayUserKyc" class="btn btn-danger btn-sm my-3">Verify Now</a>
+                </div>
+            </div>
+        </div>
+        <div id="dvrightjinnie" class="card card-full bg-secondary2 text-white d-none d-md-block py-3">
+            <div class="card-inner-group">
+                <div class="nk-refwg-invite card-inner">
+                    <div class="nk-refwg-head g-3">
+                        <span class="jenni"><img class="img-fluid" src="~/Content/assets/MyPayUserApp/images/jennie.png" alt=""></span>
+                        <div class="nk-refwg-title">
+                            <h5 class="title">Refer & Earn</h5>
+                            <div class="title-soft">Share referral code with your friends to register with Mypay.</div>
+                        </div>
+
+                    </div>
+                    <div class="nk-refwg-url mt-4">
+                        <div class="form-control-wrap">
+                            <div class="form-clip clipboard-init" data-clipboard-target="#refUrl" data-success="Copied" data-text="Copy Link"><em class="clipboard-icon icon ni ni-copy"></em> <span class="clipboard-text">Copy Code</span></div>
+                            <input type="text" class="form-control copy-text" id="refUrl" value="@Session["MyPayUserRefCode"]" readonly>
+                        </div>
+                    </div>
+                </div><!-- .nk-refwg-invite -->
+            </div>
+        </div><!-- .card -->
+        <div class="card card-bordered card-full">
+            <div class="card-inner-group">
+                <div class="card-inner py-3">
+                    <div class="nk-wg-action">
+                        <div class="nk-wg-action-content">
+                            <em class="icon ni ni-call-alt"></em>
+                            <div class="title">Help & Support</div>
+                            <p>Need assistance or help, contact us</p>
+                        </div>
+                        <a href="javascript:void(0);" class="btn btn-icon btn-trigger mr-n2" data-toggle="modal" data-target="#helpsupport"><em class="icon ni ni-forward-ios"></em></a>
+                    </div>
+                </div><!-- .card-inner -->
+                <div class="card-inner py-3">
+                    <div class="nk-wg-action">
+                        <div class="nk-wg-action-content">
+                            <em class="icon ni ni-help"></em>
+                            <div class="title">FAQs</div>
+                            <p>Get help from FAQs</p>
+                        </div>
+                        <a href="https://mypay.com.np/faq" target="_blank" class="btn btn-icon btn-trigger mr-n2"><em class="icon ni ni-forward-ios"></em></a>
+                    </div>
+                </div><!-- .card-inner -->
+                <div class="card-inner py-3">
+                    <div class="nk-wg-action">
+                        <div class="nk-wg-action-content">
+                            <em class="icon ni ni-edit"></em>
+                            <div class="title">Submit feedback</div>
+                            <p>We would love to hear from you</p>
+                        </div>
+                        <a href="javascript:void(0);" class="btn btn-icon btn-trigger mr-n2" data-toggle="modal" data-target="#feedback"><em class="icon ni ni-forward-ios"></em></a>
+                    </div>
+                </div><!-- .card-inner -->
+                <div class="card-inner py-3">
+                    <div class="nk-wg-action">
+                        <div class="nk-wg-action-content">
+                            <em class="icon ni ni-ticket"></em>
+                            <div class="title">Report Your Problem</div>
+                            <p>Raise a ticket</p>
+                        </div>
+                        <a href="/MyPayUser/MyPayUserGrievance" class="btn btn-icon btn-trigger mr-n2"><em class="icon ni ni-forward-ios"></em></a>
+                    </div>
+                </div><!-- .card-inner -->
+            </div><!-- .card-inner-group -->
+        </div><!-- .card -->
+    </div>
+
+
+    <!-- Help & Support -->
+    <div class="modal fade zoom" tabindex="-1" id="helpsupport">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Help & Support</h5>
+                    <a href="javascript:void(0);" class="close" data-dismiss="modal" aria-label="Close">
+                        <em class="icon ni ni-cross"></em>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <ul class="listico">
+                        <li>
+                            <a href="tel:@MyPay.Models.Common.Common.tel1">
+                                <img src="/Content/assets/MyPayUserApp/images/call.svg" alt="call">
+                                @MyPay.Models.Common.Common.tel1
+                                <small class="form-note">Toll Free</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:@MyPay.Models.Common.Common.tel2">
+                                <img src="/Content/assets/MyPayUserApp/images/phone.svg" alt="Phone">
+                                @MyPay.Models.Common.Common.tel2
+                                <small class="form-note">Telephone Support</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:@MyPay.Models.Common.Common.tel3">
+                                <img src="/Content/assets/MyPayUserApp/images/phone.svg" alt="Phone">
+                                @MyPay.Models.Common.Common.tel3
+                                <small class="form-note">Telephone Support</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:@MyPay.Models.Common.Common.tel4">
+                                <img src="/Content/assets/MyPayUserApp/images/phone.svg" alt="Phone">
+                                @MyPay.Models.Common.Common.tel4
+                                <small class="form-note">Telephone Support</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:info@mypay.com.np">
+                                <img src="/Content/assets/MyPayUserApp/images/email.svg" alt="Email">
+                                support@mypay.com.np
+                                <small class="form-note">Email Address</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.mypay.com.np" target="_blank">
+                                <img src="/Content/assets/MyPayUserApp/images/website.svg" alt="Website">
+                                www.mypay.com.np
+                                <small class="form-note">Website</small>
+                            </a>
+                        </li>
+                        <li class="border-sm-top mt-sm-4 pt-sm-3">
+                            <a href="javascript:void(0);">
+                                <img src="/Content/assets/MyPayUserApp/images/address.svg" alt="Address">
+                                Radhe Radhe, Bhaktapur, Nepal
+                                <small class="form-note">Address</small>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- feedback -->
+    <div class="modal fade zoom" tabindex="-1" id="feedback">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Give us your Feedback</h5>
+                    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-label="Close">
+                        <em class="icon ni ni-cross"></em>
+                    </a>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="p-2">
+                        <h4 class="">Your feedback help us to improve.</h4>
+                        <p class="text-soft">Please let us know about your app experience</p>
+                        <div class="m-auto w-80">
+                            <ul class="d-flex justify-content-between my-4">
+                                <li onclick="GetRating(1);" id="li1">
+                                    <img src="/Content/assets/MyPayUserApp/images/emoji/1.svg" alt="emoji">
+                                </li>
+                                <li onclick="GetRating(2);" id="li2">
+                                    <img src="/Content/assets/MyPayUserApp/images/emoji/2.svg" alt="emoji">
+                                </li>
+                                <li onclick="GetRating(3);" id="li3">
+                                    <img src="/Content/assets/MyPayUserApp/images/emoji/3.svg" alt="emoji">
+                                </li>
+                                <li onclick="GetRating(4);" id="li4">
+                                    <img src="/Content/assets/MyPayUserApp/images/emoji/4.svg" alt="emoji">
+                                </li>
+                                <li class="active" onclick="GetRating(5);" id="li5">
+                                    <img src="/Content/assets/MyPayUserApp/images/emoji/5.svg" alt="emoji">
+                                </li>
+                            </ul>
+                            <textarea class="form-control" placeholder="Message" id="txtFeedbackMessage"></textarea>
+                            <a href="javascript:void(0);" class="btn btn-primary w-100 mt-4 d-block" onclick="SubmitFeedback();">Submit Feedback</a>
+                        </div>
+                        <input type="hidden" id="hdnRating" value="0" />
+                        <div class="p-2" style="margin:10px; text-align:center">
+                            <div id="dvMessage" class="form-group" style="color:red">
+                                <span id="errormsg" style="color:red">
+                                    @ViewBag.Message
+                                </span>
+                                <span id="successmsg" style="color:green">
+                                    @ViewBag.SuccessMessage
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Message -->
+<div class="modal fade zoom" tabindex="-1" id="DivFeedbackMessage" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnFeedbackMsg" style="color:#313131"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageClose" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function GetRating(id) {
+        if (id == 1) {
+            $("#li1").addClass("active");
+            $("#li2").removeClass("active");
+            $("#li3").removeClass("active");
+            $("#li4").removeClass("active");
+            $("#li5").removeClass("active");
+            $("#hdnRating").val("1");
+        }
+        else if (id == 2) {
+            $("#li2").addClass("active");
+            $("#li1").removeClass("active");
+            $("#li3").removeClass("active");
+            $("#li4").removeClass("active");
+            $("#li5").removeClass("active");
+            $("#hdnRating").val("2");
+        }
+        else if (id == 3) {
+            $("#li3").addClass("active");
+            $("#li1").removeClass("active");
+            $("#li2").removeClass("active");
+            $("#li4").removeClass("active");
+            $("#li5").removeClass("active");
+            $("#hdnRating").val("3");
+        }
+        else if (id == 4) {
+            $("#li4").addClass("active");
+            $("#li1").removeClass("active");
+            $("#li2").removeClass("active");
+            $("#li3").removeClass("active");
+            $("#li5").removeClass("active");
+            $("#hdnRating").val("4");
+        }
+        else if (id == 5) {
+            $("#li5").addClass("active");
+            $("#li1").removeClass("active");
+            $("#li2").removeClass("active");
+            $("#li3").removeClass("active");
+            $("#li4").removeClass("active");
+            $("#hdnRating").val("5");
+        }
+    }
+
+    function SubmitFeedback() {
+        var message = $("#txtFeedbackMessage").val();
+        if (message == "") {
+            $("#errormsg").html("Please type your message");
+            return false;
+        }
+        else {
+            $('#AjaxLoader').show();
+            setTimeout(
+                function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/MyPayUser/MyPayUserSubmitFeedback",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        async: false,
+                        data: '{"Message":"' + message + '","Rating":"' + $("#hdnRating").val() + '"}',
+                        success: function (response) {
+                            debugger;
+                            $("#successmsg").html("");
+                            $("#errormsg").html("");
+                            if (response == "success") {
+                                $("#feedback").modal("hide");
+                                $("#txnFeedbackMsg").html("Thank You, Your Feedback Submitted Successfully.");
+                                $("#txtFeedbackMessage").val("");
+                                $("#li5").addClass("active");
+                                $("#li1").removeClass("active");
+                                $("#li2").removeClass("active");
+                                $("#li3").removeClass("active");
+                                $("#li4").removeClass("active");
+                                $("#DivFeedbackMessage").modal("show");
+                                $('#AjaxLoader').hide();
+                                return false;
+                            }
+                            else if (response == "Session Expired") {
+                                alert('Logged in from another device.');
+                                window.location.href = "/MyPayUserLogin/Index";
+                                $('#AjaxLoader').hide();
+                                $("#dvMessage").html(response);
+                            }
+                            else {
+                                $('#AjaxLoader').hide();
+                                $("#feedback").modal("hide");
+                                $("#txnFeedbackMsg").html(response);
+                                $("#DivFeedbackMessage").modal("show");
+                            }
+                            $("textarea#txtFeedbackMessage").val("");
+                        },
+                        failure: function (response) {
+                            $('#AjaxLoader').hide();
+                            JsonOutput = (response.responseText);
+                        },
+                        error: function (response) {
+                            $('#AjaxLoader').hide();
+                            JsonOutput = (response.responseText);
+                        }
+                    });
+                }, 100);
+        }
+    }
+
+    function showhideBalance(obj) {
+        event.preventDefault();
+        event.stopPropagation();
+        $("#" + obj).toggle();
+        $("#" + obj + "XXX").toggle();
+        $("#" + obj + "On").toggle();
+        $("#" + obj + "Off").toggle();
+    }
+
+</script>

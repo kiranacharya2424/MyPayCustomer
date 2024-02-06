@@ -1,0 +1,149 @@
+﻿
+
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Notification</h3>
+                        </div><!-- .nk-block-head-content -->
+
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle" style="display:none;">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li class="nk-block-tools-opt">
+                                            <div class="drodown">
+                                                <a href="~/Notification/AddNotification" class="btn btn-icon btn-primary" title="Add Notification"><em class="icon ni ni-plus"></em></a>
+                                                @*<div class="dropdown-menu dropdown-menu-right">
+                                                    <ul class="link-list-opt no-bdr">
+                                                        <li><a href="~/Notification/AddNotification"><span>Add Notification</span></a></li>
+
+                                                    </ul>
+                                                </div>*@
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                <div class="row gy-4">
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("StartDate", "", new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="fromdate">From Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("ToDate", "", new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="todate">To Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("MemberId", "", new { @id = "MemberId", @placeholder = "MemberId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                @*<label class="form-label-outlined" for="outlined-normal"> MemberId</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <a class="btn btn-primary text-center text-white" onclick="return bindtable();">Search</a>
+                                            @*<button type="submit" class="btn btn-primary text-center">Search</button>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="dvtblist" class="card-inner">
+                                <div class="table-responsive">
+                                    <table id="tblist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                        <thead>
+                                            <tr>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Created Date")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Updated Date")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Title")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Receiver MemberId")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Created By")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Sent Status")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Read Status")
+                                                    </span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div><!-- .card-inner -->
+
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="./content/assets/js/dtable_notifcations.js"></script>
+
+<script>$(document).ready(function () {
+    $("#dvtblist").css("display", "none");
+    //BindNotificationDataTable();
+    });
+
+    function bindtable() {
+        $("#dvtblist").css("display", "block");
+        BindNotificationDataTable();
+    };</script>

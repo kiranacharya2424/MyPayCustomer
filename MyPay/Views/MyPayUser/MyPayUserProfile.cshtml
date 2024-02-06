@@ -1,0 +1,252 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserProfile";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+                                        <div class="card-inner py-0 bg-lighter">
+                                            <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card ">
+                                                <li class="nav-item active current-page">
+                                                    <a class="nav-link active" href="javascript:void(0)"><em class="icon ni ni-user-circle"></em><span>Profile</span></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="/MyPayUser/MyPayUserQR"><em class="icon icon ni ni-qr"></em><span>My QR Code</span></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="/MyPayUser/MyPayUserSettings"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="card-inner border-bottom">
+                                            <div class="nk-block">
+                                                <div class="nk-block-between g-3">
+                                                    <div class="nk-block-head-content d-flex align-items-center">
+                                                        <div class="user-avatar lg mr-3">
+                                                            <img src="/Content/images/avatar/default.png" id="userImage" />
+                                                        </div>
+                                                        <div>
+                                                            <h5 id="userDetailsNameHead" class="nk-block-title"></h5>
+                                                            <span id="userDetailsNameEmail" class="sub-text"></span>
+                                                            <span id="userDetailsNamePhone" class="sub-text"></span>
+                                                            <div id="userDetailsNameKYC" class="user-status badge badge-danger mt-2"></div><br />
+                                                            <div id="userDetailsEmail" class="sub-text"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="nk-block-head-content d-none d-sm-block">
+                                                        <div class="text-center">
+                                                            <img class="rounded-top" width="150" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.QRCode))" />
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- .nk-block-head -->
+
+
+                                        </div>
+                                        <div class="card-inner">
+                                            <div class="nk-block">
+                                                <div class="nk-block-head">
+                                                    <h5 class="title ">KYC Details</h5>
+                                                    <small>Below is the basic information user filled on the MyPay Platform</small>
+                                                </div><!-- .nk-block-head -->
+                                                <div class="nk-block-head mt-4 mb-2">
+                                                    <h5 class="title overline-title text-primary">Personal Details</h5>
+                                                </div><!-- .nk-block-head -->
+                                                <div class="row gy-4">
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Name</div>
+                                                                <div id="userDetailsName" class="data-value fw-medium"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Gender</div>
+                                                                <div id="userDetailsGender" class="data-value fw-medium"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Martial Status</div>
+                                                                <div id="userDetailsMeritalStatus" class="data-value fw-medium"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Father's Name</div>
+                                                                <div id="userDetailsFatherFullName" class="data-value fw-medium"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Mother's Name</div>
+                                                                <div id="userDetailsMotherFullName" class="data-value fw-medium"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Grand Father's Name</div>
+                                                                <div id="userDetailsGrandFatherFullName" class="data-value fw-medium"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Occupation</div>
+                                                                <div id="userDetailsOccupation" class="data-value fw-medium"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Nationality</div>
+                                                                <div id="userDetailsNationality" class="data-value fw-medium"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="nk-block-head col-12 mt-4 mb-2">
+                                                        <h5 class="title overline-title text-primary">Current Location Details</h5>
+                                                    </div><!-- .nk-block-head -->
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Current State/Pradesh</div>
+                                                                <div id="userDetailsState" class="data-value fw-medium"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Current District</div>
+                                                                <div id="userDetailsDistrict" class="data-value fw-medium"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Current Municipality or Gaupalika</div>
+                                                                <div id="userDetailsMunicipality" class="data-value fw-medium"> </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Current Ward Number</div>
+                                                                <div id="userDetailsWardNumber" class="data-value fw-medium"> </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Current Street Name</div>
+                                                                <div id="userDetailsStreetName" class="data-value fw-medium"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Current House Number</div>
+                                                                <div id="userDetailsHouseNumber" class="data-value fw-medium"> </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="nk-block-head col-12 mt-4 mb-2">
+                                                        <h5 class="title overline-title text-primary">Documents Details</h5>
+                                                    </div><!-- .nk-block-head -->
+                                                    <div class="col-lg-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Identification Type</div>
+                                                                <div id="userDetailsProofType" class="data-value fw-medium"> </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-sm-6" id="dvfront">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Proof Front Photo</div>
+                                                                <div class="mt-2">
+                                                                    <a id="frontimage" class="gallery-image popup-image" href="/Content/images/avatar/front.png">
+                                                                        <img id="imgfront" class="rounded-top" width="200" src="/Content/images/avatar/front.png" alt="">
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-sm-6" id="dvback">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Proof Back Photo</div>
+                                                                <div class="mt-2">
+                                                                    <a id="backimage" class="gallery-image popup-image" href="/Content/images/avatar/front.png">
+                                                                        <img id="imgback" class="rounded-top" width="200" src="/Content/images/avatar/front.png" alt="">
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="data-label fw-medium w-100">Selfie Photo</div>
+                                                                <div class="mt-2">
+                                                                    <a id="selfieimage" class="gallery-image popup-image" href="/Content/images/avatar/front.png">
+                                                                        <img id="imgselfie" class="rounded-top" width="200" src="/Content/images/avatar/front.png" alt="">
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                        }
+                    </div><!-- .row -->
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_profile.js"></script> 

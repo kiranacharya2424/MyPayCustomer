@@ -1,0 +1,289 @@
+﻿@model MyPay.Models.Add.AddEventDetails
+@{
+    ViewBag.Title = "MyPayUserEvents";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}<!-- content -->
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+                                        <div class="card-inner border-bottom bg-lighter-">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title  d-sm-block w-100">
+                                                    <div class="card-title align-items-center d-flex w-100 mb-0">
+                                                        <h6 class="title d-flex mb-0">MyPay Events</h6>
+                                                        <a id="btn_back" class="btn btn-sm btn-danger ml-auto color-black d-flex align-items-center text-white"> Back</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>	<!--card-inner-->
+                                        <!-- first_step start -->
+                                        <!-- first_step start -->
+                                        <div class="card-inner" style="display:none;" id="dvEventList">
+                                            <div class="row" id="dvEvents">
+                                            </div><!--row-->
+                                        </div><!--card-inner-->
+                                        <!-- first_step end -->
+                                        <!-- second_step start -->
+                                        <div class="card-inner" style="display:none;" id="dv_EventDetail">
+                                            <div class="row">
+                                                <div class="col-md-12" id="dv_ineer_EventDetail">
+                                                </div><!--col-md-12-->
+
+                                            </div><!--row-->
+                                        </div><!--card-inner-->
+                                        <!-- second_step end -->
+                                        <!-- third_step start -->
+                                        <div class="card-inner" style="display:none;" id="dv_BookEvent">
+
+                                            <div class="row">
+
+                                                <div class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto">
+
+                                                    <div class="row" id="div_TicketDetail">
+                                                        <div style="color:red" id="dv_section" class="col-6"></div>
+                                                        @*<div style="color:red" id="dv_available_Tickets" class="col-4"></div>*@
+                                                        <div style="color:red" id="dv_ticket_Rate" class="col-6"></div>
+                                                        <div class="col-6">Section</div>
+                                                        @* <div class="col-4">Available Tickets</div>*@
+                                                        <div class="col-6">Ticket Rate</div>
+                                                        <div class="col-12">Amenities: <span id="dv_amenities"></span></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">Hurry up! Limited tickets available.</div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label text-soft"> Ticket Type</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="input-group">
+                                                                <select id="ddl_ticket_type" class="form-control form-control-lg" placeholder="Select Ticket Type"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label text-soft">No of Tickets</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="input-group">
+                                                                <input type="text" id="txt_noOfTickets" class="form-control form-control-lg fw-medium" maxlength="16" autocomplete="off" placeholder="No. of Tickets" onkeyup="return calculatePrice()" onkeypress="return isNumberKey(this, event);">
+                                                            </div>
+                                                            <span id="spn_TotalPrice"></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label text-soft">Booked By</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="input-group">
+                                                                <input type="text" id="txt_BookedBy" class="form-control form-control-lg fw-medium" maxlength="20" autocomplete="off" placeholder="Booked By" onkeypress="return IsAlphaNumeric(event);">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label text-soft">Contact Number</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="input-group">
+                                                                <input type="text" id="txt_Contact" class="form-control form-control-lg fw-medium" maxlength="10" autocomplete="off" placeholder="Contact Number" onkeypress="return isNumberKey(this, event);">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label text-soft">E-mail Address</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="input-group">
+                                                                <input type="text" id="txt_Email" class="form-control form-control-lg fw-medium" autocomplete="off" placeholder="E-mail Address">
+                                                            </div>
+                                                        </div>
+                                                        <span> *Note: Your tickets will be sent to this email.</span>
+                                                    </div>
+                                                    <div class="form-group" id="dv_Terms" style="display:none;cursor:pointer">
+                                                        @Html.CheckBox("Terms", false, new { @id = "Terms" })<span style="color:cornflowerblue" onclick="openTermsModal()"> By continuing,I accept to the terms & conditions and policy of Mypay.</span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <div class="form-group" style="text-align:center;">
+                                                                <a href="javascript:void(0);" onclick="bookTicket()" class="btn btn-primary btn-lg d-block  mt-4 mb-2">Proceed To Pay</a>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div><!--row-->
+                                        </div><!--card-inner-->
+                                        <!-- third_step end -->
+                                        <!-- fourth_step start -->
+                                        <div class="card-inner" style="display:none;" id="dvPayments">
+                                        </div><!--card-inner-->
+                                        <!-- fourth_step end -->
+
+                                        <div class="p-2" id="DivTVDetail" style="display:none;">
+
+                                            <div class="row">
+                                                <div class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto">
+                                                    <div class="form-control-wrap">
+                                                        <div class="input-group" id="tblTVDetail">
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-4 bg-lighter mt-2 mb-4">
+                                                        <div class="p-3 text-center border-dashed">
+                                                            <span class="fs-18px fw-medium"><small class="fw-medium">Rs.</small><span id="lblAmountTV">0.00</span></span>
+                                                            <p class="m-0 text-soft fs-12px">Total Payable Amount</p>
+                                                            <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
+                                                                <label class="text-soft fs-13px m-0">Cashback</label>
+                                                                <span class="fs-13px fw-medium">Rs. <span id="lblCashback">0.00</span></span>
+                                                            </div><!--d-flex-->
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <label class="text-soft fs-13px m-0">Service Charge</label>
+                                                                <span class="fs-13px fw-medium">Rs.<span id="lblServiceCharge">0.00</span></span>
+                                                            </div><!--d-flex-->
+                                                        </div><!--border-dashed-->
+                                                    </div>
+                                                    <div class="form-group" style="text-align:center;">
+                                                        <a href="javascript:void(0);" id="btnPay" class="btn btn-primary btn-lg d-block  mt-4 mb-2">Proceed</a>
+                                                        <a href="javascript:void(0);" id="btnDetailBack">Back</a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @RenderPage("~/Views/MyPayUser/MyPayPaymentScreen.cshtml")
+                                        <input type="hidden" value="@ViewBag.ServiceId" id="hdnServiceID" />
+                                        <input type="hidden" value="" id="hdnOrderID" />
+                                        <input type="hidden" value="" id="hdnTicketCategoryName" />
+                                        <div class="nk-block-head">
+                                            <div class="nk-block">
+                                                <div id="dvMessage" class="form-group" style="color:red">
+                                                    <span id="errormsg" style="color:red">
+                                                        @ViewBag.Message
+                                                    </span>
+                                                    <span id="successmsg" style="color:green">
+                                                        @ViewBag.SuccessMessage
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div><!-- .nk-block-head -->
+                                    </div><!--card -->
+
+                                </div><!--col-md-12-->
+
+                            </div><!--row-->
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+                        }
+                    </div><!-- .row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content -->
+<div class="modal fade zoom" tabindex="-1" id="model_Terms">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Terms and Conditions</h5>
+                <a href="javascript:void(0);" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body" id="dv_TermsBody">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Error Message -->
+<div class="modal fade zoom" tabindex="-1" id="DivErrMessage" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnMsg" style="color:#313131"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageClose" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Details -->
+<div class="modal fade zoom" tabindex="-1" id="PaymentPopup">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Confirm your payment details</h5>
+
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                            <td>Number Of Votes</td>
+                            <td class="fw-bold text-right"><span id="MobilePopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Amount</td>
+                            <td class="fw-bold text-right">रु  <span id="AmountPopup"></span></td>
+                        </tr>
+                    </table>
+                </div>
+                <small class="text-soft d-block text-center mt-1">Do you want to continue?</small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="javascript:void();" class="btn btn-mw btn-light w-45" data-dismiss="modal">Close</a>
+                    <a href="javascript:void();" id="btnOkPopup" class="btn btn-mw btn-primary w-45">Submit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Confirmation Details -->
+<div class="modal fade zoom" tabindex="-1" id="PaymentSuccessEvents" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align:center;">
+                <img src="~/Content/assets/MyPayUserApp/images/jeni_success.png" />
+                <h6 class="nk-modal-title text-center">Success</h6>
+                <small id="txn-success" class="text-soft d-block text-center mt-1"></small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="/MyPayUser/MyPayUserEventsBooking" class="btn btn-mw btn-primary w-45">Ok</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<input type="hidden" id="Amount" value='0'>
+<input type="hidden" id="hfBankId" value="" />
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_events.js"></script>
+<style>
+    .tdBanners {
+        border-bottom: 1px solid #efefef;
+        margin: 10px;
+        padding: 10px;
+    }
+</style>

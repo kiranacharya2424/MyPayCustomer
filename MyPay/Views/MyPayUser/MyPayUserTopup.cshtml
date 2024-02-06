@@ -1,0 +1,194 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserTopup";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+
+
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-none d-sm-block">
+                                                    <h6 class="title">Mobile Topup</h6>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- step1 -->
+                                        <div class="p-2" id="DivTopup" style="display:none;">
+
+                                            <div class="row">
+                                                <div class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto">
+
+                                                    <div class="form-group">
+                                                        <label class="form-label">Mobile</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="input-group">
+                                                                <input type="text" id="MobileNo" class="form-control form-control-lg fw-medium" maxlength="10" autocomplete="off" placeholder="Mobile Number" onkeypress="return isNumberKey(this, event);">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text cursor-pointer"><em class="icon ni ni-contact fs-20px"></em></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row gx-2 badgelist mt-3">
+
+
+
+                                                            @{ for (int i = 0; i < ViewBag.Topuplist.Count; i++)
+                                                                {
+                                                                    <div class="col">
+                                                                        <span class="badge rounded-pill bg-warning cashback-badge mb-1">@ViewBag.Topuplist[i].CashbackPercentage% cashback</span>
+                                                                        <span class="badge rounded-pill bg-warning cashback-badge mb-1">@ViewBag.Topuplist[i].MPCoinsCashback% coins</span>
+                                                                        <div id="@("dv"+ViewBag.Topuplist[i].ProviderName)" class="badge rounded-pill bg-light border-0 cursor-pointer d-block"> @ViewBag.Topuplist[i].ProviderName</div>
+                                                                    </div>
+                                                                }
+                                                            }
+
+
+
+                                                            <div style="display:none">
+                                                                @Html.DropDownList("Providerlist", ViewBag.Providerlist as SelectList, "", new { @class = "form-select form-control form-control-md", @id = "Providerlist", @disabled = "" })
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="form-label">Amount</label>
+                                                        <div class="form-control-wrap">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control form-control-lg fw-medium" autocomplete="off" maxlength="5" placeholder="Enter Recharge Amount" id="Amount" onkeypress="return isNumberKey(this, event);">
+                                                            </div>
+                                                            <small class="text-soft mt-1 d-block">Recharge amount should be in between (10-5000)</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <a href="javascript:void(0);" id="btnPay" class="btn btn-primary btn-lg d-block disabled">Pay</a>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- step2 -->
+                                        @RenderPage("~/Views/MyPayUser/MyPayPaymentScreen.cshtml")
+
+
+
+                                        <div class="p-2" style="margin:10px; text-align:center">
+
+                                            <div id="dvMessage" class="form-group" style="color:red">
+                                                <span id="errormsg" style="color:red">
+                                                    @ViewBag.Message
+                                                </span>
+                                                <span id="successmsg" style="color:green">
+                                                    @ViewBag.SuccessMessage
+                                                </span>
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                        }
+                    </div><!-- .row -->
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Confirmation Details -->
+<div class="modal fade zoom" tabindex="-1" id="PaymentPopup">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Confirm your payment details</h5>
+
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                            <td>Mobile</td>
+                            <td class="fw-bold text-right"><span id="MobilePopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Amount</td>
+                            <td class="fw-bold text-right">रु  <span id="AmountPopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Cashback</td>
+                            <td class="fw-bold text-right">रु <span id="CashbackPopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Service Charge</td>
+                            <td class="fw-bold text-right">रु <span id="ServiceChargesPopup"></span></td>
+                        </tr>
+                    </table>
+                </div>
+                <small class="text-soft d-block text-center mt-1">Do you want to continue?</small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="javascript:void();" class="btn btn-mw btn-light w-45" data-dismiss="modal">Close</a>
+                    <a href="javascript:void();" id="btnOkPopup" class="btn btn-mw btn-primary w-45">Submit</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<input type="hidden" id="hdnServiceID" value='0'>
+<input type="hidden" id="hdncouponcode">
+<input type="hidden" id="hfBankId" value="" />
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_topup.js"></script>
+<style>
+    .paymentoption {
+        min-height: 50px;
+        border: 1px solid cadetblue;
+        padding: 12px;
+        margin: 10px 0px 10px 0px;
+        border-radius: 3px;
+        font-weight: bold;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .content-light {
+        color: #afafaf;
+        font-weight: normal;
+        font-size: 14px;
+    }
+</style>

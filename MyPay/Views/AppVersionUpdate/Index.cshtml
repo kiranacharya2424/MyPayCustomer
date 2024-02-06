@@ -1,0 +1,134 @@
+﻿@model MyPay.Models.Add.AddApiVersionSettings
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card-aside-wrap">
+                            <div class="card-inner">
+                                <div class="nk-block">
+                                    <div class="nk-block-head">
+                                        <div>
+                                            <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card">
+                                                <li class="nav-item">
+                                                    <h5 class="title">Update App Version</h5>
+                                                </li>
+                                            </ul>
+                                        </div> 
+                                        <div id="dvMsg" class="tb-status text-danger" style="text-align: center; font-weight: bold">
+                                            @ViewBag.Message
+                                        </div>
+                                    </div><!-- .nk-block-head -->
+                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                        <h6 class="title overline-title text-base">Version Detail</h6>
+                                        <p><b>Note:</b> The Version Update for Android and IOS Devices are linked with Live App. So, Please be cautious before doing any changes.</p>
+                                    </div>
+
+                                    <div class="row gy-4 justify-center">
+                                        <div class="col-md-6">
+                                            <div class="col-lg-12 col-sm-12 mt-3">
+                                                <div class="form-group">
+                                                    <div class="row form-control-wrap">
+                                                        <div class="col-lg-4 col-sm-4">
+                                                            <label class="form-label">Android<strong class="text-danger">*</strong></label>
+                                                        </div>
+                                                        <div class="col-lg-8 col-sm-8">
+                                                            @Html.TextBox("Android", "", new { @id = "Android", @placeholder = "Android", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-sm-12 mt-3">
+                                                <div class="form-group">
+                                                    <div class="row form-control-wrap">
+                                                        <div class="col-lg-4 col-sm-4">
+                                                            <label class="form-label">IOS<strong class="text-danger">*</strong></label>
+                                                        </div>
+                                                        <div class="col-lg-8 col-sm-8">
+                                                            @Html.TextBox("IOS", "", new { @id = "IOS", @placeholder = "IOS", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <div class="col-lg-12 col-sm-6 justify-center">
+                                            <div class="form-group">
+                                                <a href="javascript:void(0);" class="btn btn-primary text-center mr-2" onclick="SubmitVersionUpdate();">Submit</a>
+                                                <button type="button" onclick="window.location='/AppVersionUpdate/History'" class="btn btn-light text-center">Version History</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .nk-block -->
+                            </div><!-- .card-content -->
+                            <!-- .nav-tabs -->
+                        </div><!-- .card-aside-wrap -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        debugger;
+        var android = '@ViewBag.AndroidVersion';
+        var ios = '@ViewBag.IosVersion';
+        $("#IOS").val(ios);
+        $("#Android").val(android);
+    });
+    function SubmitVersionUpdate() {
+        var android = $("#Android").val();
+        var ios = $("#IOS").val();
+        if (android == "") {
+            $("#dvMsg").html('Please enter android version');
+        }
+        else if (ios == "") {
+            $("#dvMsg").html('Please enter ios version');
+        }
+        else {
+            $('#AjaxLoader').show();
+            setTimeout(
+                function () {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/AppVersionUpdate/UpdateAppVersion",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        async: false,
+                        data: '{"ios":"' + ios + '","android":"' + android + '"}',
+                        success: function (response) {
+                        debugger;
+                            if (response == "success") {
+                            debugger;
+                                $("#dvMsgSuccess").html("App Version Updated Successfully.");
+                            }
+                            else {
+                                JsonOutput = "Something went wrong. Please try again later.";
+                                $("#dvMsg").html(JsonOutput);
+                            }
+                            $('#AjaxLoader').hide();
+                        },
+                        failure: function (response) {
+                            JsonOutput = (response.responseText);
+                            $("#dvMsg").html(JsonOutput);
+                        },
+                        error: function (response) {
+                            JsonOutput = (response.responseText);
+                            $("#dvMsg").html(JsonOutput);
+                        }
+
+                    });
+                    $('#AjaxLoader').hide();
+                }, 100);
+            }
+    }
+
+</script>

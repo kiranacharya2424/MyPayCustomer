@@ -1,0 +1,387 @@
+﻿@model MyPay.Models.Add.AddUser
+@{ ViewBag.Title = "MyPayUserLinkedAccount";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                    </div>
+
+                    <div class="nk-block">
+                        <div class="row g-gs">
+
+
+
+                            <div class="col-12 col-md-8 col-lg-9">
+                                <div class="row g-2 h-100">
+
+
+                                    <div class="col-md-12">
+                                        <div class="card card-bordered card-full border-bottom">
+
+                                            <div>
+
+                                                <div class="card-inner border-bottom">
+                                                    <div class="card-title-group d-block d-sm-flex">
+                                                        <div class="card-title d-none d-sm-block">
+                                                            <h6 class="title">My Linked Accounts</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-inner tab-pane active" id="allnotification">
+                                                    @if (ViewBag.isEmailVeriFied)
+                                                    {
+
+                                                        <div class="row gy-4" id="div_link_Account">
+
+                                                            <div id="MyLinkedAccounts" class="col-12 col-sm-7 m-auto">
+
+                                                                <div class="nk-block">
+                                                                    <div class="nk-block-head" id="DivPrimaryAccount" style="display:none">
+                                                                        <p>Primary Account</p>
+                                                                        <div id="dvRecordsDisplay" class="form-group" style="cursor:pointer">
+
+                                                                        </div>
+                                                                        <hr />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="nk-block">
+                                                                    <div class="nk-block-head" id="DivOtherAccount" style="display:none">
+                                                                        <p>Other Account</p>
+                                                                        <div id="DivOtherAccountList" class="form-group" style="cursor:pointer">
+
+                                                                        </div>
+                                                                        <hr />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-inner bg-lighter" id="DivNoAccount" style="display:none">
+
+                                                                    <div class="between-center flex-wrap flex-md-nowrap g-3">
+
+                                                                        <div class="nk-block-text d-flex align-items-center">
+                                                                            <img src="/Content/assets/MyPayUserApp/images/dashboard/services-icon/bank-transfer.svg" alt="" width="45">
+                                                                            <div class="ml-3">
+                                                                                <h6 class="mb-1">No Linked Account</h6>
+                                                                                <p class="text-soft">Link your bank account to load fund in your wallet and to pay for services.</p>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="nk-block">
+                                                                    <a href="javascript:void(0)" id="btnLinkIPSBankAccount" class="btn btn-lg btn-primary btn-block text-white mt-2" style="width:auto;display:block">LINK VIA CONNECT-IPS</a>
+                                                                    <a id="btnLink" href="MyPayUser/MyPayUserBankListAll" class="btn btn-lg btn-primary btn-block text-white mt-2" style="width:auto;display:block">Direct Bank Link</a>
+                                                                    <div class="nk-block-head-content" style="margin:23px;">
+                                                                        <center><h4 class="nk-block-title">OR</h4></center>
+                                                                    </div>
+                                                                    <a href="/MyPayUser/MyPayUserLoadWallet" style="display:block;text-align:center">
+                                                                        <b>Load Fund From Linked Accounts </b>
+                                                                    </a>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div id="MyLinkedAccountsDetails" class="col-12 col-sm-7 m-auto" style="display:none">
+                                                                <div style="text-align:right;">
+                                                                    <a href="javascript:void(0)" onclick="Back('MyLinkedAccountsDetails','MyLinkedAccounts');" class="ml-auto color-black"><em class="icon ni ni-arrow-left"></em> Back</a>
+                                                                </div>
+                                                                <div style="margin:auto">
+                                                                    <div class="nk-block-head-content">
+                                                                        <h4 class="nk-block-title">
+                                                                            <img id="ImgBankLogo" width="30">
+                                                                            <span id="SpanBankName" />
+                                                                        </h4>
+
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div style="border: 3px dotted #afafaf; padding: 19px;">
+                                                                            <div class="form-label-group">
+                                                                                <label class="form-label text-soft" for="Provider">User Name</label>
+                                                                            </div>
+                                                                            <div class="form-control-wrap">
+                                                                                <b><span id="lblUserName" /></b>
+                                                                            </div>
+                                                                            <div class="form-label-group">
+                                                                                <label class="form-label text-soft" for="Provider">Account Number</label>
+                                                                            </div>
+                                                                            <div class="form-control-wrap">
+                                                                                <b><span id="lblAccountNumber" /></b>
+                                                                            </div>
+                                                                            <div class="form-label-group">
+                                                                                <label class="form-label text-soft" for="Amount">Mobile Number</label>
+                                                                            </div>
+                                                                            <div class="form-control-wrap">
+                                                                                <b><span id="lblMobileNumber" /></b>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                        </div>
+                                                                        <div class="nk-block">
+                                                                            <a id="btnProceedRemoveConfirm" class="btn text-center" style="width:auto;display:block">REMOVE THIS ACCOUNT</a>
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                            <a id="btnProceedPrimaryConfirm" class="btn btn-primary text-center text-white" style="width:auto;display:block">MAKE PRIMARY ACCOUNT</a>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <div class="row gy-4" id="div_verify_Email">
+                                                            <div class="col-12 col-sm-7 m-auto">
+                                                                <div class="card-title-group">
+                                                                    <div class="card-title mb-4 pb-3  d-flex w-100">
+                                                                        <h6 class="title mb-0 d-flex align-items-center">Verify Email</h6>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="form-control-wrap">
+                                                                        <div class="input-group">
+                                                                            <input type="text" id="emailid" class="form-control form-control-lg fw-medium" autocomplete="off" placeholder="Email">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <a id="btnsubmit" href="javascript:void(0);" class="btn btn-primary btn-lg d-block">Submit</a>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row gy-4" id="div_verify_otp" style="display:none;">
+                                                            <div class="col-12 col-sm-7 m-auto">
+                                                                <div class="card-title-group">
+                                                                    <div class="card-title mb-4 pb-3  d-flex w-100">
+                                                                        <h6 class="title mb-0 d-flex align-items-center">Check Your Email</h6>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="form-control-wrap">
+                                                                        <div class="input-group">
+                                                                            <input type="text" id="otp" maxlength="6" class="form-control form-control-lg fw-medium" autocomplete="off" placeholder="Enter otp">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+
+                                                                    <div class="step-footer-text send-otp">
+                                                                        <div class="resend_otp"><a href="javacript:void(0)" id="seconds">Resend OTP in <label id="clock"></label> sec</a></div>
+                                                                    </div>
+                                                                    <a style="display:block" id="sendotp" href="javacript:void(0)" class="btn btn-primary btn-lg mt-2">Resend OTP</a>
+                                                                    <a id="verifyotp" href="javascript:void(0);" class="btn btn-primary btn-lg d-block mt-2">Submit</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    }
+
+                                                    <input type="hidden" id="hfContactNumber" value='@ViewBag.ContactNumber' />
+                                                    <input type="hidden" id="hfMemberId" value='@ViewBag.MemberId' />
+                                                    <input type="hidden" id="hfKYCStatus" value='@Session["IsKycVerified"].ToString()' />
+                                                    <div id="dvMessage" class="form-group mt-2" style="color:red;">
+                                                        <span id="errormsg" style="color:red">
+                                                            @ViewBag.Message
+                                                        </span>
+                                                        <span id="successmsg" style="color:green">
+                                                            @ViewBag.SuccessMessage
+                                                        </span>
+                                                    </div>
+                                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                                    </div>
+                                                </div>
+                                                <!-- ENd -->
+
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (@Session["IsKycVerified"] != null)
+                            {
+                                @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")}
+                        </div><!-- .card -->
+
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade " tabindex="-1" id="KYCPopup">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-sm">
+                <div class="nk-modal">
+                    <h6 class="title text-center">Your KYC Should be approved to link a bank account</h6>
+                    <div class="nk-modal-action mt-5 text-center">
+                        <a href="javascript:void(0);" class="btn btn-primary text-center btn-light  " data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " tabindex="-1" id="dvRemoveBankConfirm">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" style="color:#313131">Are you sure to remove this bank account ? </h6>
+                    </div>
+                </div>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="javascript:void();" class="btn btn-mw btn-light w-45" data-dismiss="modal">Close</a>
+                    <a href="javascript:void();" id="btnProceedRemove" class="btn btn-mw btn-primary w-45">Submit</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " tabindex="-1" id="dvProceedPrimaryConfirm">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Confirm Bank Details</h5>
+
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                            <td>Account Number</td>
+                            <td class="fw-bold text-right"><span id="spnAccountNumber"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Bank Name</td>
+                            <td class="fw-bold text-right"><span id="spnBankName"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Mobile Number</td>
+                            <td class="fw-bold text-right"><span id="spnMobileNumber"></span></td>
+                        </tr>
+                    </table>
+                </div>
+                <small class="text-soft d-block text-center mt-1">Do you want to continue?</small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="javascript:void();" class="btn btn-mw btn-light w-45" data-dismiss="modal">Close</a>
+                    <a href="javascript:void();" id="btnProceedPrimary" class="btn btn-mw btn-primary w-45">Submit</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " tabindex="-1" id="dvMessageModal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnMsg" style="color:#313131"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageClose" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade " tabindex="-1" id="dvVerifyModalSuccess">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="verifySuccess" style="color:#313131"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="dvVerifyModalSuccessClose" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade zoom" tabindex="-1" id="PaymentSuccess" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align:center;">
+                <img src="~/Content/assets/MyPayUserApp/images/jeni_success.png" />
+                <h6 class="nk-modal-title text-center">Success</h6>
+                <small id="txnMsgSuccess" class="text-soft d-block text-center mt-1"></small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="/MyPayUserLogin/Dashboard" class="btn btn-mw btn-primary w-45">Ok</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade zoom" tabindex="-1" id="DivErrMessage" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnMsg" style="color:#313131"> Verify Your Email ID</h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageVerify" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Verify</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@Scripts.Render("~/bundles/mypayuserapp_LinkedAccount")
+@*<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_LinkedAccount.js"></script>*@
+

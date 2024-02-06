@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://booking.us.org/" targetNamespace="http://booking.us.org/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CheckBalance" type="tns:CheckBalance" />
+  <xs:element name="CheckBalanceResponse" type="tns:CheckBalanceResponse" />
+  <xs:element name="FlightAvailability" type="tns:FlightAvailability" />
+  <xs:element name="FlightAvailabilityResponse" type="tns:FlightAvailabilityResponse" />
+  <xs:element name="GetFlightDetail" type="tns:GetFlightDetail" />
+  <xs:element name="GetFlightDetailResponse" type="tns:GetFlightDetailResponse" />
+  <xs:element name="GetItinerary" type="tns:GetItinerary" />
+  <xs:element name="GetItineraryResponse" type="tns:GetItineraryResponse" />
+  <xs:element name="IssueTicket" type="tns:IssueTicket" />
+  <xs:element name="IssueTicketB2B" type="tns:IssueTicketB2B" />
+  <xs:element name="IssueTicketB2BResponse" type="tns:IssueTicketB2BResponse" />
+  <xs:element name="IssueTicketResponse" type="tns:IssueTicketResponse" />
+  <xs:element name="Reservation" type="tns:Reservation" />
+  <xs:element name="ReservationResponse" type="tns:ReservationResponse" />
+  <xs:element name="SalesReport" type="tns:SalesReport" />
+  <xs:element name="SalesReportResponse" type="tns:SalesReportResponse" />
+  <xs:element name="SectorCode" type="tns:SectorCode" />
+  <xs:element name="SectorCodeResponse" type="tns:SectorCodeResponse" />
+  <xs:complexType name="IssueTicket">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="strFlightId" type="xs:string" />
+      <xs:element minOccurs="0" name="strReturnFlightId" type="xs:string" />
+      <xs:element minOccurs="0" name="strContactName" type="xs:string" />
+      <xs:element minOccurs="0" name="strContactEmail" type="xs:string" />
+      <xs:element minOccurs="0" name="strContactMobile" type="xs:string" />
+      <xs:element minOccurs="0" name="strPassengerDetail" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="IssueTicketResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetFlightDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="strUserId" type="xs:string" />
+      <xs:element minOccurs="0" name="strFlightId" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetFlightDetailResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetItinerary">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="strPnoNo" type="xs:string" />
+      <xs:element minOccurs="0" name="strTicketNo" type="xs:string" />
+      <xs:element minOccurs="0" name="strAgencyId" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetItineraryResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SalesReport">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="strUserId" type="xs:string" />
+      <xs:element minOccurs="0" name="strPassword" type="xs:string" />
+      <xs:element minOccurs="0" name="strAgencyId" type="xs:string" />
+      <xs:element minOccurs="0" name="strFromDate" type="xs:string" />
+      <xs:element minOccurs="0" name="strToDate" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SalesReportResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Reservation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="strFlightId" type="xs:string" />
+      <xs:element minOccurs="0" name="strReturnFlightId" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ReservationResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CheckBalance">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="strUserId" type="xs:string" />
+      <xs:element minOccurs="0" name="strAirlineId" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CheckBalanceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FlightAvailability">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="strUserId" type="xs:string" />
+      <xs:element minOccurs="0" name="strPassword" type="xs:string" />
+      <xs:element minOccurs="0" name="strAgencyId" type="xs:string" />
+      <xs:element minOccurs="0" name="strSectorFrom" type="xs:string" />
+      <xs:element minOccurs="0" name="strSectorTo" type="xs:string" />
+      <xs:element minOccurs="0" name="strFlightDate" type="xs:string" />
+      <xs:element minOccurs="0" name="strReturnDate" type="xs:string" />
+      <xs:element minOccurs="0" name="strTripType" type="xs:string" />
+      <xs:element minOccurs="0" name="strNationality" type="xs:string" />
+      <xs:element minOccurs="0" name="intAdult" type="xs:string" />
+      <xs:element minOccurs="0" name="intChild" type="xs:string" />
+      <xs:element minOccurs="0" name="strClientIP" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FlightAvailabilityResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="IssueTicketB2B">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="strFlightId" type="xs:string" />
+      <xs:element minOccurs="0" name="strReturnFlightId" type="xs:string" />
+      <xs:element minOccurs="0" name="strContactName" type="xs:string" />
+      <xs:element minOccurs="0" name="strContactEmail" type="xs:string" />
+      <xs:element minOccurs="0" name="strContactMobile" type="xs:string" />
+      <xs:element minOccurs="0" name="strPassengerDetail" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="IssueTicketB2BResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SectorCode">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="strUserId" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SectorCodeResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

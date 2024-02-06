@@ -1,0 +1,553 @@
+﻿
+@model MyPay.Models.Add.AddUser
+@{ ViewBag.Title = "MyPayUserTV";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml"; }
+
+<div class="nk-content px-2">
+    <input type="hidden" id="hdnAccount" value="" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-none d-sm-block">
+                                                    <h6 id="lblProviderName" class="title">TV  </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-inner">
+                                            <!-- step1 -->
+                                            <div class="p-2" id="DivTV" style="display:none;">
+
+                                                <div class="row gy-4">
+                                                    <div class="col-12 col-sm-7 m-auto">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Select TV Type</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <table width="100%">
+                                                                        @{ List<MyPay.Models.Get.GetService_Providers> objDisplayList = ViewBag.TVList as List<MyPay.Models.Get.GetService_Providers>;
+                                                                            for (int i = 0; i < objDisplayList.Count; i++)
+                                                                            {
+                                                                                if (objDisplayList[i].ProviderTypeId == "14" || objDisplayList[i].ProviderTypeId == "15" || objDisplayList[i].ProviderTypeId == "16"
+                                                                                    || objDisplayList[i].ProviderTypeId == "23" || objDisplayList[i].ProviderTypeId == "24" || objDisplayList[i].ProviderTypeId == "25" || objDisplayList[i].ProviderTypeId == "26" || objDisplayList[i].ProviderTypeId == "27")
+                                                                                {
+                                                                                    <tr class="nk-tb-item">
+                                                                                        <td class="nk-tb-col" style=" height: 100px;  border-bottom: 1px solid #efefef;" onclick="return showTVDetails(@objDisplayList[i].ProviderTypeId,'@objDisplayList[i].ProviderName.Replace("TV", "").ToString()');">
+                                                                                            <img src="@objDisplayList[i].LogoURL" width="80" />
+                                                                                            @objDisplayList[i].ProviderName.Replace("TV", "").ToString()
+                                                                                            @if (@objDisplayList[i].MPCoinsCashback != "0.00")
+                                                                                            {
+                                                                                                <span class="badge rounded-pill bg-warning cashback-badge cashbackhide" style="display:inline;">@objDisplayList[i].CashbackPercentage% cashback</span>
+                                                                                                <span class="badge rounded-pill bg-warning coin-badge cashbackhide" style="display:inline;">@objDisplayList[i].MPCoinsCashback% coins</span> }
+                                                                                            else
+                                                                                            {
+                                                                                                <span class="badge rounded-pill bg-warning cashback-badge cashbackhide" style="display:inline;">@objDisplayList[i].CashbackPercentage% cashback</span>}
+
+                                                                                        </td>
+                                                                                    </tr>
+ }
+                                                                            } }
+                                                                    </table>
+                                                                    <input type="hidden" value="" id="hdnProviderTypeId" />
+                                                                    <input type="hidden" value="" id="hdnProviderName" />
+                                                                    <input type="hidden" value="" id="hdnSessionId" />
+                                                                    <input type="hidden" value="" id="hdnPackageId" />
+                                                                    <input type="hidden" value="" id="Amount" />
+                                                                    <input type="hidden" value="" id="TvServiceId" />
+                                                                    <input type="hidden" value="@ViewBag.ServiceId" id="hdnServiceID" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- step1.1 -->
+                                            <div class="p-2" id="DivTVStep2" style="display:none;">
+
+
+                                                @*Dish TV*@
+                                                <div class="row">
+                                                    <div id="dv_DishHome" class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto" style="display:none;">
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_Dish_Customer">CAS ID/Chip ID/Account</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_Dish_Customer" class="form-control form-control-lg fw-medium" maxlength="20" autocomplete="off" placeholder="CAS ID/Chip ID/Account" onkeypress="return isNumberKey(this, event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft"> Amount</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group" id="dvInputAmount">
+                                                                    <select id="ddl_Dish_Amount" autocomplete="off" class="form-control form-control-lg" placeholder="Amount"></select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                @*Sim TV*@
+                                                <div class="row">
+                                                    <div id="dv_Sim" class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto" style="display:none;">
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_Sim_Customer">Customer ID/Chip ID</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_Sim_Customer" class="form-control form-control-lg fw-medium" maxlength="20" autocomplete="off" placeholder="Customer ID/Chip ID" onkeypress="return isNumberKey(this, event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft"> Amount</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group" id="dvInputAmount">
+                                                                    <select id="ddl_Sim_Amount" class="form-control form-control-lg" placeholder="Amount"></select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                @*MeroTV*@
+                                                <div class="row">
+                                                    <div id="dv_Mero" class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto" style="display:none;">
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_Mero_Stb">Customer Id</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_Mero_Stb" class="form-control form-control-lg fw-medium" maxlength="20" autocomplete="off" placeholder="Enter Customer Id" onkeypress="return isNumberKey(this, event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                @*ClearTV*@
+                                                <div class="row">
+                                                    <div id="dv_Clear" class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto" style="display:none;">
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_Clear_Subscriber">Subscriber</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_Clear_Subscriber" class="form-control form-control-lg fw-medium" maxlength="20" autocomplete="off" placeholder="Subscriber ID" onkeypress="return isNumberKey(this, event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_Clear_Mobile">Mobile Number</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="form-control-wrap">
+                                                                    <div class="input-group">
+                                                                        <input type="text" id="txt_Clear_Mobile_Number" class="form-control form-control-lg fw-medium" maxlength="10" autocomplete="off" placeholder="Mobile Number" onkeypress="return isNumberKey(this, event);">
+                                                                        <div class="input-group-append">
+                                                                            <span class="input-group-text cursor-pointer"><em class="icon ni ni-contact fs-20px"></em></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_Clear_Amount">Amount</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_Clear_Amount" class="form-control form-control-lg fw-medium" maxlength="10" autocomplete="off" placeholder="Amount" onkeypress="return isNumberKey(this, event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                @*MAX TV*@
+                                                <div class="row">
+                                                    <div id="dv_Max" class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto" style="display:none;">
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_Max_Customer">Customer ID/Card Number</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_Max_Customer" class="form-control form-control-lg fw-medium" maxlength="20" autocomplete="off" placeholder="Cust ID(10 digit)/Card no(16 digit)" onkeypress="return isNumberKey(this, event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" value="" id="hdnMaxTvAmount" />
+
+                                                    </div>
+
+                                                </div>
+
+                                                @*Prabhu TV*@
+                                                <div class="row">
+                                                    <div id="dv_Prabhu" class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto" style="display:none;">
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_Prabhu_Customer">CAS ID/Chip ID/Account(11 Digit)</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_Prabhu_Customer" class="form-control form-control-lg fw-medium" maxlength="20" autocomplete="off" placeholder="CAS ID/Chip ID/Account" onkeypress="return isNumberKey(this, event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft"> Amount</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group" id="dvInputAmount">
+                                                                    <select id="ddl_Prabhu_Amount" class="form-control form-control-lg" placeholder="Amount"></select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*P&G TV*@
+                                                <div class="row">
+                                                    <div id="dv_PG" class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto" style="display:none;">
+
+
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft"> Package</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <select id="ddl_PG_Package" class="form-control form-control-lg" placeholder="Select Package"></select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_PG_UserName">User Name</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_PG_UserName" class="form-control form-control-lg fw-medium" maxlength="20" autocomplete="off" placeholder="User Name" onkeypress="return IsAlphaNumeric(event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_PG_Contact">Contact Number</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_PG_Contact" class="form-control form-control-lg fw-medium" maxlength="10" autocomplete="off" placeholder="Contact Number" onkeypress="return isNumberKey(this, event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_PG_FullName">Full Name</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_PG_FullName" class="form-control form-control-lg fw-medium" maxlength="20" autocomplete="off" placeholder="Full Name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Jagriti TV*@
+                                                <div class="row">
+                                                    <div id="dv_Jagriti" class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto" style="display:none;">
+
+
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft"> Package</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <select id="ddl_Jagriti_Package" class="form-control form-control-lg" placeholder="Select Package"></select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_Jagriti_CASID">CAS ID/STD ID</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_Jagriti_CASID" class="form-control form-control-lg fw-medium" maxlength="16" autocomplete="off" placeholder="CAS ID/STD ID" onkeypress="return isNumberKey(this, event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_Jagriti_CustomerID">Customer ID</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_Jagriti_CustomerID" class="form-control form-control-lg fw-medium" maxlength="20" autocomplete="off" placeholder="Customer ID" onkeypress="return IsAlphaNumeric(event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_Jagriti_CustomerName">Customer Name</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_Jagriti_CustomerName" class="form-control form-control-lg fw-medium" maxlength="20" autocomplete="off" placeholder="Customer Name" onkeypress="return IsAlphabetOnly(event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_Jagriti_Ward">Old ward no.</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_Jagriti_Ward" class="form-control form-control-lg fw-medium" maxlength="20" autocomplete="off" placeholder="Old ward no.">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft" id="lbl_Jagriti_Contact">Mobile Number</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txt_Jagriti_Contact" class="form-control form-control-lg fw-medium" maxlength="10" autocomplete="off" placeholder="Mobile Number" onkeypress="return isNumberKey(this, event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row" style="display:none" id="dv_button">
+                                                    <div class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto">
+                                                        <div class="form-group" style="text-align:center;">
+                                                            <a href="javascript:void(0);" id="btnGetDetail" class="btn btn-primary btn-lg d-block  mt-4 mb-2">Get Details</a>
+                                                            <a href="javascript:void(0);" id="btnPayBack">Back</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="p-2" id="DivTVDetail" style="display:none;">
+
+                                                <div class="row">
+                                                    <div class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto">
+                                                        <div class="form-control-wrap">
+                                                            <div class="input-group" id="tblTVDetail">
+                                                            </div>
+                                                        </div>
+                                                        <div class="p-4 bg-lighter mt-2 mb-4 clsamt">
+                                                            <div class="p-3 text-center border-dashed">
+                                                                <span class="fs-18px fw-medium"><small class="fw-medium">Rs.</small><span id="lblAmountTV">0.00</span></span>
+                                                                <p class="m-0 text-soft fs-12px">Total Payable Amount</p>
+                                                                <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
+                                                                    <label class="text-soft fs-13px m-0">Cashback</label>
+                                                                    <span class="fs-13px fw-medium">Rs. <span id="lblCashback">0.00</span></span>
+                                                                </div><!--d-flex-->
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <label class="text-soft fs-13px m-0">Service Charge</label>
+                                                                    <span class="fs-13px fw-medium">Rs.<span id="lblServiceCharge">0.00</span></span>
+                                                                </div><!--d-flex-->
+                                                            </div><!--border-dashed-->
+                                                        </div>
+                                                        <div class="form-group" style="text-align:center;">
+                                                            <a href="javascript:void(0);" id="btnPay" class="btn btn-primary btn-lg mt-4 mb-2">Proceed</a>
+                                                            <a href="javascript:void(0);" id="meroTvProceed" class="btn btn-primary btn-lg mt-4 mb-2">Proceed</a>
+                                                            <a href="javascript:void(0);" id="btnDetailBack">Back</a>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- step2 -->
+                                            @RenderPage("~/Views/MyPayUser/MyPayPaymentScreen.cshtml")
+                                            <div class="p-2" style="margin:10px; text-align:center">
+
+                                                <div id="dvMessage" class="form-group" style="color:red">
+                                                    <span id="errormsg" style="color:red">
+                                                        @ViewBag.Message
+                                                    </span>
+                                                    <span id="successmsg" style="color:green">
+                                                        @ViewBag.SuccessMessage
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+                        }
+                    </div><!-- .row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Confirmation Details -->
+<div class="modal fade zoom" tabindex="-1" id="PaymentPopup">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Confirm your payment details</h5>
+
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                            <td>Number</td>
+                            <td class="fw-bold text-right"><span id="MobilePopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Amount</td>
+                            <td class="fw-bold text-right">रु  <span id="AmountPopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Cashback</td>
+                            <td class="fw-bold text-right">रु <span id="CashbackPopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Service Charge</td>
+                            <td class="fw-bold text-right">रु <span id="ServiceChargesPopup"></span></td>
+                        </tr>
+                    </table>
+                </div>
+                <small class="text-soft d-block text-center mt-1">Do you want to continue?</small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="javascript:void();" class="btn btn-mw btn-light w-45" data-dismiss="modal">Close</a>
+                    <a href="javascript:void();" id="btnOkPopup" class="btn btn-mw btn-primary w-45">Submit</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Pin Confirmation -->
+<div class="modal fade zoom" tabindex="-1" id="DivPin" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Verify Transaction</h5>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+
+
+                    <div class="form-control-wrap text-center otp">
+                        <label class="form-label text-soft" for="Amount">Enter your Wallet Pin</label>
+                        <input type="password" class="form-control form-control-lg fs-18px" maxlength="4" placeholder="oooo" id="Pin" name="Pin" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnPin" class="btn btn-primary text-center text-white btn-lg d-block">Proceed To Pay</a>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <a href="javascript:void(0)" data-dismiss="modal">Close</a>
+                        <a id="btnPinForgot" href="javascript:void(0)">Forgot Pin</a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Error Message -->
+<div class="modal fade zoom" tabindex="-1" id="DivErrMessage" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnMsg" style="color:#313131"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageClose" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Confirmation Details -->
+<div class="modal fade zoom" tabindex="-1" id="PaymentSuccess" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align:center;">
+                <img src="~/Content/assets/MyPayUserApp/images/jeni_success.png" />
+                <h6 class="nk-modal-title text-center">Success</h6>
+                <small class="text-soft d-block text-center mt-1">Transaction Completed Successfully</small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="/MyPayUser/MyPayUserTransactions" class="btn btn-mw btn-primary w-45">Ok</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade " tabindex="-1" id="KYCStatusPopup">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <h6 class="fs-14px mt-3 mb-4">Your KYC should be approved to proceed.</h6>
+                    <div class="nk-modal-action mt-5 text-center">
+                        <a href="javascript:void(0);" class="btn btn-primary text-center btn-light" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+<div class="modal fade " tabindex="-1" id="PopUpMsg">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <h6 class="fs-14px mt-3 mb-4"><span id="PopupText" /></h6>
+                    <div class="nk-modal-action mt-5 text-center">
+                        <a href="javascript:void(0);" class="btn btn-primary text-center btn-light" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<input type="hidden" id="hdncouponcode">
+<input type="hidden" id="hfBankId" value="" />
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_tv.js"></script>
+<style>
+    .paymentoption {
+        min-height: 50px;
+        border: 1px solid cadetblue;
+        padding: 12px;
+        margin: 10px 0px 10px 0px;
+        border-radius: 3px;
+        font-weight: bold;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .content-light {
+        color: #afafaf;
+        font-weight: normal;
+        font-size: 14px;
+    }
+</style>

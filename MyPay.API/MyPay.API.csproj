@@ -1,0 +1,1333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\MyPay\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\MyPay\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="..\MyPay\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\MyPay\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D1F3870A-5858-49DC-A8BF-6FA6ABDA1FC0}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyPay.API</RootNamespace>
+    <AssemblyName>MyPay.API</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="BitMiracle.LibTiff.NET, Version=2.4.649.0, Culture=neutral, PublicKeyToken=53879b3e20e7a7d6, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\BitMiracle.LibTiff.NET.2.4.649\lib\net40\BitMiracle.LibTiff.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="ChilkatDotNet47, Version=9.5.0.96, Culture=neutral, PublicKeyToken=eb5fc1fc52ef09bd, processorArchitecture=AMD64">
+      <HintPath>..\MyPay\packages\chilkat-x64.9.5.0.96\lib\net472\ChilkatDotNet47.dll</HintPath>
+    </Reference>
+    <Reference Include="CSharp-easy-RSA-PEM, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\MyPayWallet_Old\MyPay.API\bin\CSharp-easy-RSA-PEM.dll</HintPath>
+      <HintPath>..\MyPay\bin\CSharp-easy-RSA-PEM.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Dapper.2.0.143\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DeviceId, Version=5.2.0.0, Culture=neutral, PublicKeyToken=f755c371b5c59c52, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\MyPayWallet\MyPay\Dependencies\DeviceId.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="IronBarCode, Version=2023.10.0.1, Culture=neutral, PublicKeyToken=b971bb3971bdf306, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\BarCode.2023.10.1\lib\netstandard2.0\IronBarCode.dll</HintPath>
+    </Reference>
+    <Reference Include="IronSoftware.Abstractions, Version=2023.10.0.2, Culture=neutral, PublicKeyToken=212d70e9efeae4c7, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\IronSoftware.Common.2023.10.2\lib\netstandard2.0\IronSoftware.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="IronSoftware.Drawing.Common, Version=2023.10.1.0, Culture=neutral, PublicKeyToken=8d7e55c97b3e9835, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\IronSoftware.System.Drawing.2023.10.1\lib\netstandard2.0\IronSoftware.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IronSoftware.Logger, Version=2023.10.0.2, Culture=neutral, PublicKeyToken=212d70e9efeae4c7, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\IronSoftware.Common.2023.10.2\lib\netstandard2.0\IronSoftware.Logger.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.forms, Version=7.2.1.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MyPay\bin\itext.forms.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.html2pdf, Version=4.0.1.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MyPay\bin\itext.html2pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.io, Version=7.2.1.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\itext.io.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.kernel, Version=7.2.1.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
+    <Reference Include="itext.pdfa, Version=7.2.1.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MyPay\bin\itext.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MyPay\bin\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MyPay\bin\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\log4net.2.0.14\lib\net45\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Configuration, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Extensions.Configuration.6.0.0\lib\net461\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Extensions.Configuration.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Extensions.Configuration.Binder.6.0.0\lib\net461\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.FileExtensions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Extensions.Configuration.FileExtensions.6.0.0\lib\net461\Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Extensions.Configuration.Json.6.0.0\lib\net461\Microsoft.Extensions.Configuration.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Extensions.DependencyInjection.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Extensions.FileProviders.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Extensions.FileProviders.Physical.6.0.0\lib\net461\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileSystemGlobbing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Extensions.FileSystemGlobbing.6.0.0\lib\net461\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Extensions.Options.6.0.0\lib\net461\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Extensions.Primitives.6.0.0\lib\net461\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.15.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.IdentityModel.JsonWebTokens.6.15.1\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.15.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.IdentityModel.Logging.6.15.1\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.15.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.IdentityModel.Tokens.6.15.1\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.4.3.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\QRCoder.1.4.3\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=108.0.3.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\RestSharp.108.0.3\lib\netstandard2.0\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.Fonts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\SixLabors.Fonts.1.0.0\lib\netstandard2.0\SixLabors.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.ImageSharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\SixLabors.ImageSharp.2.1.5\lib\net472\SixLabors.ImageSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.ImageSharp.Drawing, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\SixLabors.ImageSharp.Drawing.1.0.0\lib\net472\SixLabors.ImageSharp.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Configuration.ConfigurationManager.6.0.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.15.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.IdentityModel.Tokens.Jwt.6.15.1\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.AspNet.WebApi.Client.5.2.9\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Security.Permissions.6.0.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Text.Encoding.CodePages.5.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Text.Encodings.Web.6.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Text.Json.6.0.0\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Cors, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.AspNet.Cors.5.2.9\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.AspNet.WebApi.Core.5.2.9\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.AspNet.WebApi.Cors.5.2.9\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\MyPay\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\MyPay\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\MyPay\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\MyPay\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\MyPay\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\MyPay\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\MyPay\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\MyPay\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebApiThrottle, Version=1.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\MyPay\packages\WebApiThrottle.1.5.4\lib\net45\WebApiThrottle.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\MyPay\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\MyPay\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\MyPay\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SwaggerConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
+    <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
+    <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageAreaRegistration.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageConfigurationExtensions.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\CollectionModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ComplexTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\DictionaryModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumValueDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\IModelDocumentationProvider.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\KeyValuePairModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescriptionGenerator.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameAttribute.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameHelper.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterAnnotation.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\SimpleTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\Models\HelpPageApiModel.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleKey.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ImageSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\InvalidSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ObjectGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
+    <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\RegistrationFormController.cs" />
+    <Compile Include="Controllers\addMyPaymentController.cs" />
+    <Compile Include="Controllers\AppVersionController.cs" />
+    <Compile Include="Controllers\BankTransferRemittanceController.cs" />
+    <Compile Include="Controllers\BusSewa_RequestAPIController.cs" />
+    <Compile Include="Controllers\ChangePinWithOTCController.cs" />
+    <Compile Include="Controllers\CheckFonePayResultController.cs" />
+    <Compile Include="Controllers\DealsAndOffersController.cs" />
+    <Compile Include="Controllers\DownloadPDFController.cs" />
+    <Compile Include="Controllers\GenerateNCHLToken.cs" />
+    <Compile Include="Controllers\GetCountryListController.cs" />
+    <Compile Include="Controllers\GetCreditCardChargesController.cs" />
+    <Compile Include="Controllers\CreditCardPaymentController.cs" />
+    <Compile Include="Controllers\GetFeaturedPartnersController.cs" />
+    <Compile Include="Controllers\GetFundTransferBankListController.cs" />
+    <Compile Include="Controllers\GetReferEarnImageController.cs" />
+    <Compile Include="Controllers\GetCreditCardIsuuerListsController.cs" />
+    <Compile Include="Controllers\GetCouponsScratchedController.cs" />
+    <Compile Include="Controllers\ChangePinSmsController.cs" />
+    <Compile Include="Controllers\GetServiceChargeMerchantController.cs" />
+    <Compile Include="Controllers\GetUserElectronicStatementPDFController.cs" />
+    <Compile Include="Controllers\GetUserWebToken.cs" />
+    <Compile Include="Controllers\LinkBankAccountNCHLController.cs" />
+    <Compile Include="Controllers\NepalPayQRController.cs" />
+    <Compile Include="Controllers\NPS\NCHLController.cs" />
+    <Compile Include="Controllers\FlightTicketDownloadController.cs" />
+    <Compile Include="Controllers\RequestAPI_HoroscopeController.cs" />
+    <Compile Include="Controllers\RequestAPI_CITController.cs" />
+    <Compile Include="Controllers\RequestAPI_PlasmaTechController.cs" />
+    <Compile Include="Controllers\RequestAPI_EPFController.cs" />
+    <Compile Include="Controllers\RequestAPI_EventsController.cs" />
+    <Compile Include="Controllers\RequestAPI_FonePayController.cs" />
+    <Compile Include="Controllers\RequestAPI_MoviesController.cs" />
+    <Compile Include="Controllers\RequestAPI_RecentPaymentsController.cs" />
+    <Compile Include="Controllers\RequestAPI_SettingsController.cs" />
+    <Compile Include="Controllers\RequestAPI_NotificationController.cs" />
+    <Compile Include="Controllers\GetUserInfoController.cs" />
+    <Compile Include="Controllers\LinkBankResendOTPController.cs" />
+    <Compile Include="Controllers\LinkBankVerifyAccountController.cs" />
+    <Compile Include="Controllers\LinkBankAccountController.cs" />
+    <Compile Include="Controllers\GetLinkBankServiceChargesController.cs" />
+    <Compile Include="Controllers\GetLinkBankListController.cs" />
+    <Compile Include="Controllers\GetBankInstrumentController.cs" />
+    <Compile Include="Controllers\InternetBankingController.cs" />
+    <Compile Include="Controllers\AddTicketController.cs" />
+    <Compile Include="Controllers\AddUserBankDetailController.cs" />
+    <Compile Include="Controllers\AddUserFeedbackController.cs" />
+    <Compile Include="Controllers\AddVotingListController.cs" />
+    <Compile Include="Controllers\DisableAllDeviceController.cs" />
+    <Compile Include="Controllers\GetTicketMessageController.cs" />
+    <Compile Include="Controllers\LinkedBankTransferController.cs" />
+    <Compile Include="Controllers\ChangePasswordController.cs" />
+    <Compile Include="Controllers\ChangePushNotificationController.cs" />
+    <Compile Include="Controllers\ChangePinController.cs" />
+    <Compile Include="Controllers\CompleteUserProfileController.cs" />
+    <Compile Include="Controllers\ConnectIPSController.cs" />
+    <Compile Include="Controllers\EmailConfirmController.cs" />
+    <Compile Include="Controllers\ForgotPasswordWithEmailController.cs" />
+    <Compile Include="Controllers\ForgotPasswordWithPhoneController.cs" />
+    <Compile Include="Controllers\GetAllNotificationsController.cs" />
+    <Compile Include="Controllers\GetDistrictController.cs" />
+    <Compile Include="Controllers\GetLocalLevelController.cs" />
+    <Compile Include="Controllers\GetMarqueController.cs" />
+    <Compile Include="Controllers\GetOfferBannersController.cs" />
+    <Compile Include="Controllers\GetProviderListWithCashbackController.cs" />
+    <Compile Include="Controllers\GetPurposeController.cs" />
+    <Compile Include="Controllers\GetRedeemPointsController.cs" />
+    <Compile Include="Controllers\GetServiceProvidersController.cs" />
+    <Compile Include="Controllers\BankTransferController.cs" />
+    <Compile Include="Controllers\GetTransferBankBranchController.cs" />
+    <Compile Include="Controllers\AccountValidationController.cs" />
+    <Compile Include="Controllers\GetTransferBankListController.cs" />
+    <Compile Include="Controllers\GetTransactionController.cs" />
+    <Compile Include="Controllers\GetOccupationController.cs" />
+    <Compile Include="Controllers\GetStateController.cs" />
+    <Compile Include="Controllers\GetUserBankDetailController.cs" />
+    <Compile Include="Controllers\GetUserDetailController.cs" />
+    <Compile Include="Controllers\GetServiceChargeController.cs" />
+    <Compile Include="Controllers\GetUserWalletWithKYC.cs" />
+    <Compile Include="Controllers\APIHomeController.cs" />
+    <Compile Include="Controllers\GetVotingCandidatesController.cs" />
+    <Compile Include="Controllers\GetVotingCompetitionController.cs" />
+    <Compile Include="Controllers\GetVotingPackagesController.cs" />
+    <Compile Include="Controllers\LoginSmsController.cs" />
+    <Compile Include="Controllers\RequestAPI_MerchantController.cs" />
+    <Compile Include="Controllers\RequestAPI_EChalanController.cs" />
+    <Compile Include="Controllers\ForgotResendOTPUserController.cs" />
+    <Compile Include="Controllers\RequestAPI_CableCarController.cs" />
+    <Compile Include="Controllers\RequestAPI_UserPaymentsController.cs" />
+    <Compile Include="Controllers\ShareReferLinkController.cs" />
+    <Compile Include="Controllers\LogoutDeviceController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\LoginWithPinController.cs" />
+    <Compile Include="Controllers\MakePrimaryUserBankController.cs" />
+    <Compile Include="Controllers\ReadNotificationsController.cs" />
+    <Compile Include="Controllers\RecipientDetailController.cs" />
+    <Compile Include="Controllers\RedeemPointsController.cs" />
+    <Compile Include="Controllers\RegisterVerificationController.cs" />
+    <Compile Include="Controllers\RemoveUserBankAccountController.cs" />
+    <Compile Include="Controllers\RequestAPI_AirlinesController.cs" />
+    <Compile Include="Controllers\RequestAPI_BusSewaController.cs" />
+    <Compile Include="Controllers\RequestAPI_DataPackController.cs" />
+    <Compile Include="Controllers\RequestAPI_AntivirusController.cs" />
+    <Compile Include="Controllers\RequestAPI_DematController.cs" />
+    <Compile Include="Controllers\RequestAPI_InsuranceController.cs" />
+    <Compile Include="Controllers\RequestAPI_WorldLinksController.cs" />
+    <Compile Include="Controllers\RequestAPI_RIDEController.cs" />
+    <Compile Include="Controllers\RequestAPI_TransactionLookupController.cs" />
+    <Compile Include="Controllers\RequestAPI_InternetController.cs" />
+    <Compile Include="Controllers\RequestAPI_SchoolController.cs" />
+    <Compile Include="Controllers\RequestAPI_TVController.cs" />
+    <Compile Include="Controllers\RequestAPI_KhanePaniController.cs" />
+    <Compile Include="Controllers\RequestAPI_ElectricityController.cs" />
+    <Compile Include="Controllers\RequestAPI_RechargeCardsController.cs" />
+    <Compile Include="Controllers\RequestAPI_TopupController.cs" />
+    <Compile Include="Controllers\AddUserController.cs" />
+    <Compile Include="Controllers\ResendOTPUserController.cs" />
+    <Compile Include="Controllers\ResetPasswordController.cs" />
+    <Compile Include="Controllers\ResetPasswordWithOTCController.cs" />
+    <Compile Include="Controllers\RewardPointsController.cs" />
+    <Compile Include="Controllers\NepaliCalendarController.cs" />
+    <Compile Include="Controllers\TicketDropDownController.cs" />
+    <Compile Include="Controllers\TicketReplyController.cs" />
+    <Compile Include="Controllers\TouristBus_RequestAPIController.cs" />
+    <Compile Include="Controllers\TransferByPhoneController.cs" />
+    <Compile Include="Controllers\VerifyEmailController.cs" />
+    <Compile Include="Controllers\SetPinController.cs" />
+    <Compile Include="Controllers\UserAuthorizationController.cs" />
+    <Compile Include="Controllers\UserPersonalUpdateController.cs" />
+    <Compile Include="Controllers\VotingControllerV2.cs" />
+    <Compile Include="CustomFrameworkClasses\MyPayAPIController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasicAuthenticationAttribute.cs" />
+    <Compile Include="Models\CommonDBResponse.cs" />
+    <Compile Include="Models\Common\CommonApiMethod.cs" />
+    <Compile Include="Models\Common\CommonProp.cs" />
+    <Compile Include="Models\Common\CommonResponse.cs" />
+    <Compile Include="Models\GetAuthUser.cs" />
+    <Compile Include="Models\JavaCode.cs" />
+    <Compile Include="Models\NPS\LodgeBill.cs" />
+    <Compile Include="Models\NPS\NCHLReqMapper.cs" />
+    <Compile Include="Models\NPS\CipsBatchDetail.cs" />
+    <Compile Include="Models\NPS\CipsTransactionDetail.cs" />
+    <Compile Include="Models\NPS\Errors\NCHLGenericError.cs" />
+    <Compile Include="Models\NPS\NCHLServiceMappingDB.cs" />
+    <Compile Include="Models\NPS\NCHLResponseMapper.cs" />
+    <Compile Include="Models\NPS\NCHLTokenReq.cs" />
+    <Compile Include="Models\NPS\NCHLTokenResp.cs" />
+    <Compile Include="Models\NPS\NPSAreaCodes - Copy.cs" />
+    <Compile Include="Models\NPS\NPSAreaCodes.cs" />
+    <Compile Include="Models\NPS\Request\Consumer\NCHLConsumerConfirmPayment.cs" />
+    <Compile Include="Models\NPS\Response\Partner\NCHLGetCreditCardIssuerResp.cs" />
+    <Compile Include="Models\NPS\Response\Consumer\NCHLConsumerResp.cs" />
+    <Compile Include="Models\NPS\Response\Partner\NCHLPartnerResp.cs" />
+    <Compile Include="Models\Request\Airlines\Req_Vendor_API_Airlines_SendTicket_Requests.cs" />
+    <Compile Include="Models\Request\Airlines\Req_Vendor_API_Airlines_FlightStatus_Requests.cs" />
+    <Compile Include="Models\Request\Airlines\Req_Vendor_API_Airlines_DownloadTicket_Requests.cs" />
+    <Compile Include="Models\Request\Airlines\Req_Vendor_API_Airlines_PassengerRequests.cs" />
+    <Compile Include="Models\Request\Airlines\Req_Vendor_API_Airlines_CancelFlight_Requests.cs" />
+    <Compile Include="Models\Request\Airlines\Req_Vendor_API_Airlines_Details_Requests.cs" />
+    <Compile Include="Models\Request\Airlines\Req_Vendor_API_Airlines_Sector_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Airlines\Req_Vendor_API_Airlines_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Airlines\Req_Vendor_API_Airlines_Requests.cs" />
+    <Compile Include="Models\Request\Antivirus\Req_Vendor_API_Eset_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Antivirus\Req_Vendor_API_Eset_Requests.cs" />
+    <Compile Include="Models\Request\Antivirus\Req_Vendor_API_K7_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Antivirus\Req_Vendor_API_K7_Requests.cs" />
+    <Compile Include="Models\Request\Antivirus\Req_Vendor_API_Mcafee_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Antivirus\Req_Vendor_API_Mcafee_Requests.cs" />
+    <Compile Include="Models\Request\Antivirus\Req_Vendor_API_Wardwiz_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Antivirus\Req_Vendor_API_Wardwiz_Requests.cs" />
+    <Compile Include="Models\Request\CableCar\PayTransactionCableCar.cs" />
+    <Compile Include="Models\Request\CableCar\Request_CableCar.cs" />
+    <Compile Include="Models\Request\CableCar\ReqVendorAPiTicketTypesGet.cs" />
+    <Compile Include="Models\Request\CIT\Req_Vendor_API_CIT_Bill_Payment_Requests.cs" />
+    <Compile Include="Models\Request\CIT\Req_Vendor_API_CIT_Category_Requests.cs" />
+    <Compile Include="Models\Request\CIT\Req_Vendor_API_CIT_Journey_Details_Requests.cs" />
+    <Compile Include="Models\Request\CIT\Req_Vendor_API_CIT_LoanType_Detail_Requests.cs" />
+    <Compile Include="Models\Request\CIT\Req_Vendor_API_CIT_Loan_Type_Requests.cs" />
+    <Compile Include="Models\Request\CIT\Req_Vendor_API_CIT_Query_Transaction_Requests.cs" />
+    <Compile Include="Models\Request\EChalan\Req_Vendor_API_EChalan_Lookup_FiscalYear_Requests.cs" />
+    <Compile Include="Models\Request\EChalan\Req_Vendor_API_EChalan_Lookup_DistrictCodes_Requests.cs" />
+    <Compile Include="Models\Request\Epf\Req_Vendor_API_Epf_Commit_Requests.cs" />
+    <Compile Include="Models\Request\Epf\Req_Vendor_API_Epf_Contributor_Detail_Requests.cs" />
+    <Compile Include="Models\Request\Epf\Req_Vendor_API_Epf_Deposit_Type_Requests.cs" />
+    <Compile Include="Models\Request\Events\Req_Vendor_API_Events_Booking_Requests.cs" />
+    <Compile Include="Models\Request\Events\Req_Vendor_API_Events_Commit_Requests.cs" />
+    <Compile Include="Models\Request\Events\Req_Vendor_API_Events_Details_Requests.cs" />
+    <Compile Include="Models\Request\Events\Req_Vendor_API_Events_Requests.cs" />
+    <Compile Include="Models\Request\Events\Req_Vendor_API_Events_Ticket_Download_Requests.cs" />
+    <Compile Include="Models\Request\Events\Req_Vendor_API_Events_Ticket_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_NT_FTTH_Requests.cs" />
+    <Compile Include="Models\Request\MyPayment\Req_MyPayment.cs" />
+    <Compile Include="Models\Request\FeaturedPartners\Req_FeaturedPartners.cs" />
+    <Compile Include="Models\Request\FonePayPayments\Req_Vendor_API_FonePay_QRParse_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\FonePayPayments\Req_Vendor_API_FonePay_QRPayment_Status_Requests.cs" />
+    <Compile Include="Models\Request\FonePayPayments\Req_Vendor_API_FonePay_QRPayment_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_CitizenLifeInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_CitizenLife_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_HimalayanGeneral_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_IMEGeneral_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_ArhantLife_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_MahalaxmiLife_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_NationalLife_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_PrabhuLife_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_PrimeLife_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_Prudential_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_ReliableLife_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_UnionLife_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_HimalayanGeneralInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_IMEGeneralInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_ArhantLifeInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_MahalaxmiLifeInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_NationalLifeInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_PrabhuLifeInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_PrimeLifeInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_PrudentialInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_ReliableLifeInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_UnionLifeInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_SUBISU_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Merchant\Req_Merchant_CheckAccountValidation.cs" />
+    <Compile Include="Models\Request\Merchant\Req_Merchant_CheckStatus.cs" />
+    <Compile Include="Models\Request\Merchant\Req_Merchant_Wallet_Transaction_Requests.cs" />
+    <Compile Include="Models\Request\Merchant\Req_Merchant_Transaction_Requests.cs" />
+    <Compile Include="Models\Request\DataPack\Req_API_DataPack_DownloadReceipt_Requests.cs" />
+    <Compile Include="Models\Request\EChalan\Req_Vendor_API_EChalan_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\EChalan\Req_Vendor_API_EChalan_Requests.cs" />
+    <Compile Include="Models\Request\Bussewa\Req_Vendor_API_Bussewa_Routes_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Bussewa\Req_Vendor_API_Bussewa_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_ArhantInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_Arhant_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_JyotiLife_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_NepalLife_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_Reliance_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_Sagarmatha_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_SanimaLife_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_Shikhar_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_SuryaLife_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_NDSInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_NepalLifeInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_RelianceInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_SagarmathaInsurance_Lookup.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_SanimaLifeInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_ShikharInsurance_GetPackages.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_SuryaLifeInsurance_Detail.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_WebSurfer_UserListLookup_Requests.cs" />
+    <Compile Include="Models\Request\Movie\Req_Vendor_API_Movie_Requests.cs" />
+    <Compile Include="Models\Request\OrgRegistration\Req_Registration_API_Requests.cs" />
+    <Compile Include="Models\Request\NepalPayQR\Req_Vendor_API_NepalPayQR_Requests.cs" />
+    <Compile Include="Models\NPS\Request\Consumer\NCHLConsumerLodgeReq.cs" />
+    <Compile Include="Models\NPS\Request\Partner\NCHLLodgeReq.cs" />
+    <Compile Include="Models\Request\PlasmaTech\Req_Vendor_API_Check_Balance_Requests.cs" />
+    <Compile Include="Models\Request\PlasmaTech\Req_Vendor_API_PlasmaTech_FlightDetail_Requests.cs" />
+    <Compile Include="Models\Request\PlasmaTech\Req_Vendor_API_PlasmaTech_Flight_Available_Requests.cs" />
+    <Compile Include="Models\Request\PlasmaTech\Req_Vendor_API_PlasmaTech_Flight_Reserve_Requests.cs" />
+    <Compile Include="Models\Request\PlasmaTech\Req_Vendor_API_PlasmaTech_GetPnrDetail_Requests.cs" />
+    <Compile Include="Models\Request\PlasmaTech\Req_Vendor_API_PlasmaTech_Issue_Ticket_Requests.cs" />
+    <Compile Include="Models\Request\PlasmaTech\Req_Vendor_API_PlasmaTech_Itinerary_Requests.cs" />
+    <Compile Include="Models\Request\PlasmaTech\Req_Vendor_API_PlasmaTech_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\PlasmaTech\Req_Vendor_API_PlasmaTech_Sales_Report_Requests.cs" />
+    <Compile Include="Models\Request\PlasmaTech\Req_Vendor_API_PlasmaTech_Sector_Requests.cs" />
+    <Compile Include="Models\Request\Req_BankTransfer_Remittance.cs" />
+    <Compile Include="Models\Request\Req_ChangePinWithOTP.cs" />
+    <Compile Include="Models\Request\Req_CouponsScratchedApply.cs" />
+    <Compile Include="Models\Request\Req_CouponsScratchNow.cs" />
+    <Compile Include="Models\Request\Req_CouponsScratchedAll.cs" />
+    <Compile Include="Models\Request\Req_CouponsScratched.cs" />
+    <Compile Include="Models\Request\Req_DealsAndOffers.cs" />
+    <Compile Include="Models\Request\Req_EStatement.cs" />
+    <Compile Include="Models\Request\Req_FonePayToken.cs" />
+    <Compile Include="Models\Request\Req_ConnectIPSLookupBatch.cs" />
+    <Compile Include="Models\Request\Req_Country.cs" />
+    <Compile Include="Models\Request\Req_CreditCardPayment.cs" />
+    <Compile Include="Models\Request\Req_CreditCardCharge.cs" />
+    <Compile Include="Models\Request\Req_GenericCoupon.cs" />
+    <Compile Include="Models\Request\Req_GetAllTickets.cs" />
+    <Compile Include="Models\Request\Req_GetUserInfo.cs" />
+    <Compile Include="Models\Request\Req_LinkBankAccountNCHL.cs" />
+    <Compile Include="Models\Request\Req_LinkBankOTP.cs" />
+    <Compile Include="Models\Request\Req_LinkBankVerify.cs" />
+    <Compile Include="Models\Request\Req_LinkBankAccount.cs" />
+    <Compile Include="Models\Request\Req_AccountValidation.cs" />
+    <Compile Include="Models\Request\DataPack\Req_Vendor_API_DataPack_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Antivirus\Req_Vendor_API_Kaspersky_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\DataPack\Req_Vendor_API_DataPack_Requests.cs" />
+    <Compile Include="Models\Request\Antivirus\Req_Vendor_API_Kaspersky_Requests.cs" />
+    <Compile Include="Models\Request\Demat\Req_Demat_Requests.cs" />
+    <Compile Include="Models\Request\Demat\Req_Vendor_API_Demat_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_Commit_Insurance_Neco_Requests.cs" />
+    <Compile Include="Models\Request\Insurance\Req_Vendor_API_NecoInsurance_Lookup.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_Arrownet_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_Pokhara_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_Techminds_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_Techminds_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_WebSurfer_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_Classitech_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_Arrownet_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_WebSurfer_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_RoyalNetwork_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_WebNetwork_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_VirtualNetwork_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_ViaNet_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_Classitech_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_ViaNet_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_SUBISU_Requests.cs" />
+    <Compile Include="Models\Request\Req_AddTicket.cs" />
+    <Compile Include="Models\Request\Req_DisableAllDevice.cs" />
+    <Compile Include="Models\Request\Req_DepositByBankTransfer.cs" />
+    <Compile Include="Models\Request\Req_ChangePassword.cs" />
+    <Compile Include="Models\Request\Req_ChangePushNotificationStatus.cs" />
+    <Compile Include="Models\Request\Req_ChangePin.cs" />
+    <Compile Include="Models\Request\Req_GetAllNotifications.cs" />
+    <Compile Include="Models\Request\Req_GetRedeemPoints.cs" />
+    <Compile Include="Models\Request\Req_GetTicketMessage.cs" />
+    <Compile Include="Models\Request\Req_GetUserBankDetail.cs" />
+    <Compile Include="Models\Request\Req_InternetBanking.cs" />
+    <Compile Include="Models\Request\Req_Coupons.cs" />
+    <Compile Include="Models\Request\Req_RecentPaymentsSave.cs" />
+    <Compile Include="Models\Request\Req_RecentPayments.cs" />
+    <Compile Include="Models\Request\Req_Remittance_AccountValidation.cs" />
+    <Compile Include="Models\Request\Req_ServiceChargeMerchant.cs" />
+    <Compile Include="Models\Request\Req_Smsc.cs" />
+    <Compile Include="Models\Request\Req_ReferEarnImage.cs" />
+    <Compile Include="Models\Request\Req_RefCodeLinked.cs" />
+    <Compile Include="Models\Request\Req_ShareReferLink.cs" />
+    <Compile Include="Models\Request\Req_LogoutDevice.cs" />
+    <Compile Include="Models\Request\Req_MakePrimaryUserBank.cs" />
+    <Compile Include="Models\Request\Req_Marque.cs" />
+    <Compile Include="Models\Request\Req_OfferBanners.cs" />
+    <Compile Include="Models\Request\Req_Purpose.cs" />
+    <Compile Include="Models\Request\Req_ReadNotifications.cs" />
+    <Compile Include="Models\Request\Req_RedeemPoints.cs" />
+    <Compile Include="Models\Request\Req_RemoveUserBankAccount.cs" />
+    <Compile Include="Models\Request\Req_RewardPoints.cs" />
+    <Compile Include="Models\Request\Req_ServiceCharge.cs" />
+    <Compile Include="Models\Request\Req_LocalLevel.cs" />
+    <Compile Include="Models\Request\Req_Occupation.cs" />
+    <Compile Include="Models\Request\Req_District.cs" />
+    <Compile Include="Models\Request\Req_BankTransfer.cs" />
+    <Compile Include="Models\Request\Req_BankBranch.cs" />
+    <Compile Include="Models\Request\Req_NepaliCalendar.cs" />
+    <Compile Include="Models\Request\Req_State.cs" />
+    <Compile Include="Models\Request\Req_TicketCategory.cs" />
+    <Compile Include="Models\Request\Req_TicketReply.cs" />
+    <Compile Include="Models\Request\Req_Notifications.cs" />
+    <Compile Include="Models\Request\Req_TransactionDetails.cs" />
+    <Compile Include="Models\Request\Req_TransferByPhone_Get.cs" />
+    <Compile Include="Models\Request\Req_UserBankDetail.cs" />
+    <Compile Include="Models\Request\Req_VotingCandidates.cs" />
+    <Compile Include="Models\Request\Req_VotingCompetition.cs" />
+    <Compile Include="Models\Request\Req_VotingList.cs" />
+    <Compile Include="Models\Request\Req_VotingPackages.cs" />
+    <Compile Include="Models\Request\Ride\Req_Vendor_API_Commit_Ride_Tootle_Requests.cs" />
+    <Compile Include="Models\Request\Ride\Req_Vendor_API_Ride_Tootle_Lookup.cs" />
+    <Compile Include="Models\Request\Settings\Req_Settings.cs" />
+    <Compile Include="Models\Request\TouristBus\Req_Vendor_API_TouristBus_Routes_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\TransactionLookup\Req_Transaction_Lookup_API_RequestsAll.cs" />
+    <Compile Include="Models\Request\TransactionLookup\Req_Transaction_Lookup_API_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_ADSL_Requests.cs" />
+    <Compile Include="Models\Request\School\Req_Vendor_API_School_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\School\Req_Vendor_API_School_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_MEROTV_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_MEROTV_Packages_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_MEROTV_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_MAXTV_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_MAXTV_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_PRABHUTV_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_PRABHUTV_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_CLEARTV_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_CLEARTV_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_PNGNETWORKTV_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_JAGRITICABLETV_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_PNGNETWORKTV_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_JAGRITICABLETV_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_SIMTV_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_Dishome_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_SIMTV_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\TV\Req_Vendor_API_Dishome_Lookup_Requests.cs" />
+    <Compile Include="Models\Request\KhanePani\Req_Vendor_API_Commit_KhanePani_Requests.cs" />
+    <Compile Include="Models\Request\KhanePani\Req_Vendor_API_Counters_KhanePani_Requests.cs" />
+    <Compile Include="Models\Request\KhanePani\Req_Vendor_API_ServiceCharge_KhanePani_Requests.cs" />
+    <Compile Include="Models\Request\Req_ConfirmEmail.cs" />
+    <Compile Include="Models\Request\Req_ConnectIPS.cs" />
+    <Compile Include="Models\Request\Req_ForgotPasswordWithEmail.cs" />
+    <Compile Include="Models\Request\Req_ForgotPasswordWithPhone.cs" />
+    <Compile Include="Models\Request\Req_GetUserDetail.cs" />
+    <Compile Include="Models\Request\Req_Login.cs" />
+    <Compile Include="Models\Request\Req_LoginWithPin.cs" />
+    <Compile Include="Models\Request\Req_RegisterVerification.cs" />
+    <Compile Include="Models\Request\Req_ResetPassword.cs" />
+    <Compile Include="Models\Request\Req_ResetPasswordWithOTC.cs" />
+    <Compile Include="Models\Request\Req_Feedback.cs" />
+    <Compile Include="Models\Request\Req_UserCompleteProfile.cs" />
+    <Compile Include="Models\Request\Req_Transactions.cs" />
+    <Compile Include="Models\Request\Req_Service_Providers.cs" />
+    <Compile Include="Models\Request\Nea\Req_Vendor_API_Commit_Nea_Requests.cs" />
+    <Compile Include="Models\Request\Nea\Req_Vendor_API_ServiceCharge_Nea_Requests.cs" />
+    <Compile Include="Models\Request\KhanePani\Req_Vendor_API_ServiceGroup_KhanePani_Details_Requests.cs" />
+    <Compile Include="Models\Request\Nea\Req_Vendor_API_ServiceGroup_Nea_Details_Requests.cs" />
+    <Compile Include="Models\Request\Nea\Req_Vendor_API_Counters_Nea_Requests.cs" />
+    <Compile Include="Models\Request\Req_VerifyEmail.cs" />
+    <Compile Include="Models\Request\Req_SetPin.cs" />
+    <Compile Include="Models\Request\Req_UserPersonalUpdate.cs" />
+    <Compile Include="Models\Request\Req_Vendor_API_Requests.cs" />
+    <Compile Include="Models\Request\Req_User.cs" />
+    <Compile Include="Models\Request\Req_UserAuthentication.cs" />
+    <Compile Include="Models\Request\Req_RecipientDetail.cs" />
+    <Compile Include="Models\Request\Req_TransferByPhone.cs" />
+    <Compile Include="Models\Request\UserPayments\Req_API_Add_Payment_Requests.cs" />
+    <Compile Include="Models\Request\UserPayments\Req_API_Get_Payment_Requests.cs" />
+    <Compile Include="Models\Request\Voting\Consumer\BookVotesAndConfirmReq_C.cs" />
+    <Compile Include="Models\Request\Voting\Consumer\BookVotesReq_C.cs" />
+    <Compile Include="Models\Request\Voting\Consumer\CommonVotingProps.cs" />
+    <Compile Include="Models\Request\Voting\Consumer\CompleteVoteBookingReq_C.cs" />
+    <Compile Include="Models\Request\Voting\Consumer\SubContestDetailsReq_C.cs" />
+    <Compile Include="Models\Request\Voting\Consumer\ValidateVotingCouponReq_C.cs" />
+    <Compile Include="Models\Request\Voting\Consumer\VotingContestListReq_C.cs" />
+    <Compile Include="Models\Request\Voting\Consumer\VotingSubContestListReq_C.cs" />
+    <Compile Include="Models\Request\Voting\Partner\BookVotesReq_P.cs" />
+    <Compile Include="Models\Request\Voting\Partner\CompleteVoteBookingReq_P.cs" />
+    <Compile Include="Models\Request\Voting\Partner\SubContestDetailsReq_P.cs" />
+    <Compile Include="Models\Request\Voting\Partner\ValidateVotingCouponReq_P.cs" />
+    <Compile Include="Models\Request\Voting\Partner\VotingAPISetting_API.cs" />
+    <Compile Include="Models\Request\Voting\Partner\VotingContestListReq_P.cs" />
+    <Compile Include="Models\Request\Voting\Partner\VotingSubContestListReq_P.cs" />
+    <Compile Include="Models\Request\WorldLink\Req_Vendor_API_Commit_WorldLink_Requests.cs" />
+    <Compile Include="Models\Request\WorldLink\Req_Vendor_API_WorldLink_Lookup.cs" />
+    <Compile Include="Models\Response\Airlines\Res_Vendor_API_Airlines_Booking_Details_Requests.cs" />
+    <Compile Include="Models\Response\Airlines\Res_Vendor_API_Airlines_Details_Requests.cs" />
+    <Compile Include="Models\Response\Airlines\Res_Vendor_API_Airlines_AddPassenger_Requests.cs" />
+    <Compile Include="Models\Response\Airlines\Res_Vendor_API_Airlines_CancelFlight_Requests.cs" />
+    <Compile Include="Models\Response\Airlines\Res_Vendor_API_Airlines_Flight_Issue_Check_Requests.cs" />
+    <Compile Include="Models\Response\Airlines\Res_Vendor_API_Airlines_Flight_Issue_Requests.cs" />
+    <Compile Include="Models\Response\Airlines\Res_Vendor_API_Airlines_Download_Ticket_Requests.cs" />
+    <Compile Include="Models\Response\Airlines\Res_Vendor_API_Airlines_StatusFlight_Requests.cs" />
+    <Compile Include="Models\Response\Airlines\Res_Vendor_API_Airlines_Sector_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Airlines\Res_Vendor_API_Airlines_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Airlines\Res_Vendor_API_Airlines_Requests.cs" />
+    <Compile Include="Models\Response\Antivirus\Res_Vendor_API_Eset_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Antivirus\Res_Vendor_API_Eset_Requests.cs" />
+    <Compile Include="Models\Response\Antivirus\Res_Vendor_API_K7_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Antivirus\Res_Vendor_API_K7_Requests.cs" />
+    <Compile Include="Models\Response\Antivirus\Res_Vendor_API_Mcafee_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Antivirus\Res_Vendor_API_Mcafee_Requests.cs" />
+    <Compile Include="Models\Response\Antivirus\Res_Vendor_API_Wardwiz_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Antivirus\Res_Vendor_API_Wardwiz_Requests.cs" />
+    <Compile Include="Models\Response\CableCar\Res_Vendor_API_TicketTypes.cs" />
+    <Compile Include="Models\Response\CIT\Res_Vendor_API_CIT_Bill_Payment_Requests.cs" />
+    <Compile Include="Models\Response\CIT\Res_Vendor_API_CIT_Category_Requests.cs" />
+    <Compile Include="Models\Response\CIT\Res_Vendor_API_CIT_Journey_Details_Requests.cs" />
+    <Compile Include="Models\Response\CIT\Res_Vendor_API_CIT_LoanType_Requests.cs" />
+    <Compile Include="Models\Response\CIT\Res_Vendor_API_CIT_Loan_Type_Requests.cs" />
+    <Compile Include="Models\Response\CIT\Res_Vendor_API_CIT_Query_Transaction_Requests.cs" />
+    <Compile Include="Models\Response\EChalan\Res_Vendor_API_EChalan_Lookup_Fisacal_Requests.cs" />
+    <Compile Include="Models\Response\EChalan\Res_Vendor_API_EChalan_Lookup_DistrictCodes_Requests.cs" />
+    <Compile Include="Models\Response\Epf\Res_Vendor_API_Epf_Commit_Requests.cs" />
+    <Compile Include="Models\Response\Epf\Res_Vendor_API_Epf_Contributor_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Epf\Res_Vendor_API_Epf_Deposit_Type_Requests.cs" />
+    <Compile Include="Models\Response\Events\Res_Vendor_API_Events_Booking_Requests.cs" />
+    <Compile Include="Models\Response\Events\Res_Vendor_API_Events_Commit_Requests.cs" />
+    <Compile Include="Models\Response\Events\Res_Vendor_API_Events_Details_Requests.cs" />
+    <Compile Include="Models\Response\Events\Res_Vendor_API_Events_Requests.cs" />
+    <Compile Include="Models\Response\Events\Res_Vendor_API_Events_Ticket_Download_Requests.cs" />
+    <Compile Include="Models\Response\Events\Res_Vendor_API_Events_Ticket_Requests.cs" />
+    <Compile Include="Models\Request\Internet\Req_Vendor_API_DishHome_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_DishHome_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_NT_FTTH_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_DishHome_Requests.cs" />
+    <Compile Include="Models\Response\MyPayment\Res_MyPayment.cs" />
+    <Compile Include="Models\Response\FeaturedPartners\Res_FeaturedPartners.cs" />
+    <Compile Include="Models\Response\FonePay\Res_Vendor_API_FonePay_QRRequest_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\FonePay\Res_Vendor_API_FonePay_Payments_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_CitizenLifeInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_CitizenLife_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_HimalayanGeneral_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_IMEGeneral_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_ArhantLife_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_Mahalaxmi_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_NationalLife_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_PrabhuLife_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_PrimeLife_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_Prudential_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_ReliableLife_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_UnionLife_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_HimalayanGeneralInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_IMEGeneralInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_IMELifeInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_MahalaxmiLifeInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_NationalLifeInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_PrabhuLifeInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_PrimeLifeInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_PrudentialInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_ReliableLifeInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_UnionLifeInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_Subisu_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Merchant\Res_Merchant_CheckAccountValidation.cs" />
+    <Compile Include="Models\Response\Merchant\Res_Merchant_CheckStatus.cs" />
+    <Compile Include="Models\Response\Merchant\Res_Merchant_Transaction_LookupRequests.cs" />
+    <Compile Include="Models\Response\Merchant\Res_Merchant_Wallet_Transaction_Requests.cs" />
+    <Compile Include="Models\Response\Merchant\Res_Merchant_Transaction_Requests.cs" />
+    <Compile Include="Models\Response\DataPack\Res_API_DataPack_DownloadReceipt_Response.cs" />
+    <Compile Include="Models\Response\EChalan\Res_Vendor_API_EChalan_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\EChalan\Res_Vendor_API_EChalan_Requests.cs" />
+    <Compile Include="Models\Response\Bussewa\Res_Vendor_API_Bussewa_Routes_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Bussewa\Res_Vendor_API_Bussewa_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_ArhantInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_Arhant_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_JyotiLife_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_NepalLife_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_Reliance_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_Sagarmatha_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_SanimaLife_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_Shikhar_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_SuryaLife_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_NDSInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_NepalLifeInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_RelianceInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_SagarmathaInsurance_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_SanimaLifeInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_ShikharInsurance_GetPackages_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_SuryaLifeInsurance_Detail_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_WebSurfer_UserList_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Movie\Res_Vendor_API_Movie_Requests.cs" />
+    <Compile Include="Models\Response\OrgRegistration\Res_Registration_API_Requests.cs" />
+    <Compile Include="Models\Response\Organization\Res_Organization_API_Requests.cs" />
+    <Compile Include="Models\Response\PlasmaTech\Res_Vendor_API_Check_Balance_Requests.cs" />
+    <Compile Include="Models\Response\PlasmaTech\Res_Vendor_API_Flight_Detail_Requests.cs" />
+    <Compile Include="Models\Response\PlasmaTech\Res_Vendor_API_GetPnrDetail_Requests.cs" />
+    <Compile Include="Models\Response\PlasmaTech\Res_Vendor_API_PlasmaTech_Flight_Available_Requests.cs" />
+    <Compile Include="Models\Response\PlasmaTech\Res_Vendor_API_PlasmaTech_Flight_Reserve_Requests.cs" />
+    <Compile Include="Models\Response\PlasmaTech\Res_Vendor_API_PlasmaTech_Issue_Ticket_Requests.cs" />
+    <Compile Include="Models\Response\PlasmaTech\Res_Vendor_API_PlasmaTech_Itinerary_Requests.cs" />
+    <Compile Include="Models\Response\PlasmaTech\Res_Vendor_API_PlasmaTech_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\PlasmaTech\Res_Vendor_API_PlasmaTech_Sector_Requests.cs" />
+    <Compile Include="Models\Response\PlasmaTech\Res_Vendor_API_Pnr_Detail_Requests.cs" />
+    <Compile Include="Models\Response\PlasmaTech\Res_Vendor_API_Sales_Report_Requests.cs" />
+    <Compile Include="Models\Response\Res_DealsAndOffers.cs" />
+    <Compile Include="Models\Response\Res_Estatement.cs" />
+    <Compile Include="Models\Response\Res_GetAllTickets.cs" />
+    <Compile Include="Models\Response\Res_RecentPaymentSave.cs" />
+    <Compile Include="Models\Response\Res_RecentPayments.cs" />
+    <Compile Include="Models\Response\Res_ServiceChargeMerchant_Requests.cs" />
+    <Compile Include="Models\Response\Res_TransferByPhone.cs" />
+    <Compile Include="Models\Response\Res_Country.cs" />
+    <Compile Include="Models\Response\Res_CouponsScratchNow.cs" />
+    <Compile Include="Models\Response\Res_CouponsScratched.cs" />
+    <Compile Include="Models\Response\Res_CreditCardCharge.cs" />
+    <Compile Include="Models\Response\Res_GetCipsLookupResponse.cs" />
+    <Compile Include="Models\Response\Res_InternetBanking.cs" />
+    <Compile Include="Models\Response\Res_LogoutDevice.cs" />
+    <Compile Include="Models\Response\Res_DisableAllDevice.cs" />
+    <Compile Include="Models\Response\Res_GetTicketMessage.cs" />
+    <Compile Include="Models\Response\Res_LinkedBankResponse.cs" />
+    <Compile Include="Models\Response\DataPack\Res_Vendor_API_DataPack_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Antivirus\Res_Vendor_API_Kaspersky_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\DataPack\Res_Vendor_API_DataPack_Requests.cs" />
+    <Compile Include="Models\Response\Antivirus\Res_Vendor_API_Kaspersky_Requests.cs" />
+    <Compile Include="Models\Response\Demat\Res_Vendor_API_Demat_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Demat\Res_Vendor_API_Demat_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_Commit_Insurance_Neco_Requests.cs" />
+    <Compile Include="Models\Response\Insurance\Res_Vendor_API_NecoInsurance_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_Arrownet_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_Pokhara_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_Techminds_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_Techminds_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_WebSurfer_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_Classitech_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_Arrownet_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_WebSurfer_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_RoyalNetwork_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_WebNetwork_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_VirtualNetwork_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_ViaNet_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_Classitech_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_ViaNet_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_SUBISU_Requests.cs" />
+    <Compile Include="Models\Response\Res_AccountValidation.cs" />
+    <Compile Include="Models\Response\Res_BranchList.cs" />
+    <Compile Include="Models\Response\Res_ChangePassword.cs" />
+    <Compile Include="Models\Response\Res_ChangedPushNotification.cs" />
+    <Compile Include="Models\Response\Res_ChangePin.cs" />
+    <Compile Include="Models\Response\Res_GetAllNotifications.cs" />
+    <Compile Include="Models\Response\Res_GetRedeemPoints.cs" />
+    <Compile Include="Models\Response\Res_GetUserBankDetail.cs" />
+    <Compile Include="Models\Response\Res_LocalLevel.cs" />
+    <Compile Include="Models\Response\Res_Marque.cs" />
+    <Compile Include="Models\Response\Res_Coupons.cs" />
+    <Compile Include="Models\Response\Res_Occupation.cs" />
+    <Compile Include="Models\Response\Res_District.cs" />
+    <Compile Include="Models\Response\Res_BankList.cs" />
+    <Compile Include="Models\Response\Res_ReferEarnImage.cs" />
+    <Compile Include="Models\Response\Res_OfferBanners.cs" />
+    <Compile Include="Models\Response\Res_ProviderListWithCashback.cs" />
+    <Compile Include="Models\Response\Res_Purpose.cs" />
+    <Compile Include="Models\Response\Res_RedeemPoints.cs" />
+    <Compile Include="Models\Response\Res_NepaliCalendar.cs" />
+    <Compile Include="Models\Response\Res_RewardPoints.cs" />
+    <Compile Include="Models\Response\Res_RefCodeLinked.cs" />
+    <Compile Include="Models\Response\Res_CreditCardIsuuerList.cs" />
+    <Compile Include="Models\Response\Res_State.cs" />
+    <Compile Include="Models\Response\Res_ResendOTP.cs" />
+    <Compile Include="Models\Response\Res_ServiceCharge_Requests.cs" />
+    <Compile Include="Models\Response\Res_Request_Fund.cs" />
+    <Compile Include="Models\Response\Res_RequestFund.cs" />
+    <Compile Include="Models\Response\Res_TicketDropDowns.cs" />
+    <Compile Include="Models\Response\Res_Notifications.cs" />
+    <Compile Include="Models\Response\Res_TransactionDetails..cs" />
+    <Compile Include="Models\Response\Res_UserAuthorization_GetToken.cs" />
+    <Compile Include="Models\Response\Res_ShareReferLink.cs" />
+    <Compile Include="Models\Response\Res_UserWalletWithKYC.cs" />
+    <Compile Include="Models\Response\Res_VotingCandidates.cs" />
+    <Compile Include="Models\Response\Res_VotingCompetition.cs" />
+    <Compile Include="Models\Response\Res_VotingPackages.cs" />
+    <Compile Include="Models\Response\Ride\Res_Ride_Tootle_Lookup.cs" />
+    <Compile Include="Models\Response\Ride\Res_Vendor_API_Commit_Ride_Tootle_Requests.cs" />
+    <Compile Include="Models\Response\Settings\Res_Settings_Requests.cs" />
+    <Compile Include="Models\Response\TransactionLookup\Res_Transaction_Lookup_API_RequestsAll.cs" />
+    <Compile Include="Models\Response\TransactionLookup\Res_Transaction_Lookup_API_Requests.cs" />
+    <Compile Include="Models\Response\Internet\Res_Vendor_API_ADSL_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_CLEARTV_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_MEROTV_Packages_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_School_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_School_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_MEROTV_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_CLEARTV_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_MEROTV_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_MAXTV_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_MAXTV_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_PRABHUTV_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_PRABHUTV_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_PNGNETWORKTV_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_PNGNETWORKTV_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_JAGRITITV_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_JAGRITITV_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_SIMTV_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_Dishome_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_SIMTV_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\TV\Res_Vendor_API_Dishome_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\KhanePani\Res_Vendor_API_Commit_KhanePani_Requests.cs" />
+    <Compile Include="Models\Response\KhanePani\Res_Vendor_API_Counters_KhanePani_Requests.cs" />
+    <Compile Include="Models\Response\KhanePani\Res_Vendor_API_ServiceCharge_KhanePani_Requests.cs" />
+    <Compile Include="Models\Response\Res_GetUserDetail.cs" />
+    <Compile Include="Models\Response\Res_RegisterVerification.cs" />
+    <Compile Include="Models\Response\Res_ResetPassword.cs" />
+    <Compile Include="Models\Response\Res_Feedback.cs" />
+    <Compile Include="Models\Response\Res_UserDetail.cs" />
+    <Compile Include="Models\Response\Res_Transactions.cs" />
+    <Compile Include="Models\Response\NEA\Res_Vendor_API_Commit_Nea_Requests.cs" />
+    <Compile Include="Models\Response\NEA\Res_Vendor_API_ServiceCharge_Nea_Requests.cs" />
+    <Compile Include="Models\Response\KhanePani\Res_Vendor_API_ServiceGroup_KhanePani_Details_Requests.cs" />
+    <Compile Include="Models\Response\NEA\Res_Vendor_API_ServiceGroup_Details_Nea_Requests.cs" />
+    <Compile Include="Models\Response\NEA\Res_Vendor_API_Counters_Nea_Requests.cs" />
+    <Compile Include="Models\Response\Res_Vendor_API_Transactions.cs" />
+    <Compile Include="Models\Response\Res_Service_Providers.cs" />
+    <Compile Include="Models\Response\Res_Vendor_API_Lookup_Requests.cs" />
+    <Compile Include="Models\Response\Res_Vendor_API_Requests.cs" />
+    <Compile Include="Models\Response\Res_User.cs" />
+    <Compile Include="Models\Response\Res_UserAuthorization.cs" />
+    <Compile Include="Models\Response\Res_RecipientDetail.cs" />
+    <Compile Include="Models\Response\UserPayments\Res_API_Add_Payments_Requests.cs" />
+    <Compile Include="Models\Response\UserPayments\Res_API_Get_Payments_Requests.cs" />
+    <Compile Include="Models\Response\Voting\Partner\BookVotesResp_P.cs" />
+    <Compile Include="Models\Response\Voting\Partner\CompleteVoteBookingResp_P.cs" />
+    <Compile Include="Models\Response\Voting\Partner\VotingPartnerResp.cs" />
+    <Compile Include="Models\Response\Voting\Partner\ValidateVotingCouponResp_P.cs" />
+    <Compile Include="Models\Response\Voting\Partner\VotingContestListResp_P.cs" />
+    <Compile Include="Models\Response\Voting\Partner\VotingPartnerResp.cs" />
+    <Compile Include="Models\Response\Voting\Partner\VotingSubContestDetailsResp_P.cs" />
+    <Compile Include="Models\Response\Voting\Partner\VotingSubContestListResp_P.cs" />
+    <Compile Include="Models\Response\WorldLink\Res_WorldLink_Lookup.cs" />
+    <Compile Include="Models\Response\WorldLink\Res_Vendor_API_Commit_WorldLink_Requests.cs" />
+    <Compile Include="Models\StringCipher.cs" />
+    <Compile Include="Models\VotingDB\VotingOrder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\NCHLRepo.cs" />
+    <Compile Include="Repository\VotingRepo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Certificates\Certificate.txt" />
+    <Content Include="Certificates\FonePayCert.txt" />
+    <Content Include="Certificates\FonePayCert_Live.txt" />
+    <Content Include="Certificates\FonePayPublic.txt" />
+    <Content Include="Certificates\FonePayPublicKeyAuthentication.txt" />
+    <Content Include="Certificates\FonePayPublicKeyAuthentication_Live.txt" />
+    <Content Include="Certificates\FonePayPublicKeyBank.txt" />
+    <Content Include="Certificates\FonePayPublicKeyBank_Live.txt" />
+    <Content Include="Certificates\FonePayPublic_Live.txt" />
+    <Content Include="Certificates\LiveCert.txt" />
+    <Content Include="Content\assets\Images\app-store.png" />
+    <Content Include="Content\assets\Images\default-logo.png" />
+    <Content Include="Content\assets\Images\FlightImages\arrow.jpg" />
+    <Content Include="Content\assets\Images\FlightImages\flight-time-icon.jpg" />
+    <Content Include="Content\assets\Images\FlightImages\nepal-airlines.png" />
+    <Content Include="Content\assets\Images\google-play-store.png" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\BusSewaTicketPDF\fromtoicon.svg" />
+    <Content Include="Content\TouristBusSewaTicketPDF\fromtoicon.svg" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Areas\HelpPage\Views\Web.config" />
+    <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\_ResourceModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\_Index.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\TextSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\SimpleTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Samples.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Parameters.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ModelDescriptionLink.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\KeyValuePairModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\InvalidSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ImageSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\EnumTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\DictionaryModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ComplexTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\_Api.cshtml" />
+    <Content Include="Certificates\NPI.pfx" />
+    <Content Include="Certificates\MYPAY.pfx" />
+    <Content Include="apisettings.json" />
+    <Content Include="log4net.config" />
+    <Content Include="app_message.json" />
+    <Content Include="LoginAttempt\4lpFKsD5Fc8=.txt" />
+    <Content Include="LoginAttempt\BJzfEmDR6ek=.txt" />
+    <Content Include="LoginAttempt\bQNuXxae7bQ=.txt" />
+    <Content Include="LoginAttempt\CcMRNx0GTHuKx2vJD76qkA==.txt" />
+    <Content Include="LoginAttempt\gIY7Ek4kUvw=.txt" />
+    <Content Include="LoginAttempt\NtFqBQ%40%40%408jh4=.txt" />
+    <Content Include="LoginAttempt\tR0y1byQq6s=.txt" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Models\NPS\NCHLReqMapping.json" />
+    <Content Include="Models\NPS\NCHLRespMapping.json" />
+    <Content Include="NCHLAreaCodes.json" />
+    <Content Include="NCHLCITLoanTypes.json" />
+    <Content Include="Certificates\NQR.cer" />
+    <Content Include="Certificates\NQR.pem" />
+    <Content Include="Certificates\public_key.pem" />
+    <Content Include="Certificates\NepalPayQRLive_PublicKey.pem" />
+    <Content Include="Certificates\NepalPayQRLIVEPrivatekey.pem" />
+    <Content Include="NCHLFiscalYear.json" />
+    <Content Include="NCHLCreditCardIssuer.json" />
+    <Content Include="FlightSectors.json" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Templates\account-closed.html" />
+    <Content Include="Templates\AddMoney.html" />
+    <Content Include="Templates\BankAccountLinked.html" />
+    <Content Include="Templates\BankTransfer.html" />
+    <Content Include="Templates\CableCardmodified.html" />
+    <Content Include="Templates\bus-pdf.html" />
+    <Content Include="Templates\change-email-otp.html" />
+    <Content Include="Templates\CreditCardPayment.html" />
+    <Content Include="Templates\customer-receipt.html" />
+    <Content Include="Templates\DataPackPDF.html" />
+    <Content Include="Templates\email-change.html" />
+    <Content Include="Templates\EmailVerified.html" />
+    <Content Include="Templates\enquiry.html" />
+    <Content Include="Templates\EventDetails.html" />
+    <Content Include="Templates\flight-pdf-returnflight.html" />
+    <Content Include="Templates\flight-pdf.html" />
+    <Content Include="Templates\CableCardownlod.html" />
+    <Content Include="Templates\FlightTicketDownload.html" />
+    <Content Include="Templates\forget-pin.html" />
+    <Content Include="Templates\forgot-password.html" />
+    <Content Include="Templates\ForgotPasswordMail.html" />
+    <Content Include="Templates\kyc.html" />
+    <Content Include="Templates\KYCApproved.html" />
+    <Content Include="Templates\kycreject.html" />
+    <Content Include="Templates\KYCRejected.html" />
+    <Content Include="Templates\KYCSubmitted.html" />
+    <Content Include="Templates\LoginFromNewDevice.html" />
+    <Content Include="Templates\moneytransfer-failed.html" />
+    <Content Include="Templates\MPinChanged.html" />
+    <Content Include="Templates\NepalRemitEmail.html" />
+    <Content Include="Templates\Otp.html" />
+    <Content Include="Templates\P2PTransaction.html" />
+    <Content Include="Templates\password-changed.html" />
+    <Content Include="Templates\receipt.html" />
+    <Content Include="Templates\recipient.html" />
+    <Content Include="Templates\refer-code.html" />
+    <Content Include="Templates\RegisterMail.html" />
+    <Content Include="Templates\ResetPassword.html" />
+    <Content Include="Templates\SenderInvoice.html" />
+    <Content Include="Templates\ServiceTransaction.html" />
+    <Content Include="Templates\ticket-raised.html" />
+    <Content Include="Templates\ticket-resolved.html" />
+    <Content Include="Templates\TransactionPdf.html" />
+    <Content Include="Templates\UserElectronicStatementPDF.html" />
+    <Content Include="Templates\welcome.html" />
+    <Content Include="UserCodes\Ana+pSndwOfu%40%40%40rlAVTHdpg==.txt" />
+    <Content Include="UserCodes\BDcJHqlqklOR2vK0ZkIkjQ==.txt" />
+    <Content Include="UserCodes\ff20e060-339f-4a58-8ffe-e55bd87787ba.txt" />
+    <Content Include="UserCodes\LoginAttempt\U3Z3VGQz89lMG32qXmMvq5fxXSPHQosY.txt" />
+    <Content Include="UserCodes\Sc6kfTeczhb9godIj88+4g==.txt" />
+    <Content Include="UserCodes\U3Z3VGQz89mLwJHaqgOstQ==.txt" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\APIHome\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Content\CableCarTicketPDF\" />
+    <Folder Include="Content\DataPackPDF\" />
+    <Folder Include="Content\FlightTicketPDF\" />
+    <Folder Include="Content\NewFolder1\" />
+    <Folder Include="Models\Response\Voting\Consumer\" />
+    <Folder Include="Views\AddUser\" />
+    <Folder Include="Views\BankTransfers\" />
+    <Folder Include="Views\BusSewa_RequestAPI\" />
+    <Folder Include="Views\DownloadPDF\" />
+    <Folder Include="Views\NepalPayQR\" />
+    <Folder Include="Views\TouristBus_RequestAPI\" />
+    <Folder Include="Views\UploadImage\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Certificates\NEPALPAY.cer" />
+    <Content Include="Certificates\NPI.cer" />
+    <Content Include="Certificates\NPI.pem" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyPay\MyPay.csproj">
+      <Project>{E9DF0012-70B4-4632-BBD0-91A69336D942}</Project>
+      <Name>MyPay</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52664</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:52676/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\MyPay\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\MyPay\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\MyPay\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\MyPay\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\MyPay\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\MyPay\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\MyPay\packages\IronSoftware.Native.PdfModel.2023.9.18743\build\net\IronSoftware.Native.PdfModel.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\MyPay\packages\IronSoftware.Native.PdfModel.2023.9.18743\build\net\IronSoftware.Native.PdfModel.targets'))" />
+    <Error Condition="!Exists('..\MyPay\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\MyPay\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets'))" />
+    <Error Condition="!Exists('..\MyPay\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\MyPay\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets'))" />
+  </Target>
+  <Import Project="..\MyPay\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\MyPay\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <Import Project="..\MyPay\packages\IronSoftware.Native.PdfModel.2023.9.18743\build\net\IronSoftware.Native.PdfModel.targets" Condition="Exists('..\MyPay\packages\IronSoftware.Native.PdfModel.2023.9.18743\build\net\IronSoftware.Native.PdfModel.targets')" />
+  <Import Project="..\MyPay\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('..\MyPay\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets')" />
+  <Import Project="..\MyPay\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets" Condition="Exists('..\MyPay\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets')" />
+</Project>

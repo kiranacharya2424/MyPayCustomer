@@ -1,0 +1,168 @@
+﻿
+
+@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserRCCard";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-none d-sm-block">
+                                                    <h6 class="title" id="hdHeading">Recharge Card</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-inner">
+                                            <!-- step1 -->
+                                            <div class="p-2" id="DivRCCard" style="display:none;">
+
+
+                                                <div class="row gy-4">
+                                                    <div class="col-12 col-sm-7 m-auto">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Select Recharge Card Type</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <table width="100%">
+                                                                        @{
+                                                                            List<MyPay.Models.Get.GetService_Providers> objDisplayList = ViewBag.TVList as List<MyPay.Models.Get.GetService_Providers>;
+                                                                            for (int i = 0; i < objDisplayList.Count; i++)
+                                                                            {
+                                                                                <tr class="nk-tb-item">
+                                                                                    <td class="nk-tb-col" style=" height: 100px;  border-bottom: 1px solid #efefef;" onclick="return showRCCardDetails(@objDisplayList[i].ProviderTypeId,'@objDisplayList[i].ProviderName.ToString()');">
+                                                                                        <img src="@objDisplayList[i].LogoURL" width="80" />
+                                                                                        @objDisplayList[i].ProviderName.ToString()
+                                                                                        @if (@objDisplayList[i].MPCoinsCashback != "0.00")
+                                                                                        {
+                                                                                            <span class="badge rounded-pill bg-warning cashback-badge cashbackhide" style="display:inline;">@objDisplayList[i].CashbackPercentage% cashback</span>
+                                                                                            <span class="badge rounded-pill bg-warning coin-badge cashbackhide" style="display:inline;">@objDisplayList[i].MPCoinsCashback% coins</span>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <span class="badge rounded-pill bg-warning cashback-badge cashbackhide" style="display:inline;">@objDisplayList[i].CashbackPercentage% cashback</span>
+                                                                                        }
+                                                                                    </td>
+                                                                                </tr>
+                                                                            }
+                                                                        }
+                                                                    </table>
+                                                                    <input type="hidden" value="" id="hdnProviderTypeId" />
+                                                                    <input type="hidden" value="@ViewBag.MyPayContactNumber" id="hdnContactNumber" />
+                                                                    <input type="hidden" value="@ViewBag.ServiceId" id="hdnServiceID" />
+                                                                    <input type="hidden" value="" id="Amount" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- step1.1 -->
+                                            <div class="p-2" id="DivRCCardStep2" style="display:none;">
+
+
+                                                <div class="row gy-4">
+                                                    <div class="col-12 col-sm-7 m-auto">
+                                                        <div class="form-group" id="dvAmount">
+                                                            <label class="form-label text-soft"> Amount</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group" id="dvInputAmount">
+                                                                    <select id="ddlAmount" onchange="GetAmount();" class="form-control form-control-lg" placeholder="Amount"></select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="p-4 bg-lighter mt-2 mb-4" id="dvServiceCharge" style="display:none;">
+                                                            <div class="p-3 text-center border-dashed">
+                                                                <span class="fs-18px fw-medium"><small class="fw-medium">Rs.</small><span id="lblAmountRC">0.00</span></span>
+                                                                <p class="m-0 text-soft fs-12px">Total Payable Amount</p>
+                                                                <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
+                                                                    <label class="text-soft fs-13px m-0">Cashback</label>
+                                                                    <span class="fs-13px fw-medium">Rs. <span id="lblCashback">0.00</span></span>
+                                                                </div><!--d-flex-->
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <label class="text-soft fs-13px m-0">Service Charge</label>
+                                                                    <span class="fs-13px fw-medium">Rs.<span id="lblServiceCharge">0.00</span></span>
+                                                                </div><!--d-flex-->
+                                                            </div><!--border-dashed-->
+                                                        </div>
+                                                        <div class="form-group" style="text-align:center;">
+                                                            <a href="javascript:void(0);" id="btnPay" class="btn btn-primary btn-lg d-block ">Pay</a>
+                                                            <div class="clsBackButton mt-4">
+                                                                <a href="javascript:void(0);" id="btnPayBack">Back</a>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- step2 -->
+                                            @RenderPage("~/Views/MyPayUser/MyPayPaymentScreen.cshtml")
+
+
+                                            <div class="p-2" style="margin:10px; text-align:center">
+                                                <div id="dvMessage" class="form-group" style="color:red">
+                                                    <span id="errormsg" style="color:red">
+                                                        @ViewBag.Message
+                                                    </span>
+                                                    <span id="successmsg" style="color:green">
+                                                        @ViewBag.SuccessMessage
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+                        }
+                    </div><!-- .row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<input type="hidden" id="hfBankId" value="" />
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_rccard.js"></script>
+<style>
+    .paymentoption {
+        min-height: 50px;
+        border: 1px solid cadetblue;
+        padding: 12px;
+        margin: 10px 0px 10px 0px;
+        border-radius: 3px;
+        font-weight: bold;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .content-light {
+        color: #afafaf;
+        font-weight: normal;
+        font-size: 14px;
+    }
+</style>

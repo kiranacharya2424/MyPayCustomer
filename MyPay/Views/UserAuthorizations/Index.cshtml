@@ -1,0 +1,64 @@
+﻿@using MyPay.Models.Add;
+@model Add_ConnectIPS
+@{
+    ViewBag.Title = "Index";
+    Layout = "";
+}
+
+
+
+@*<form action="https://uat.connectips.com:7443/connectipswebgw/loginpage" method="post">*@
+<div>
+   
+</div>
+    <form action="https://login.connectips.com/connectipswebgw/loginpage" method="post">
+        <div style="display:none">
+            <br>
+            MERCHANT ID
+            <input type="text" name="MERCHANTID" id="MERCHANTID" value="@Model.MERCHANTID" />
+            <br>
+            APP ID
+            <input type="text" name="APPID" id="APPID" value="@Model.APPID" />
+            <br>
+            APP NAME
+            <input type="text" name="APPNAME" id="APPNAME" value="@Model.APPNAME" />
+            <br>
+            TXN ID
+            <input type="text" name="TXNID" id="TXNID" value="@Model.TXNID" />
+            <br>
+            TXN DATE
+            <input type="text" name="TXNDATE" id="TXNDATE" value="@Model.TXNDATE" />
+            <br>
+            connectIPS Process & Interface Document For Merchant Public
+            Page 11 of 16
+            TXN CRNCY
+            <input type="text" name="TXNCRNCY" id="TXNCRNCY" value="@Model.TXNCRNCY" />
+            <br>
+            TXN AMT
+            <input type="text" name="TXNAMT" id="TXNAMT" value="@Model.TXNAMT" />
+            <br>
+            REFERENCE ID
+            <input type="text" name="REFERENCEID" id="REFERENCEID" value="@Model.REFERENCEID" />
+            <br>
+            REMARKS
+            <input type="text" name="REMARKS" id="REMARKS" value="@Model.REMARKS" />
+            <br>
+            PARTICULARS
+            <input type="text" name="PARTICULARS" id="PARTICULARS" value="@Model.PARTICULARS" />
+            <br>
+            TOKEN
+            <input type="text" name="TOKEN" id="TOKEN" value="@Model.TOKEN" />
+            <br>
+            <input type="submit" id="btnsubmit" value="Submit">
+        </div>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        <script>
+            $(document).ready(function () {
+                $("#btnsubmit").trigger("click");
+            });
+
+
+
+        </script>
+    </form>

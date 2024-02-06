@@ -1,0 +1,7 @@
+<svg id="Icon" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <path id="Fill_1" data-name="Fill 1" d="M0,36H36V0H0Z" fill="none"/>
+  <path id="Fill_3" data-name="Fill 3" d="M0,1.664H0A1.664,1.664,0,0,1,1.664,0h16.65a1.664,1.664,0,0,1,0,3.329H1.664A1.664,1.664,0,0,1,0,1.664" transform="translate(9.676 6.346)" fill="#d1d8e1"/>
+  <path id="Fill_5" data-name="Fill 5" d="M7.837,10.477a1.665,1.665,0,0,1-2.354,2.355l-5-4.994a1.666,1.666,0,0,1,0-2.354l5-5A1.664,1.664,0,0,1,7.837,2.842L4.019,6.659Z" transform="translate(6.346 1.351)" fill="#7d90aa"/>
+  <path id="Fill_7" data-name="Fill 7" d="M19.98,1.666h0A1.666,1.666,0,0,0,18.314,0H1.666a1.665,1.665,0,1,0,0,3.33H18.314A1.665,1.665,0,0,0,19.98,1.666" transform="translate(6.345 26.324)" fill="#d1d8e1"/>
+  <path id="Fill_9" data-name="Fill 9" d="M.488,10.478a1.664,1.664,0,0,0,2.354,2.354l5-4.994a1.666,1.666,0,0,0,0-2.354l-5-5A1.664,1.664,0,0,0,.488,2.842L4.305,6.661Z" transform="translate(21.33 21.329)" fill="#7d90aa"/>
+</svg>

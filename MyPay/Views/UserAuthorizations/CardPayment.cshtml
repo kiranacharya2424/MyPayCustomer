@@ -1,0 +1,53 @@
+﻿@using MyPay.Models.VendorAPI.Get._NICASIA;
+@model Req_NIC_Card
+@{
+    ViewBag.Title = "CardPayment";
+    Layout = "";
+}
+
+
+
+@*<form id="frm-nicasia" action="https://staging1.mypay.com.np/userauthorizations/CardPaymentSuccess" method="post">*@
+    <form id="frm-nicasia" action="https://secureacceptance.cybersource.com/pay" method="post">
+        <div class="form-group">
+            <input type="hidden" name="access_key" value="@Model.access_key">
+            <input type="hidden" name="profile_id" value="@Model.profile_id">
+            <input type="hidden" name="transaction_uuid" value="@Model.transaction_uuid">
+            <input type="hidden" name="signed_field_names" value="@Model.signed_field_names">
+            <input type="hidden" name="unsigned_field_names" value="@Model.unsigned_field_names">
+            <input type="hidden" name="signed_date_time" value="@Model.signed_date_time">
+            <input type="hidden" name="locale" value="@Model.locale">
+            <input type="hidden" name="auth_trans_ref_no" value="@Model.auth_trans_ref_no">
+            <input type="hidden" name="amount" value="@Model.amount">
+            <input type="hidden" name="bill_to_forename" value="@Model.bill_to_forename">
+            <input type="hidden" name="bill_to_surname" value="@Model.bill_to_surname">
+            <input type="hidden" name="bill_to_email" value="@Model.bill_to_email">
+            <input type="hidden" name="bill_to_phone" value="@Model.bill_to_phone">
+            <input type="hidden" name="bill_to_address_line1" value="@Model.bill_to_address_line1">
+            <input type="hidden" name="bill_to_address_city" value="@Model.bill_to_address_city">
+            <input type="hidden" name="bill_to_address_state" value="@Model.bill_to_address_state">
+            <input type="hidden" name="bill_to_address_country" value="@Model.bill_to_address_country">
+            <input type="hidden" name="bill_to_address_postal_code" value="@Model.bill_to_address_postal_code">
+            <input type="hidden" name="transaction_type" value="@Model.transaction_type">
+            <input type="hidden" name="reference_number" value="@Model.reference_number">
+            <input type="hidden" name="currency" value="@Model.currency">
+            <input type="hidden" name="payment_method" value="@Model.payment_method">
+            <input type="hidden" name="signature" value="@Model.signature">
+            <input type="hidden" name="card_type" value="@Model.card_type">
+            <input type="hidden" name="card_number" value="@Model.card_number">
+            <input type="hidden" name="card_expiry_date" value="@Model.card_expiry_date">
+            <input type="submit" style="display:none;" id="btnsubmit" value="Submit">
+        </div>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        <script>
+            $(document).ready(function () {
+                $("#btnsubmit").trigger("click");
+
+            });
+
+
+
+        </script>
+    </form>
+

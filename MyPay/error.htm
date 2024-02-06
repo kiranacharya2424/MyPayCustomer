@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" /> 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Error</title>
+</head>
+<body>
+    <section class="page-section">
+        <div class="container-fluid p-0">
+            <div class="content-detail p-0">
+                <div class="error-img">
+                   <img src="/Content/assets/Images/failed-error.svg" class="img-responsive"> 
+                    <label class="form-label"></label>
+                </div>
+
+                <h4 class="sub-title">We are Sorry...</h4>
+                <p class="detail-text">
+                    Something went wrong. Please try again later!
+                    <div class="back-btn">
+                        <input action="action" class="btn-back" onclick="window.history.go(-1); return false;" type="submit" value="Go Back" />
+                    </div>
+</div>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    <style>
+        .page-section .content-detail {
+            height: 100vh;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        h4.sub-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .btn-back {
+            background-color: #E45415;
+            filter: drop-shadow(0px 4px 11.5px rgba(0,0,0,0.05));
+            padding: 14px 1.5rem;
+            line-height: 1.25rem;
+            border-radius: 25px;
+            font-size: 14px;
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            text-align: center;
+            vertical-align: middle;
+            user-select: none;
+            border: 0;
+        }
+
+
+            .btn-back:hover {
+                color: #fff;
+                background-color: #d54f15;
+            }
+
+        .back-btn {
+            margin-top: 30px;
+        }
+
+            .back-btn a:hover {
+                text-decoration: none;
+            }
+
+        .error-img {
+            margin-bottom: 30px;
+        }
+         
+    </style>
+</body>
+</html>

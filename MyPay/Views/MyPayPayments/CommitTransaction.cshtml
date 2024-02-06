@@ -1,0 +1,390 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="/Content/assets/MyPayPayments/images/favicon.png">
+    <!-- Page Title  -->
+    <title>MyPay</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="/Content/assets/MyPayPayments/css/dashlite.css">
+    <link id="skin-default" rel="stylesheet" href="/Content/assets/MyPayPayments/css/theme.css?ver=2.9.1">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="~/Content/assets/css/merchant_committransaction.css" rel="stylesheet" />
+</head>
+<body class="nk-body npc-general pg-auth" oncontextmenu="return false;">
+    <div class="loader" id="AjaxLoader" style="display:none;">
+        <div class="strip-holder">
+            <div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>
+        </div>
+    </div>
+    <form id="frm1" method="post" enctype="multipart/form-data">
+
+        <input type="hidden" id="hdnOrderToken" name="hdnOrderToken" value="@ViewBag.OrderToken" />
+        <input type="hidden" id="hdnMerchantId" name="hdnMerchantId" value="@ViewBag.MerchantId" />
+        <input type="hidden" id="hdnPhonenumber" name="hdnPhonenumber" value="@ViewBag.Phonenumber" />
+        <input type="hidden" id="hdnCancelled" name="hdnCancelled" value="" />
+
+        <div class="nk-app-root">
+            <!-- main start -->
+            <div class="nk-main ">
+                <!-- wrap start -->
+                <div class="nk-wrap nk-wrap-nosidebar">
+                    <!-- content start -->
+                    <div class="nk-content ">
+                        <div class="nk-block nk-auth-body wide-xs p-0 otpscreen">
+                            <div class="brand-logo text-center bg-gradient circ-gr">
+                                <span class="logo-link">
+                                    <img class="logo-dark logo-img logo-img-lg" src="/Content/assets/MyPayPayments/images/logo.png" srcset="/Content/assets/MyPayPayments/images/logo2x.png 2x" alt="logo-dark">
+                                </span>
+                            </div>
+                            <div class="card">
+                                @if (ViewBag.Message == "")
+                                {
+                                    <div class="card-inner card-inner-lg">
+                                        <div class="nk-block-head">
+                                            <div class="nk-block-head-content">
+                                                <h4 class="nk-block-title text-center mb-2">Pay direct from Mypay </h4>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <div class="form-control-wrap">
+                                                <label class="form-label">Transaction ID</label>
+                                                <input type="text" class="form-control form-control-lg" id="" value="@ViewBag.TransactionID" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-2 form-group-main">
+                                            <div class="form-control-wrap">
+                                                <label class="form-label">Order Amount</label>
+                                                <input type="text" class="form-control form-control-lg" id="" value="@ViewBag.Amount" readonly="">
+                                            </div>
+                                            <div class="form-control-wrap-more">
+                                                @if (!string.IsNullOrEmpty(ViewBag.ServiceCharge) && ViewBag.ServiceCharge != "Rs. 0.00")
+                                                {
+                                                    <div class="form-control-wrap-more-in">
+                                                        <label class="form-label">Service Charge:</label>
+                                                        <input type="text" class="form-control form-control-lg" id="" value="@ViewBag.ServiceCharge" readonly="">
+                                                    </div>
+                                                }
+                                                @if (!string.IsNullOrEmpty(ViewBag.Cashback) && ViewBag.Cashback != "Rs. 0.00")
+                                                {
+                                                    <div class="form-control-wrap-more-in">
+                                                        <label class="form-label">Cashback:</label>
+                                                        <input type="text" class="form-control form-control-lg" id="" value="@ViewBag.Cashback" readonly="">
+                                                    </div>
+                                                }
+                                                @if (!string.IsNullOrEmpty(ViewBag.Discount) && ViewBag.Discount != "Rs. 0.00")
+                                                {
+                                                    <div class="form-control-wrap-more-in">
+                                                        <label class="form-label">Discount:</label>
+                                                        <input type="text" class="form-control form-control-lg" id="" value="@ViewBag.Discount" readonly="">
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <div class="form-control-wrap">
+                                                <label class="form-label">Total Payable </label>
+                                                <input type="text" class="form-control form-control-lg" id="" value="@ViewBag.NetAmount" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group mb-2">
+                                            <div class="form-control-wrap">
+                                                <label class="form-label">Balance</label>
+                                                <input type="text" class="form-control form-control-lg" id="" value="@ViewBag.Balance" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="card-inner-group">
+                                            <div class="card-title">
+                                                <h6 class="fs-14px mt-3 mb-4">Available options to pay </h6>
+                                                <input type="hidden" id="hfPaymentMode" name="hfPaymentMode" value="1">
+                                            </div>
+                                            <div class="card-inner border p-3 payment-method active paymentoption" id="DivWallet">
+                                                <div class="nk-wg-action cursor-pointer">
+                                                    <div class="nk-wg-action-content">
+                                                        <em class="icon"><img src="~/Content/assets/MyPayUserApp/images/dashboard/walletsm.svg" width="22"></em>
+                                                        <div class="title">Wallet Balance <br /><small class="text-soft ml-1">(For Instant Payment)</small></div>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="text-soft"><em class="icon ni ni-forward-ios pt-1"></em></a>
+                                                </div>
+                                            </div>
+                                            @if (Convert.ToString(ViewBag.smartpayCoins) != "Rs. 0.00")
+                                            {
+                                                <div class="card-inner border p-3 payment-method mt-2 paymentoption" id="DivCoin">
+                                                    <div class="nk-wg-action cursor-pointer">
+                                                        <div class="nk-wg-action-content d-block">
+                                                            <div class="d-flex align-items-center">
+                                                                <em class="icon top-0"><img src="~/Content/assets/MyPayUserApp/images/dashboard/mypaycoin.svg" width="22"></em>
+                                                                <div class="title">MyPay Coins</div>
+                                                            </div>
+                                                            <div class="text-soft">
+                                                                <small class="d-block"><span id="smartpayRupees">@ViewBag.smartpayRupees</span> and <span id="smartpayCoins">@ViewBag.smartpayCoins </span>MyPay Coins<br /></small>
+                                                                <small class="d-block">Total MyPay Coins: <span id="smartpayCoinsTotal"> @ViewBag.smartpayBalance </span></small>
+                                                            </div>
+                                                        </div>
+
+                                                        <a href="javascript:void(0);" class="text-soft"><em class="icon ni ni-forward-ios pt-1"></em></a>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                        <div class="form-group otp-form-group mb-2">
+                                            <div class="form-control-wrap">
+                                                <input type="password" class="form-control form-control-lg" id="OTP" name="OTP" value="" maxlength="6" placeholder="Enter OTP">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @if (string.IsNullOrEmpty(@ViewBag.UserInsufficeintBalanceMessage))
+                                            {
+                                                <input type="submit" class="btn btn-lg btn-primary btn-block" id="submitotp" style="display:none;" value="Submit OTP" />
+                                                <input type="button" class="btn btn-lg btn-primary btn-block" id="sendotp" value="Send OTP" />
+                                                <div class="resend_otp" id=""><span id="seconds">Resend in <label id="clock"></label> sec</span></div>
+
+                                            }
+                                            else
+                                            {
+                                                <div id="dvMsgInsufficient" style="color:red; text-align:center">
+                                                    @ViewBag.UserInsufficeintBalanceMessage
+                                                </div>
+                                            }
+                                            <div class="form-group">
+                                                <input type="submit" id="btnClose" class="btn btn-lg btn-block" style="color: #000;" value="Cancel" />
+                                            </div>
+                                            <div id="dvMsg" style="color:red; text-align:center">
+                                                @ViewBag.UserMessage
+                                            </div>
+                                            <input type="hidden" id="hdnCancelledRemarks" value="@ViewBag.UserInsufficeintBalanceMessage" />
+                                        </div>
+
+                                    </div>
+                                }
+                                else
+                                {
+
+                                    <div class="card-inner card-inner-lg">
+                                        <div class="nk-block-head">
+                                            <div class="alert alert-warning alert-icon mt-4 mb-4">
+                                                <em class="icon ni ni-alert-circle"></em>
+
+                                                @ViewBag.Message
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div><!--otpscreen-->
+
+                    </div>
+                    <!-- wrap end -->
+                </div>
+                <!-- content end -->
+            </div>
+            <!-- main end -->
+        </div>
+        <!-- app-root end -->
+    </form>
+    <!-- JavaScript -->
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    @Scripts.Render("~/bundles/committransaction")
+    @*<script src="~/Content/assets/MyPayPayments/js/committransaction.js"></script>*@
+
+    <script>
+        $(document).ready(function () {
+
+            $("#frm1").on("submit", function () {
+                debugger;
+                setTimeout(function () {
+                    $("#AjaxLoader").show();
+                }, 10);
+                $("form").first().submit();
+                return false;
+            })
+        });
+    </script>
+    <style>
+        @@media (min-width: 500px) {
+            .pagecontent {
+                width: 400px;
+                margin: auto;
+            }
+        }
+
+        .otp .form-control {
+            text-align: center;
+            letter-spacing: 35px;
+            padding-left: 56px;
+        }
+
+        .loader {
+            top: 0;
+            left: 0;
+            position: fixed;
+            opacity: 0.8;
+            z-index: 10000000;
+            background: Black;
+            height: 100%;
+            width: 100%;
+            margin: auto;
+        }
+
+        .strip-holder {
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            left: 50%;
+            margin-left: -50px;
+            position: relative;
+        }
+
+        .strip-1,
+        .strip-2,
+        .strip-3 {
+            width: 20px;
+            height: 20px;
+            background: #ffa353;
+            position: relative;
+            -webkit-animation: stripMove 2s ease infinite alternate;
+            animation: stripMove 2s ease infinite alternate;
+            -moz-animation: stripMove 2s ease infinite alternate;
+        }
+
+        .strip-2 {
+            -webkit-animation-duration: 2.1s;
+            animation-duration: 2.1s;
+            background-color: #F8E401;
+        }
+
+        .strip-3 {
+            -webkit-animation-duration: 2.2s;
+            animation-duration: 2.2s;
+            background-color: #E45415;
+        }
+
+        @@-webkit-keyframes stripMove {
+            0% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+        }
+
+        @@-moz-keyframes stripMove {
+            0% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(50px, 0px, 0px);
+                -webkit-transform: translate3d(50px, 0px, 0px);
+                -moz-transform: translate3d(50px, 0px, 0px);
+            }
+        }
+
+        @@keyframes stripMove {
+            0% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(50px, 0px, 0px);
+                -webkit-transform: translate3d(50px, 0px, 0px);
+                -moz-transform: translate3d(50px, 0px, 0px);
+            }
+        }
+
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            debugger;
+            $("#DivWallet").click(function () {
+                debugger;
+
+                $("#hfPaymentMode").val('1');
+
+                $("#DivWallet").css("background", "antiquewhite");
+                $("#DivCoin").css("background", "#fff");
+
+                $("#DivWallet").attr("class", "card-inner border p-3 payment-method mt-2 active paymentoption");
+                $("#DivCoin").attr("class", "card-inner border p-3 payment-method mt-2  paymentoption");
+
+            })
+
+            $("#DivCoin").click(function () {
+                debugger;
+
+                var smartpayCoins = $("#smartpayCoins").text();
+                if (smartpayCoins <= 0) {
+                    return;
+                }
+
+                $("#hfPaymentMode").val('4');
+                $("#DivWallet").css("background", "#fff");
+                $("#DivCoin").css("background", "antiquewhite");
+
+                $("#DivWallet").attr("class", "card-inner border p-3 payment-method mt-2  paymentoption");
+                $("#DivCoin").attr("class", "card-inner border p-3 payment-method mt-2 active paymentoption");
+
+            });
+        });
+
+    </script>
+</body>
+
+</html>

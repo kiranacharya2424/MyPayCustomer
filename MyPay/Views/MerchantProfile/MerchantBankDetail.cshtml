@@ -1,0 +1,85 @@
+﻿@model MyPay.Models.Add.AddMerchantBankDetail
+@{
+    ViewBag.Title = "MerchantBankDetail";
+    Layout = "~/Views/Shared/_MerchantLayout.cshtml";
+}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Bank Detail</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card-aside-wrap">
+                            <div class="card-inner">
+                                <div class="nk-block">
+                                    <div class="nk-block-head">
+                                        <div class="form-group" style="color:red">
+                                            @ViewBag.Message
+                                        </div>
+                                        <div class="form-group" style="color:green">
+                                            @ViewBag.SuccessMessage
+                                        </div>
+                                    </div><!-- .nk-block-head -->
+                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                        <h6 class="title overline-title text-base">Bank Detail</h6>
+                                    </div>
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Name</label>
+                                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Account Number</label>
+                                                    @Html.TextBoxFor(m => m.AccountNumber, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Bank Code</label>
+                                                    @Html.TextBoxFor(m => m.BankCode, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Bank Name</label>
+                                                    @Html.TextBoxFor(m => m.BankName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Branch Name</label>
+                                                    @Html.TextBoxFor(m => m.BranchName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .nk-block -->
+                            </div><!-- .card-content -->
+                        </div><!-- .card-aside-wrap -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1203 @@
+﻿@model MyPay.Models.Add.AddAgent
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .tab button {
+        width: 49%;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        color: rgb(255 255 255 / 72%);
+        Background-color: #93979f;
+        font-size: 17px;
+    }
+
+        .tab button:hover {
+            color: white;
+        }
+
+        .tab button.active {
+            background-color: #E45415;
+            border-bottom-color: #E45415;
+            /*        color: rgb(255 255 255 / 72%);*/
+        }
+</style>
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Add Agent</h3>
+                        </div>
+                    </div>
+                    <div class="nk-block">
+                        <div class="card card-bordered">
+                            <div class="card-aside-wrap">
+                                <div class="card-inner">
+                                    <div class="nk-block">
+                                        <div class="nk-block-head">
+                                            <div class="form-group" style="color:red">
+                                                @ViewBag.Message
+                                            </div>
+                                            <div class="form-group" style="color:green">
+                                                @TempData["Message"]
+                                            </div>
+                                        </div><!-- .nk-block-head -->
+                                        <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                            <h6 class="title overline-title text-base">Agent Management Detail</h6>
+                                        </div>
+                                        @using (Html.BeginForm("AddAgent", "Agent", new { }, FormMethod.Post, new { @role = "form", @id = "AddAgentform" }))
+                                        {
+                                            @*<input type="hidden" id="IsPersonalorFirm" name="IsPersonalorFirm">*@
+                                            @*<input type="hidden" id="AgentUniqueId" name="AgentUniqueId">*@
+                                            @Html.HiddenFor(m => m.AgentUniqueId, new { id = "AgentUniqueId" })
+                                            @Html.HiddenFor(m => m.IsPersonalorFirm, new { id = "IsPersonalorFirm" })
+                                            @*@Html.HiddenFor(m => m.MaritalStatusId, new { id = "hdn_MaritalStatusId" })
+            @Html.HiddenFor(m => m.GenderId, new { id = "hdn_GenderId" })
+            @Html.HiddenFor(m => m.NationalityId, new { id = "hdn_NationalityId" })
+            @Html.HiddenFor(m => m.OccupationId, new { id = "hdn_OccupationId" })*@
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">User Name <strong class="text-danger">*</strong></label>
+
+                                                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Password<strong class="text-danger">*</strong> </label>
+                                                    <div class="form-control-wrap">
+                                                        @{
+                                                            <a href="javascript:void(0);" class="form-icon form-icon-right passcode-switch md" data-target="Password">
+                                                                <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                                <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                                            </a>
+                                                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control form-control-md", @value = @ViewBag.Password })
+                                                        }
+                                                        <input type="hidden" id="hdnPassword" value="@ViewBag.Password" />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6" id="div_AgentCategoryId">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Category <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.AgentCategoryId, ViewBag.AgentCategoryId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                    @Html.HiddenFor(m => m.AgentCategory)
+                                                    <span style="color:red" id="spanAgentCategoryId"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                            <br />
+                                            <div class="row gy-4">
+                                                <div class="col-lg-4 col-sm-6 tab">
+                                                    <button type="button" class="tablinks active" id="Personaltab" style="float: left;  " onclick="IsPersonal(event, 'Personal')">Person</button>
+                                                    <button type="button" class="tablinks" id="Firmtab" style="  " onclick="IsPersonal(event, 'Firm')"> Firm</button>
+                                                </div>
+                                            </div>
+                                            <div class="cls_Personal" id="Personal" style="display:block;">
+                                                <br />
+                                                <br />
+
+
+                                                <div id="persontab_personaldetails" class="cls_persontab_personaldetails">
+                                                    <h6 class="title overline-title text-base">Personal Details</h6>
+                                                    <div class="nk-divider divider my-3"></div>
+                                                    <div class=" row gy-4  ">
+
+
+                                                        <div class="col-lg-4 col-sm-6" id="div_FullName">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Full Name <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.FullName, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanFullName"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_ContactNumber">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Mobile Number <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form-control form-control-md", @maxlength = 10, @onclick = "validate(event)", @onkeypress = "return isNumberKey(this, event);" })
+                                                                    <span style="color:red" id="spanContactNumber"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_EmailID">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Email Id <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.EmailID, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanEmailID"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Date of Birth (AD) <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.DOB, new { @class = "form-control form-control-md date-picker", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanDOB"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_Gender">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Gender <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.GenderId, ViewBag.GenderId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.GenderName)
+                                                                    <span style="color:red" id="spanGenderId"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_MaritalStatus">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Marital Status <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.MaritalStatusId, ViewBag.MaritalStatusId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.MaritalStatus)
+                                                                    <span style="color:red" id="spanMaritalStatusId"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_GrandfatherName">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">GrandFather Name <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.GrandfatherName, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanGrandfatherName"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_FatherName">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Father Name <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.FatherName, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanFatherName"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_MotherName">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Mother Name <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.MotherName, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanMotherName"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_Occupation">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Occupation <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.OccupationId, ViewBag.OccupationId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.Occupation)
+                                                                    <span style="color:red" id="spanOccupationId"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_SpouseName">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Spouse Name </label>
+                                                                    @Html.TextBoxFor(m => m.SpouseName, new { @class = "form-control form-control-md" })
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_Nationality">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Nationality <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.NationalityId, ViewBag.NationalityId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.Nationality)
+                                                                    <span style="color:red" id="spanNationalityId"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="nk-divider divider my-5"></div>
+                                                    <div class="nk-block">
+                                                        <div class="row mt-5">
+                                                            <div class="col-lg-12 col-sm-6">
+                                                                <div class="form-group">
+                                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                                        @ViewBag.Message
+                                                                    </div>
+                                                                    <button type="button" class="btn btn-primary text-center mr-2" id="btnContinue_PERSONAL">Continue</button>
+                                                                    @*<button type="button" onclick="window.location='/Merchant/MerchantList'" class="btn btn-light text-center mr-2">List</button>*@
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .nk-block -->
+
+                                                </div>
+
+
+                                                <div id="persontab_addressdetails" class="cls_persontab_addressdetails">
+
+                                                    <h6 class="title overline-title text-base"> Address Details</h6>
+                                                    <div class="nk-divider divider my-3"></div>
+                                                    <div class=" row gy-4  ">
+                                                        <div class="col-lg-4 col-sm-6" id="div_PermanentAddress">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Permanent Address <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.PermanentAddress, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanPermanentAddress"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_PermanentState">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Permanent Province <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.PermanentStateId, ViewBag.PermanentStateId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.PermanentState)
+                                                                    <span style="color:red" id="spanPermanentStateId"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_PermanentDistrict">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Permanent District <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.PermanentDistrictId, ViewBag.PermanentDistrictId as SelectList, "", new { @class = "form-select form-control form-control-md", @disabled = "disabled" })
+                                                                    @Html.HiddenFor(m => m.PermanentDistrict)
+                                                                    <span style="color:red" id="spanPermanentDistrictId"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_PermanentMunicipality">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Permanent VDC <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.PermanentMunicipalityId, ViewBag.PermanentMunicipalityId as SelectList, "", new { @class = "form-select form-control form-control-md", @disabled = "disabled" })
+                                                                    @Html.HiddenFor(m => m.PermanentMunicipality)
+                                                                    <span style="color:red" id="spanPermanentMunicipalityId"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_Permanentward">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Permanent Ward <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.Permanentward, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanPermanentward"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_PermanentStreet">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Permanent Street </label>
+                                                                    @Html.TextBoxFor(m => m.PermanentStreet, new { @class = "form-control form-control-md" })
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_PermanentHouseNo">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Permanent House Number</label>
+                                                                    @Html.TextBoxFor(m => m.PermanentHouseNo, new { @class = "form-control form-control-md" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <h6 class="title overline-title text-base">Current Address</h6>
+                                                    <div class=" row gy-4  ">
+                                                        <div class="col-lg-4 col-sm-6" id="div_CurrentAddress">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Current Address <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.CurrentAddress, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanCurrentAddress"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_CurrentState">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Current Province <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.CurrentStateId, ViewBag.CurrentStateId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.CurrentState)
+                                                                    <span style="color:red" id="spanCurrentStateId"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_CurrentDistrict">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Current District <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.CurrentDistrictId, ViewBag.CurrentDistrictId as SelectList, "", new { @class = "form-select form-control form-control-md", @disabled = "disabled" })
+                                                                    @Html.HiddenFor(m => m.CurrentDistrict)
+                                                                    <span style="color:red" id="spanCurrentDistrictId"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_CurrentMunicipality">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Current VDC <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.CurrentMunicipalityId, ViewBag.CurrentMunicipalityId as SelectList, "", new { @class = "form-select form-control form-control-md", @disabled = "disabled" })
+                                                                    @Html.HiddenFor(m => m.CurrentMunicipality)
+                                                                    <span style="color:red" id="spanCurrentMunicipalityId"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_Currentward">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Current Ward <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.Currentward, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanCurrentward"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_CurrentStreet">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Current Street </label>
+                                                                    @Html.TextBoxFor(m => m.CurrentStreet, new { @class = "form-control form-control-md" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6" id="div_CurrentHouseNo">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Current House Number </label>
+                                                                    @Html.TextBoxFor(m => m.CurrentHouseNo, new { @class = "form-control form-control-md" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="nk-divider divider my-5"></div>
+                                                    <div class="nk-block">
+                                                        <div class="row mt-5">
+                                                            <div class="col-lg-12 col-sm-6">
+                                                                <div class="form-group">
+                                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                                        @ViewBag.Message
+                                                                    </div>
+                                                                    <button type="button" class="btn btn-primary text-center mr-2" id="btnContinue_ADDRESS">Continue</button>
+                                                                    <button type="button" class="btn btn-light text-center mr-2" id="btnback_ADDRESS">BACK</button>
+                                                                    @*<button type="button" onclick="window.location='/Merchant/MerchantList'" class="btn btn-light text-center mr-2">List</button>*@
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .nk-block -->
+                                                </div>
+                                                <div id="persontab_documentdetails" class="cls_persontab_documentdetails">
+
+                                                    <h6 class="title overline-title text-base"> Document Details</h6>
+                                                    <div class="nk-divider divider my-3"></div>
+                                                    <div class=" row gy-4  ">
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Document Type <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.DocumentTypeId, ViewBag.DocumentTypeId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.DocumentType)
+                                                                    <span style="color:red" id="spanDocumentTypeId"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Document Number <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.DocumentNumber, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanDocumentNumber"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Issue Date<strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.IssueDate, new { @class = "form-control form-control-md date-picker" })
+                                                                    <span style="color:red" id="spanIssueDate"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-4 col-sm-6" id="show_expirydate" style="display:none">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Expiry Date<strong class="text-danger"> </strong></label>
+                                                                    @Html.TextBoxFor(m => m.ExpiryDate, new { @class = "form-control form-control-md date-picker" })
+                                                                    <span style="color:red" id="spanExpiryDate"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Issue Place <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.IssuePlace, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanIssuePlace"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Pan Number <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.PanNumber, new { @class = "form-control form-control-md" })
+                                                                    <span style="color:red" id="spanPanNumber"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-5">
+                                                            <div class="col-lg-4 col-sm-6">
+                                                                <div class="form-group text-center mb-3">
+                                                                    <div class="form-control-wrap">
+                                                                        <label class="form-label">Document Front Image <strong class="text-danger">*</strong></label>
+                                                                        <div class="">
+                                                                            <a class="gallery-image popup-image" href="~/AgentDocuments/Images/@Model.NationalIdProofFront">
+                                                                                @if (string.IsNullOrEmpty(Model.NationalIdProofFront))
+                                                                                {
+                                                                                    <img ID="targetNationalIdProofFront" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img ID="targetNationalIdProofFront" class="custom-file-inputrounded-top" width="200" src="~/Images/AgentImages/@Model.NationalIdProofFront" alt="">
+
+                                                                                }
+                                                                            </a>
+                                                                            @Html.HiddenFor(m => m.NationalIdProofFront)
+                                                                        </div>
+                                                                        <div class="custom-file text-left mt-3">
+                                                                            <input type="file" multiple class="custom-file-input" id="NationalIdProofFrontFile" onchange="PreviewImage(this,'NationalIdProofFront',10000)" name="NationalIdProofFrontFile">
+                                                                            <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <span style="color:red" id="spanNationalIdProofFront"></span>
+
+                                                            </div>
+                                                            <div class="col-lg-4 col-sm-6" id="show_backimage" style="display:none">
+                                                                <div class="form-group text-center mb-3">
+                                                                    <div class="form-control-wrap">
+                                                                        <label class="form-label">Document Back Image <strong class="text-danger">*</strong></label>
+                                                                        <div class="">
+                                                                            <a class="gallery-image popup-image" href="~/AgentDocuments/Images/@Model.NationalIdProofBack">
+                                                                                @if (string.IsNullOrEmpty(Model.NationalIdProofBack))
+                                                                                {
+                                                                                    <img ID="targetNationalIdProofBack" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img ID="targetNationalIdProofBack" class="custom-file-inputrounded-top" width="200" src="~/Images/AgentImages/@Model.NationalIdProofBack" alt="">
+
+                                                                                }
+                                                                            </a>
+                                                                            @Html.HiddenFor(m => m.NationalIdProofBack)
+                                                                        </div>
+                                                                        <div class="custom-file text-left mt-3">
+                                                                            <input type="file" multiple class="custom-file-input" id="NationalIdProofBackFile" onchange="PreviewImage(this,'NationalIdProofBack',10000)" name="NationalIdProofBackFile">
+                                                                            <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <span style="color:red" id="spanNationalIdProofBack"></span>
+
+                                                            </div>
+                                                            <div class="col-lg-4 col-sm-6">
+                                                                <div class="form-group text-center">
+                                                                    <div class="form-control-wrap">
+                                                                        <label class="form-label">Profile Photo <strong class="text-danger">*</strong></label>
+                                                                        <div class="">
+                                                                            <a class="gallery-image popup-image" href="~/AgentDocuments/Images/@Model.AgentImage">
+                                                                                @if (string.IsNullOrEmpty(Model.AgentImage))
+                                                                                {
+                                                                                    <img ID="targetAgentImage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img ID="targetAgentImage" class="custom-file-inputrounded-top" width="200" src="~/Images/AgentImages/@Model.AgentImage" alt="">
+
+                                                                                }
+                                                                            </a>
+                                                                            @Html.HiddenFor(m => m.AgentImage)
+
+                                                                        </div>
+                                                                        <div class="custom-file text-left mt-3">
+                                                                            <input type="file" multiple class="custom-file-input" id="AgentImageFile" onchange="PreviewImage(this,'AgentImage',10000)" name="AgentImageFile">
+                                                                            <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <span style="color:red" id="spanAgentImage"></span>
+
+                                                            </div>
+                                                            <div class="col-lg-4 col-sm-6">
+                                                                <div class="form-group text-center">
+                                                                    <div class="form-control-wrap">
+                                                                        <label class="form-label">Pan Image <strong class="text-danger">*</strong></label>
+                                                                        <div class="">
+                                                                            <a class="gallery-image popup-image" href="~/AgentDocuments/Images/@Model.PanImage">
+                                                                                @if (string.IsNullOrEmpty(Model.PanImage))
+                                                                                {
+                                                                                    <img ID="targetPanImage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img ID="targetPanImage" class="custom-file-inputrounded-top" width="200" src="~/Images/AgentImages/@Model.PanImage" alt="">
+
+                                                                                }
+                                                                            </a>
+                                                                            @Html.HiddenFor(m => m.PanImage)
+
+                                                                        </div>
+                                                                        <div class="custom-file text-left mt-3">
+                                                                            <input type="file" multiple class="custom-file-input" id="PanImageFile" onchange="PreviewImage(this,'PanImage',10000)" name="PanImageFile">
+                                                                            <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <span style="color:red" id="spanPanImage"></span>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="nk-divider divider my-5"></div>
+                                                    <div class="nk-block">
+                                                        <div class="row mt-5">
+                                                            <div class="col-lg-12 col-sm-6">
+                                                                <div class="form-group">
+                                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                                        @ViewBag.Message
+                                                                    </div>
+                                                                    <button type="button" class="btn btn-primary text-center mr-2" id="btnContinue_DOCUMENT">Continue</button>
+                                                                    <button type="button" class="btn btn-light text-center mr-2" id="btnback_DOCUMENT">BACK</button>
+                                                                    @*<button type="button" onclick="window.location='/Merchant/MerchantList'" class="btn btn-light text-center mr-2">List</button>*@
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .nk-block -->
+                                                </div>
+
+                                                <div id="persontab_bankdetails" class="cls_persontab_bankdetails">
+
+                                                    <h6 class="title overline-title text-base"> Bank Details</h6>
+                                                    <div class="nk-divider divider my-3"></div>
+                                                    <div class=" row gy-4  ">
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Bank Name </label>
+
+                                                                    @Html.DropDownListFor(m => m.BANK_CD, ViewBag.BANK_CD as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.BankName)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Branch </label>
+                                                                    @Html.TextBoxFor(m => m.BranchName, new { @class = "form-control form-control-md" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Account Number </label>
+                                                                    @Html.TextBoxFor(m => m.AccountNumber, new { @class = "form-control form-control-md" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Account Name </label>
+                                                                    @Html.TextBoxFor(m => m.AccountName, new { @class = "form-control form-control-md" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Are you PEP(Polticall Exposed Person) ? </label>
+                                                                    @Html.DropDownListFor(m => m.PEPId, ViewBag.PEPId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.PEP)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="nk-divider divider my-5"></div>
+                                                    <div class="nk-block">
+                                                        <div class="row mt-5">
+                                                            <div class="col-lg-12 col-sm-6">
+                                                                <div class="form-group">
+                                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                                        @ViewBag.Message
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-primary text-center mr-2" id="btnContinue_BANK">SUBMIT</button>
+                                                                    <button type="button" class="btn btn-light text-center mr-2" id="btnback_BANK">BACK</button>
+                                                                    @*<button type="button" onclick="window.location='/Merchant/MerchantList'" class="btn btn-light text-center mr-2">List</button>*@
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .nk-block -->
+                                                </div>
+
+                                            </div>
+                                            <div id="Firm" style="display:none;" class="cls_Firm">
+                                                <br />
+                                                <br />
+                                                <div id="Firmtab_organizationdetails" class="cls_Firmtab_organizationdetails">
+                                                    <h6 class="title overline-title text-base"> Organization Details</h6>
+                                                    <div class="nk-divider divider my-3"></div>
+                                                    <div class=" row gy-4  ">
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Full Name <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.OrganizationFullName, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanOrganizationFullName"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Contact Number <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.OrganizationContactNumber, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanOrganizationContactNumber"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Email <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.OrganizationEmail, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanOrganizationEmail"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Registration Date <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.OrganizationRegistrationDate, new { @class = "form-control form-control-md date-picker", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanOrganizationRegistrationDate"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Registration Number <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.OrganizationRegistrationNumber, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanOrganizationRegistrationNumber"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Organization PAN/VAT <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.OrganizationPAN_VATId, ViewBag.OrganizationPAN_VATId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.OrganizationPAN_VAT)
+                                                                    <span style="color:red" id="spanOrganizationPAN_VATId"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Organization PAN/VAT Number <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.OrganizationPAN_VATNumber, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanOrganizationPAN_VATNumber"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="nk-divider divider my-5"></div>
+                                                    <div class="nk-block">
+                                                        <div class="row mt-5">
+                                                            <div class="col-lg-12 col-sm-6">
+                                                                <div class="form-group">
+                                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                                        @ViewBag.Message
+                                                                    </div>
+                                                                    <button type="button" class="btn btn-primary text-center mr-2" id="btnContinueOrg_ORGANIZATION">Continue</button>
+                                                                    <button type="button" class="btn btn-light text-center mr-2" id="btnbackOrg_ORGANIZATION">BACK</button>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .nk-block -->
+                                                </div>
+
+                                                <div id="Firmtab_addressdetail" class="cls_Firmtab_addressdetail" style="display:none">
+                                                    <h6 class="title overline-title text-base"> Organization Address Details</h6>
+                                                    <div class="nk-divider divider my-3"></div>
+                                                    <div class=" row gy-4  ">
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Province<strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.OrganizationStateId, ViewBag.OrganizationStateId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.OrganizationState)
+                                                                    <span style="color:red" id="spanOrganizationStateId"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">District <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.OrganizationDistrictId, ViewBag.OrganizationDistrictId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.OrganizationDistrict)
+                                                                    <span style="color:red" id="spanOrganizationDistrictId"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">VDC <strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.OrganizationMunicipalityId, ViewBag.OrganizationMunicipalityId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.OrganizationMunicipality)
+                                                                    <span style="color:red" id="spanOrganizationMunicipalityId"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Ward <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.Organizationward, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanOrganizationward"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Street Name </label>
+                                                                    @Html.TextBoxFor(m => m.OrganizationStreet, new { @class = "form-control form-control-md" })
+                                                                    <span style="color:red" id="spanOrganizationStreet"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">House Number</label>
+                                                                    @Html.TextBoxFor(m => m.OrganizationHouseNo, new { @class = "form-control form-control-md" })
+                                                                    <span style="color:red" id="spanOrganizationHouseNo"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="nk-divider divider my-5"></div>
+                                                    <div class="nk-block">
+                                                        <div class="row mt-5">
+                                                            <div class="col-lg-12 col-sm-6">
+                                                                <div class="form-group">
+                                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                                        @ViewBag.Message
+                                                                    </div>
+                                                                    <button type="button" class="btn btn-primary text-center mr-2" id="btnContinueOrg_ADDRESS">Continue</button>
+                                                                    <button type="button" class="btn btn-light text-center mr-2" id="btnbackOrg_ADDRESS">BACK</button>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .nk-block -->
+                                                </div>
+                                                <div id="Firmtab_document" class="cls_Firmtab_document" style="display:none">
+                                                    <h6 class="title overline-title text-base"> Organization Document Details</h6>
+                                                    <div class="nk-divider divider my-3"></div>
+                                                    <div class=" row gy-4  ">
+                                                        <div class="row mt-5">
+                                                            <div class="col-lg-4 col-sm-6">
+                                                                <div class="form-group text-center">
+                                                                    <div class="form-control-wrap">
+                                                                        <label class="form-label">Registration Document <strong class="text-danger">*</strong></label>
+                                                                        <div class="">
+                                                                            <a class="gallery-image popup-image" href="~/AgentDocuments/Images/@Model.OrganizationRegistrationDocument">
+                                                                                @if (string.IsNullOrEmpty(Model.OrganizationRegistrationDocument))
+                                                                                {
+                                                                                    <img ID="targetOrganizationRegistrationDocument" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img ID="targetOrganizationRegistrationDocument" class="custom-file-inputrounded-top" width="200" src="~/Images/AgentImages/@Model.OrganizationRegistrationDocument" alt="">
+
+                                                                                }
+                                                                            </a>
+                                                                            @Html.HiddenFor(m => m.OrganizationRegistrationDocument)
+
+                                                                        </div>
+                                                                        <div class="custom-file text-left mt-3">
+                                                                            <input type="file" multiple class="custom-file-input" id="OrganizationRegistrationDocumentFile" onchange="PreviewImage(this,'OrganizationRegistrationDocument',10000)" name="OrganizationRegistrationDocumentFile">
+                                                                            <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <span style="color:red" id="spanOrganizationRegistrationDocument"></span>
+
+                                                            </div>
+                                                            <div class="col-lg-4 col-sm-6">
+                                                                <div class="form-group text-center">
+                                                                    <div class="form-control-wrap">
+                                                                        <label class="form-label">PAN/VAT Document <strong class="text-danger">*</strong></label>
+                                                                        <div class="">
+                                                                            <a class="gallery-image popup-image" href="~/AgentDocuments/Images/@Model.OrganizationPAN_VATDocument">
+                                                                                @if (string.IsNullOrEmpty(Model.OrganizationPAN_VATDocument))
+                                                                                {
+                                                                                    <img ID="targetOrganizationPAN_VATDocument" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img ID="targetOrganizationPAN_VATDocument" class="custom-file-inputrounded-top" width="200" src="~/Images/AgentImages/@Model.OrganizationPAN_VATDocument" alt="">
+
+                                                                                }
+                                                                            </a>
+                                                                            @Html.HiddenFor(m => m.OrganizationPAN_VATDocument)
+
+                                                                        </div>
+                                                                        <div class="custom-file text-left mt-3">
+                                                                            <input type="file" multiple class="custom-file-input" id="OrganizationPAN_VATDocumentFile" onchange="PreviewImage(this,'OrganizationPAN_VATDocument',10000)" name="OrganizationPAN_VATDocumentFile">
+                                                                            <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <span style="color:red" id="spanOrganizationPAN_VATDocument"></span>
+
+                                                            </div>
+                                                        </div>
+
+
+
+
+                                                    </div>
+
+                                                    <div class="nk-divider divider my-5"></div>
+                                                    <div class="nk-block">
+                                                        <div class="row mt-5">
+                                                            <div class="col-lg-12 col-sm-6">
+                                                                <div class="form-group">
+                                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                                        @ViewBag.Message
+                                                                    </div>
+                                                                    <button type="button" class="btn btn-primary text-center mr-2" id="btnContinueOrg_DOCUMENT">Continue</button>
+                                                                    <button type="button" class="btn btn-light text-center mr-2" id="btnbackOrg_DOCUMENT">BACK</button>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .nk-block -->
+                                                </div>
+
+                                                <div id="Firmtab_director" class="cls_Firmtab_director" style="display:none">
+                                                    <h6 class="title overline-title text-base"> Director Details</h6>
+                                                    <div class="nk-divider divider my-3"></div>
+                                                    <div class=" row gy-4  ">
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label"> Full Name<strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.DirectorFullName, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanDirectorFullName"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label"> Contact Number <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.DirectorContactNumber, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanDirectorContactNumber"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label"> Email <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.DirectorEmail, new { @class = "form-control form-control-md", @onclick = "validate(event)" })
+                                                                    <span style="color:red" id="spanDirectorEmail"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-5">
+                                                            <div class="col-lg-4 col-sm-6">
+                                                                <div class="form-group text-center mb-3">
+                                                                    <div class="form-control-wrap">
+                                                                        <label class="form-label">Citizenship Front Image <strong class="text-danger">*</strong></label>
+                                                                        <div class="">
+                                                                            <a class="gallery-image popup-image" href="~/AgentDocuments/Images/@Model.Directorcitizenfrontimage">
+                                                                                @if (string.IsNullOrEmpty(Model.Directorcitizenfrontimage))
+                                                                                {
+                                                                                    <img ID="targetDirectorcitizenfrontimage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img ID="targetDirectorcitizenfrontimage" class="custom-file-inputrounded-top" width="200" src="~/Images/AgentImages/@Model.Directorcitizenfrontimage" alt="">
+
+                                                                                }
+                                                                            </a>
+                                                                            @Html.HiddenFor(m => m.Directorcitizenfrontimage)
+                                                                        </div>
+                                                                        <div class="custom-file text-left mt-3">
+                                                                            <input type="file" multiple class="custom-file-input" id="DirectorcitizenfrontimageFile" onchange="PreviewImage(this,'Directorcitizenfrontimage',10000)" name="DirectorcitizenfrontimageFile">
+                                                                            <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <span style="color:red" id="spanDirectorcitizenfrontimage"></span>
+
+                                                            </div>
+                                                            <div class="col-lg-4 col-sm-6" id="show_backimage">
+                                                                <div class="form-group text-center mb-3">
+                                                                    <div class="form-control-wrap">
+                                                                        <label class="form-label">Citizenship Back Image <strong class="text-danger">*</strong></label>
+                                                                        <div class="">
+                                                                            <a class="gallery-image popup-image" href="~/AgentDocuments/Images/@Model.Directorcitizenbackimage">
+                                                                                @if (string.IsNullOrEmpty(Model.Directorcitizenbackimage))
+                                                                                {
+                                                                                    <img ID="targetDirectorcitizenbackimage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img ID="targetDirectorcitizenbackimage" class="custom-file-inputrounded-top" width="200" src="~/Images/AgentImages/@Model.Directorcitizenbackimage" alt="">
+
+                                                                                }
+                                                                            </a>
+                                                                            @Html.HiddenFor(m => m.Directorcitizenbackimage)
+                                                                        </div>
+                                                                        <div class="custom-file text-left mt-3">
+                                                                            <input type="file" multiple class="custom-file-input" id="DirectorcitizenbackimageFile" onchange="PreviewImage(this,'Directorcitizenbackimage',10000)" name="DirectorcitizenbackimageFile">
+                                                                            <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <span style="color:red" id="spanDirectorcitizenbackimage"></span>
+
+                                                            </div>
+                                                            <div class="col-lg-4 col-sm-6">
+                                                                <div class="form-group text-center">
+                                                                    <div class="form-control-wrap">
+                                                                        <label class="form-label">Profile Photo <strong class="text-danger">*</strong></label>
+                                                                        <div class="">
+                                                                            <a class="gallery-image popup-image" href="~/AgentDocuments/Images/@Model.Directorprofileimage">
+                                                                                @if (string.IsNullOrEmpty(Model.Directorprofileimage))
+                                                                                {
+                                                                                    <img ID="targetDirectorprofileimage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img ID="targetDirectorprofileimage" class="custom-file-inputrounded-top" width="200" src="~/AgentDocuments/Images/@Model.Directorprofileimage" alt="">
+
+                                                                                }
+                                                                            </a>
+                                                                            @Html.HiddenFor(m => m.Directorprofileimage)
+
+                                                                        </div>
+                                                                        <div class="custom-file text-left mt-3">
+                                                                            <input type="file" multiple class="custom-file-input" id="DirectorprofileimageFile" onchange="PreviewImage(this,'Directorprofileimage',10000)" name="DirectorprofileimageFile">
+                                                                            <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <span style="color:red" id="spanDirectorprofileimage"></span>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="nk-divider divider my-5"></div>
+                                                    <div class="nk-block">
+                                                        <div class="row mt-5">
+                                                            <div class="col-lg-12 col-sm-6">
+                                                                <div class="form-group">
+                                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                                        @ViewBag.Message
+                                                                    </div>
+                                                                    <button type="button" class="btn btn-primary text-center mr-2" id="btnContinueOrg_DIRECTOR">Continue</button>
+                                                                    <button type="button" class="btn btn-light text-center mr-2" id="btnbackOrg_DIRECTOR">BACK</button>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .nk-block -->
+                                                </div>
+
+                                                <div id="Firmtab_bankdetails" class="cls_Firmtab_bankdetails" style="display:none">
+
+                                                    <h6 class="title overline-title text-base"> Bank Details</h6>
+                                                    <div class="nk-divider divider my-3"></div>
+                                                    <div class=" row gy-4  ">
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Bank Name </label>
+
+                                                                    @Html.DropDownListFor(m => m.OrganizationBANK_CD, ViewBag.OrganizationBANK_CD as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.OrganizationBankName)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Branch </label>
+                                                                    @Html.TextBoxFor(m => m.OrganizationBranchName, new { @class = "form-control form-control-md" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Account Number </label>
+                                                                    @Html.TextBoxFor(m => m.OrganizationAccountNumber, new { @class = "form-control form-control-md" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Account Name </label>
+                                                                    @Html.TextBoxFor(m => m.OrganizationAccountName, new { @class = "form-control form-control-md" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="nk-divider divider my-5"></div>
+                                                    <div class="nk-block">
+                                                        <div class="row mt-5">
+                                                            <div class="col-lg-12 col-sm-6">
+                                                                <div class="form-group">
+                                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                                        @ViewBag.Message
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-primary text-center mr-2" id="btnContinueOrg_BANK">SUBMIT</button>
+                                                                    <button type="button" class="btn btn-light text-center mr-2" id="btnbackOrg_BANK">BACK</button>
+                                                                    @*<button type="button" onclick="window.location='/Merchant/MerchantList'" class="btn btn-light text-center mr-2">List</button>*@
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .nk-block -->
+                                                </div>
+                                            </div>
+
+
+                                        }
+
+                                    </div><!-- .nk-block -->
+
+                                </div><!-- .card-content -->
+                            </div><!-- .card-aside-wrap -->
+                        </div><!-- .card -->
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/userscripts.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>*@
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" ></script>
+<script src="~/Content/assets/js/agentscripts.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#AddAgentform").submit(function (event) {
+            debugger;
+            isvalidate = 0;
+            checkvalidation_personal_Details();
+            if (isvalidate == 1) {
+                return false;
+            }
+            $(".cls_persontab_personaldetails").css("display", "none");
+            $(".cls_persontab_documentdetails").css("display", "none");
+            $(".cls_persontab_bankdetails").css("display", "none");
+            $(".cls_persontab_addressdetails").css("display", "block");
+            isvalidate = 0;
+            $("#AddAgentform").submit();
+        });
+    });
+</script>

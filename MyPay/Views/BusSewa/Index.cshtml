@@ -1,0 +1,176 @@
+﻿@model MyPay.Models.BusSewaTrip
+@{
+    ViewBag.Title = "BusTrip";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Select Css -->
+<link href="Content/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="Content/assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+
+<!-- Bootstrap Css -->
+<link href="Content/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+
+<!-- Icons Css -->
+<link href="Content/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+<!-- App Css-->
+<link href="Content/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+<link href="Content/assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
+
+<link rel="shortcut icon" href="/Content/assets/MyPayUserApp/images/favicon.png">
+<!-- Page Title  -->
+<title>MyPay </title>
+<!-- StyleSheets  -->
+<link rel="stylesheet" href="/Content/assets/MyPayUserApp/css/dashboard/dashlite.css?ver=2.9.1">
+<link id="skin-default" rel="stylesheet" href="/Content/assets/MyPayUserApp/css/dashboard/theme.css?ver=2.9.1">
+
+<!-- form advanced init -->
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+                                        <div class="card-inner border-bottom bg-lighter-">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title  d-sm-block w-100">
+                                                    <div class="card-title align-items-center d-flex w-100 mb-0">
+                                                        <div class="card">
+                                                            <h5 class="card-header bg-transparent border-bottom ">Bus Ticket</h5>
+                                                            <div class="card-body">
+                                                                @*@using (Html.BeginForm("SearchBus", "BusSewa", FormMethod.Post))
+                                                                    {*@
+                                                                <div class="row">
+                                                                    <div class="col-xl-8 mb-3">
+                                                                        <div class="form-group mb-3 row traveller">
+                                                                            <div class="col-sm-6 mt-3">
+                                                                                <label class="form-label">From</label>
+                                                                                @Html.DropDownListFor(model => model.from, new SelectList(ViewBag.Routelist), "Choose Origin", new { @class = "form-control select2 text-sm-start" })
+                                                                            </div>
+                                                                            <div class="col-sm-6 mt-3">
+                                                                                <label class="form-label">To</label>
+                                                                                @Html.DropDownListFor(model => model.to, new SelectList(ViewBag.Routelist), "Choose Destination", new { @class = "form-control select2 text-sm-start" })
+
+                                                                            </div>
+                                                                            <div class="col-sm-6 mt-3">
+                                                                                <label for="formrow-email-input" class="form-label">Departure Date</label>
+
+                                                                                <div class="input-group" id="datepicker1">
+                                                                                    <input type="text" class="form-control form-control-lg form-control-outlined date-picker rounded" placeholder="Date" id="date" value="@Model.date">
+                                                                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6 mt-3">
+                                                                                <label class="form-label">Shift</label>
+                                                                                <select class="form-select  text-sm-start" id="shift">
+                                                                                    <option value="day">Day Shift</option>
+                                                                                    <option value="night">Night Shift</option>
+                                                                                    <option value="both">Both</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            @*<div class="col-md-6 mt-3">
+                                                                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" checked="">
+                                                                                    <label class="btn btn-outline-warning btn-sm" for="btnradio4">Today</label>
+
+                                                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+                                                                                    <label class="btn btn-outline-warning btn-sm" for="btnradio5">Tomorrow</label>
+                                                                                </div>
+                                                                            </div>*@
+                                                                        </div>
+                                                                        <a class="btn btn-warning w-full mt-3" id="searchBus" style="text-align: center; display: block; margin: 0 auto;">Search Bus</a>
+                                                                    </div>
+                                                                    <div class="col-xl-4">
+                                                                        <div class="card">
+                                                                            <img class="card-img-top img-fluid" src="Content/assets/images/services/topup.jpeg" alt="Card image cap">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @*}*@
+                                                                <div class="nk-block-head">
+                                                                    <div class="nk-block">
+                                                                        <div id="dvMessage" class="form-group" style="color:red">
+                                                                            <span id="errormsg" style="color:red">
+                                                                                @ViewBag.Message
+                                                                            </span>
+                                                                            <span id="successmsg" style="color:green">
+                                                                                @ViewBag.SuccessMessage
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div><!-- .nk-block-head -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Error Message -->
+<div class="modal fade zoom" tabindex="-1" id="DivErrMessage" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnMsg" style="color:#313131"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageClose" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<input type="hidden" id="hdnServiceID" value='0'>
+<input type="hidden" id="hdncouponcode">
+<input type="hidden" id="hfBankId" value="" />
+
+
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_bussewa.js"></script>
+
+<!-- JAVASCRIPT -->
+<!-- select js -->
+<script src="Content/assets/libs/select2/js/select2.min.js"></script>
+<!-- form advanced init -->
+<script src="Content/assets/js/pages/form-advanced.init.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.date-picker').datepicker({
+            format: "yyyy-mm-dd",
+            startDate: '+0d'
+        }).datepicker('setDate', 'today');;
+    });
+
+</script>
+
+
+

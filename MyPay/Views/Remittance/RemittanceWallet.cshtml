@@ -1,0 +1,699 @@
+﻿
+
+@model MyPay.Models.Add.AddRemittanceUserCurrencies
+
+@{
+    ViewBag.Title = "RemittanceWallet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@*<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />*@
+<link rel="stylesheet" type="text/css" href="~/Content/assets/MyPayRemittance/css/semantic.min.css" />
+<link rel="stylesheet" type="text/css" href="~/Content/assets/MyPayRemittance/css/custom-style.css" />
+
+<div class="nk-content ">
+    <input type="hidden" id="hdnMerchantId" value="@ViewBag.MerchantUniqueId" />
+    <input type="hidden" id="hdnType" value="@ViewBag.Type" />
+    <input type="hidden" id="hdnIds" value="" />
+    <input type="hidden" id="hdnCurrencyId" value="" />
+    <input type="hidden" id="hdnCurrencyName" value="" />
+    <input type="hidden" id="hdnimage" value="" />
+    <input type="hidden" id="hdnfilename" value="" />
+
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm d-xxl-none">
+                    <div class="nk-block-between g-3">
+                        <div class="nk-block-head-content d-flex align-items-center">
+                            <div class="user-avatar lg mr-3">
+                                @if (!string.IsNullOrEmpty(ViewBag.Image))
+                                {
+                                    <img src="~/Images/MerchantImages/@ViewBag.Image" alt="">
+                                }
+                                else
+                                {
+                                    if (ViewBag.MerchantName.Length > 0 && ViewBag.MerchantName.Length > 0)
+                                    {
+                                        <span>@ViewBag.MerchantName.Substring(0, 1)@ViewBag.MerchantName.Substring(0, 1)</span>
+                                    }
+                                    else
+                                    {
+                                        <span>U</span>
+                                    }
+                                }
+                            </div>
+                            <div>
+                                <h3 class="nk-block-title page-title"><strong class="text-primary small">@ViewBag.MerchantName </strong></h3>
+                                <div class="nk-block-des text-soft d-none d-sm-inline-flex">
+                                    <ul class="list-inline">
+
+                                        <li>Merchant ID: <span class="text-base">@ViewBag.MerchantUniqueId </span></li>
+                                        <li>Contact No.: <span class="text-base">@ViewBag.MerchantContactNo </span></li>
+                                        <li>Email Id: <span class="text-base">@ViewBag.MerchantEmailId </span></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Wallet Currencies</h3>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+
+                                <div class="row gy-4">
+                                    <div class="nk-block-head">
+                                        <div id="dvFailedMsg" class="form-group" style="color:red">
+                                            @ViewBag.Message
+                                        </div>
+                                        <div id="dvSuccessMsg" class="form-group" style="color:green">
+                                            @ViewBag.SuccessMessage
+                                        </div>
+                                    </div><!-- .nk-block-head -->
+                                </div>
+                                <div class="col-12 col-md-10 col-lg-10">
+                                    <div class="row g-2 h-100">
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-inner p-0">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="card-title mb-4 d-flex w-100">
+                                                                <h6 class="title mb-0 d-flex align-items-center"> Wallet Currency List</h6>
+                                                            </div>
+                                                            <ul class="wallet-list" id="ulWallet">
+                                                                <li class="wallet-item wallet-item-add">
+                                                                    <a href="javascript:void(0)" onclick="AddWalletPopup();">
+                                                                        <div class="wallet-icon">
+                                                                            <em class="icon ni ni-plus"></em>
+                                                                        </div>
+                                                                        <div class="wallet-text">
+                                                                            <h6 class="wallet-name">Add wallet</h6>
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div><!--col-md-6-->
+                                                        <div class="col-md-6">
+                                                            <div class="card-title mb-4 d-flex w-100">
+                                                                <h6 class="title mb-0 d-flex align-items-center">Convert Amount</h6>
+                                                            </div>
+                                                            <div class="form-bg">
+                                                                <div class="gifoverlay" style="display: none;">
+                                                                    <div id="status"></div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <div class="form-group clearfix">
+                                                                            <div id="step-1" class="wizard-content amttab">
+                                                                                <div class="row justify-content-center">
+                                                                                    <div class="col">
+                                                                                        <div class="row">
+                                                                                            <div class="col">
+                                                                                                <div class="row">
+                                                                                                    <div class="col">
+                                                                                                        <div class="form-group clearfix">
+                                                                                                            <div class="wizard-row field-row currency1">
+                                                                                                                <div class="row">
+                                                                                                                    <div class="col">
+                                                                                                                        <h5>You send</h5>
+                                                                                                                        <input class="form-control blue" onkeypress="return isNumberKey(event);" id="txtSourceAmount" type="text" value="1000" onchange="return calculateAmount();">
+                                                                                                                    </div>
+                                                                                                                    <div class="col col-5">
+                                                                                                                        <div class="ui fluid search selection dropdown custom-drop fromrecipient-box">
+                                                                                                                            <input type="hidden" name="currencyfrom" id="currencyfrom" value="6">
+                                                                                                                            <input type="hidden" name="currencyfromname" id="currencyfromname" value="AUD">
+                                                                                                                            <input class="search" tabindex="0">
+                                                                                                                            <div class="text symbolfrom">
+                                                                                                                                <i class="au flag"></i>AUD
+                                                                                                                            </div>
+                                                                                                                            <i class="dropdown icon"></i>
+                                                                                                                            <div class="menu lg-menu cfrom transition">
+                                                                                                                                @{ foreach (var item in ViewBag.SourceList)
+                                                                                                                                    {
+                                                                                                                                        <div onclick="return GetCurrencyFrom(@item.CurrencyId,'@item.CurrencyName','@item.Image');" class="item active selected" data-id="@item.CurrencyId" data-value="@item.CurrencyId">
+                                                                                                                                            <img ID="targetImage" class="custom-file-inputrounded-top" src="@item.Image" alt="" style="width: 24px; height: 16px;">@item.CurrencyName
+                                                                                                                                        </div>
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <div class="alert alert-danger hide"></div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col">
+                                                                                                        <ul class="calculation-values-wrap seecalc">
+                                                                                                            <li class="calculation-breakdown toggle-calc seetop1 hide">
+                                                                                                                <a href="javascript:void(0);">See calculation</a>
+                                                                                                            </li>
+                                                                                                            <li class="calculation-breakdown-value hideli seetop">
+                                                                                                                <span id="companyfee">5 AUD</span>
+                                                                                                                <span>
+                                                                                                                    <div class="ui selection dropdown" tabindex="-1">
+                                                                                                                        <input type="hidden" id="hdnpaymenttype" value="2">
+                                                                                                                        <i class="dropdown icon"></i>
+                                                                                                                        <div class="text">Account Transfer</div>
+                                                                                                                        <div class="menu lg-menu drppaymenttypes" tabindex="-1">
+                                                                                                                            <div class="item active selected" onclick="return CC(this,'from',0,1);" data-value="2" data-text="Account Transfer">
+                                                                                                                                Account Transfer <span>5 AUD fee</span>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div> fee
+                                                                                                                </span>
+                                                                                                            </li>
+                                                                                                            <li class="calculation-breakdown-value hideli seetop">
+                                                                                                                <span id="ourtotalfee">0 AUD</span>
+                                                                                                                <span>Our fee</span>
+                                                                                                            </li>
+                                                                                                            <li class="calculation-breakdown-value seetop twfeecontainer" style="display: none;">
+                                                                                                                <span id="twfee"></span>
+                                                                                                                <span>Transfer Wise fee</span>
+                                                                                                            </li>
+                                                                                                            <li class="calculation-breakdown-value minus-ico">
+                                                                                                                <span>
+                                                                                                                    <strong id="fees">5 AUD</strong>
+                                                                                                                </span>
+                                                                                                                <span>
+                                                                                                                    <strong>Total fees</strong>
+                                                                                                                </span>
+                                                                                                            </li>
+                                                                                                            <li class="calculation-breakdown-value">
+                                                                                                                <span id="convertamount">995.00 AUD</span>
+                                                                                                                <span>Amount we’ll convert</span>
+                                                                                                            </li>
+                                                                                                            <li class="calculation-breakdown-value cross-ico">
+                                                                                                                <span id="convertrate">92</span>
+                                                                                                                <span id="guaranteedrate">Conversion rate</span>
+                                                                                                                <div class="ui special popup">
+                                                                                                                    <div class="header">Conversion Rate</div>
+                                                                                                                    <p class="content" id="guaranteedratecontent">You’ll get this rate as long as we receive your 1000 AUD within the next 24 hours.</p>
+                                                                                                                    <a href="javascript:void(0);">Learn More</a>
+                                                                                                                </div>
+                                                                                                            </li>
+                                                                                                        </ul>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col">
+                                                                                                        <div class="form-group clearfix">
+                                                                                                            <div class="wizard-row field-row currency2">
+                                                                                                                <div class="row">
+                                                                                                                    <div class="col">
+                                                                                                                        <h5>Recipient gets</h5>
+                                                                                                                        <input class="form-control green" readonly="readonly" type="text" onkeypress="return isNumberKey(event);" value="49772.3" id="amountto">
+                                                                                                                    </div>
+                                                                                                                    <div class="col col-5">
+
+                                                                                                                        <div class="ui fluid search selection dropdown recipient-box custom-drop">
+                                                                                                                            <input type="hidden" name="currencyto" id="currencyto" value="21">
+                                                                                                                            <input type="hidden" name="currencytoname" id="currencytoname" value="NPR">
+                                                                                                                            <input class="search" tabindex="0">
+                                                                                                                            <div class="text symbolto">
+                                                                                                                                <i class="np flag"></i>NPR
+                                                                                                                            </div>
+                                                                                                                            <i class="dropdown icon"></i>
+                                                                                                                            <div class="menu lg-menu cto">
+                                                                                                                                @{ foreach (var item in ViewBag.WalletList)
+                                                                                                                                    {
+                                                                                                                                        <div onclick="return GetCurrencyTo(@item.CurrencyID,'@item.CurrencyName','@item.Image');" class="item active selected" data-id="@item.CurrencyID" data-value="@item.CurrencyID">
+                                                                                                                                            <img ID="targetImage" class="custom-file-inputrounded-top" src="@item.Image" alt="" style="width: 24px; height: 16px;">@item.CurrencyName
+                                                                                                                                        </div>
+                                                                                                                                    }
+                                                                                                                                }
+
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <div class="alert alert-danger hide"></div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row sm-margin">
+                                                                    <div class="col-md-12 mt-4 mb-4">
+                                                                        <div class="form-group">
+                                                                            <div class="form-control-wrap">
+                                                                                <input type="text" class="form-control form-control-lg form-control-outlined" id="txtConvertRemarks" name="">
+                                                                                <label class="form-label-outlined" for="loadremarks">Remarks</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div><!--col-md-12-->
+                                                                    <div class="col-md-12">
+                                                                        <a class="btn btn-primary btn-lg d-block" href="javascript:void(0);" onclick="SubmitConvertFund();">Convert Money</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div><!--form-bg-->
+                                                        </div><!--col-md-6-->
+                                                    </div><!--row-->
+                                                </div><!--card-inner-->
+                                            </div><!--card -->
+                                        </div><!--col-md-12-->
+                                    </div><!--row-->
+                                </div>
+                            </div>
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " tabindex="-1" id="AddFund">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@@*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title text-center">Add Fund</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="txtType">Type: </label>
+                                            <input type="text" readonly="readonly" id="txtType" name="txtType" class="form-control form-control-md" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="drpSign">Select Sign  </label>
+                                            <select name="Sign" id="drpSign" onchange="getNewVal(this);" class="form-select form-control form-control-md form-control-outlined">
+                                                <option value="1">Credit</option>
+                                                <option value="2">Debit</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="txtAmount">Amount: </label>
+                                            <input type="text" id="txtAmount" name="txtAmount" autocomplete="off" maxlength="8" onkeypress="return isNumberKey(this, event);" placeholder="Enter Amount" class="form-control form-control-md form-control-outlined" />
+                                        </div>
+                                        <div class="col-md-6" id="dvtxnid">
+                                            <label for="txtTxnId">Txn ID: </label>
+                                            <input type="text" id="txtTxnId" name="txtTxnId" placeholder="Enter Txn ID" onkeypress="return isNumberKey(this, event);" class="form-control form-control-md form-control-outlined" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="txtRemarks">Remarks: </label>
+                                            <textarea id="txtRemarks" name="txtRemarks" cols="40" placeholder="Enter Remarks" rows="5" class="form-control form-control-md form-control-outlined"></textarea>
+                                        </div>
+                                        <div class="col-md-6" id="dvtxnidFile">
+                                            <label>Upload Receipt: </label>
+
+                                            <div class="custom-file text-left mt-3">
+                                                @*<input type="file" multiple class="custom-file-input" id="TxnReceiptFile" name="TxnReceiptFile">*@
+                                                <input type="file" id="TxnReceiptFile" name="TxnReceiptFile" class="custom-file-input" onchange="UploadAjaxImage(this, 'UploadReceiptRemittance', 'ReceiptImage', 1000,1);" />
+                                                <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                            </div>
+                                            <div class="">
+                                                <img ID="targetReceiptImage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <span style="color:red" id="dvPopupMsg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nk-modal-action mt-5 text-center">
+                        <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-primary" onclick="SubmitAddFund();">Submit</a>
+                        <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+
+
+    <div class="modal fade " tabindex="-1" id="AddWallet">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@@*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title text-center">Add Wallet</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="txtType">Select Currency: </label>
+                                            @Html.DropDownList("CurrencyList", ViewBag.CurrencyList as SelectList, new { @id = "CurrencyId", @class = "form-select form-control form-control-md" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <span style="color:red" id="dvConvertPopupMsg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nk-modal-action mt-5 text-center">
+                        <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-primary" onclick="AddWalletCurrency()();">Submit</a>
+                        <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+<style>
+    .form-icon-right + .form-control, div.dataTables_wrapper div.dataTables_filter .form-icon-right + input, .dual-listbox .form-icon-right + .dual-listbox__search {
+        padding-left: 1rem;
+        padding-right: calc(1rem + 24px);
+        background-color: white;
+    }
+
+    .dt-buttons.btn-group.flex-wrap {
+        display: none;
+    }
+
+    .row {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        /* flex-wrap: wrap; */
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+
+    .modal.fade.active {
+        opacity: 1;
+    }
+
+    .col-md-6, .col-md-12 {
+        text-align: left;
+    }
+
+    .form-bg .ui.dropdown .menu.visible {
+        display: block;
+    }
+</style>
+
+<script src="~/content/assets/js/dtable_remittancewallet.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".fromrecipient-box ").click(function () {
+            $(".cfrom").toggleClass("visible");
+        });
+        $(".recipient-box ").click(function () {
+            $(".cto").toggleClass("visible");
+        });
+        $("#txtType").val($("#hdnType").val());
+        GetWalletList();
+        calculateAmount();
+    });
+
+    function getNewVal(item) {
+        if (item.value == 2) {
+            $("#dvtxnid").css("display", "none");
+            $("#dvtxnidFile").css("display", "none");
+        }
+        else if (item.value == 1) {
+            $("#dvtxnid").css("display", "block");
+            $("#dvtxnidFile").css("display", "block");
+        }
+    }
+
+    function GetCurrencyTo(currencyid, currencyname, currencyimage) {
+        debugger;
+        $("#currencyto").val(currencyid);
+        $("#currencytoname").val(currencyname);
+        $(".symbolto").html("");
+        var str = "";
+        str = '<img ID="targetImage" class="custom-file-inputrounded-top" src="' + currencyimage + '" alt="" style="width: 24px; height: 16px; margin-top:0px !important;">' + currencyname + '';
+        $(".symbolto").append(str);
+        $(".cto").toggleClass("hidden");
+        calculateAmount();
+    }
+    function GetCurrencyFrom(currencyid, currencyname, currencyimage) {
+        $("#currencyfrom").val(currencyid);
+        $("#currencyfromname").val(currencyname);
+        $(".symbolfrom").html("");
+        var str = "";
+        str = '<img ID="targetImage" class="custom-file-inputrounded-top" src="' + currencyimage + '" alt="" style="width: 24px; height: 16px;  margin-top:0px !important;">' + currencyname + '';
+        $(".symbolfrom").append(str);
+        $(".cfrom").toggleClass("hidden");
+        calculateAmount();
+    }
+
+    function calculateAmount() {
+        debugger;
+        $("#dvFailedMsg").html("");
+        $("#dvSuccessMsg").html("");
+        var amount = $("#txtSourceAmount").val();
+        var sourceCurrency = $("#currencyfrom").val();
+        var destinationCurrency = $("#currencyto").val();
+        var sourceCurrencyname = $("#currencyfromname").val();
+        var destinationCurrencyname = $("#currencytoname").val();
+        var remarks = $("#txtConvertRemarks").val();
+        if (amount == "" || amount == "0") {
+            $("#dvFailedMsg").html("Please enter amount");
+        }
+        else if (sourceCurrency == "" || sourceCurrency == "0") {
+            $("#dvFailedMsg").html("Please select source currency");
+        }
+        else if (destinationCurrency == "" || destinationCurrency == "0") {
+            $("#dvFailedMsg").html("Please select destination currency");
+        }
+        else if (destinationCurrency == sourceCurrency) {
+            $("#dvFailedMsg").html("Please select different destination currency");
+        }
+        //else if (remarks == "")
+        //{
+        //    $("#dvConvertPopupMsg").html("Please enter Remarks");
+        //}
+        else {
+            $('#AjaxLoader').show();
+            setTimeout(
+                function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Remittance/CalculateConvertAmount",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        async: false,
+                        data: '{"Amount":"' + amount + '","SourceCurrencyId":"' + sourceCurrency + '","DestinationCurrencyId":"' + destinationCurrency + '"}',
+                        success: function (response) {
+                            debugger;
+                            if (response != "") {
+                                var array = response.split(",");
+                                if (array[0] == "success") {
+                                    $("#fees").text(array[2] + " " + sourceCurrencyname);
+                                    $("#convertrate").text(array[3]);
+                                    $("#amountto").val(array[4]);
+                                    $("#convertamount").text(array[1] + " " + sourceCurrencyname);
+                                    //$("#dvMsgSuccess").html("Successfully Assign Selected Currencies");
+                                    //BindRemittanceUserCurrencyDataTable();
+                                    $("#dvShowCalculation").css("display", "block");
+                                }
+                                else {
+                                    $("#dvFailedMsg").html(array[1]);
+                                }
+                                $('#AjaxLoader').hide();
+                            }
+                            else {
+                                $("#dvMsg").html(response);
+                                $('#AjaxLoader').hide();
+                                return false;
+                            }
+                        },
+                        failure: function (response) {
+                            JsonOutput = (response.responseText);
+                        },
+                        error: function (response) {
+                            JsonOutput = (response.responseText);
+                        }
+                    });
+                }, 100);
+        }
+    }
+
+    function SubmitConvertFund() {
+        $("#dvFailedMsg").html("");
+        $("#dvSuccessMsg").html("");
+        var amount = $("#txtSourceAmount").val();
+        var sourceCurrency = $("#currencyfrom").val();
+        var destinationCurrency = $("#currencyto").val();
+        var MerchantUniqueId = $("#hdnMerchantId").val();
+        var remarks = $("#txtConvertRemarks").val();
+        var sourceCurrencyname = $("#currencyfromname").val();
+        var destinationCurrencyname = $("#currencytoname").val();
+        var UserType = $("#hdnType").val();
+        if (amount == "" || amount == "0") {
+            $("#dvFailedMsg").html("Please enter amount");
+        }
+        else if (sourceCurrency == "" || sourceCurrency == "0") {
+            $("#dvFailedMsg").html("Please select source currency");
+        }
+        else if (destinationCurrency == "" || destinationCurrency == "0") {
+            $("#dvFailedMsg").html("Please select destination currency");
+        }
+        else if (destinationCurrency == sourceCurrency) {
+            $("#dvFailedMsg").html("Please select different destination currency");
+        }
+        //else if (remarks == "") {
+        //    $("#dvConvertPopupMsg").html("Please enter Remarks");
+        //}
+        else {
+            $('#AjaxLoader').show();
+            setTimeout(
+                function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Remittance/SubmitConvertedAmount",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        async: false,
+                        data: '{"Amount":"' + amount + '","SourceCurrencyId":"' + sourceCurrency + '","DestinationCurrencyId":"' + destinationCurrency + '","MerchantUniqueId":"' + MerchantUniqueId + '","UserType":"' + UserType + '","Remarks":"' + remarks + '"}',
+                        success: function (response) {
+                            debugger;
+                            if (response == "success") {
+                                debugger;
+                                alert("Successfully Convert " + amount + " " + sourceCurrencyname + " into " + destinationCurrencyname + "");
+                                //BindRemittanceUserCurrencyDataTable();
+                                GetWalletList();
+                                location.reload();
+                                //$('#ConvertFund').modal('hide');
+                                //$("#txtConvertRemarks").val("");
+                                $('#AjaxLoader').hide();
+                            }
+                            else {
+                                $("#dvFailedMsg").html(response);
+                                $('#AjaxLoader').hide();
+                                return false;
+                            }
+                        },
+                        failure: function (response) {
+                            JsonOutput = (response.responseText);
+                        },
+                        error: function (response) {
+                            JsonOutput = (response.responseText);
+                        }
+                    });
+                }, 100);
+        }
+    }
+
+    function GetWalletList() {
+        debugger;
+        var objWallet = '';
+        $("#dvFailedMsg").html("");
+        $("#dvSuccessMsg").html("");
+        var MerchantUniqueId = $("#hdnMerchantId").val();
+        $('#AjaxLoader').show();
+        setTimeout(
+            function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Remittance/GetWalletList",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: '{"MerchantUniqueId":"' + MerchantUniqueId + '"}',
+                    success: function (response) {
+                        debugger;
+                        if (response != null) {
+                            if (response != null && response.length > 0) {
+                                for (var i = 0; i < response.length; ++i) {
+                                    objWallet += '<li class="wallet-item wallet-highlight">';
+                                    objWallet += '<div class="wallet-icon">';
+                                    objWallet += '<img ID="targetImage" class="custom-file-inputrounded-top" src="' + response[i].Image + '" alt="">';
+                                    objWallet += '</div>';
+                                    objWallet += '<div class="wallet-text">';
+                                    objWallet += '<h6 class="wallet-name">' + response[i].CurrencyName + '</h6>';
+                                    if (response[i].Type == 2) {
+                                        objWallet += '<span class="wallet-balance">' + response[i].ODL + '</span>';
+                                    }
+                                    else {
+                                        objWallet += '<span class="wallet-balance">' + response[i].Prefund + '</span>';
+                                    }
+                                    objWallet += '</div>';
+                                    objWallet += '<div class="dropdown ml-auto">';
+                                    objWallet += '<a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" data-offset="-8,0" aria-expanded="false"><em class="icon ni ni-more-h"></em></a>';
+                                    objWallet += '<div class="dropdown-menu dropdown-menu-right dropdown-menu-xs" style="">';
+                                    objWallet += '<ul class="link-list-plain">';
+                                    objWallet += '<li><a href="javascript:void(0);" class="text-soft" onclick="return DeleteWalletCurrency(&apos;' + response[i].Id + '&apos;)">Delete</a></li>';
+                                    objWallet += '<li><a href="javascript:void(0);" class="text-soft" onclick="return AddWalletFund(&apos;' + response[i].Id + '&apos;,&apos;' + response[i].CurrencyID + '&apos;,&apos;' + response[i].MerchantUniqueId + '&apos;,&apos;' + response[i].Type + '&apos;,&apos;' + response[i].TypeName + '&apos;,&apos;' + response[i].CurrencyName + '&apos;)">Add Fund</a></li>';
+                                    //objWallet += '<li><a href="javascript:void(0);" class="text-soft" onclick="return ConvertFund(&apos;' + response[i].Id + '&apos;,&apos;' + response[i].CurrencyID + '&apos;,&apos;' + response[i].MerchantUniqueId + '&apos;,&apos;' + response[i].Type + '&apos;,&apos;' + response[i].TypeName + '&apos;)">Covert Amount</a></li>';
+                                    objWallet += '</ul';
+                                    objWallet += '</div>';
+                                    objWallet += '</div>';
+                                    objWallet += '</li >';
+                                }
+                                objWallet += '<li class="wallet-item wallet-item-add">';
+                                objWallet += '<a href="javascript:void(0)" onclick="AddWalletPopup();">';
+                                objWallet += '<div class="wallet-icon">';
+                                objWallet += '<em class="icon ni ni-plus"></em>';
+                                objWallet += '</div>';
+                                objWallet += '<div class="wallet-text">';
+                                objWallet += '<h6 class="wallet-name">Add Wallet</h6>';
+                                objWallet += '</div>';
+                                objWallet += '</a>';
+                                objWallet += '</li >';
+                                $("#ulWallet").html(objWallet);
+                            }
+                            else {
+                                $("#dvFailedMsg").html(response);
+                                //$("#dvMessageModal").modal('show');
+
+                            }
+                        }
+                        else {
+                            $("#dvFailedMsg").html("Something went wrong. Please try again later.");
+                            //$("#dvMessageModal").modal('show');
+
+                            return false;
+                        }
+                    },
+                    failure: function (response) {
+                        $("#dvFailedMsg").html(response.responseText);
+                        //$("#dvMessageModal").modal('show');
+
+                        return false;
+                    },
+                    error: function (response) {
+                        $("#dvFailedMsg").html(response.responseText);
+                        //$("#dvMessageModal").modal('show');
+
+                        return false;
+                    }
+                });
+            }, 100);
+
+        $('#AjaxLoader').hide();
+
+    }
+
+</script>

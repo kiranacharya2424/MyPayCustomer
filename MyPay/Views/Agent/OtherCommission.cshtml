@@ -1,0 +1,297 @@
+﻿@model MyPay.Models.Add.Agent.OtherCommission
+
+@{
+    ViewBag.Title = "OtherCommissionList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .popupagent {
+        /* Set the width and height of your popup */
+        /* width: 300px;
+        height: 200px;*/
+        /* Add a border with solid style, black color, and 2px width */
+        /*border: 2px solid ;*/
+        /* Add some padding inside the border */
+        /* padding: 10px;*/
+        /* Optionally, you can center the popup on the screen */
+        position: absolute;
+        top: 35%;
+        left: 49%;
+        transform: translate(-50%, -50%);
+        /* Add other styles as needed */
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+</style>
+
+<div class="nk-content ">
+    <input type="hidden" id="hdnMerchantId" value="" />
+    <input type="hidden" id="hdnroleid" value="" />
+    <input type="hidden" id="hdndumpurl" value="@ViewBag.DumpURL" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Other Commission</h3>
+                            @*<div class="nk-block-des text-soft">
+                                    <p>You have total  <span id="merchanttotalcount"></span> Agent.</p>
+                                </div>*@
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                @*<a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>*@
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        @*<li>
+                                                <a href="javascript:void(0);" id="AllMerchantExport" onclick="AllMerchantexported(this, event)" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Merchant Dump Export</span></a>
+                                            </li>*@
+                                        @*<li>
+                                                <a href="javascript:void(0);" onclick="AllAgentDownload()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download"></em></a>
+                                            </li>*@
+                                        @*<li class="nk-block-tools-opt">
+                                            <div class="drodown">
+                                                <a href="~/Agent/AddAgentOtherCommission" class="btn btn-icon btn-primary" title="Add Other Commission"><em class="icon ni ni-plus"></em></a>
+                                            </div>
+                                        </li>*@
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+
+                            <div class="popupagent" id="dvMsgSuccess1">
+                                <div id="dvMsgSuccess" class="tb-status text-success" style="text-align:center; font-weight:bold">
+                                    @TempData["SuccessMessagecategory"]
+                                </div>
+                            </div>
+
+                            <div class="popupagent" id="dvMsg1">
+                                <div id="dvMsg" class="tb-status text-danger" style="text-align: center; font-weight: bold">
+                                    @TempData["Messagecategory"]
+                                    @*@ViewBag.Message*@
+                                </div>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+
+                            @*<div id="dvMsgSuccess" class="tb-status text-success" style="text-align:center; font-weight:bold">
+                                    @TempData["SuccessMessagecategory"]
+                                </div>*@
+
+
+                            <!--<div id="dvMsg" class="tb-status text-danger" style="text-align: center; font-weight: bold">
+                               @TempData["Messagecategory"]-->
+                            @*@ViewBag.Message*@
+                            <!--</div>-->
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                @*<div class="form-group">
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                               
+                                                <a id="agent_addCommissionRow" href="javascript:void(0);" onclick="return AddOtherCommissionRow();" class="btn btn-sm btn-warning btnaddsearch"><em class="icon ni ni-plus"></em> Add New Other Commission . </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                                <div id="dvMsgSuccess" class="tb-status text-success" style="text-align:center; font-weight:bold">
+                                    @ViewBag.Message
+                                </div>
+                                <div id="dvMsg" class="tb-status text-danger" style="text-align: center; font-weight: bold">
+                                    @ViewBag.SuccessMessage
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="tbllist" class=" nk-tb-list nk-tb-ulist table table-striped" data-auto-responsive="false">
+
+                                        <thead class="lg-th-head">
+
+                                            @*<tr class="nk-tb-item nk-tb-head ">
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Sno")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Agent Creation Commission")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("User Creation Commission")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("KYC Commission")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Value(%)")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Min Amount")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Max Amount")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("CASHIN Commission")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100 ">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("CASHOUT Commission")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100 ">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Action")
+                                                    </span>
+                                                </th>
+                                            </tr>*@
+
+
+
+
+
+                                            <tr class="nk-tb-item nk-tb-head ">
+                                                <th rowspan="2"  class="nk-tb-col min-100 Clsothercommissionth">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Sno")
+                                                    </span>
+                                                </th>
+                                                <th rowspan="2" class="nk-tb-col min-100 Clsothercommissionth">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Agent Creation Commission")
+                                                    </span>
+                                                </th>
+                                                <th rowspan="2" class="nk-tb-col min-100 Clsothercommissionth">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("User Creation Commission")
+                                                    </span>
+                                                </th>
+                                                <th rowspan="2" class="nk-tb-col min-100 Clsothercommissionth">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("KYC Commission")
+                                                    </span>
+                                                </th>
+
+                                                <th colspan="3" class="nk-tb-col min-100 Clsothercommissionth">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("1st Transaction Commission")
+                                                    </span>
+
+                                                </th>
+
+
+
+                                                <th rowspan="2" class="nk-tb-col min-100 Clsothercommissionth">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("CASHIN Commission")
+                                                    </span>
+                                                </th>
+                                                <th rowspan="2" class="nk-tb-col min-100 Clsothercommissionth">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("CASHOUT Commission")
+                                                    </span>
+                                                </th>
+
+                                                <th rowspan="2" class="nk-tb-col min-100 Clsothercommissionth">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Action")
+                                                    </span>
+                                                </th>
+                                            </tr>
+                                            <tr class="nk-tb-item nk-tb-head ">
+                                                <th class="nk-tb-col min-100 Clsothercommissionth">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Value(%)")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100 Clsothercommissionth">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Min Amount")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100 Clsothercommissionth">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Max Amount")
+                                                    </span>
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+
+                                    </table>
+                                </div><!-- .table-responsive -->
+
+
+                            </div>
+
+
+
+
+
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .Clschildcommission {
+        background-color: #f3ec0c;
+        border: 1px solid black;
+        border-top: 1px solid black !important;
+        border-bottom: 1px solid black !important;
+    }
+
+    .sub-text-child {
+        display: block;
+        font-size: .99em;
+        font-weight: 500;
+        color: black;
+    }
+    .Clsothercommissionth {
+        padding: 5px;
+        border: 1px solid #dbdfea
+    }
+    .card .table tr:first-child th, .card .table tr:first-child td {
+        border-top: 1px solid #dbdfea;
+    }
+</style>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/assets/js/dtable_agent.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+   
+        BindAgentOtherCommissionDataTable();
+
+    });
+
+
+
+
+
+</script>

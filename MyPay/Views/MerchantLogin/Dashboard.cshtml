@@ -1,0 +1,463 @@
+﻿@model MyPay.Models.Add.AddMerchant
+
+@{
+    Layout = "~/Views/Shared/_MerchantLayout.cshtml";
+
+}
+
+
+<div class="nk-content ">
+    <input type="hidden" id="hdnBankId" value="" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Merchant Dashboard</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>Quick overview of MyPay Payments activities. Stay updated.</p>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-md-4">
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="title">Total Transactions</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <a href="javascript:void(0);" onclick="return bindDashboard('totaltxn');">Click Here</a>
+                                            @*<em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Total Transactions"></em>*@
+                                        </div>
+                                    </div>
+                                    <div class="card-amount">
+                                        @*<span class="amount"> @Model.AllTransactions </span>*@
+                                        <span class="amount" id="AllTransactions"> 0 </span>
+                                    </div>
+                                    <div class="invest-data">
+                                        <div class="invest-data-amount g-2">
+                                            <div class="invest-data-history">
+                                                <div class="title">This Month</div>
+                                                @*<div class="amount"> @Model.ThisMonthTransactions</div>*@
+                                                <span class="amount" id="ThisMonthTransactions"> 0 </span>
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title">This Week</div>
+                                                @*<div class="amount"> @Model.ThisWeekTransactions</div>*@
+                                                <span class="amount" id="ThisWeekTransactions"> 0 </span>
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title">Today Transactions</div>
+                                                @*<div class="amount"> @Model.TotalAmount</div>*@
+                                                <span class="amount" id="TodayAmount"> 0 </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-4">
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="title">Total Orders</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <a href="javascript:void(0);" onclick="return bindDashboard('totalorders');">Click Here</a>
+                                            @*<em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Total Users"></em>*@
+                                        </div>
+                                    </div>
+                                    <div class="card-amount">
+                                        @*<span class="amount"> @Model.TotalUsers </span>*@
+                                        <span class="amount" id="TotalOrder">0</span>
+                                    </div>
+                                    <div class="invest-data">
+                                        <div class="invest-data-amount g-2">
+                                            <div class="invest-data-history">
+                                                <div class="title">THIS MONTH</div>
+                                                <span class="amount" id="ThisMonthOrders">0</span>
+                                                @*<div class="amount">@Model.ThisMonthOrders</div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title">THIS WEEK</div>
+                                                <span class="amount" id="ThisWeekOrders">0</span>
+                                                @*<div class="amount">@Model.ThisWeekOrders</div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title">Today Orders</div>
+                                                <span class="amount" id="TodayOrders">0</span>
+                                                @*<div class="amount">@Model.ThisWeekOrders</div>*@
+                                            </div>
+                                        </div>
+                                        @*<div class="invest-data-ck">
+
+                                                <canvas class="iv-data-chart" id="totalUsers"></canvas>
+                                            </div>*@
+                                    </div>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-4">
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner">
+                                    <div class="card-title-group align-start mb-0 align-items-center">
+                                        <div class="card-title">
+                                            <h6 class="title">API KEY</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <a id="resetkeyslink" href="javascript:void(0);" onclick="return bindDashboard('api_key');">Click Here</a>
+                                            <a id="resetkeys" href="javascript:void(0)" style="display:none;" class="btn btn-primary clsresetkeys" onclick="return ResetMerchantKeys('@Model.MerchantUniqueId' , event)"><em class="icon ni ni-setting-alt"></em><span>Reset Key</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="card-amount">
+                                        @*<span class="amount"> @Model.TotalUsers </span>*@
+                                        <span class="api_key" id="api_key">* * * * * * * * * * * * * * * * * * * * * * * * * * </span>
+                                    </div>
+                                    <hr />
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="title">API Password</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <a id="resetapipasswordlink" href="javascript:void(0);" onclick="return bindDashboard('api_password');">Click Here</a>
+                                            <a id="resetapipassword" href="javascript:void(0)" style="display:none;" class="btn btn-primary clsresetkeys" onclick="return ResetMerchantAPIPassword('@Model.MerchantUniqueId' , event)"><em class="icon ni ni-setting-alt"></em><span>Reset APIPassword</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="card-amount">
+                                        <span class="api_password" id="api_password"></span>
+                                    </div>
+                                    <div class="invest-data">
+                                    </div>
+                                </div>
+                            </div><!-- .card -->
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="card card-bordered h-100">
+                                <div class="card-inner">
+
+                                    <div class="nk-order-ovwg">
+                                        <div class="row g-4 align-end">
+                                            <div class="col-xxl-8" style="display:none">
+                                                <div class="nk-order-ovwg-ck">
+                                                    @*<canvas class="order-overview-chart" id="orderOverview"></canvas>*@
+                                                </div>
+                                            </div><!-- .col -->
+                                            <div class="col-xxl-4">
+                                                <div class="row g-4">
+                                                    <div class="col-sm-6 col-xxl-12">
+                                                        <div class="nk-order-ovwg-data buy">
+                                                            <div class="amount"> <span id="spntodaycredittransactions">0</span>  <small class="currenct currency-usd">Rs.</small></div>
+
+                                                            <div class="card-tools clickheredashboard">
+                                                                <a href="javascript:void(0);" onclick="return bindDashboard('todaycredittransactions');">Click Here</a>
+                                                                @*<em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Total Transactions"></em>*@
+                                                            </div>
+                                                            <div class="info">Current month <strong> <span id="spntodaycredittransactionsmonth">0</span> <span class="currenct currency-usd">Rs.</span></strong></div>
+                                                            <div class="title"><em class="icon ni ni-arrow-down-left"></em> Credit</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-xxl-12">
+                                                        <div class="nk-order-ovwg-data sell">
+                                                            <div class="amount"> <span id="spntodaydebittransactions">0</span>  <small class="currenct currency-usd">Rs.</small></div>
+                                                            <div class="card-tools clickheredashboard">
+                                                                <a href="javascript:void(0);" onclick="return bindDashboard('todaydebittransactions');">Click Here</a>
+                                                                @*<em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Total Transactions"></em>*@
+                                                            </div>
+                                                            <div class="info">Current month <strong>  <span id="spntodaydebittransactionsmonth">0</span>   <span class="currenct currency-usd">Rs.</span></strong></div>
+                                                            <div class="title"><em class="icon ni ni-arrow-up-left"></em> Debit</div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div><!-- .col -->
+
+                                        </div><!-- .col -->
+                                    </div>
+                                </div><!-- .nk-order-ovwg -->
+                            </div><!-- .card-inner -->
+                        </div><!-- .card -->
+                        @if (Model.MerchantType == (int)MyPay.Models.Add.AddMerchant.MerChantType.Merchant)
+                        {
+                            <div class="col-md-4">
+                                <div class="card card-bordered card-full">
+                                    <div class="card-inner">
+                                        <div class="nk-order-ovwg-data buy">
+
+                                            <div class="amount">
+                                                <span class="amount" id="spnwalletbalance">0</span>  <small class="currenct currency-usd">Rs.</small>
+                                            </div>
+                                            <div class="card-title-group align-start mb-0">
+                                                <div class="card-title">
+                                                    <h6 class="title">Merchant Balance</h6>
+                                                </div>
+                                                <div class="card-tools">
+                                                    <a id="reqWithdrawlink" href="javascript:void(0);" onclick="return bindDashboard('walletbalance');">Click Here</a>
+
+                                                    <a id="reqWithdraw" href="javascript:void(0);" class="btn btn-success clsresetkeys" style="margin-left:10px; display:none;" onclick="return WithdrawalRequest('MerchantBalance');">Request Withdrawal</a>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-tools">
+                                                    <div class="title"><em class="icon ni ni-arrow-down-left"></em> Credit</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .card -->
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-bordered card-full">
+                                    <div class="card-inner">
+                                        <div class="nk-order-ovwg-data buy">
+
+                                            <div class="amount">
+                                                <span class="amount" id="spnuserwalletbalance">0</span>  <small class="amount">Rs.</small>
+                                            </div>
+                                            <div class="card-title-group align-start mb-0">
+                                                <div class="card-title">
+                                                    <h6 class="title"> Wallet Balance</h6>
+                                                </div>
+                                                <div class="card-tools">
+                                                    <a id="reqWithdrawWalletlink" href="javascript:void(0);" onclick="return bindDashboard('userwalletbalance');">Click Here</a>
+                                                    <a id="reqWithdrawWallet" href="javascript:void(0);" class="btn btn-success clsresetkeys" style="margin-left: 10px; display: none;" onclick="return WithdrawalRequest('WalletBalance');">Request Withdrawal</a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-tools">
+                                                    <div class="title"><em class="icon ni ni-arrow-down-left"></em> Credit</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .card -->
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-bordered card-full">
+                                    <div class="card-inner">
+                                        <div class="nk-order-ovwg-data buy">
+
+                                            <div class="amount">
+                                                <span class="amount" id="spnuserTotalbalance">0</span>  <small class="amount">Rs.</small>
+                                            </div>
+                                            <div class="card-title-group align-start mb-0">
+                                                <div class="card-title">
+                                                    <h6 class="title"> Total Balance</h6>
+                                                </div>
+                                                <div class="card-tools">
+                                                    <a id="reqWithdrawTotallink" href="javascript:void(0);" onclick="return bindDashboard('userTotalbalance');">Click Here</a>
+                                                    @*<a id="reqWithdrawTotal" href="javascript:void(0);" class="btn btn-success clsresetkeys" style="margin-left: 10px; display: none;" onclick="return WithdrawalRequest('TotalBalance');">Request Withdrawal</a>*@
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="card-tools">
+                                                    <div class="title"><em class="icon ni ni-arrow-down-left"></em> Credit</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .card -->
+                            </div>
+                        }
+                    </div><!-- .col -->
+                </div><!-- .row -->
+            </div><!-- .nk-block -->
+        </div>
+    </div>
+    <div class="modal fade " tabindex="-1" id="withdrawalrequest">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title text-center">Manual Withdrawal Request</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="nowrap nk-tb-list nk-tb-ulist h-100">
+                                            <tr>
+                                                <td><label class="form-label" for="txtAmount">Amount Requested <strong class="text-danger">*</strong></label></td>
+                                                <td><input type="text" id="txtAmount" name="txtAmount" autocomplete="off" placeholder="Enter Amount" onkeypress="return isNumberKey(this, event);" class="form-control form-control-md mb-3" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label class="form-label" for="txtBank">Withdraw To <strong class="text-danger">*</strong></label></td>
+                                                <td><input type="text" id="txtBank" name="txtBank" placeholder="Bank Name" class="form-control form-control-md mb-3" readonly="readonly" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label class="form-label" for="txtRemarks">Comments <strong class="text-danger">*</strong></label></td>
+                                                <td><textarea id="txtRemarks" name="txtRemarks" cols="40" placeholder="Enter Comments" rows="5" class="form-control form-control-md mb-3"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <span style="color:red" id="dvPopupMsg"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td> </td>
+                                                <td>
+                                                    <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-primary" id="btnSubmitWithdrawalReq" onclick="GetWithdrawalRequestOTP();">Submit</a>
+                                                    <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Close</a>
+
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+
+    <div class="modal fade " tabindex="-1" id="withdrawalrequestOTP">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title text-center">Security on Merchant Withdrawal Request</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div style="text-align: center;font-size: 30px;">
+                                        <em class="icon ni ni-lock"></em>
+                                    </div>
+                                    <p>
+                                        For your security, we need to verify your identity.
+                                    </p>
+
+                                    <p>
+                                        OTP sent successfully to your Registered Mobile Number.
+                                        <span class="resend_merchantotp" id="resend_merchantotp"><span id="seconds">Resend in <label id="clock" class="tb-status text-danger"></label> sec</span></span>
+                                        <a id="resendmerchantOTP" href="javascript:void(0);" style="display:none;">Resend OTP</a>
+                                    </p>
+                                    <div class="table-responsive">
+                                        <table class="nowrap nk-tb-list nk-tb-ulist h-100">
+                                            <tr>
+                                                <td><label class="form-label" for="lblAmount">Amount Requested </label></td>
+                                                <td><label class="form-label fundrequestvalue" id="lblAmount" name="lblAmount" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label class="form-label" for="lblBank">Withdraw To  </label></td>
+                                                <td><label class="form-label fundrequestvalue" id="lblBank" name="lblBank" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label class="form-label" for="lblRemarks">Comments  </label></td>
+                                                <td><label class="form-label fundrequestvalue" id="lblRemarks" name="lblRemarks" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label class="form-label" for="txtOTP">OTP  </label></td>
+                                                <td>
+                                                    <input type="hidden" id="hdnOrderId" />
+                                                    <input type="text" id="txtOTP" name="txtOTP" placeholder="Enter OTP" maxlength="6" onkeypress="return isNumberKey(this, event);" autocomplete="off" class="form-control form-control-md" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <span style="color:red" id="dvPopupMsgOTP"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td> </td>
+                                                <td>
+                                                    <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-primary" id="btnSubmitWithdrawalReqOTP" onclick="SubmitWithdrawalRequest();">Verify</a>
+                                                    <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Close</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <p>
+                                        <br />
+                                        Never share your OTP with anyone. This can be misused.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="input_hidden_elemsDate" name="input_hidden_elemsDate" value="" />
+<input type="hidden" id="input_hidden_elemsDebitTransactions" name="input_hidden_elemsDebitTransactions" value="" />
+<input type="hidden" id="input_hidden_elemsCreditTransactions" name="input_hidden_elemsCreditTransactions" value="" />
+
+<script>
+
+    var WithrawalRequestType = "";
+    function WithdrawalRequest(RequestType) {
+        WithrawalRequestType = RequestType;
+        $("#txtAmount").val("");
+        $("#txtRemarks").val("");
+        $("#dvPopupMsg").html("");
+        $("#dvPopupMsgOTP").html("");
+
+        var withdrawrequest = '@ViewBag.WithdrawalRequest';
+        var bankname = '@ViewBag.BankName';
+        var bankaccountno = '@ViewBag.BankAccountNo';
+        var bankid = '@ViewBag.BankId';
+        if (withdrawrequest == "False") {
+            if (bankname != "" && bankid != "" && bankaccountno != "") {
+                $("#txtBank").val(bankname + " (AccNo.: " + bankaccountno + ")");
+                $("#hdnBankId").val(bankid);
+                $('#withdrawalrequest').modal('show');
+                $("#btnSubmitWithdrawalReq").show();
+            }
+            else {
+                alert("Your Bank details not added yet.")
+            }
+        }
+        else {
+            alert(withdrawrequest);
+        }
+    }
+</script>
+@Scripts.Render("~/bundles/merchantdashboard")
+
+<style>
+    .clickheredashboard {
+        width: auto;
+        float: right;
+    }
+
+    .api_key {
+        display: inline-block;
+        width: 100%;
+        font-size: 12.5px;
+        margin-top: 10px;
+    }
+
+    .api_password {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .clsresetkeys {
+        padding: 5px;
+    }
+
+        .clsresetkeys span {
+            padding-left: 2px
+        }
+
+    .fundrequestvalue {
+        color: #313131a3;
+    }
+</style>

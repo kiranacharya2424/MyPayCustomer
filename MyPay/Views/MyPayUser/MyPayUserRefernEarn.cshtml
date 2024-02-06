@@ -1,0 +1,85 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "Refer Earn";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+<!-- content -->
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+
+
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title  d-sm-block w-100">
+                                                    <div class="card-title d-flex w-100 mb-0 align-items-center">
+                                                        <h6 class="title mb-0">Refer & Earn</h6>
+                                                        <a href="/MyPayUserLogin/Dashboard" class="btn btn-sm btn-danger ml-auto color-black d-flex align-items-center text-white"> Back</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- ENd -->
+                                        <!--step3 start-->
+                                        <div class="card-inner mt-4 refearn">
+                                            <div class="row">
+                                                <div class="col-md-10 col-lg-6 col-xl-6 col-xxl-4 m-auto">
+                                                    <div class="text-center">
+                                                        <img src="/Content/assets/MyPayUserApp/images/refer_earn.png" class="w-300px">
+                                                    </div>
+                                                    <div class="form-control-wrap mt-4 mb-3">
+                                                        <div class="form-clip clipboard-init text-uppercase" data-clipboard-target="#refUrl" data-success="Copied" data-text="Copy Link"><em class="clipboard-icon icon ni ni-copy"></em> <span class="clipboard-text">Copy</span></div>
+                                                        <input type="text" class="form-control copy-text text-base" id="refUrl" value="@Session["MyPayUserRefCode"]" readonly="">
+                                                    </div>
+                                                    <div class="copreflink">
+                                                        <a href="javascript:void(0)" class="btn btn-primary btn-lg d-block clipboard-init" title="Copy to clipboard" data-clipboard-target="#btnCode5" data-clip-success="Referral Link Message Copied" data-clip-text="Share Referral Link">
+                                                            <img src="/Content/assets/MyPayUserApp/images/shareicon.svg" class="mr-1"> <span class="clipboard-text">Share Referral Link</span>
+                                                        </a>
+                                                        <div id="btnCode5" class="">
+                                                            Hi! Join MyPay using referral code @Session["MyPayUserRefCode"]. Use this link https://refer.mypay.com.np/ReferShareLink?rfc=@Session["MyPayUserRefCode"]. You will also get a chance to earn reward  on successful referral registration.
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-3 bg-lighter mt-4">
+                                                        <h6 class="mb-1 fs-14px">How It Works</h6>
+                                                        <ul class="text-soft text-soft list-style-disc fs-12px" style="line-height:18px">
+                                                            <li>Share a referral link with your friend.</li>
+                                                            <li>When your referral friend make a first payment or recharge you will receive a up to 100 points</li>
+                                                            <li>You can redeem these points anytime you want.</li>
+                                                        </ul>
+                                                    </div>
+                                                </div><!--col-md-10-->
+                                            </div><!--row-->
+                                        </div><!--card-inner-->
+
+
+                                    </div><!--card -->
+                                </div><!--col-md-12-->
+                            </div><!--row-->
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                        }
+                    </div><!-- .row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content -->
+<script>
+    $("#dvrightjinnie").hide();
+    $("#dvrightjinnie").attr("class","card card-full bg-secondary2 text-white");
+</script>

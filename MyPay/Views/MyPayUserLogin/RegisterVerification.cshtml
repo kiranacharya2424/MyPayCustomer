@@ -1,0 +1,273 @@
+﻿
+@model  MyPay.Models.Request.Req_MyPayUserLogin
+
+
+@{
+    ViewBag.Title = "MyPayUserLogin";
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <meta name="description" content="">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="/Content/assets/MyPayUserApp/images/favicon.png">
+    <!-- Page Title  -->
+    <title>MyPay</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="/Content/assets/MyPayUserApp/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/Content/assets/MyPayUserApp/css/dashlite.css">
+    <link id="skin-default" rel="stylesheet" href="/Content/assets/MyPayUserApp/css/theme.css?ver=2.9.1">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="nk-body npc-general pg-auth bg-gradient mobile-whitebg" oncontextmenu="return false;">
+
+    <div class="loader" id="AjaxLoader" style="display:none;">
+        <div class="strip-holder">
+            <div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>
+        </div>
+    </div>
+    <div class="nk-app-root">
+        <!-- main #start -->
+        <div class="nk-main ">
+            <!-- wrap #start -->
+            <div class="nk-wrap nk-wrap-nosidebar">
+                <!-- content #start -->
+                <div class="nk-content ">
+                    <div class="nk-block nk-auth-body wide-xs p-0 loginscreen py-md-5">
+                        <div class="login-header text-center">
+                            <a href="javascript:void(0);" class="logo-link">
+                                <img class="logo-dark logo-img logo-img-lg" src="/Content/assets/MyPayUserApp/images/logo.png" srcset="/Content/assets/MyPayUserApp/images/logo2x.png 2x" alt="logo-dark">
+                            </a>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-inner card-inner-lg">
+                                <form method="post" class="is-alter mypaye-step-form" id="wizard-01">
+                                    <div class="nk-wizard-head" style="display:none">
+                                        <h5>2</h5>
+                                    </div>
+                                    <div class="nk-wizard-content">
+
+                                        <div class="row gy-3">
+                                            <div class="col-md-12">
+                                                <div class="log-des">
+                                                    <h4 class="nk-block-title text-center mb-2">Verification OTP</h4>
+                                                    <p class="text-center">A verification OTP has been sent to <br>(+977)  @ViewBag.ContactNumber</p>
+                                                    <input type="hidden" value="@ViewBag.ContactNumber" id="ContactNumber" />
+                                                    <input type="hidden" value="@ViewBag.Type" id="Type" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap text-center otp">
+                                                        @Html.TextBox("OTP", "", new Dictionary<string, object> { { "Id", "OTP" }, { "maxlength", "6" }, { "class", "form-control required" }, { "autocomplete", "off" }, { "placeholder", "------" }, { "data-msg", "Required" }, { "onkeypress", "return event.charCode >= 48 && event.charCode <= 57" } })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="step-footer-text send-otp">
+                                                    <a href="javacript:void(0)" id="sendotp" onclick="return btnResendOTP();">RESEND OTP</a>
+                                                    <div class="resend_otp" id=""><a href="javacript:void(0)" id="seconds">Resend OTP in <label id="clock"></label> sec</a></div>
+                                                    <p><a href="/MyPayUserLogin" style="text-decoration: none;">Change Phone Number</a></p>
+                                                    <p class="notget"><a href="javacript:void(0)" onclick="return btnFailureotp();">Did not Get OTP?</a></p>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="actions clearfix">
+                                            <ul role="menu" aria-label="Pagination">
+                                                <li aria-hidden="false" aria-disabled="false"><a href="javascript:void(0);" onclick="goBack();">Prev</a></li>
+                                                <li aria-hidden="false" aria-disabled="false"><a id="btnSubmit" href="javascript:void(0);" onclick="return btnSubmitStepsClick();">Submit</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div id="dvMessage" class="form-group" style="color:red;text-align:center">
+                                    @ViewBag.Message
+                                    <span id="successmsg" style="color:green">
+                                        @TempData["AdminMessage"]
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--loginscreen-->
+
+                </div>
+                <!-- wrap #end -->
+            </div>
+            <!-- content #end -->
+        </div>
+        <!-- main #end -->
+        <div class="modal fade " tabindex="-1" id="OTPFailurePopup">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-body modal-body-sm">
+                        <div class="nk-modal">
+                            @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                            <h4 class="nk-modal-title text-center">Have You Not Received Verification Code</h4>
+                            <div class="nk-modal-text">
+                                <div class="text-center">
+                                    <p>Make a Call to MyPay Support Team to help you with your SignUp</p>
+                                </div>
+                            </div>
+                            <div class="nk-modal-action mt-3 text-center">
+                                <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-primary " data-dismiss="modal">Close</a>
+                                @*<a href="javascript:void(0);" id="btnOkPopup" class="btn btn-lg btn-primary btn-light" data-dismiss="modal">Ok</a>*@
+                            </div>
+                        </div>
+                    </div><!-- .modal-body -->
+                </div>
+            </div>
+        </div>
+        <!-- main #end -->
+    </div>
+    <!-- app-root #end -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="/Content/assets/MyPayUserApp/js/bundle.js?ver=2.9.1"></script>
+    <script src="/Content/assets/MyPayUserApp/js/scripts.js?ver=2.9.1"></script>
+
+    @Scripts.Render("~/bundles/mypayuserapp_login")
+    @Scripts.Render("~/bundles/mypayuserapp_registerverification")
+    @*<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_login.js"></script>
+        <script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_registerverification.js"></script>*@
+    <style>
+
+        /*!
+        // 3. Loader
+        // --------------------------------------------------*/
+        .loader {
+            top: 0;
+            left: 0;
+            position: fixed;
+            opacity: 0.8;
+            z-index: 10000000;
+            background: Black;
+            height: 100%;
+            width: 100%;
+            margin: auto;
+        }
+
+        .strip-holder {
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            left: 50%;
+            margin-left: -50px;
+            position: relative;
+        }
+
+        .strip-1,
+        .strip-2,
+        .strip-3 {
+            width: 20px;
+            height: 20px;
+            background: #ffa353;
+            position: relative;
+            -webkit-animation: stripMove 2s ease infinite alternate;
+            animation: stripMove 2s ease infinite alternate;
+            -moz-animation: stripMove 2s ease infinite alternate;
+        }
+
+        .strip-2 {
+            -webkit-animation-duration: 2.1s;
+            animation-duration: 2.1s;
+            background-color: #F8E401;
+        }
+
+        .strip-3 {
+            -webkit-animation-duration: 2.2s;
+            animation-duration: 2.2s;
+            background-color: #E45415;
+        }
+
+        @@-webkit-keyframes stripMove {
+            0% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+        }
+
+        @@-moz-keyframes stripMove {
+            0% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(50px, 0px, 0px);
+                -webkit-transform: translate3d(50px, 0px, 0px);
+                -moz-transform: translate3d(50px, 0px, 0px);
+            }
+        }
+
+        @@keyframes stripMove {
+            0% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(50px, 0px, 0px);
+                -webkit-transform: translate3d(50px, 0px, 0px);
+                -moz-transform: translate3d(50px, 0px, 0px);
+            }
+        }
+    </style>
+
+</body>
+
+</html>

@@ -1,0 +1,149 @@
+﻿@model MyPay.Models.Add.AddTransactionLimit
+
+@{
+    ViewBag.Title = "UsersList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- content --s -->
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Transaction Limit Setup</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>@*You have total 2,595 users.*@</p>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        @*<li><a href="javascript:void(0);" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a></li>*@
+                                        <li class="nk-block-tools-opt">
+                                            <div class="drodown">
+                                                <a href="~/TransactionLimit/TransactionLimitHistory" class="btn btn-icon btn-primary" title="Transaction Limit History"><em class="icon ni ni-list"></em></a>
+                                                @*<div class="dropdown-menu dropdown-menu-right">
+                                                    <ul class="link-list-opt no-bdr">
+                                                        <li><a href="~/TransactionLimit/TransactionLimitHistory"><span>Transaction Limit History</span></a></li>
+                                                    </ul>
+                                                </div>*@
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+
+                            <div class="card-inner position-relative card-tools-toggle pb-3 pt-3">
+                                <!-- <span class="preview-title-lg overline-title mb-4">User List</span> -->
+                                <div class="card-title-group">
+                                    <div class="card-tools">
+                                        <span class="preview-title-lg overline-title pb-0">Transaction Limit</span>
+                                        <br />
+                                        <div class="nk-block-des text-soft">
+                                            <p><b>Note:</b>  Kyc Not-Verified user limit is Rs 5000.</p>
+                                        </div>
+                                    </div><!-- .card-tools -->
+                                </div><!-- .card-title-group -->
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="nk-block" style="display:none">
+
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">KYC Type <strong class="text-danger">*</strong></label>
+                                                    @Html.EnumDropDownListFor(x => x.KycTypeEnum, "--- Select Kyc Type ---", new { @class = "form-select form-control form-control-md" })
+                                                    @Html.HiddenFor(x => x.KycStatus)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                </div><!-- .card-inner -->
+                                <div id="dvMsgSuccess" class="tb-status text-success" style="text-align:center; font-weight:bold">
+                                    @ViewBag.Message
+                                </div>
+                                <div id="dvMsg" class="tb-status text-danger" style="text-align: center; font-weight: bold">
+                                    @ViewBag.SuccessMessage
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="tbllist" class=" nk-tb-list nk-tb-ulist table table-striped" data-auto-responsive="false">
+                                        <thead class="lg-th-head">
+                                            <tr class="nk-tb-item nk-tb-head ">
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Sno")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Updated Date")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Type Name")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Max Amount")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Amount per Day")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Amount per Month")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Transaction per Day")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Transaction per Month")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Kyc Type ")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col min-100">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Action")
+                                                    </span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                    </table>
+                                </div><!-- .table-responsive -->
+                            </div><!-- .card -->
+                        </div><!-- .nk-block -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="~/content/assets/js/dtable_TransactionLimit.js"></script>
+

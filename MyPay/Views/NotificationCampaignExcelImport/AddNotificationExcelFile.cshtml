@@ -1,0 +1,131 @@
+﻿@model MyPay.Models.Add.AddNotificationCampaignExcel
+
+@{
+    ViewBag.Title = "AddNotificationExcelFile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- content --s -->
+<div class="nk-content ">
+    <input type="hidden" value="@ViewBag.NotificationId" id="hdnid" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Notification Campaign Excel Import</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>@*You have total 2,595 users.*@</p>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+
+                            <div class="card-inner position-relative card-tools-toggle pb-3 pt-3">
+                                <!-- <span class="preview-title-lg overline-title mb-4">User List</span> -->
+                                <div class="card-title-group">
+                                    <div class="card-tools">
+                                        <span class="preview-title-lg overline-title pb-0">Add Notification Campaign Excel File</span>
+                                        <br />
+                                        <div class="nk-block-des text-soft">
+                                            <p><b>Note:</b>Notification can only send those users which are upload from this excel file.</p>
+                                        </div>
+                                    </div><!-- .card-tools -->
+                                </div><!-- .card-title-group -->
+                                <div id="dvMsgSuccess" class="tb-status text-success" style="text-align:center; font-weight:bold">
+                                    @ViewBag.Message
+                                </div>
+                                <div id="dvMsg" class="tb-status text-danger" style="text-align: center; font-weight: bold">
+                                    @ViewBag.SuccessMessage
+                                </div>
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="row gy-4 justify-center">
+                                    <div class="col-md-6">
+                                        <div class="col-lg-12 col-sm-12 mt-3">
+                                            <div class="form-group">
+                                                <div class="row form-control-wrap">
+                                                    <div class="row form-control-wrap">
+                                                        <div class="col-lg-4 col-sm-4">
+                                                            <label class="form-label">Upload File<strong class="text-danger">*</strong></label>
+                                                        </div>
+                                                        <div class="col-lg-8 col-sm-8">
+                                                            <input type="file" multiple class="custom-file-input" id="NotificationExcelFile" name="NotificationExcelFile">
+                                                            <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                            @*<input type="file" id="fileUpload" classs="form-control form-control-md" />*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="nk-block">
+                                    <div class="row mt-5">
+                                        <div class="col-lg-12 col-sm-6">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary text-center mr-2">Save</button>
+                                                <button type="button" onclick="window.location='/NotificationCampaignExcelImport/Index'" class="btn btn-light text-center">Back</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .nk-block -->
+                            </div><!-- .card -->
+                        </div><!-- .nk-block -->
+                        <div id="dvtblist" class="card-inner">
+                            <div class="row">
+                                <div class="col">
+                                    <h3>Excel Imported User List</h3>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="tblist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                    <thead>
+                                        <tr>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Contact Number")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Member Id")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Member Name")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Sent Status")
+                                                </span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div><!-- .card-inner -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="~/Content/assets/js/userscripts.js"></script>
+<script type="text/javascript" src="~/Content/assets/js/dtable_excelimporteduserlist.js"></script>
+<script>
+    $(document).ready(function () {
+        BindExcelImportedDataTable();
+    });
+</script>

@@ -1,0 +1,576 @@
+﻿@model MyPay.Models.Add.AddUser
+
+@{
+    ViewBag.Title = "UsersList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<div class="nk-content ">
+    <input type="hidden" id="hdnmemberid" value="" />
+    <input type="hidden" id="hdndumpurl" value="@ViewBag.DumpURL" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">User Management</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>You have total  <span id="kyctotalcount"></span> users.</p>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="exported()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" id="olduserexport" onclick="olduserexported(this, event)" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>All User Dump Export</span></a>
+                                        </li>
+                                        <li style="display:none;" id="activeuserli">
+                                            <a href="javascript:void(0);" id="activeuserexport" onclick="activetxnuserexported(this, event)" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Active User AND No Txn. Dump Export</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="olduserdownload()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download"></em></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-between -->
+                    </div><!-- .nk-block-head -->
+                    <div class="nk-block">
+                        <div class="card card-bordered card-stretch">
+                            <div class="card-inner-group">
+                                <div class="card-inner position-relative card-tools-toggle pb-5">
+                                    <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                    <div class="nk-block-head">
+                                        <div class="nk-block-head-content">
+                                            <div id="dvMessage" class="form-group form-label" style="color:red; text-align:center;">
+                                                @ViewBag.Message
+                                            </div>
+                                            <div id="dvSuccess" class="form-group form-label" style="color: green; text-align: center;">
+                                                @ViewBag.SuccessMessage
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row gy-4">
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @Html.TextBox("MemberId", "", new { @id = "MemberId", @placeholder = "Member Id", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @onkeypress = "return isNumberKey(this, event);" })
+                                                    @*<label class="form-label-outlined" for="MemberId">Member Id</label>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @Html.TextBox("FirstName", "", new { @id = "FirstName", @placeholder = "First Name", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                    @*<label class="form-label-outlined" for="FirstName">First Name</label>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @Html.TextBox("ContactNumber", "", new { @id = "ContactNumber", @placeholder = "Contact No", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @maxlength = 10, @onkeypress = "return isNumberKey(this, event);" })
+                                                    @*<label class="form-label-outlined" for="ContactNumber">Contact Number</label>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @Html.TextBox("Email", "", new { @id = "Email", @placeholder = "Email", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                    @*<label class="form-label-outlined" for="Email">Email</label>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <div class="form-icon form-icon-right md">
+                                                        <em class="icon ni ni-calendar-alt"></em>
+                                                    </div>
+                                                    @Html.TextBox("StartDate", "", new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                    <label class="form-label-outlined" for="fromdate">Start Date</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <div class="form-icon form-icon-right md">
+                                                        <em class="icon ni ni-calendar-alt"></em>
+                                                    </div>
+                                                    @Html.TextBox("ToDate", "", new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                    <label class="form-label-outlined" for="todate">End Date</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @Html.EnumDropDownListFor(x => x.KycStatusEnum, "--- Select KYC status ---", new { @class = "form-select form-control form-control-md" })
+                                                    <label class="form-label-outlined" for="kycstatus">KYC Status</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @Html.EnumDropDownListFor(x => x.UserRoleEnumType, "--- Select Role ---", new { @class = "form-select form-control form-control-md" })
+                                                    <label class="form-label-outlined" for="userrole">Role</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @Html.EnumDropDownListFor(x => x.IsActiveStatusEnum, "--- Select User status ---", new { @class = "form-select form-control form-control-md" })
+                                                    <label class="form-label-outlined" for="activestatus">User Status</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @Html.EnumDropDownListFor(x => x.OldUserStatuses, "--- Select User Steps ---", new { @class = "form-select form-control form-control-md" })
+                                                    <label class="form-label-outlined" for="activestatus">Check User Steps</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @Html.TextBox("RefCode", "", new { @id = "RefCode", @placeholder = "RefCode", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @Html.TextBox("RefId", "", new { @id = "RefId", @placeholder = "RefId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @Html.TextBox("RefCodeAttempted", "", new { @id = "RefCodeAttempted", @placeholder = "RefCode Attempted", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @Html.TextBox("DocumentNumber", "", new { @id = "DocumentNumber", @placeholder = "Document Number", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @Html.TextBox("DeviceId", "", new { @id = "DeviceId", @placeholder = "Device Id", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <a class="btn btn-primary text-center text-white" onclick="return bindtable();">Search</a>
+                                                @*<button type="submit" class="btn btn-primary text-center">Search</button>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="dvheading" class="card-inner position-relative card-tools-toggle pb-3 pt-3">
+                                    <!-- <span class="preview-title-lg overline-title mb-4">User List</span> -->
+                                    <div class="card-title-group">
+                                        <div class="card-tools">
+                                            <span class="preview-title-lg overline-title pb-0">User List</span>
+                                        </div><!-- .card-tools -->
+                                        <div class="card-tools mr-n1" style="display:none">
+                                            <ul class="btn-toolbar gx-1">
+
+                                                <li>
+                                                    <div class="toggle-wrap">
+                                                        <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
+                                                        <div class="toggle-content" data-content="cardTools">
+                                                            <ul class="btn-toolbar gx-1">
+                                                                <li class="toggle-close">
+                                                                    <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-arrow-left"></em></a>
+                                                                </li><!-- li -->
+                                                                <li style="display:none;">
+                                                                    <div class="dropdown">
+                                                                        <a href="javascript:void(0);" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="dropdown">
+                                                                            <div class="dot dot-primary"></div>
+                                                                            <em class="icon ni ni-filter-alt"></em>
+                                                                        </a>
+                                                                        <div class="filter-wg dropdown-menu dropdown-menu-xl dropdown-menu-right">
+                                                                            <div class="dropdown-head">
+                                                                                <span class="sub-title dropdown-title">Filter Users</span>
+                                                                            </div>
+                                                                            <div class="dropdown-body dropdown-body-rg">
+                                                                                <div class="row gx-6 gy-3">
+                                                                                    <div class="col-12">
+                                                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                                                            <input type="checkbox" class="custom-control-input" id="hasBalance">
+                                                                                            <label class="custom-control-label" for="hasBalance"> Have Balance</label>
+                                                                                        </div>
+                                                                                    </div>
+
+
+                                                                                    <div class="col-6">
+                                                                                        <div class="form-group">
+                                                                                            <label class="overline-title overline-title-alt">User Status</label>
+                                                                                            <select class="form-select">
+                                                                                                <option value="any">Any Status</option>
+                                                                                                <option value="active">Active</option>
+                                                                                                <option value="suspended">Suspended</option>
+                                                                                                <option value="blocked">Blocked</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <div class="form-group">
+                                                                                            <label class="overline-title overline-title-alt">KYC Status</label>
+                                                                                            <select class="form-select">
+                                                                                                <option value="any">Any Status</option>
+                                                                                                <option value="approved">Approved</option>
+                                                                                                <option value="Rejecteded">Rejected</option>
+                                                                                                <option value="pending">Pending</option>
+                                                                                                <option value="notfilled">Not Filled</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-12">
+                                                                                        <div class="form-group">
+                                                                                            <button type="button" class="btn btn-secondary">Filter</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="dropdown-foot between">
+                                                                                <a class="clickable" href="javascript:void(0);">Reset Filter</a>
+                                                                                <a href="javascript:void(0);">Save Filter</a>
+                                                                            </div>
+                                                                        </div><!-- .filter-wg -->
+                                                                    </div><!-- .dropdown -->
+                                                                </li><!-- li -->
+                                                                <li>
+                                                                    <div class="dropdown">
+                                                                        <a href="javascript:void(0);" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="dropdown" style="display:none">
+                                                                            <em class="icon ni ni-setting"></em>
+                                                                        </a>
+                                                                        <div class="dropdown-menu dropdown-menu-xs dropdown-menu-right">
+                                                                            <ul class="link-tidy sm no-bdr">
+                                                                                <li>
+                                                                                    <div class="custom-control custom-control-sm custom-checkbox">
+                                                                                        <input type="checkbox" class="custom-control-input" checked="" id="fn">
+                                                                                        <label class="custom-control-label" for="us">Full Name</label>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <div class="custom-control custom-control-sm custom-checkbox">
+                                                                                        <input type="checkbox" class="custom-control-input" checked="" id="ph">
+                                                                                        <label class="custom-control-label" for="ph">Mobile No.</label>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <div class="custom-control custom-control-sm custom-checkbox">
+                                                                                        <input type="checkbox" class="custom-control-input" id="ge">
+                                                                                        <label class="custom-control-label" for="ge">Gender</label>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <div class="custom-control custom-control-sm custom-checkbox">
+                                                                                        <input type="checkbox" class="custom-control-input" id="ab">
+                                                                                        <label class="custom-control-label" for="ab">Wallet</label>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <div class="custom-control custom-control-sm custom-checkbox">
+                                                                                        <input type="checkbox" class="custom-control-input" id="st">
+                                                                                        <label class="custom-control-label" for="st">Status</label>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <div class="custom-control custom-control-sm custom-checkbox">
+                                                                                        <input type="checkbox" class="custom-control-input" id="ks">
+                                                                                        <label class="custom-control-label" for="ks">KYC Status</label>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <div class="custom-control custom-control-sm custom-checkbox">
+                                                                                        <input type="checkbox" class="custom-control-input" id="cd">
+                                                                                        <label class="custom-control-label" for="cd">Joining Date</label>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div><!-- .dropdown -->
+                                                                </li><!-- li -->
+
+                                                            </ul><!-- .btn-toolbar -->
+                                                        </div><!-- .toggle-content -->
+                                                    </div><!-- .toggle-wrap -->
+                                                </li><!-- li -->
+                                            </ul><!-- .btn-toolbar -->
+                                        </div><!-- .card-tools -->
+                                    </div><!-- .card-title-group -->
+                                    <div class="card-search search-wrap" data-search="search">
+                                        <div class="card-body">
+                                            <div class="search-content">
+                                                <a href="javascript:void(0);" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                                                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by user or email">
+                                                <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                                            </div>
+                                        </div>
+                                    </div><!-- .card-search -->
+                                </div><!-- .card-inner -->
+                                <div id="dvtblist" class="card-inner table-responsive" style="min-height:500px;">
+                                    <table id="tbluserlist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                        <thead>
+                                            <tr class="nk-tb-item nk-tb-head">
+                                                <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("SrNo")</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("Full Name")</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("Contact No")</span></th>
+                                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Created Date")</span></th>
+                                                <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Email")</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("DOB")</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("DOBType")</span></th>
+                                                <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Gender")</span></th>
+                                                <th class="nk-tb-col tb-col-mb"><span class="sub-text">@Html.DisplayName("Available Balance")</span></th>
+                                                <th class="nk-tb-col tb-col-mb"><span class="sub-text">@Html.DisplayName("Reward Points")</span></th>
+                                                <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Role")</span></th>
+                                                <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Status")</span></th>
+                                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("KYC")</span></th>
+                                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("RefCode Attempted")</span></th>
+                                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("DeviceId")</span></th>
+                                                <th class="nk-tb-col nk-tb-col-tools text-right">
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div><!-- .card-inner -->
+                            </div><!-- .card-inner-group -->
+                        </div><!-- .card -->
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " tabindex="-1" id="UserStatus">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title text-center">Change User Status</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <label for="txtRemarks">Remarks: </label>
+                                        <textarea id="txtRemarks" name="txtRemarks" cols="40" placeholder="Enter Remarks" rows="5" class="form-control form-control-md form-control-outlined"></textarea>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span style="color:red" id="dvPopupMsg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nk-modal-action mt-5 text-center">
+                        <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-primary" onclick="return BlockUnblock(0,event)">Submit</a>
+                        <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+<style>
+    .form-icon-right + .form-control, div.dataTables_wrapper div.dataTables_filter .form-icon-right + input, .dual-listbox .form-icon-right + .dual-listbox__search {
+        padding-left: 1rem;
+        padding-right: calc(1rem + 24px);
+        background-color: white;
+    }
+
+    .dt-buttons.btn-group.flex-wrap {
+        display: none;
+    }
+</style>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="./content/assets/js/dtable_userskycrequest.js"></script>
+<script type="text/javascript" src="~/Content/assets/js/userscripts.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        $("#dvtblist").css("display", "none");
+        $("#dvheading").css("display", "none");
+        if (window.location.href.indexOf($("#hdndumpurl").val()) > -1) {
+            $("#activeuserexport").css("display", "none");
+        }
+        else {
+            $("#activeuserli").css("display", "block");
+        }
+       // BindUserDataTable();
+
+    });
+    function bindtable() {
+        $("#dvtblist").css("display", "block");
+        $("#dvheading").css("display", "block");
+        BindUserDataTable();
+    };
+
+    function exported(e) {
+        var MemberId = $("#MemberId").val();
+        var Mobile = $("#ContactNumber").val();
+        var Name = $("#FirstName").val();
+        var Email = $("#Email").val();
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        var Kycstatus = $("#KycStatusEnum").val();
+        var RoleId = $("#UserRoleEnumType").val();
+        var IsActive = $("#IsActiveStatusEnum").val();
+        var OldUserStatuses = $("#OldUserStatuses").val();
+        var RefCode = $("#RefCode").val();
+        var RefId = $("#RefId").val();
+        if (MemberId == "") {
+            MemberId = 0;
+        }
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ExportExcel", "User")', //call your controller and action
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            data: '{"Take":"' + parseInt(take) + '","Skip":"' + parseInt(skip) + '","Sort":"' + sort + '","SortOrder":"' + sortdir + '","MemberId":"' + parseInt(MemberId) + '","ContactNumber":"' + Mobile + '","Name":"' + Name + '","Email":"' + Email + '","FromDate": "' + fromdate + '", "ToDate": "' + todate + '", "KYCStatus": "' + Kycstatus + '", "RoleId": "' + RoleId + '","IsActive": "' + IsActive + '","RefCode": "' + RefCode + '","OldUserStatuses": "' + OldUserStatuses + '","RefId": "' + RefId + '"}',
+
+        }).done(function (data) {
+            //get the file name for download
+            if (data.fileName != "") {
+                //use window.location.href for redirect to download action for download the file
+                window.location.href = "@Url.RouteUrl(new { Controller = "User", Action = "Download" })/?fileName=" + data.fileName;
+            }
+        });
+    }
+
+
+    function olduserexported(obj, e) {
+        var MemberId = $("#MemberId").val();
+        var Mobile = $("#ContactNumber").val();
+        var Name = $("#FirstName").val();
+        var Email = $("#Email").val();
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        var Kycstatus = $("#KycStatusEnum").val();
+        var RoleId = $("#UserRoleEnumType").val();
+        var IsActive = $("#IsActiveStatusEnum").val();
+        var OldUserStatuses = $("#OldUserStatuses").val();
+        var RefCode = $("#RefCode").val();
+        var RefId = $("#RefId").val();
+        var RefCodeAttempted = $("#RefCodeAttempted").val();
+        if (MemberId == "") {
+            MemberId = 0;
+        }
+        if (window.location.href.indexOf($("#hdndumpurl").val()) > -1) {
+            if (fromdate == "") {
+                alert("Please select Start Date");
+                return false;
+            }
+            else if (todate == "") {
+                alert("Please select End Date");
+                return false;
+            }
+            else if (fromdate != "" && todate != "") {
+                var enddate = new Date(todate);
+                var startdate = new Date(fromdate);
+                var difference = enddate - startdate;
+                var totaldays = Math.ceil(difference / (1000 * 3600 * 24));
+                if (totaldays > 5) {
+                    alert("You cannot export report more than 5 days. So please select StartDate and EndDate accordingly.");
+                    return false;
+                }
+                else {
+                    alert("Your exported file is being generated. Please download the new excel after 15 mins. Please note that you can request to generate new file after 4 hrs.");
+                    //$("#olduserexport").attr('disabled', true);
+                    $("#olduserexport").hide();
+                }
+            }
+        }
+        $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("ExportExcelOldUser", "User")', //call your controller and action
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        async: true,
+                        data: '{"Sort":"' + sort + '","SortOrder":"' + sortdir + '","MemberId":"' + parseInt(MemberId) + '","ContactNumber":"' + Mobile + '","Name":"' + Name + '","Email":"' + Email + '","FromDate": "' + fromdate + '", "ToDate": "' + todate + '", "KYCStatus": "' + Kycstatus + '", "RoleId": "' + RoleId + '","IsActive": "' + IsActive + '","RefCode": "' + RefCode + '","OldUserStatuses": "' + OldUserStatuses + '","RefId": "' + RefId + '","RefCodeAttempted": "' + RefCodeAttempted + '"}',
+                    }).done(function (data) {
+                        //get the file name for download
+                        if (data.fileName != "") {
+                            //use window.location.href for redirect to download action for download the file
+                            //window.location.href = "@Url.RouteUrl(new { Controller = "User", Action = "Download" })/?fileName=" + data.fileName;
+                            //$("#olduserexport").removeAttr('disabled');
+                            //alert("File Saved");
+                        }
+                        else {
+                            alert(data.errorMessage);
+                        }
+
+                    });
+    }
+
+    function olduserdownload(e) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("DownloadOldUserFileName", "User")', //call your controller and action
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            data: '',
+
+        }).done(function (data) {
+            //get the file name for download
+            if (data!="" && data.fileName != "") {
+                //use window.location.href for redirect to download action for download the file
+                window.location.href = "@Url.RouteUrl(new { Controller = "User", Action = "DownloadOldUser" })?fileName=" + data.fileName;
+            }
+        });
+    }
+
+    function activetxnuserexported(obj, e) {
+
+        if (window.location.href.indexOf($("#hdndumpurl").val()) > -1) {
+            return false;
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("ExportExcelActiveUserNoTxn", "User")', //call your controller and action
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: true,
+                data: '',
+            }).done(function (data) {
+                //get the file name for download
+                if (data.fileName != "") {
+                    //use window.location.href for redirect to download action for download the file
+                    //window.location.href = "@Url.RouteUrl(new { Controller = "User", Action = "Download" })/?fileName=" + data.fileName;
+                    //$("#olduserexport").removeAttr('disabled');
+                    //alert("File Saved");
+                }
+                else {
+                    alert(data.errorMessage);
+                }
+
+            });
+        }
+    }
+</script>

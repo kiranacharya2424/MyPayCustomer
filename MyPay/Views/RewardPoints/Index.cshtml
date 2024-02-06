@@ -1,0 +1,272 @@
+﻿
+
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Reward Points</h3>
+                        </div><!-- .nk-block-head-content -->
+
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="exported()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+                @*@Html.Hidden("MemberId", (object)ViewBag.MemberId, new { @id = "MemberId" })*@
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                <div class="row gy-4">
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("StartDate", "", new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="fromdate">From Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("ToDate", "", new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="todate">To Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("Name", "", new { @id = "Name", @placeholder = "Name", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Name</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("TransactionId", "", new { @id = "TransactionId", @placeholder = "Transaction Id", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">TxnId</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("MemberId", "", new { @id = "MemberId", @placeholder = "Member Id", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Member Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.DropDownList("Sign", ViewBag.Sign as SelectList, "", new { @id = "Sign", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                <label class="form-label-outlined" for="outlined-normal">Sign</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <a class="btn btn-primary text-center text-white" onclick="return bindtable();">Search</a>
+                                            @*<button type="submit" class="btn btn-primary text-center">Search</button>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="dvtblist" class="card-inner">
+                                <div class="table-responsive">
+                                    <table id="tblist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                        <thead>
+                                            <tr>
+                                                <th class="nk-tb-col">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("SrNo")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Date")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("MemberId")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("TransactionId")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Gateway Txn Id")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Name")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Reward Points")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Sign")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Reward Type")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Remarks")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Parent TransactionId")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Service")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("View")
+                                                    </span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div><!-- .card-inner -->
+
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " tabindex="-1" id="singleTransaction">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title text-center">Detail</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-12 " id="singleTxn"></div>
+                            </div>
+                        </div>
+                        <div class="nk-modal-action mt-5 text-center">
+                            <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="./content/assets/js/dtable_transactions.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#dvtblist").css("display", "none");
+        $('.date-picker').datepicker({
+            format: "dd-M-yyyy"
+        }).datepicker('setDate', 'today');
+        //BindRewardPointsDataTable();
+    });
+
+    function bindtable() {
+        $("#dvtblist").css("display", "block");
+        BindRewardPointsDataTable();
+    };
+    function GetTxnDetail(Sign, Date,MemberId, TxnId,GatewayTxnId, MemberName, Amount, SignName, TypeName, Description) {
+        $("#singleTxn").html("");
+        if (Date != "" & TxnId != "") {
+            var str = '<div class="table-responsive"><table class="nowrap nk-tb-list nk-tb-ulist table-bordered h-100">';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Date :</span></td><td class="nk-tb-col"><span>' + Date + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Member Id :</span></td><td class="nk-tb-col"><span class="tb-lead">' + MemberId + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Transaction Id :</span></td><td class="nk-tb-col"><span><strong style="color: #f98c45">#' + TxnId + '</strong></span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Gateway Txn Id :</span></td><td class="nk-tb-col"><span class="tb-lead">' + GatewayTxnId + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Name :</span></td><td class="nk-tb-col"><span>' + MemberName + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Amount (Rs) :</span></td><td class="nk-tb-col"><span class="tb-lead">' + Amount + '</span></td></tr>';
+            if (Sign == 1) {
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Sign : </span></td><td class="nk-tb-col"><span class="tb-status text-success">' + SignName + '</span></td></tr>';
+            }
+            else {
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Sign : </span></td><td class="nk-tb-col"><span class="tb-status text-danger">' + SignName + '</span></td></tr>';
+            }
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Type :</span></td><td class="nk-tb-col"><span>' + TypeName + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Description :</span></td><td class="nk-tb-col"><span>' + Description + '</span></td></tr>';
+
+            str += '</table></div>';
+            $("#singleTxn").append(str);
+            $('#singleTransaction').modal('show');
+            return false;
+        }
+    }
+
+    function exported(e) {
+        var MemberId = $("#MemberId").val();
+        var Name = $("#Name").val();
+        var TransactionId = $("#TransactionId").val();
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        if (MemberId == "") {
+            MemberId = 0;
+        }
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ExportExcel", "RewardPoints")', //call your controller and action
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            data: '{"MemberId":"' + parseInt(MemberId) + '","Name":"' + Name + '","TxnId":"' + TransactionId + '","FromDate": "' + fromdate + '", "ToDate": "' + todate + '"}',
+
+        }).done(function (data) {
+            //get the file name for download
+            if (data.fileName != "") {
+                //use window.location.href for redirect to download action for download the file
+                window.location.href = "@Url.RouteUrl(new { Controller = "RewardPoints", Action = "Download" })/?fileName=" + data.fileName;
+            }
+        });
+    }
+</script>

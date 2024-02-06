@@ -1,0 +1,361 @@
+﻿
+@{
+    ViewBag.Title = "UsersList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model  MyPay.Models.Request.Req_AdminLogin
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+    <base href="../">
+    <meta charset="utf-8">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="/Content//images/favicon.png">
+    <!-- Page Title  -->
+    <title>MyPay Admin</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="./Content/assets/css/dashlite.css?ver=2.9.1">
+    <link id="skin-default" rel="stylesheet" href="./Content/assets/css/theme.css?ver=2.9.1">
+    <style>
+
+        html {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body class="nk-body bg-gradient npc-general pg-auth">
+
+    <div class="loader" id="AjaxLoader" style="display:none;">
+        <div class="strip-holder">
+            <div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>
+        </div>
+    </div>
+    <div class="nk-app-root">
+        <!-- mains -->
+        <div class="nk-main ">
+            <!-- wraps -->
+            <div class="nk-wrap nk-wrap-nosidebar">
+                <!-- contents -->
+                <div class="nk-content ">
+                    <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
+                        <div class="brand-logo pb-4 text-center mb-4 mt-4">
+                            <a href="javascript:void(0);" class="logo-link">
+
+                                <img class="logo-dark logo-img logo-img-lg" src="/Content//images/logo.png" srcset="/Content//images/logo2x.png 2x" alt="logo-dark">
+                            </a>
+                        </div>
+                        <div class="card card-bordered">
+                            <div class="card-inner card-inner-lg">
+                                <div class="nk-block-head">
+                                    <div class="nk-block-head-content">
+                                        <h4 class="nk-block-title">Sign-In</h4>
+                                        <div class="nk-block-des">
+                                            <p>Access the MyPay Admin Panel.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form id="frm1" method="post">
+                                    <div class="form-group">
+                                        <div class="form-label-group">
+                                            <label class="form-label" for="default-01">Username</label>
+                                        </div>
+                                        <div class="form-control-wrap">
+                                            @Html.TextBox("UserId", "", new { @Id = "UserId", @Class = "form-control form-control-lg", autocomplete = "off", placeholder = "Enter your email address or username" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-label-group">
+                                            <label class="form-label" for="default-01">Password</label>
+                                        </div>
+                                        <div class="form-control-wrap">
+                                            @Html.TextBox("Password", "", new { @Type = "password", @id = "Password", @Class = "form-control form-control-lg", autocomplete = "off", placeholder = "Enter your passcode" })
+
+                                            <a href="javascript:void(0);" class="form-icon form-icon-right passcode-switch lg" data-target="Password">
+                                                <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                            </a>
+                                        </div>
+                                        <div class="form-control-wrap">
+                                            <a class="link link-primary link-sm" href="/AdminLogin/ForgotPassword">Forgot Password?</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.CheckBox("RememberMe", false, new { }) Remember me
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign in" />
+                                    </div>
+                                    <div id="dvMessage" class="form-group" style="color:red">
+                                        @ViewBag.Message
+                                        <span id="successmsg" style="color:green">
+                                            @TempData["AdminMessage"]
+                                        </span>
+
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nk-footer bg-transparent no-bdr">
+                        <div class="container-fluid">
+                            <div class="nk-footer-wrap">
+                                <div class="nk-footer-copyright text-white">
+                                    &copy; 2022 MyPay.
+                                </div>
+                                <div class="nk-footer-links">
+                                    <ul class="nav nav-sm">
+                                        <li class="nav-item dropup">
+                                            <a herf="#" class="dropdown-toggle dropdown-indicator has-indicator nav-link text-white" data-toggle="dropdown" data-offset="0,10"><span>English</span></a>
+                                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                                <ul class="language-list">
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="language-item">
+                                                            <span class="language-name">English</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="language-item">
+                                                            <span class="language-name">Español</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="language-item">
+                                                            <span class="language-name">Français</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="language-item">
+                                                            <span class="language-name">Türkçe</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- footere -->
+                </div>
+                <!-- wrape -->
+            </div>
+            <!-- contente -->
+        </div>
+        <!-- maine -->
+    </div>
+    <!-- app-roote -->
+    <!-- JavaScript -->
+    <!-- JavaScript -->
+    <script src="./Content/assets/js/bundle.js?ver=2.9.1"></script>
+    <script src="./Content/assets/js/scripts.js?ver=2.9.1"></script>
+    <script>
+        $(document).on('submit', function (event) {
+            CheckRequestLogin();
+            event.preventDefault();
+        });
+        function CheckRequestLogin() {
+            debugger;
+            var UserId = $("#UserId").val();
+            var Password = $("#Password").val();
+            if (UserId == "") {
+                $("#dvMessage").html("Please enter Userid");
+                return false;
+            }
+            else if (Password == "") {
+                $("#dvMessage").html("Please enter Password");
+                return false;
+            }
+            else {
+                $('#AjaxLoader').show();
+                setTimeout(
+                    function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Adminlogin/RequestLogin",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            async: false,
+                            data: '{"UserId":"' + UserId + '","Password":"' + Password + '"}',
+                            success: function (response) {
+                                debugger;
+
+                                if (response == "success") {
+                                    debugger;
+                                    window.location.href = "/AdminLogin/Dashboard";
+                                    $("#dvMessage").html("Please wait ...");
+                                    return false;
+                                }
+                                else {
+                                    $('#AjaxLoader').hide();
+                                    $("#dvMessage").html("Invalid Credentials");
+                                }
+                            },
+                            failure: function (response) {
+                                $('#AjaxLoader').hide();
+                                JsonOutput = (response.responseText);
+                            },
+                            error: function (response) {
+                                $('#AjaxLoader').hide();
+                                JsonOutput = (response.responseText);
+                            }
+                        });
+                    }, 100);
+            }
+        }
+
+
+    </script>
+
+    <style>
+
+        /*!
+        // 3. Loader
+        // --------------------------------------------------*/
+        .loader {
+            top: 0;
+            left: 0;
+            position: fixed;
+            opacity: 0.8;
+            z-index: 10000000;
+            background: Black;
+            height: 100%;
+            width: 100%;
+            margin: auto;
+        }
+
+        .strip-holder {
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            left: 50%;
+            margin-left: -50px;
+            position: relative;
+        }
+
+        .strip-1,
+        .strip-2,
+        .strip-3 {
+            width: 20px;
+            height: 20px;
+            background: #ffa353;
+            position: relative;
+            -webkit-animation: stripMove 2s ease infinite alternate;
+            animation: stripMove 2s ease infinite alternate;
+            -moz-animation: stripMove 2s ease infinite alternate;
+        }
+
+        .strip-2 {
+            -webkit-animation-duration: 2.1s;
+            animation-duration: 2.1s;
+            background-color: #F8E401;
+        }
+
+        .strip-3 {
+            -webkit-animation-duration: 2.2s;
+            animation-duration: 2.2s;
+            background-color: #E45415;
+        }
+
+        @@-webkit-keyframes stripMove {
+            0% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+        }
+
+        @@-moz-keyframes stripMove {
+            0% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(50px, 0px, 0px);
+                -webkit-transform: translate3d(50px, 0px, 0px);
+                -moz-transform: translate3d(50px, 0px, 0px);
+            }
+        }
+
+        @@keyframes stripMove {
+            0% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(50px, 0px, 0px);
+                -webkit-transform: translate3d(50px, 0px, 0px);
+                -moz-transform: translate3d(50px, 0px, 0px);
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        debugger;
+        
+
+        $(document).ready(function () {
+            //your own JS code here
+            var hostname = window.location.origin;
+            if (hostname.indexOf("customer.mypay.com.np") > 0) {
+                window.location.href = "https://customer.mypay.com.np/mypayuserlogin"
+            }
+            else {
+                document.getElementsByTagName("html")[0].style.visibility = "visible";
+            }
+        });
+
+    </script>
+</body>
+</html>

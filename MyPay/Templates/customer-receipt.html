@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <meta name="format-detection" content="telephone=no" />
+      <!-- disable auto telephone linking in iOS -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i" type="text/css" />
+      <title>MyPay</title>
+      <style type="text/css"> 
+         /* RESET STYLES */
+         html { background-color:#fff; margin:0; padding:0; }
+         body, #bodyTable, #bodyCell, #bodyCell{margin:0; padding:0; width:100% !important;font-family: 'SERIFAN';color:#111;}
+		 
+		 @font-face {
+			font-family: 'SERIFAN';
+			src: url('/assets/fonts/fonts/SERIFAN.eot');
+			src: url('/assets/fonts/fonts/SERIFAN.eot') format('embedded-opentype'),
+				 url('/assets/fonts/fonts/SERIFAN.woff2') format('woff2'),
+				 url('/assets/fonts/fonts/SERIFAN.woff') format('woff'),
+				 url('/assets/fonts/fonts/SERIFAN.ttf') format('truetype'),
+				 url('/assets/fonts/fonts/SERIFAN.svg#SERIFAN') format('svg');
+		}
+         
+      </style>
+   </head>
+   <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+      <div class="maindiv" style="padding: 1.5rem;background: #fff;margin: auto;width: 100%;max-width: 800px;">
+		<div class="header" style="padding:0 20px 10px 20px;border-bottom:2px solid #111;width:100%;float:left;">
+			<div style="width:50%;float:left"><img src="##LogoImage##" style="max-width:150px;" /></div>
+			<div style="width: 50%; float: right">
+				<p style="font-size:14px;margin:0px;font-family: 'Rubik', sans-serif;">
+					XPRESS SEWA PTY LTD<br />
+					<span style="font-size: 14px;margin: 3px 0;display: inline-block;width: 100%;font-family: 'Rubik', sans-serif;">email: contact@mypay.com</span><br />
+					<span style="font-size: 14px;margin: 0 0 3px 0;display: inline-block;width: 100%;font-family: 'Rubik', sans-serif;">web: www.mypay.com</span><br />
+					<span style="font-size: 14px;margin-right:5px;font-family: 'Rubik', sans-serif;">Phone: 0415 573 572</span> <span style="font-size: 14px;font-family: 'Rubik', sans-serif;">ABN: 34 636 942 268</span>
+				</p>
+			</div>
+		</div><!--header-->
+		<div class="contentsec" style="padding:0 20px;width:100%;float:left;">
+			<div style="text-align:center;width:100%;display:inline-block;margin: 15px 0 25px 0;font-size: 22px;font-weight:600;font-family: 'Rubik', sans-serif;">Customer Receipt</div>
+			<div style="display:flex;justify-content:space-between;letter-spacing:1px;">
+				<span style="font-size:15px;font-weight:bold;width:50%;">Transaction Number : ##TransactionId##</span>
+				<span style="font-size:15px;font-weight:bold;width:50%;">Transaction Date : ##Date##</span>
+			</div>
+			
+			<div style="margin:20px 0 5px 0;">
+				<span style="font-size:20px;font-weight:bold;letter-spacing:1px;">Sender's Details</span>
+			</div>			
+			<div style="display:flex;justify-content:space-between;margin:0 0 5px 0;">
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Sender Name: ##TransferBy##</span>
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Customer Id: ##MemberId##</span>
+			</div>
+			<div style="display:flex;justify-content:space-between;margin:0 0 5px 0;">
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Phone Number: ##ContactNumber##</span>
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Country: Australia</span>
+			</div>
+			<div style="display:flex;justify-content:space-between;margin:0 0 5px 0;">
+				<span style="font-size:15px;letter-spacing:1px;color:#4c4d4d;">Address: ##Address##</span>
+			</div>
+			
+			<div style="margin:30px 0 5px 0;">
+				<span style="font-size:20px;font-weight:bold;">Recipient's Details</span>
+			</div>			
+			<div style="display:flex;justify-content:space-between;margin:0 0 5px 0;">
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Recipient Name: ##RecipientName##</span>
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Phone Number: ##BenPhone##</span>
+			</div>
+			<div style="display:flex;justify-content:space-between;margin:0 0 5px 0;">
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Bank Name: ##BankName##</span>
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Account Number: ##AccountNumber##</span>
+			</div>
+			
+			
+			<div style="margin:30px 0 5px 0;">
+				<span style="font-size:20px;font-weight:bold;letter-spacing:1px;">Transaction Details</span>
+			</div>
+			<div style="display:flex;justify-content:space-between;margin:0 0 5px 0;">
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Send Amount: ##YouSend##</span>
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Receive Amount: ##CustomerGet##</span>
+			</div>
+			<div style="display:flex;justify-content:space-between;margin:0 0 5px 0;">
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Transaction Fee: ##TotalFee##"</span>
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Total Paid Amount: ##AmountConvert##</span>
+			</div>
+			<div style="display:flex;justify-content:space-between;margin:0 0 5px 0;">
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Exchange Rate: ##ConversionRate## AUD-NPR</span>
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Transfer Status: ##TransferStatus##</span>
+			</div>
+			<div style="display:flex;justify-content:space-between;margin:0 0 5px 0;">
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Receiving Type: Bank to Bank Deposit</span>
+			</div>
+			<div style="display:flex;justify-content:space-between;margin:0 0 5px 0;">
+				<span style="font-size:15px;width:50%;letter-spacing:1px;color:#4c4d4d;">Payment Status: ##TransferStatus##</span>
+			</div>
+			
+		</div><!--contentsec-->
+      </div><!--maindiv-->
+   </body>
+</html>

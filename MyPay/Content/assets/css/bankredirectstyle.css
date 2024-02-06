@@ -1,0 +1,43 @@
+
+.text-center {
+    text-align: center !important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #E45415;
+    border-color: #E45415;
+}
+
+.text-white {
+    color: #fff !important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #E45415;
+    border-color: #E45415;
+}
+
+.btn, .dual-listbox .dual-listbox__button {
+    text-decoration: none;
+    border: 1px solid transparent;
+    padding: 0.4375rem 1.125rem;
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+    border-radius: 4px;
+}
+
+.btnAction {
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    margin: 10px;
+}
+
+@media screen and (max-width: 767px) {
+
+    .btnAction {
+        display: none
+    }
+}

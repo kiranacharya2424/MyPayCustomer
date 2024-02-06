@@ -1,0 +1,472 @@
+﻿
+@model  MyPay.Models.Request.Req_MyPayUserLogin
+
+
+@{
+    ViewBag.Title = "MyPayUserLogin";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="/Content/assets/MyPayUserApp/images/favicon.png">
+    <!-- Page Title  -->
+    <title>MyPay</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="/Content/assets/MyPayUserApp/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/Content/assets/MyPayUserApp/css/dashlite.css">
+    <link id="skin-default" rel="stylesheet" href="/Content/assets/MyPayUserApp/css/theme.css?ver=2.9.1">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="nk-body npc-general pg-auth bg-gradient mobile-whitebg" oncontextmenu="return false;">
+
+    <div class="loader" id="AjaxLoader" style="display:none;">
+        <div class="strip-holder">
+            <div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>
+        </div>
+    </div>
+    <div class="nk-app-root">
+        <!-- main #start -->
+        <div class="nk-main ">
+            <!-- wrap #start -->
+            <div class="nk-wrap nk-wrap-nosidebar">
+                <!-- content #start -->
+                <div class="nk-content ">
+                    <div class="nk-block nk-auth-body wide-xs p-0 loginscreen py-md-5">
+                        <div class="login-header text-center">
+                            <a href="javascript:void(0);" class="logo-link">
+                                <img class="logo-dark logo-img logo-img-lg" src="/Content/assets/MyPayUserApp/images/logo.png" srcset="/Content/assets/MyPayUserApp/images/logo2x.png 2x" alt="logo-dark">
+                            </a>
+                        </div>
+                        <!--  <div class="brand-logo text-center bg-gradient py-5 circ-gr">
+                        <a href="javascript:void(0);" class="logo-link">
+
+                            <img class="logo-dark logo-img logo-img-lg" src="images/logo.png" srcset="images/logo2x.png 2x" alt="logo-dark">
+                        </a>
+                        <h5 class="text-white mt-4 trusted">Welcome to MyPay Payments</h5>
+                        </div> -->
+                        <div class="card">
+                            <div class="card-inner card-inner-lg">
+                                <form action="#" class="is-alter mypaye-step-form" id="wizard-01">
+                                    <div class="nk-wizard-content" id="wizard_contactnumber" style="display:block">
+                                        <div class="row gy-3">
+                                            <div class="col-md-12">
+                                                <div class="log-des">
+                                                    <h4 class="nk-block-title text-center mb-2">Welcome to MyPay!</h4>
+                                                    <p class="text-center">Use the phone number to register or Login MyPay</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <!-- <label class="form-label" for="fw-mobile-number">Mobile Number</label> -->
+                                                    <div class="form-control-wrap country-num">
+                                                        <span class="country-code"><img src="/Content/assets/MyPayUserApp/images/nepal.png"><b>+977</b></span>
+                                                        @Html.TextBox("ContactNumber", "", new Dictionary<string, object> { { "Id", "ContactNumber" }, { "maxlength", "10" }, { "class", "form-control required" }, { "autocomplete", "off" }, { "placeholder", "Enter Phone Number" }, { "data-msg", "Required" }, { "onkeypress", "return ValidateEnter(this, 'Next1', true,event);" } })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="step-footer-text">
+                                                    <p>By continuing, I accept to the <a href="https://mypay.com.np/terms-conditions">terms & conditions</a> and <a href="https://mypay.com.np/privacy-policy">policy</a> of MyPay.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="actions clearfix">
+                                            <ul role="menu" aria-label="Pagination">
+                                                <li class="disabled" aria-disabled="true"><a href="javascript:void(0)" role="menuitem">Prev</a></li>
+                                                <li aria-hidden="false" aria-disabled="false"><a id="Next1" href="javascript:void(0)" onclick="return btnNextStepsClick(1);" role="menuitem">Next</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- welcome screen -->
+                                    <div class="nk-wizard-content" id="wizard_verificationotp" style="display:none">
+                                        <div class="row gy-3">
+                                            <div class="col-md-12">
+                                                <div class="log-des">
+                                                    <h4 class="nk-block-title text-center mb-2">Verification OTP</h4>
+                                                    <p class="text-center">A verification OTP has been sent to <br>(+977) <label class="contactno"></label></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <!-- <label class="form-label" for="fw-mobile-number">Mobile Number</label> -->
+                                                    <div class="form-control-wrap text-center otp">
+                                                        @Html.TextBox("OTP", "", new Dictionary<string, object> { { "Id", "OTP" }, { "maxlength", "6" }, { "class", "form-control required" }, { "autocomplete", "off" }, { "placeholder", "------" }, { "data-msg", "Required" }, { "onkeypress", "return ValidateEnter(this, 'Next2', true,event);" } })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="step-footer-text send-otp">
+                                                    <a href="javacript:void(0)" id="sendotp" onclick="return btnResendotp();">RESEND OTP</a>
+                                                    <div class="resend_otp" id=""><a href="javacript:void(0)" id="seconds">Resend OTP in <label id="clock"></label> sec</a></div>
+
+                                                    <p><a href="/MyPayUserLogin" style="text-decoration: none;">Change Phone Number</a></p>
+                                                    <p class="notget"><a href="javacript:void(0)" onclick="return btnFailureotp();">Did not Get OTP?</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="actions clearfix">
+                                            <ul role="menu" aria-label="Pagination">
+                                                <li class="" aria-disabled="true"><a href="javascript:void(0)" onclick="return showstep(1);" role="menuitem">Prev</a></li>
+                                                <li aria-hidden="false" aria-disabled="false"><a id="Next2" href="javascript:void(0)" onclick="return btnNextStepsClick(2);" role="menuitem">Next</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--Verification OTP-->
+                                    <div class="nk-wizard-content" id="wizard_signupdetail" style="display:none">
+                                        <div class="row gy-3">
+                                            <div class="col-md-12">
+                                                <div class="log-des">
+                                                    <h4 class="nk-block-title text-center mb-2">Please Enter Your Details</h4>
+                                                    <p class="text-center">For (+977) <label class="contactno"></label></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" data-msg="Required" class="form-control required" id="txtfirstname" name="txtfirstname" required placeholder="First Name">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" data-msg="Required" class="form-control required" id="txtlastname" name="txtlastname" required placeholder="Last Name">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap ">
+                                                        <div class="form-control-select">
+                                                            <select class="form-control" id="drpgender">
+                                                                <option value="0">Gender</option>
+                                                                <option value="1">Male</option>
+                                                                <option value="2">Female</option>
+                                                                <option value="3">Other</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <input type="email" class="form-control" id="txtemail" name="txtemail" placeholder="Email (Optional)">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control" id="txtalternatenumber" maxlength="10" name="txtalternatenumber" placeholder="Alternate Nepali Number (Optional)" onkeypress="return isNumberKey(this, event);">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control" id="txtrefferalcode" name="txtrefferalcode" placeholder="Referral Code">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="step-footer-text text-left">
+                                                    <p class="title-f">Advantages of adding email</p>
+                                                    <div class="add-email-des">
+                                                        <div class="addemail-icon">
+                                                            <img src="/Content/assets/MyPayUserApp/images/lock.png">
+                                                        </div>
+                                                        <div class="addemail-content">
+                                                            <h6>Offer and Upadets</h6>
+                                                            <p>Use your email to received latest offers and updates from MYPAY</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="add-email-des">
+                                                        <div class="addemail-icon">
+                                                            <img src="/Content/assets/MyPayUserApp/images/transaction.png">
+                                                        </div>
+                                                        <div class="addemail-content">
+                                                            <h6>Get Transaction Details</h6>
+                                                            <p>
+                                                                Receive Transaction details and monthly statement direct in your mail box
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="actions clearfix">
+                                            <ul role="menu" aria-label="Pagination">
+                                                <li class="" aria-disabled="true"><a href="javascript:void(0)" onclick="return showstep(2);" role="menuitem">Prev</a></li>
+                                                <li aria-hidden="false" aria-disabled="false"><a href="javascript:void(0)" role="menuitem" onclick="return btnNextStepsClick(3);">Next</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- details section-->
+                                    <div class="nk-wizard-content" id="wizard_createpassword" style="display:none">
+                                        <div class="row gy-3">
+                                            <div class="col-md-12">
+                                                <div class="log-des">
+                                                    <h4 class="nk-block-title text-center mb-2">Create Password</h4>
+                                                    <p class="text-center">Password must be at least 8 characters long with one uppercase, one lowercase, one numeric and one special character.</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <!--   <div class="form-control-wrap">
+                                                    <a href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
+                                                        <em class="passcode-icon icon-show icon ni ni-eye-fill"></em>
+                                                        <em class="passcode-icon icon-hide icon ni ni-eye-off-fill"></em>
+                                                    </a>
+                                                    <input type="password" class="form-control form-control-lg" id="password" placeholder="Enter Password">
+                                                    </div> -->
+                                                    <div class="form-control-wrap pwd">
+                                                        <input id="password-field" type="password" class="form-control form-control-lg" name="password" placeholder="Enter Password">
+                                                        <span toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <!--    <div class="form-control-wrap">
+                                                    <a href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
+                                                        <em class="passcode-icon icon-show icon ni ni-eye-fill"></em>
+                                                        <em class="passcode-icon icon-hide icon ni ni-eye-off-fill"></em>
+                                                    </a>
+                                                    <input type="password" class="form-control form-control-lg" id="password" placeholder="Re-enter Password">
+                                                    </div> -->
+                                                    <div class="form-control-wrap pwd">
+                                                        <input id="repassword-field" type="password" class="form-control form-control-lg" name="password" placeholder="Re-enter Password" onclick="return ValidateEnter(this, 'Next4', false,event);">
+                                                        <span toggle="#repassword-field" class="fa fa-fw fa-eye-slash field-icon toggle-password"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="actions clearfix">
+                                            <ul role="menu" aria-label="Pagination">
+                                                <li class="" aria-disabled="true"><a href="javascript:void(0)" role="menuitem" onclick="return showstep(3);">Prev</a></li>
+                                                <li aria-hidden="false" aria-disabled="false"><a href="javascript:void(0)" role="menuitem" onclick="return btnNextStepsClick(4);">Next</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--Create Password-->
+                                    <div class="nk-wizard-content" id="wizard_createpin" style="display:none">
+                                        <div class="row gy-3">
+                                            <div class="col-md-12">
+                                                <div class="log-des createpin">
+                                                    <h4 class="nk-block-title text-center mb-2">Create Pin</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group text-center">
+                                                    <label class="form-label" for="fw-mobile-number">Create your Wallet PIN</label>
+                                                    <div class="form-control-wrap text-center otp">
+                                                        <input type="text" data-msg="Required" maxlength="4" class="form-control required" id="txtpin" name="" required placeholder="----" onclick="return ValidateEnter(this, 'Next5', true,event);">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="actions clearfix">
+                                            <ul role="menu" aria-label="Pagination">
+                                                <li class="" aria-disabled="true"><a href="javascript:void(0)" role="menuitem" onclick="return showstep(4);">Prev</a></li>
+                                                <li aria-hidden="false" aria-disabled="false"><a href="javascript:void(0)" role="menuitem" onclick="return btnNextStepsClick(5);">Next</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--Create Pin-->
+                                    <div class="nk-wizard-content" id="wizard_verifypin" style="display:none">
+                                        <div class="row gy-3">
+                                            <div class="col-md-12">
+                                                <div class="log-des createpin">
+                                                    <h4 class="nk-block-title text-center mb-2">Verify Wallet Pin</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group text-center">
+                                                    <label class="form-label" for="fw-mobile-number">Enter your Wallet PIN</label>
+                                                    <div class="form-control-wrap text-center otp">
+                                                        <input type="text" data-msg="Required" maxlength="4" class="form-control required" id="txtverifypin" name="" required placeholder="----" onclick="return ValidateEnter(this, 'Next6', true,event);">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="actions clearfix">
+                                            <ul role="menu" aria-label="Pagination">
+                                                <li class="" aria-disabled="true"><a href="javascript:void(0)" role="menuitem" onclick="return showstep(5);">Prev</a></li>
+                                                <li aria-hidden="false" aria-disabled="false"><a href="javascript:void(0)" role="menuitem" onclick="return btnNextStepsClick(6);">Submit</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--Verify Wallet Pin-->
+                                </form>
+
+                                <div id="dvMessage" class="form-group" style="color:red;text-align:center;">
+                                    @ViewBag.Message
+                                    <span id="successmsg" style="color:green">
+                                        @TempData["AdminMessage"]
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--loginscreen-->
+                </div>
+                <!-- wrap #end -->
+            </div>
+            <!-- content #end -->
+        </div>
+        <!-- main #end -->
+        <div class="modal fade " tabindex="-1" id="OTPFailurePopup">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-body modal-body-sm">
+                        <div class="nk-modal">
+                            @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                            <h4 class="nk-modal-title text-center">Have You Not Received Verification Code</h4>
+                            <div class="nk-modal-text">
+                                <div class="text-center">
+                                    <p>Make a Call to MyPay Support Team to help you with your SignUp</p>
+                                </div>
+                            </div>
+                            <div class="nk-modal-action mt-3 text-center">
+                                <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-primary " data-dismiss="modal">Close</a>
+                                @*<a href="javascript:void(0);" id="btnOkPopup" class="btn btn-lg btn-primary btn-light" data-dismiss="modal">Ok</a>*@
+                            </div>
+                        </div>
+                    </div><!-- .modal-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- app-root #end -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="/Content/assets/MyPayUserApp/js/bundle.js?ver=2.9.1"></script>
+    <script src="/Content/assets/MyPayUserApp/js/scripts.js?ver=2.9.1"></script>
+    <!-- JavaScript -->
+
+    @Scripts.Render("~/bundles/mypayuserapp_login")
+    @*<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_login.js"></script>*@
+    <style>
+        .nk-wizard-content {
+            display: none;
+        }
+    </style>
+    <style>
+
+        /*!
+        // 3. Loader
+        // --------------------------------------------------*/
+        .loader {
+            top: 0;
+            left: 0;
+            position: fixed;
+            opacity: 0.8;
+            z-index: 10000000;
+            background: Black;
+            height: 100%;
+            width: 100%;
+            margin: auto;
+        }
+
+        .strip-holder {
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            left: 50%;
+            margin-left: -50px;
+            position: relative;
+        }
+
+        .strip-1,
+        .strip-2,
+        .strip-3 {
+            width: 20px;
+            height: 20px;
+            background: #ffa353;
+            position: relative;
+            -webkit-animation: stripMove 2s ease infinite alternate;
+            animation: stripMove 2s ease infinite alternate;
+            -moz-animation: stripMove 2s ease infinite alternate;
+        }
+
+        .strip-2 {
+            -webkit-animation-duration: 2.1s;
+            animation-duration: 2.1s;
+            background-color: #F8E401;
+        }
+
+        .strip-3 {
+            -webkit-animation-duration: 2.2s;
+            animation-duration: 2.2s;
+            background-color: #E45415;
+        }
+
+        @@-webkit-keyframes stripMove {
+            0% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+        }
+
+        @@-moz-keyframes stripMove {
+            0% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(50px, 0px, 0px);
+                -webkit-transform: translate3d(50px, 0px, 0px);
+                -moz-transform: translate3d(50px, 0px, 0px);
+            }
+        }
+
+        @@keyframes stripMove {
+            0% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(50px, 0px, 0px);
+                -webkit-transform: translate3d(50px, 0px, 0px);
+                -moz-transform: translate3d(50px, 0px, 0px);
+            }
+        }
+    </style>
+</body>
+</html>

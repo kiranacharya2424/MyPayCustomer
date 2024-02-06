@@ -1,0 +1,196 @@
+﻿
+
+
+@{
+    ViewBag.Title = "RemittanceConversionRates";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Remittance Conversion Rates</h3>
+                            <div class="nk-block-head-content">
+                                <div class="toggle-wrap nk-block-tools-toggle">
+
+                                    <div class="toggle-expand-content" data-content="pageMenu">
+                                      
+                                    </div>
+                                </div><!-- .toggle-wrap -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nk-block">
+                        <div class="card card-bordered">
+                            <div class="card-aside-wrap">
+                                <div class="card-inner">
+                                    <div class="nk-block">
+                                        <div class="nk-block-head">
+                                            <div id="dvMessage" class="form-group" style="color:red">
+                                                @ViewBag.Message
+                                            </div>
+                                            <div id="dvSuccessMessage" class="form-group" style="color:green">
+                                                @ViewBag.SuccessMessage
+                                            </div>
+                                        </div><!-- .nk-block-head -->
+                                        @*<div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                            <h6 class="title overline-title text-base">Remittance Conversion Rates</h6>
+                                        </div>*@
+                                        @*<div class="row gy-4">
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Select Source Currency <strong class="text-danger">*</strong></label>
+                                                        @Html.DropDownList("SourceCurrencyList", ViewBag.SourceCurrencyList as SelectList, new { @id = "SourceCurrencyId", @class = "form-select form-control form-control-md" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Select Destination Currency <strong class="text-danger">*</strong></label>
+                                                        @Html.DropDownList("DestinationCurrencyList", ViewBag.DestinationCurrencyList as SelectList, new { @id = "DestinationCurrencyId", @class = "form-select form-control form-control-md" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Conversion Rate<strong class="text-danger">*</strong></label>
+                                                        @Html.TextBox("ConversionRate", "", new { @id = "ConversionRate", @class = "form-control form-control-md", @onkeypress = "return isNumberKey(this, event);" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                    </div><!-- .nk-block -->
+                                    <!--<div class="nk-divider divider my-5"></div>
+                                    <div class="nk-block">
+                                        <div class="row mt-5">
+                                            <div class="col-lg-12 col-sm-6">
+                                                <div class="form-group">
+                                                    <a href="javascript:void(0);" class="btn btn-primary text-center mr-2" id="btnSubmit" onclick="SubmitConversionRate();">Save</a>-->
+                                                    @*<button type="button" onclick="window.location='/Remittance/RemittanceList'" class="btn btn-light text-center mr-2">List</button>*@
+
+                                                <!--</div>
+                                            </div>
+                                        </div>
+                                    </div>--><!-- .nk-block -->
+                                </div><!-- .card-content -->
+                            </div><!-- .card-aside-wrap -->
+                            <div class="card-inner position-relative card-tools-toggle pb-3 pt-3">
+                                <!-- <span class="preview-title-lg overline-title mb-4">User List</span> -->
+                                <div class="card-title-group">
+                                    <div class="card-tools">
+                                        <span class="preview-title-lg overline-title pb-0">Wallet Currency Conversion List</span>
+                                    </div><!-- .card-tools -->
+                                    <ul class="nk-block-tools g-3">
+                                        <li class="nk-block-tools-opt">
+                                            <div class="drodown">
+                                                <a href="/RemittanceConversionRateSettings/Index" class="btn btn-icon btn-primary" title="Off Hours Remittance Conversion Rate"><em class="icon ni ni-plus"></em> Add Off Hours Conversion Rate .</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div><!-- .card-title-group -->
+                            </div><!-- .card-inner -->
+                            <div id="dvtblist" class="card-inner table-responsive">
+                                <table id="tblmerlist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                    <thead>
+                                        <tr class="nk-tb-item nk-tb-head">
+                                            <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("Date")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Source Currency")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Destination Currency")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Conversion Rate")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("Markup")</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">@Html.DisplayName("InverseRate")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Created By")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Updated By")</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">@Html.DisplayName("Action")</span></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div><!-- .card-inner -->
+                        </div><!-- .card -->
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="~/Content/assets/js/userscripts.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/dtable_RemittanceUserCurrencies.js"></script>
+    <script>
+        //$(function () {
+        //    $("#CurrencyId").change(function () {
+        //        var value = $("#CurrencyId option:selected").text();
+        //        $("#CurrencyCode").val(value);
+        //    });
+        //});
+        $(document).ready(function () {
+            $("#dvtblist").css("display", "block");
+            BindCurrencyConversionDataTable();
+        });
+        function SubmitConversionRate() {
+            var SourceCurrencyId = $("#SourceCurrencyId option:selected").val();
+            var DestinationCurrencyId = $("#DestinationCurrencyId option:selected").val();
+            var ConversionRate = $("#ConversionRate").val();
+            $('#AjaxLoader').show();
+            setTimeout(
+                function () {
+
+                    if (SourceCurrencyId == "" || SourceCurrencyId == "0") {
+                        $("#dvMessage").html('Please select source currency');
+                    }
+                    else if (DestinationCurrencyId == "" || DestinationCurrencyId == "0") {
+                        $("#dvMessage").html('Please select destination currency');
+                    }
+                    else if (ConversionRate == "" || ConversionRate == "0") {
+                        $("#dvMessage").html('Please enter conversion rate');
+                    }
+                    else {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Remittance/SetRemittanceConversionRate",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            async: false,
+                            data: '{"SourceCurrencyId":"' + SourceCurrencyId + '","DestinationCurrencyId":"' + DestinationCurrencyId + '","ConversionRate":"' + ConversionRate + '"}',
+                            success: function (response) {
+                                debugger;
+                                if (response != null) {
+                                    if (response == "success") {
+                                        $("#dvSuccessMessage").html(response);
+                                    }
+                                    else {
+                                        $("#dvMessage").html(response);
+                                    }
+                                }
+                                else {
+                                    JsonOutput = "Something went wrong. Please try again later.";
+                                }
+                            },
+                            failure: function (response) {
+                                JsonOutput = (response.responseText);
+                                $("#dvMessage").html(JsonOutput);
+                            },
+                            error: function (response) {
+                                JsonOutput = (response.responseText);
+                                $("#dvMessage").html(JsonOutput);
+                            }
+                        });
+                    }
+                    $('#AjaxLoader').hide();
+                }, 100);
+        }
+    </script>
+<style>
+    .dataTables_length
+    {
+        display:none;
+    }
+</style>

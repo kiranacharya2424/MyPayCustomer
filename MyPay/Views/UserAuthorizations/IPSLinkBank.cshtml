@@ -1,0 +1,100 @@
+﻿@using MyPay.Models.Add;
+@model AddRegisterLinkedBankNCHL
+@{
+    ViewBag.Title = "IPSLinkBank";
+    Layout = "";
+}
+
+
+
+@*<form action="https://uat.connectips.com:7443/connectipswebgw/loginpage" method="post">*@
+<div>
+
+    <form action="@(MyPay.Repository.RepNCHL.TokenizationURL_LinkBank)" method="post" id="IPSLinkForm" name="IPSLinkForm"
+          enctype="application/x-www-form-urlencoded">
+
+        <div style="display:none">
+            <br>
+            participantId
+            <input type="text" name="participantId" id="participantId" value="@Model.participantId" />
+            <br>
+            <br>
+            identifier
+            <input type="text" name="identifier" id="identifier" value="@Model.identifier" />
+            <br>
+            userIdentifier
+            <input type="text" name="userIdentifier" id="userIdentifier" value="@Model.userIdentifier" />
+            <br>
+            mobileNo
+            <input type="text" name="mobileNo" id="mobileNo" value="@Model.mobileNo" />
+            <br>
+            email
+            <input type="text" name="email" id="email" value="@Model.email" />
+            <br>
+            amount
+            <input type="text" name="amount" id="amount" value="@Model.amount" />
+            <br>
+            debitType
+            <input type="text" name="debitType" id="debitType" value="@Model.debitType" />
+            <br>
+            frequency
+            <input type="text" name="frequency" id="frequency" value="@Model.frequency" />
+            <br>
+            mandateStartDate
+            <input type="text" name="mandateStartDate" id="mandateStartDate" value="@Model.mandateStartDate" />
+            <br>
+            mandateExpiryDate
+            <input type="text" name="mandateExpiryDate" id="mandateExpiryDate" value="@Model.mandateExpiryDate" />
+
+            <input type="text" name="token" id="token" value="@Model.token" />
+            <br>
+            <span id="AuthTOKEN">@Model.authToken</span>
+            <br>
+            @ViewBag.Message
+            <input type="submit" id="btnsubmit" value="Submit">
+        </div>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        <script>
+            $(document).ready(function () {
+                $("#btnsubmit").trigger("click");
+            });
+            window.onload = function () {
+                //document.forms["IPSLinkForm"].submit();
+            }
+            debugger;
+            $(document).ready(function () {
+                var form = $(document.IPSLinkForm);
+                debugger;
+
+                $('#IPSLinkForm').submit(function () {
+                    // get all the inputs into an array.
+                    var $inputs = $('#IPSLinkForm :input');
+                    debugger;
+                    // not sure if you wanted this, but I thought I'd add it.
+                    // get an associative array of just the values.
+                    var values = {};
+                    $inputs.each(function () {
+                        debugger;
+                        values[this.name] = $(this).val();
+                    });
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open(form.method, form.action, true);
+                    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                    xhr.setRequestHeader('Authorization', 'Bearer- ' + $("#AUTHTOKEN").html());
+
+                    // send the collected data as JSON
+                    xhr.send(JSON.stringify($inputs));
+
+                    xhr.onloadend = function () {
+                        // done
+                    };
+
+                });
+
+            });
+        </script>
+    </form>
+
+</div>

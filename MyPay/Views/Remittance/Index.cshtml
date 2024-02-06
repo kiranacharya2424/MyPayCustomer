@@ -1,0 +1,856 @@
+﻿@model MyPay.Models.Add.AddRemittanceUser
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #526484;
+        line-height: 2rem;
+        padding: 0.4375rem calc(39px + 2px) 0.4375rem 1rem;
+    }
+
+    .select2-container--default .select2-selection--single {
+        height: calc(42px + 2px);
+    }
+
+    .gallery-image.popup-image {
+        min-height: inherit;
+        height: inherit;
+    }
+
+    .custom-file-inputrounded-top {
+        max-width: 100px;
+        max-height: 100px;
+    }
+
+    .personal-block.nk-block,
+    .personal-block .card.card-bordered {
+        height: 100%;
+    }
+
+    .imgupload .custom-file-label,
+    .imgupload .custom-file-label::after {
+        height: calc(42px + 2px);
+        line-height: 27px;
+    }
+
+    .imgupload .custom-file-input,
+    .imgupload .custom-file {
+        height: calc(42px + 2px);
+    }
+
+    .imgupload {
+        display: flex;
+        align-items: flex-start;
+        position: relative;
+    }
+
+        .imgupload label.form-label {
+            position: absolute;
+            top: 0px;
+            left: 100px;
+        }
+
+        .imgupload .custom-file-inputrounded-top {
+            max-width: 85px;
+            margin-right: 20px;
+            max-height: 80px;
+            object-fit: cover;
+        }
+
+        .imgupload .custom-file.text-left {
+            margin-top: 35px;
+        }
+</style>
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title mb-4">@(Model.Id == 0 ? "Add":"Edit") Remittance Partner</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="nk-block personal-block">
+                                <div class="card card-bordered">
+                                    <div class="card-aside-wrap">
+                                        <div class="card-inner">
+                                            <div class="nk-block">
+                                                <div class="nk-block-head">
+                                                    <div class="form-group" style="color:red">
+                                                        @ViewBag.Message
+                                                    </div>
+                                                    <div class="form-group" style="color:green">
+                                                        @ViewBag.SuccessMessage
+                                                    </div>
+                                                </div>
+                                                <!-- .nk-block-head -->
+                                                <div class="nk-block-head nk-block-head-line mb-2">
+                                                    <h5 class="card-title">Personal Detail</h5>
+                                                </div>
+                                                <div class="row gy-4">
+
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Contact Name <strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control form-control-lg", @onkeypress = "return IsAlphabetOnly(event);" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Mobile Number <strong class="text-danger">*</strong></label>
+
+                                                                @if (Model.Id == 0)
+                                                                {
+                                                                    @Html.TextBoxFor(m => m.ContactNo, new { @class = "form-control form-control-lg", @maxlength = 10, @onkeypress = "return isNumberKey(this, event);" }) }
+                                                                else
+                                                                {
+                                                                    @Html.TextBoxFor(m => m.ContactNo, new { @class = "form-control form-control-lg", @maxlength = 10, @onkeypress = "return isNumberKey(this, event);", @readonly = "true" })}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Email Id <strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.EmailID, new { @class = "form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">User Name <strong class="text-danger">*</strong></label>
+                                                                @if ((Model.Id == 0))
+                                                                {
+                                                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-lg" }) }
+                                                                else
+                                                                {
+                                                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-lg", @readonly = "true" })}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Country <strong class="text-danger">*</strong></label>
+                                                                @Html.DropDownListFor(m => m.CountryId, ViewBag.CountryId as SelectList, "", new { @class = "form-select form-control form-control-lg" })
+                                                                @Html.HiddenFor(m => m.CountryName)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Address <strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">State <strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.State, new { @class = "form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">City <strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.City, new { @class = "form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Zip Code</label>
+                                                                @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Password<strong class="text-danger">*</strong> </label>
+                                                                <div class="form-control-wrap">
+                                                                    @{
+                                                                        <a href="javascript:void(0);" class="form-icon form-icon-right passcode-switch md" data-target="Password">
+                                                                            <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                                            <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                                                        </a>
+                                                                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control form-control-lg", @maxlength = 20, @value = @ViewBag.Password }) }
+                                                                    <input type="hidden" id="hdnPassword" value="@ViewBag.Password" />
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Date Of Birth <strong class="text-danger">*</strong></label>
+                                                            <div class="form-control-wrap">
+                                                                @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control form-control-lg form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                                <div class="form-icon form-icon-right md">
+                                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Gender<strong class="text-danger">*</strong></label>
+                                                                @Html.DropDownListFor(m => m.GenderType, ViewBag.GenderType as SelectList, new { @class = "form-select form-control form-control-lg" })
+                                                                @Html.HiddenFor(m => m.GenderType)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">FeeType<strong class="text-danger">*</strong></label>
+                                                                @Html.DropDownListFor(m => m.FeeType, ViewBag.FeeType as SelectList, new { @class = "form-select form-control form-control-lg", @onchange = "FeeTypeChanged()" })
+                                                                @Html.HiddenFor(m => m.FeeType)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6" id="dvFixedFee" style="display:none;">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Fee<strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.Fee, new { @class = "form-control form-control-lg", @onkeypress = "return isNumberKey(this, event);" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Markup Conversion Rate<strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.MarginConversionRate, new { @class = "form-control form-control-lg", @onkeypress = "return isNumberKey(this, event);" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- .nk-block -->
+
+
+                                        </div><!-- .card-content -->
+                                    </div><!-- .card-aside-wrap -->
+                                </div><!-- .card -->
+                            </div><!-- .nk-block -->
+                        </div><!--col-md-6-->
+                        <div class="col-md-6">
+                            <div class="nk-block">
+                                <div class="card card-bordered">
+                                    <div class="card-aside-wrap">
+                                        <div class="card-inner">
+                                            <div class="nk-block">
+
+                                                <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                                    <h5 class="card-title">Company Detail</h5>
+                                                </div>
+                                                <div class="row gy-4">
+                                                    <div class="col-lg-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Organization Name <strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.OrganizationName, new { @class = "form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Company Director Name<strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.CompanyDirectorname, new { @class = "form-control form-control-lg", @onkeypress = "return IsAlphabetOnly(event);" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Company Registration Number <strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.CompanyRegistrationNo, new { @class = "form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Type <strong class="text-danger">*</strong></label>
+                                                                @Html.DropDownListFor(m => m.Type, ViewBag.Type as SelectList, new { @class = "form-select form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Source Currency <strong class="text-danger">*</strong></label>
+                                                                @Html.DropDownListFor(m => m.FromCurrencyId, ViewBag.FromCurrencyId as SelectList, new { @class = "form-select form-control form-control-lg" })
+                                                                @Html.HiddenFor(m => m.FromCurrencyCode)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Success URL</label>
+                                                                @Html.TextBoxFor(m => m.SuccessURL, new { @class = "form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Cancel URL</label>
+                                                                @Html.TextBoxFor(m => m.CancelURL, new { @class = "form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">WebSite <strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.WebsiteURL, new { @class = "form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Ip Address <strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.MerchantIpAddress, new { @class = "form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group text-center">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Company Logo</label>
+                                                                <div class="">
+
+                                                                    <a class="gallery-image popup-image" href="@Model.Image">
+                                                                        @if (string.IsNullOrEmpty(Model.Image))
+                                                                        {
+                                                                            <img ID="targetMerchantImage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt=""> }
+                                                                        else
+                                                                        {
+
+                                                                            <img ID="targetMerchantImage" class="custom-file-inputrounded-top" width="200" src="@Model.Image" alt="">}
+                                                                    </a>
+                                                                    @Html.HiddenFor(m => m.Image)
+                                                                </div>
+                                                                <div class="custom-file text-left mt-3">
+                                                                    <input type="file" multiple class="custom-file-input" id="MerchantImageFile" onchange="PreviewImage(this,'MerchantImage',5000)" name="MerchantImageFile">
+                                                                    <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6">
+                                                        <div class="form-group text-center">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Company License Doc </label>
+                                                                <div class="">
+
+                                                                    <a class="gallery-image popup-image" href="@Model.AddressProofImage">
+                                                                        @if (string.IsNullOrEmpty(Model.AddressProofImage))
+                                                                        {
+                                                                            <img ID="targetAddressProofImage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt=""> }
+                                                                        else
+                                                                        {
+
+                                                                            <img ID="targetAddressProofImage" class="custom-file-inputrounded-top" width="200" src="@Model.AddressProofImage" alt="">}
+                                                                    </a>
+                                                                    @Html.HiddenFor(m => m.AddressProofImage)
+                                                                </div>
+                                                                <div class="custom-file text-left mt-3">
+                                                                    <input type="file" multiple class="custom-file-input" id="AddressProofImageFile" onchange="PreviewImage(this,'AddressProofImage',5000)" name="AddressProofImageFile">
+                                                                    <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- .nk-block -->
+
+
+                                        </div><!-- .card-content -->
+                                    </div><!-- .card-aside-wrap -->
+                                </div><!-- .card -->
+                            </div><!-- .nk-block -->
+                        </div><!--col-md-6-->
+                    </div><!--row-->
+
+
+                    <div class="nk-block mt-4">
+                        <div class="card card-bordered">
+                            <div class="card-aside-wrap">
+                                <div class="card-inner">
+                                    <div class="nk-block">
+
+                                        <div class="nk-block-head nk-block-head-line mb-2">
+                                            <h5 class="card-title">Document Detail</h5>
+                                        </div>
+                                        <div class="row gy-4">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-sm-12 mb-4">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Proof Type <strong class="text-danger">*</strong></label>
+                                                                @Html.DropDownListFor(m => m.ProofType, ViewBag.ProofType as SelectList, new { @class = "form-select form-control form-control-lg" })
+                                                                @Html.HiddenFor(m => m.ProofType)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-sm-12 mb-4">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Document Number <strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.DocumentNo, new { @class = "form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-sm-12 mb-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Document Expiry Date <strong class="text-danger">*</strong></label>
+                                                            <div class="form-control-wrap">
+                                                                @Html.TextBoxFor(m => m.DocumentExpiryDate, new { @class = "form-control form-control-lg form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly", id = "Document-expiry" })
+                                                                <div class="form-icon form-icon-right md">
+                                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-sm-12 mb-4">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <label class="form-label">Address Proof Type <strong class="text-danger">*</strong></label>
+                                                                @Html.DropDownListFor(m => m.AddressProofType, ViewBag.AddressProofType as SelectList, new { @class = "form-select form-control form-control-lg" })
+                                                                @Html.HiddenFor(m => m.AddressProofType)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap" id="otherProof" style="display:none;">
+                                                                <label class="form-label">Other Proof Type <strong class="text-danger">*</strong></label>
+                                                                @Html.TextBoxFor(m => m.OtherProofType, new { @class = "form-control form-control-lg" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!--row-->
+                                            </div><!--col-md-6-->
+
+                                            <div class="col-md-6">
+                                                <div class="row">
+
+                                                    <div class="col-lg-12 col-sm-12">
+                                                    </div>
+
+
+
+                                                    <div class="col-lg-12 col-sm-12 mb-4">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="imgupload">
+                                                                    <label class="form-label">Id Proof Front Image<strong class="text-danger">*</strong></label>
+                                                                    <div class="">
+
+                                                                        <a class="gallery-image popup-image" href="@Model.IDProofFrontImage">
+                                                                            @if (string.IsNullOrEmpty(Model.IDProofFrontImage))
+                                                                            {
+                                                                                <img ID="targetIDProofFrontImage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank2.png" alt=""> }
+                                                                            else
+                                                                            {
+
+                                                                                <img ID="targetIDProofFrontImage" class="custom-file-inputrounded-top" width="200" src="@Model.IDProofFrontImage" alt="">}
+                                                                        </a>
+                                                                        @Html.HiddenFor(m => m.IDProofFrontImage)
+                                                                    </div>
+                                                                    <div class="custom-file text-left">
+                                                                        <input type="file" multiple class="custom-file-input" id="IDProofFrontImageFile" onchange="PreviewImage(this,'IDProofFrontImage',5000)" name="IDProofFrontImageFile">
+                                                                        <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                    </div>
+                                                                </div><!--imgupload-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-sm-12 mb-4" id="dvBackImage">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="imgupload">
+                                                                    <label class="form-label">Id Proof Back Image <strong class="text-danger">*</strong></label>
+                                                                    <div class="">
+
+                                                                        <a class="gallery-image popup-image" href="@Model.IDProofBackImage">
+                                                                            @if (string.IsNullOrEmpty(Model.IDProofBackImage))
+                                                                            {
+                                                                                <img ID="targetIDProofBackImage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank2.png" alt=""> }
+                                                                            else
+                                                                            {
+
+                                                                                <img ID="targetIDProofBackImage" class="custom-file-inputrounded-top" width="200" src="@Model.IDProofBackImage" alt="">}
+                                                                        </a>
+                                                                        @Html.HiddenFor(m => m.IDProofBackImage)
+                                                                    </div>
+                                                                    <div class="custom-file text-left">
+                                                                        <input type="file" multiple class="custom-file-input" id="IDProofBackImageFile" onchange="PreviewImage(this,'IDProofBackImage',5000)" name="IDProofBackImageFile">
+                                                                        <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                    </div>
+                                                                </div><!--imgupload-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <div class="imgupload">
+                                                                    <label class="form-label">Address Proof Image </label>
+                                                                    <div class="">
+
+                                                                        <a class="gallery-image popup-image" href="@Model.AdditionalDoc">
+                                                                            @if (string.IsNullOrEmpty(Model.AdditionalDoc))
+                                                                            {
+                                                                                <img ID="targetAdditionalDoc" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank2.png" alt=""> }
+                                                                            else
+                                                                            {
+
+                                                                                <img ID="targetAdditionalDoc" class="custom-file-inputrounded-top" width="200" src="@Model.AdditionalDoc" alt="">}
+                                                                        </a>
+                                                                        @Html.HiddenFor(m => m.AdditionalDoc)
+                                                                    </div>
+                                                                    <div class="custom-file text-left">
+                                                                        <input type="file" multiple class="custom-file-input" id="AdditionalDocFile" onchange="PreviewImage(this,'AdditionalDoc',5000)" name="AdditionalDocFile">
+                                                                        <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                                    </div>
+                                                                </div><!--imgupload-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!--row-->
+                                            </div><!--col-md-6-->
+
+
+                                        </div>
+                                    </div><!-- .nk-block -->
+                                    <div class="nk-block p-0">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-6">
+                                                <div class="form-group">
+                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                        @ViewBag.Message
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary text-center mr-2" id="btnSubmitMerchant">Save</button>
+                                                    <button type="button" onclick="window.location='/Remittance/RemittanceList'" class="btn btn-light text-center mr-2">List</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- .nk-block -->
+                                </div><!-- .card-content -->
+                            </div><!-- .card-aside-wrap -->
+                        </div><!-- .card -->
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/Content/assets/js/userscripts.js"></script>
+<script>
+    $(function () {
+        $("#CountryId").change(function () {
+            var value = $("#CountryId option:selected").text();
+            $("#CountryName").val(value);
+
+        });
+    });
+    $(function () {
+        $("#FromCurrencyId").change(function () {
+            var value = $("#FromCurrencyId option:selected").text();
+            $("#FromCurrencyCode").val(value);
+        });
+    });
+    $(function () {
+        $("#ProofType").change(function () {
+            debugger;
+            var value = $("#ProofType option:selected").val();
+            if (value == "2" || value == "3") {
+                $("#dvBackImage").css("display", "none");
+            }
+            else {
+                $("#dvBackImage").css("display", "");
+            }
+        });
+    });
+    $("#Password").val($("#hdnPassword").val());
+    $("#Password").attr('type', 'password');
+    $(document).ready(function () {
+        $('#Document-expiry').datepicker({
+            startDate: '+0d'
+        })
+        if ($("#CountryName").val() == "") {
+            $("#CountryId").val("216");
+            $("#CountryName").val("Nepal");
+        }
+        var address = $("#AddressProofType option:selected").text();
+        $("#otherProof").hide();
+        if (address == "Other") {
+            $("#otherProof").show();
+        }
+    });
+    $(function () {
+        $("#AddressProofType").change(function () {
+            var address = $("#AddressProofType option:selected").text();
+            $("#otherProof").hide();
+            if (address == "Other") {
+                $("#otherProof").show();
+            }
+
+        });
+    });
+
+    var specialKeys = new Array();
+    specialKeys.push(8);  //Backspace
+    specialKeys.push(9);  //Tab
+    specialKeys.push(46); //Delete
+    specialKeys.push(36); //Home
+    specialKeys.push(35); //End
+    specialKeys.push(37); //Left
+    specialKeys.push(39); //Right
+    specialKeys.push(32); //Space
+    function IsAlphabetOnly(e) {
+        var keyCode = e.keyCode == 0 ? e.charCode : e.keyCode;
+        var ret = ((keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || (specialKeys.indexOf(e.keyCode) != -1));
+        return ret;
+    }
+
+    function FeeTypeChanged() {
+        if ($("#FeeType").val() == "1") {
+            $("#dvFixedFee").show();
+        }
+        else {
+            $("#dvFixedFee").hide();
+        }
+    }
+    $(document).ready(function () {
+        FeeTypeChanged();
+        $("#btnSubmitMerchant").click(function () {
+            if ($("#Image").val() == "") {
+                $("#Image").val($("#MerchantImageFile").val())
+            }
+            if ($("#AddressProofImage").val() == "") {
+                $("#AddressProofImage").val($("#AddressProofImageFile").val())
+            }
+            if ($("#IDProofFrontImage").val() == "") {
+                $("#IDProofFrontImage").val($("#IDProofFrontImageFile").val())
+            }
+            if ($("#IDProofBackImage").val() == "") {
+                $("#IDProofBackImage").val($("#IDProofBackImageFile").val())
+            }
+            if ($("#AdditionalDoc").val() == "") {
+                $("#AdditionalDoc").val($("#AdditionalDocFile").val())
+            }
+
+            var contactName = $("#ContactName").val();
+            var companyDirector = $("#CompanyDirectorname").val();
+            var contactNo = $("#ContactNo").val();
+            var emailID = $("#EmailID").val();
+            var pattern = /^[a-zA-Z ]+$/;
+            var patternMobile = /^[0-9]+$/;
+            var websiteUrl = $("#WebsiteURL").val();
+            var successUrl = $("#SuccessURL").val();
+            var cancelUrl = $("#CancelURL").val();
+
+            $("#dvMessage").html("");
+            if ($("#ContactName").val() == "") {
+                $("#dvMessage").html("Please enter Contact Name ");
+                return false;
+            }
+
+            else if (!pattern.test(contactName)) {
+                $("#dvMessage").html("Contact name allow alphabet only");
+                return false;
+            }
+            else if ($("#ContactNo").val() == "") {
+                $("#dvMessage").html("Please enter Contact No");
+                return false;
+            }
+
+            else if (!patternMobile.test(contactNo)) {
+                $("#dvMessage").html("Please enter valid contact number");
+                return false;
+            }
+
+            else if ($("#EmailID").val() == "") {
+                $("#dvMessage").html("Please enter Email ID");
+                return false;
+
+            }
+
+            else if (!isEmail(emailID)) {
+                $("#dvMessage").html("Please enter a valid Email ID");
+                return false;
+            }
+
+            else if ($("#UserName").val() == "") {
+                $("#dvMessage").html("Please enter User  Name");
+                return false;
+
+            }
+            else if ($("#Address").val() == "") {
+                $("#dvMessage").html("Please enter Address   ");
+                return false;
+
+            }
+            else if ($("#State").val() == "") {
+                $("#dvMessage").html("Please enter State   ");
+                return false;
+
+            }
+            else if ($("#City").val() == "") {
+                $("#dvMessage").html("Please enter City   ");
+                return false;
+
+            }
+            else if ($("#Password").val() == "") {
+                $("#dvMessage").html("Please enter Password   ");
+                return false;
+            }
+            else if ($("#DateOfBirth").val() == "") {
+                $("#dvMessage").html("Please Select  Date Of Birth");
+                return false;
+            }
+            else if ($("#Gender").val() == "") {
+                $("#dvMessage").html("Please Select Gender");
+                return false;
+            }
+            else if ($("#ProofType option:selected").val() == "0") {
+                $("#dvMessage").html("Please Select Proof Type");
+                return false;
+            }
+            else if ($("#DocumentNo").val() == "") {
+                $("#dvMessage").html("Please Enter Document No");
+                return false;
+            }
+            else if ($("#DocumentExpiryDate").val() == "") {
+                $("#dvMessage").html("Please Select Document Expiry Date");
+                return false;
+            }
+
+            else if ($("#AddressProofType option:selected").val() == "0") {
+                $("#dvMessage").html("Please Select Address Proof Type");
+                return false;
+            }
+
+
+
+            else if ($("#OrganizationName").val() == "") {
+                $("#dvMessage").html("Please enter Organization Name");
+                return false;
+
+            }
+            else if ($("#CompanyDirectorname").val() == "") {
+                $("#dvMessage").html("Please Select Company Director name");
+                return false;
+            }
+            else if (!pattern.test(companyDirector)) {
+                $("#dvMessage").html("Company Director name allow alphabet only");
+                return false;
+            }
+            else if ($("#CompanyRegistrationNo").val() == "") {
+                $("#dvMessage").html("Please Enter  Company Registration No");
+                return false;
+            }
+            else if ($("#FromCurrencyId").val() == "0") {
+                $("#dvMessage").html("Please Select From Currency");
+                return false;
+            }
+
+            else if ($("#WebsiteURL").val() == "") {
+                $("#dvMessage").html("Please enter WebsiteURL   ");
+                return false;
+
+            }
+            else if ((!websiteUrl.startsWith("http://")) && (!websiteUrl.startsWith("https://"))) {
+                $("#dvMessage").html("Please enter valid WebsiteURL");
+                return false;
+
+            }
+            else if ($("#MerchantIpAddress").val() == "") {
+                $("#dvMessage").html("Please enter MerchantIpAddress   ");
+                return false;
+
+            }
+
+            else if ($("#Image").val() == "") {
+                $("#dvMessage").html("Please Select Company Logo  Image");
+                return false;
+            }
+            else if ($("#AddressProofImage").val() == "") {
+                $("#dvMessage").html("Please Select Company License  Doc");
+                return false;
+            }
+
+            else if ($("#IDProofFrontImage").val() == "") {
+                $("#dvMessage").html("Please Select ID Proof Front Image");
+                return false;
+            }
+            
+            else if ($("#AdditionalDoc").val() == "") {
+                $("#dvMessage").html("Please Select Doc Image");
+                return false;
+            }
+            else if ($("#AddressProofType option:selected").text() == "Other") {
+                if ($("#OtherProofType").val() == "") {
+                    $("#dvMessage").html("Please enter other proof type");
+                    return false;
+                }
+            }
+            else if (((successUrl != "")) && ((!successUrl.startsWith("http://")) && (!successUrl.startsWith("https://")))) {
+                $("#dvMessage").html("Please enter valid SuccessUrl");
+                return false;
+            }
+            else if (((cancelUrl != "")) && ((!cancelUrl.startsWith("http://")) && (!cancelUrl.startsWith("https://")))) {
+                $("#dvMessage").html("Please enter valid CancelUrl");
+                return false;
+            }
+            else if ($("#Fee").val() == "") {
+                $("#dvMessage").html("Please enter Fee");
+                return false;
+            }
+            else if ($("#MarginConversionRate").val() == "") {
+                $("#dvMessage").html("Please enter Margin Conversion Rate");
+                return false;
+            }
+            else if ($("#ProofType option:selected").val() != "2" || $("#ProofType option:selected").val() != "3" ) {
+                if ($("#IDProofBackImage").val() == "") {
+                $("#dvMessage").html("Please Select ID Proof Back Image");
+                return false;
+            }
+            }
+            else {
+                $("#AjaxLoader").show();
+            }
+        });
+    });
+</script>

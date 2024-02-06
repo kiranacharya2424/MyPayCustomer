@@ -1,0 +1,209 @@
+﻿@model MyPay.Models.Add.AddSettingsHistory
+
+@{ ViewBag.Title = "CashbackPointsHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Config History</h3>
+                        </div><!-- .nk-block-head-content -->
+
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        @*<li><a href="javascript:void(0);" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a></li>*@
+                                        <li class="nk-block-tools-opt">
+                                            <div class="drodown">
+                                                <a href="~/CashbackPoints/Index" class="btn btn-icon btn-primary" title="Config Settings"><em class="icon ni ni-plus"></em></a>
+                                                @*<div class="dropdown-menu dropdown-menu-right">
+                                                        <ul class="link-list-opt no-bdr">
+                                                            <li><a href="~/CashbackPoints/Index"><span>Config Settings</span></a></li>
+                                                        </ul>
+                                                    </div>*@
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-3 pt-3">
+                                <div class="nk-block">
+                                    <div class="row gy-4">
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">                                                    
+                                                    @Html.EnumDropDownListFor(x => x.TypeEnum, new { @class = "form-select form-control form-control-md" })
+                                                    <label class="form-label-outlined" for="outlined-normal">Type <strong class="text-danger">*</strong></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-6">
+                                            <div class="form-group">
+                                                <label class="form-label"></label>
+                                                <a class="btn btn-primary text-center text-white" onclick="return bindtable();">Search</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="card-search search-wrap" data-search="search">
+                                        <div class="card-body">
+                                            <div class="search-content">
+                                                <a href="javascript:void(0);" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                                                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by user or email">
+                                                <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .card-inner -->
+                                <div id="dvtblist" class="card-inner">
+                                    <div class="table-responsive">
+                                        <table id="tblist" class="nk-tb-list nk-tb-ulist table table-striped" data-auto-responsive="false">
+                                            <thead class="md-th-head">
+                                                <tr class="nk-tb-item nk-tb-head">
+                                                    <th class="nk-tb-col" style="min-width:10px; width:10px;">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("SNo")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md" >
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("Created Date")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md" >
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("Type")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("Reg Commission")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("KYC Commission")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("Reg Reward Point")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("KYC Reward Point")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md data-kyc-status">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("Txn Commission(%)")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md data-kyc-status">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("TXN Reward Points(%)")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md data-kyc-status">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("TXN Commission(Min)")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md data-kyc-status">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("TXN Commission(Max)")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md data-kyc-status">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("TXN Reward Points(Min)")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md data-kyc-status">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("TXN Reward Points(Max)")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md data-kyc-status">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("KYC Status")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("Gender")
+                                                        </span>
+                                                    </th>
+                                                    <th class="nk-tb-col tb-col-md">
+                                                        <span class="sub-text">
+                                                            @Html.DisplayName("Created By")
+                                                        </span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div><!-- .card-inner -->
+                            </div>
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="~/content/assets/js/dtable_cashbackpoints.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#dvtblist").css("display", "none");
+        //$("#TypeEnum").on("change", function () {
+        //    $("#dvMsgSuccess").html("");
+        //    $("#dvMsg").html("");
+        //    var Type = $('#TypeEnum').val();
+        //    if (Type == "0") {
+        //        $("#dvMsg").html("Please select Type");
+        //    }
+        //    else {
+        //        BindCashbackPointsHistoryDataTable();
+        //    }
+        //});
+        //BindCashbackPointsHistoryDataTable();
+    });
+
+    function bindtable() {
+       /* $("#TypeEnum").on("change", function () {*/
+            $("#dvMsgSuccess").html("");
+            $("#dvMsg").html("");
+            var Type = $('#TypeEnum').val();
+            if (Type == "0") {
+                $("#dvMsg").html("Please select Type");
+            }
+            else {
+                $("#dvtblist").css("display", "none");
+                /*BindCashbackPointsHistoryDataTable();*/
+            }
+        /*});*/
+        $("#dvtblist").css("display", "block");
+        BindCashbackPointsHistoryDataTable();
+    };
+</script>

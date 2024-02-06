@@ -1,0 +1,433 @@
+﻿@model MyPay.Models.Add.AddUser
+@{ ViewBag.Title = "MyPayUserGrievance";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml"; }
+v
+
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <input type="hidden" id="hdnimage" value="" />
+                <input type="hidden" id="hdnfilename" value="" />
+                <input type="hidden" id="hdnticketid" value="" />
+                <input type="hidden" id="hdnstatus" value="" />
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+
+
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+
+                                        <div class="card-inner border-bottom">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-none d-sm-block">
+                                                    <h6 class="title">Give us your Grievance</h6>
+                                                </div>
+                                                <div class="card-tools">
+                                                    <ul class="card-tools-nav nav justify-content-between">
+                                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#AllTicketTab" onclick="GetAllTickets()"><span>All Tickets</span></a></li>
+                                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#NewTicketTab" onclick="NewTicketTabClick()"><span>New Ticket</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-content">
+                                            <div class="card-inner tab-pane active" id="AllTicketTab">
+                                                <div class="row gy-4- mb-2">
+                                                    <div class="col-12">
+                                                        <ul class="nk-support card-tools-nav nav justify-content-between-">
+                                                            <li id="DivAllTicket" class="nk-support-item px-0 cursor-pointer nav-item">
+                                                                <div class="nk-support-content">
+                                                                    <div class="title">
+                                                                        <a id="nav_All" class="nav-link active" onclick="AllTicketsClick()"><span>All</span></a>
+                                                                    </div><!--title-->
+                                                                </div><!--nk-support-content-->
+                                                            </li><!--nk-support-item-->
+                                                            <li id="DivOpenTicket" class="nk-support-item px-0 cursor-pointer nav-item">
+                                                                <div class="nk-support-content">
+                                                                    <div class="title">
+                                                                        <a id="nav_open" class="nav-link" onclick="OpenTicketsClick()"><span>Open</span></a>
+                                                                    </div><!--title-->
+                                                                </div><!--nk-support-content-->
+                                                            </li><!--nk-support-item-->
+                                                            <li id="DivClosedTicket" class="nk-support-item px-0 cursor-pointer nav-item">
+                                                                <div class="nk-support-content">
+                                                                    <div class="title">
+                                                                        <a id="nav_Close" class="nav-link" onclick="ClosedTicketsClick()"><span>Close</span></a>
+                                                                    </div><!--title-->
+                                                                </div><!--nk-support-content-->
+                                                            </li><!--nk-support-item-->
+                                                            <li class="nk-support-item px-0 cursor-pointer nav-item">
+                                                                <div class="nk-support-content">
+                                                                    <div class="title">
+                                                                        <div class="form-control-wrap">
+                                                                            <input type="text" class="form-control form-control-lg" id="searchticks" placeholder="Enter Ticket Title">
+                                                                        </div>
+                                                                    </div><!--title-->
+                                                                </div><!--nk-support-content-->
+                                                            </li><!--nk-support-item-->
+                                                            <li>
+
+                                                                <div class="nk-support-content">
+                                                                    <div class="title">
+                                                                        <div class="form-control-wrap">
+                                                                            <a class="nav-link btn-lg btn-primary text-center text-white" onclick=" AllTicketTabClickrecord();">Search</a>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </li>
+                                                        </ul>
+
+                                                    </div><!--col-12-->
+                                                </div><!--row gy-4-->
+                                                <div id="AllTickets">
+
+                                                </div>
+                                                <div id="nomorerecords" style="display:none;color:red;"><span>No More Records</span></div>
+                                                <div class="form-group text-center mt-5">
+                                                    <a href="javacript:void(0);" id="showmore" onclick="ShowMore();" style="display:none;" class="btn btn-primary btn-lg">Show More</a>
+                                                </div>
+                                            </div>
+                                            <div class="card-inner tab-pane active" id="NewTicketTab" style="display:none">
+
+                                                <div class="row gy-4- mb-2">
+                                                    <div class="col-12 col-sm-7 m-auto">
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Category<span class="text-danger">*</span></label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                @Html.DropDownList("Category", ViewBag.Category as SelectList, "", new { @id = "Category", @class = "form-control form-control-lg form-select" })
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Subject<span class="text-danger">*</span></label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" id="subject" placeholder="Subject" autocomplete="off">
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Transaction ID/Reference Number(Optional)</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" id="txnid" placeholder="Transaction ID/Reference Number">
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Issue Description<span class="text-danger">*</span></label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <textarea class="form-control form-control-lg" placeholder="Issue Description" id="txtIssueDescription" onkeypress="return ValidateEnter(this, 'btnMobileProceed', false, event);"></textarea>
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Upload File</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <a onclick="$('#noteupload').trigger('click'); return false;" class="btn btn-icon btn-sm" data-toggle="tooltip" data-placement="top" title="" href="javascript:void(0)" data-original-title="Upload Attachment"><em class="icon ni ni-clip-v"></em>choose file</a>
+                                                                <span class="uploadimagetext"></span>
+                                                                <input type="file" id="noteupload" style="display: none" onchange="UploadAjaxImage(this, 'TicketsImages', 'image', 1000,0);" />
+                                                            </div>
+                                                            <br />
+                                                            <div class="form-group">
+                                                                <a id="btnMobileProceed" class="btn btn-primary text-center text-white" style="width:auto;display:block" onclick="SubmitGrievance()">Submit</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="card-inner tab-pane active" id="SingleTicketTab" style="display:none">
+                                                <div id="nomoreSinglerecords" style="display: none; color: red;"><span>No More Records</span></div>
+                                                @*<div class="form-group text-center mt-5">
+                                                        <a href="javacript:void(0);" id="showmoreReply" onclick="ShowMoreReply();" style="display:none;" class="btn btn-primary">Show Older Msgs</a>
+                                                    </div>*@
+                                                <div id="ticketdetail">
+                                                    <div id="dvticketdetail"></div>
+                                                    <a href="javacript:void(0);" id="showmoreReply" onclick="ShowMoreReply();" style="display:none;" class="btn btn-primary">Show Older Msgs</a>
+
+                                                </div>
+                                                <div id="ticketreply">
+
+                                                </div>
+
+                                                <div class="row gy-4- mb-2" id="dvticketreply" style="display:none;">
+                                                    <div class="col-12 col-sm-12 m-auto">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap messagesendsec" style="">
+                                                                <textarea class="form-control form-control-lg" placeholder="Write a message..." id="txtMessage"></textarea>
+                                                                <div class="fileupsec">
+                                                                    <a onclick="$('#imageupload').trigger('click'); return false;" class="btn btn-icon btn-sm" data-toggle="tooltip" data-placement="top" title="" href="javascript:void(0)" data-original-title="Upload Attachment"><em class="icon ni ni-clip-v"></em>choose file</a>
+                                                                    <span class="uploadimagetext"></span>
+                                                                    <input type="file" id="imageupload" style="display: none" onchange="UploadAjaxImage(this, 'TicketsImages', 'image', 1000,0);">
+                                                                </div>    <a id="btnSend" class="btn btn-primary text-center text-white" style="width:auto;display:block" onclick="SubmitReply()"><em class="icon ni ni-send"></em></a>
+                                                            </div>
+
+
+
+                                                            <div class="form-group" id="dvBackButton">
+                                                                <a id="btnBack" class="btn btn-primary" href="javascript: void(0);" style="width:auto;display:block" onclick="GoBack()">Back</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div id="dvMessage" class="form-group" style="color:red">
+                                                <span id="errormsg" style="color:red">
+                                                    @ViewBag.Message
+                                                </span>
+                                                <span id="successmsg" style="color:green">
+                                                    @ViewBag.SuccessMessage
+                                                </span>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="nk-block-head">
+                                    <div class="form-group" style="color:red">
+                                        @ViewBag.Message
+                                    </div>
+                                    <div class="form-group" style="color:green">
+                                        @ViewBag.SuccessMessage
+                                    </div>
+                                    <div class="nk-block">
+                                        <div id="dvMessage" class="form-group" style="color:red">
+                                            <span id="errormsg" style="color:red">
+                                                @ViewBag.Message
+                                            </span>
+                                            <span id="successmsg" style="color:green">
+                                                @ViewBag.SuccessMessage
+                                            </span>
+                                        </div>
+
+                                        <input type="hidden" value="10" id="hdnTake" />
+                                        <input type="hidden" value="0" id="hdnSkip" />
+                                        <input type="hidden" value="10" id="hdnSingleTake" />
+                                        <input type="hidden" value="-1" id="hdnSingleSkip" />
+                                        <input type="hidden" value="0" id="hdnselectedtab" />
+                                    </div>
+                                </div><!-- .nk-block-head -->
+                            </div>
+                        </div>
+
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")}
+
+                    </div><!-- .card -->
+
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Error Message -->
+<div class="modal fade zoom" tabindex="-1" id="DivErrMessage" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnMsg" style="color:#313131"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageClose" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade zoom" tabindex="-1" id="PopupMessage" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnMsg" style="color:#313131"> Your ticket has been submitted. Our team will get back to you within 12 working hour</h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageVerify" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<style>
+    div#ticketreply {
+        width: 100%;
+        display: inline-block;
+        margin-bottom: 30px;
+    }
+
+    #ticketreply li.nk-support-item.customermsg {
+        padding: 20px !important;
+        border-radius: 20px;
+        background: #F5F5F5;
+        border: none;
+        width: auto;
+        max-width: 60%;
+        float: right;
+        clear: both;
+        margin: 0 0 10px 0;
+    }
+
+    #ticketreply li.nk-support-item.Status {
+        padding: 20px !important;
+        border-radius: 20px;
+        border: none;
+        width: auto;
+        max-width: 60%;
+        float: right;
+        clear: both;
+        margin: 0 0 10px 0;
+    }
+
+    #ticketreply li.nk-support-item.customermsg .nk-support-content {
+        margin: 0px;
+    }
+
+    #ticketreply li.nk-support-item.adminmsg {
+        padding: 20px !important;
+        border-radius: 20px;
+        background: #E8F3FF;
+        border: none;
+        width: auto;
+        max-width: 60%;
+        float: left;
+        clear: both;
+        margin: 0 0 10px 0;
+    }
+
+    #ticketreply .nk-support-content {
+        margin: 0px;
+    }
+
+    #ticketreply .timeline-title {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    #ticketreply li.nk-support-item span.fw-normal {
+        color: #E45415 !important;
+        font-weight: 600 !important;
+        text-transform: capitalize;
+        font-size: 14px !important;
+    }
+
+    #ticketreply .timeline-title .d-flex.align-items-center.fw-normal {
+        justify-content: flex-end;
+        margin-top: 5px;
+    }
+
+    .dark-mode #ticketreply li.nk-support-item.adminmsg {
+        background: #000;
+    }
+
+    .dark-mode #ticketreply li.nk-support-item.customermsg {
+        background: rgb(232 243 255 / 11%);
+    }
+
+    a {
+        color: #E45415;
+    }
+
+    .form-control-wrap.messagesendsec {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .messagesendsec textarea {
+        max-height: 45px;
+        min-height: inherit;
+    }
+
+    .fileupsec {
+        text-align: center;
+        margin: 0 10px;
+        position: relative;
+    }
+
+        .fileupsec a.btn.btn-icon.btn-sm {
+            font-size: 0px;
+            padding: 0px;
+        }
+
+            .fileupsec a.btn.btn-icon.btn-sm em {
+                font-size: 20px;
+                background: #eee;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                border-radius: 40px;
+            }
+
+        .fileupsec span.uploadimagetext {
+            white-space: nowrap;
+            font-size: 12px;
+            margin: 0;
+            width: 90px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: inline-block;
+            position: absolute;
+            bottom: -32px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+    .form-control-wrap.messagesendsec a#btnSend {
+        font-size: 14px;
+        background: #eee;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 40px;
+        border: none;
+        padding: 0;
+        min-width: 40px;
+        color: #111111 !important;
+    }
+
+    div#ticketdetail {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 20px;
+        /*border-bottom: 1px solid #dbdfea;*/
+        margin-bottom: 20px;
+    }
+
+    #dvBackButton {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+        #dvBackButton a {
+            margin-top: 10px;
+            margin-left: 250px;
+        }
+</style>
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_Grievance.js"></script>
+
+

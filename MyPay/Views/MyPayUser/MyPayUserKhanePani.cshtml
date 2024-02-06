@@ -1,0 +1,203 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserKhanePani";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+
+
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-none d-sm-block">
+                                                    <h6 class="title">  KhanePani</h6>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="card-inner">
+                                            <!-- step1 -->
+                                            <div class="p-2" id="DivKhanePani" style="display:none;">
+
+
+                                                <div class="row gy-4">
+
+                                                    <div class="col-12 col-sm-7 m-auto">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Select Counter</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="dropdown-mul-2">
+                                                                     @Html.DropDownList("Counters", ViewBag.Counters as SelectList, "", new { @id = "Counters", @class = "", @style = "display:none",@onchange = "EnableDisablePayButton();" })
+
+                                                                  
+                                                                    <input type="hidden" value="@ViewBag.ServiceId" id="hdnServiceID" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="form-label">Customer Id</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="Number" class="form-control form-control-lg fw-medium" maxlength="10" autocomplete="off" placeholder="Customer Code">
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <a href="javascript:void(0);" id="btnNextStep" class="btn btn-primary btn-lg d-block disabled">Pay</a>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- step1.1 -->
+                                            <div class="p-4 bg-lighter mt-2 mb-4" id="DivKhanePaniStep2" style="display:none;">
+
+
+                                                <div class="row gy-4">
+
+                                                    <div class="col-12 col-sm-7 m-auto">
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft"> Counter</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <span id="spnCounter" style="font-weight:bold" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft">Customer Id</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <span id="spnCustomerId" style="font-weight:bold" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr />
+
+
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft">Customer Name</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <span id="spnCustomerName" style="font-weight:bold" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft">Total Due Amount</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    Rs. <span id="spnDueAmount" style="font-weight:bold; margin-left:5px; color:red;"></span>
+                                                                    <input type="hidden" id="Amount" name="Amount" value="0" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+
+                                                        </div>
+                                                        <div class="form-group" style="text-align:center;">
+                                                            <a href="javascript:void(0);" id="btnPay" class="btn btn-primary btn-lg d-block ">Pay Bill</a>
+                                                            <div class="clsBackButton mt-4">
+                                                                <a href="javascript:void(0);" id="btnPayBack">Back</a>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- step2 -->
+                                            @RenderPage("~/Views/MyPayUser/MyPayPaymentScreen.cshtml")
+
+
+
+
+                                            <div class="p-2" style="margin:10px; text-align:center">
+
+                                                <div id="dvMessage" class="form-group" style="color:red">
+                                                    <span id="errormsg" style="color:red">
+                                                        @ViewBag.Message
+                                                    </span>
+                                                    <span id="successmsg" style="color:green">
+                                                        @ViewBag.SuccessMessage
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+                        }
+                    </div><!-- .row -->
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<input type="hidden" id="hfBankId" value="" />
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_khanepani.js"></script>
+<style>
+    .paymentoption {
+        min-height: 50px;
+        border: 1px solid cadetblue;
+        padding: 12px;
+        margin: 10px 0px 10px 0px;
+        border-radius: 3px;
+        font-weight: bold;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .content-light {
+        color: #afafaf;
+        font-weight: normal;
+        font-size: 14px;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="/Content/assets/js/libs/jquery-multiselect/jquery.dropdown.css">
+<script src="/Content/assets/js/libs/jquery-multiselect/jquery.dropdown.js"></script>
+<script>
+    $('.dropdown-mul-2').dropdown({
+        searchable: true,
+        choice: function () {
+
+        }
+    });
+</script>

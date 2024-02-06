@@ -1,0 +1,199 @@
+{
+  "error_code": "",
+  "error": "",
+  "details": "",
+  "Message": "success",
+  "status": true,
+  "sectors": [
+    {
+      "name": "Bajura",
+      "code": "BJR",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Bhadrapur",
+      "code": "BDP",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Bhairahawa",
+      "code": "BWA",
+      "is_national": true,
+      "is_international": false,
+      "is_active": false
+    },
+    {
+      "name": "Bharatpur",
+      "code": "BHR",
+      "is_national": true,
+      "is_international": false,
+      "is_active": false
+    },
+    {
+      "name": "Bhojpur",
+      "code": "BHP",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Biratnagar",
+      "code": "BIR",
+      "is_national": true,
+      "is_international": false,
+      "is_active": false
+    },
+    {
+      "name": "Dang",
+      "code": "DNP",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Dhangadi",
+      "code": "DHI",
+      "is_national": true,
+      "is_international": false,
+      "is_active": false
+    },
+    {
+      "name": "Dolpa",
+      "code": "DOP",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Illam",
+      "code": "ILM",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Janakpur",
+      "code": "JKR",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Jomsom",
+      "code": "JMO",
+      "is_national": true,
+      "is_international": false,
+      "is_active": false
+    },
+    {
+      "name": "Jumla",
+      "code": "JUM",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Kathmandu",
+      "code": "KTM",
+      "is_national": true,
+      "is_international": true,
+      "is_active": true
+    },
+    {
+      "name": "Khanidanda",
+      "code": "KDN",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Mountain",
+      "code": "MTN",
+      "is_national": true,
+      "is_international": false,
+      "is_active": false
+    },
+    {
+      "name": "Nepalgunj",
+      "code": "KEP",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Phaplu",
+      "code": "PPL",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Pokhara",
+      "code": "PKR",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Rukum",
+      "code": "RUK",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Simara",
+      "code": "SIF",
+      "is_national": true,
+      "is_international": false,
+      "is_active": false
+    },
+    {
+      "name": "Simikot",
+      "code": "IMK",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Talcha",
+      "code": "TAL",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Taplejung",
+      "code": "TPJ",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Thamkharka",
+      "code": "TMK",
+      "is_national": true,
+      "is_international": false,
+      "is_active": true
+    },
+    {
+      "name": "Tumlingtar",
+      "code": "TMI",
+      "is_national": true,
+      "is_international": false,
+      "is_active": false
+    }
+  ],
+  "Take": 0,
+  "Skip": 0,
+  "CheckDelete": 2,
+  "CheckActive": 2,
+  "CheckApprovedByAdmin": 2,
+  "Id": 0,
+  "CreatedBy": 0,
+  "CreatedByName": ""
+}

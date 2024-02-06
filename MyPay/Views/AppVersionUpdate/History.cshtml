@@ -1,0 +1,69 @@
+﻿@model MyPay.Models.Add.AddAppVersionHistory
+
+@{
+    ViewBag.Title = "History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">App Version History</h3>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-head -->
+                    <div class="nk-block">
+                        <div class="card card-bordered card-stretch">
+                            <div class="card-inner-group">
+                                <div class="card-inner position-relative card-tools-toggle pb-3 pt-3">
+                                    <div class="card-title-group">
+                                        <div class="card-tools">
+                                            <span class="preview-title-lg overline-title pb-0">App Version History</span>
+                                        </div><!-- .card-tools -->
+                                    </div><!-- .card-title-group -->
+                                </div><!-- .card-inner -->
+                                <div id="dvtblist" class="card-inner table-responsive" style="min-height:400px;">
+                                    <table id="tbllist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                        <thead>
+                                            <tr class="nk-tb-item nk-tb-head">
+                                                <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("SNo")</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("Date")</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("IOS")</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("Android")</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">@Html.DisplayName("Updated By")</span></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div><!-- .card-inner -->
+                            </div><!-- .card-inner-group -->
+                        </div><!-- .card -->
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .form-icon-right + .form-control, div.dataTables_wrapper div.dataTables_filter .form-icon-right + input, .dual-listbox .form-icon-right + .dual-listbox__search {
+        padding-left: 1rem;
+        padding-right: calc(1rem + 24px);
+        background-color: white;
+    }
+
+    .dt-buttons.btn-group.flex-wrap {
+        display: none;
+    }
+</style>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="./content/assets/js/dtable_AppVersionHistory.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#dvtblist").css("display", "block");
+        BindAppVersionHistoryDataTable();
+    });
+</script>

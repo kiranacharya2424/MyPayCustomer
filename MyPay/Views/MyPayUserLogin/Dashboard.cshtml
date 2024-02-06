@@ -1,0 +1,461 @@
+﻿@model MyPay.Models.Add.AddUserLoginWithPin
+
+@{ Layout = "~/Views/Shared/_MyPayUserLayout.cshtml"; }
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-news-text text-left d-block d-md-none">
+                    <p class="w-100 marquee">
+                        <marquee id="marqueetxt2" class="marquee-text">
+                            @{ if (Session["UserMarqueeList"] != null)
+                                {
+                                    <div>
+                                        @Html.Raw(Convert.ToString(Session["UserMarqueeList"]))
+                                    </div> } }
+                        </marquee>
+                    </p>
+                </div>
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2">
+                                <div class="col-6 col-sm-4 col-md-4 d-none d-md-block">
+                                    <div class="nk-order-ovwg-data buy">
+                                        <div class="amount">
+                                            <small class="currenct currency-usd fw-bold">रु</small>
+                                            <span id="spnWalletDashboard" style="display:none;">@Session["MyPayUserWalletbalance"]</span>
+                                            <span id="spnWalletDashboardXXX">XXX</span>
+                                            <a href="javacript:void(0);" class="form-icon form-icon-right passcode-switch lg" onclick="showhideBalance('spnWalletDashboard')">
+                                                <em id="spnWalletDashboardOn" class="passcode-icon icon-show icon ni ni-eye-fill"></em>
+                                                <em id="spnWalletDashboardOff" class="passcode-icon icon-hide icon ni ni-eye-off-fill"></em>
+                                            </a>
+                                        </div>
+                                        <div class="title mt-1"><em class="mr-1"><img src="/Content/assets/MyPayUserApp/images/wallet.svg" width="20" height="20"></em> Wallet Balance</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-4 col-md-4 d-none d-md-block" onclick="window.location.href = '/MyPayUser/MyPayUserCoinsHistory'">
+                                    <div class="nk-order-ovwg-data default">
+                                        <div class="amount">
+                                            <span id="spnMPCoinsDashboard" style="display:none;">@Session["MyPayUserMPCoinsbalance"]</span>
+                                            <span id="spnMPCoinsDashboardXXX">XXX</span>
+                                            <a href="javacript:void(0);" class="form-icon form-icon-right passcode-switch lg" onclick="showhideBalance('spnMPCoinsDashboard')">
+                                                <em id="spnMPCoinsDashboardOn" class="passcode-icon icon-show icon ni ni-eye-fill"></em>
+                                                <em id="spnMPCoinsDashboardOff" class="passcode-icon icon-hide icon ni ni-eye-off-fill"></em>
+                                            </a>
+                                        </div>
+                                        <div class="title mt-1"><em class="mr-1"><img src="/Content/assets/MyPayUserApp/images/mypaycoin.svg" width="20" height="20"></em> MyPay Coins</div>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-sm-4 col-md-4 d-none d-md-block">
+                                    <div class="nk-order-ovwg-data default">
+                                        <div class="amount">
+                                            <small class="currenct currency-usd fw-bold">रु</small>
+                                            <span id="spnCashBack" style="display:none;">@Session["MyPayUserTotalCashback"]</span>
+                                            <span id="spnCashBackXXX">XXX</span>
+                                            <a href="javacript:void(0);" class="form-icon form-icon-right passcode-switch lg" onclick="showhideBalance('spnCashBack')">
+                                                <em id="spnCashBackOn" class="passcode-icon icon-show icon ni ni-eye-fill"></em>
+                                                <em id="spnCashBackOff" class="passcode-icon icon-hide icon ni ni-eye-off-fill"></em>
+                                            </a>
+                                        </div>
+                                        <div class="title mt-1"><em class="mr-1"><img src="/Content/assets/MyPayUserApp/images/cashback.svg" width="20" height="20"></em> Total Cashback</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full">
+
+                                        <div class="card-inner flex-xll border-bottom">
+                                            <div class="row g-0">
+                                                <div class="col-3 col-sm-3 col-md-3">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserLoadMoney" class="text-center">
+                                                            <div class="serv-icon">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/load-money.svg" class="pulse" alt="load money">
+                                                            </div>
+                                                            <div class="text-base mt-1">Load Money</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3 col-sm-3 col-md-3">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserSendMoney" class="text-center">
+                                                            <div class="serv-icon">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/send-money.svg" alt="send money">
+                                                            </div>
+                                                            <div class="text-base mt-1">Send Money</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3 col-sm-3 col-md-3">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserSendMoney?mode=banktransfer" class="text-center">
+                                                            <div class="serv-icon">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/bank-transfer.svg" alt="bank transfer">
+                                                            </div>
+                                                            <div class="text-base mt-1">Bank Transfer</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3 col-sm-3 col-md-3">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserVoting" class="text-center">
+                                                            <div class="serv-icon">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/voting.svg" alt="voting">
+                                                            </div>
+                                                            <div class="text-base mt-1">Voting</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-inner bg-lighter" id="dvDashboardIsBankAdded" style="display:none;">
+
+                                            <div class="between-center flex-wrap flex-md-nowrap g-3">
+
+                                                <div class="nk-block-text plr-5">
+                                                    <div class="bank-floaticon"><img src="/Content/assets/MyPayUserApp/images/bank-ic.svg" alt="bank" width="70"></div>
+                                                    <h6>Welcome! Start by linking your bank A/c</h6>
+                                                    <p class="text-soft">Send money, Recharge, Pay bills and much more by linking your bank account on MyPay</p>
+                                                </div>
+
+                                                <div class="nk-block-actions flex-shrink-0"><a href="/MyPayUser/MyPayUserLinkedAccount" class="btn btn-primary">Link Bank Account</a></div>
+                                            </div>
+                                        </div>
+                                        <!-- Ad slider start -->
+                                        <div class="card-inner bg-lighter p-0">
+                                            <div class="ad-carousel">
+                                                <div id="adslider" class="carousel slide" data-ride="carousel">
+                                                    <ol id="dvSliderTab" class="carousel-indicators">
+                                                        <li data-target="#adslider" data-slide-to="0" class="active"></li>
+                                                        <li data-target="#adslider" data-slide-to="1"></li>
+                                                    </ol>
+                                                    <div id="dvSliderContent" class="carousel-inner text-white">
+                                                        <div class="carousel-item active">
+                                                            <img src="/Content/assets/MyPayUserApp/images/slider/slider1.png" class="d-block w-100" alt="...">
+                                                        </div>
+                                                        <div class="carousel-item">
+                                                            <img src="/Content/assets/MyPayUserApp/images/slider/slider2.png" class="d-block w-100" alt="...">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Ad Slider End -->
+                                        <div class="card-inner flex-5 pt-2">
+                                            <div class="card-title-group">
+                                                <div class="card-title">
+                                                    <h6 class="title mt-3 mb-3">Recharge & Bill Payments</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row g-gs">
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserTopup" class="text-center">
+                                                            <span id="spnDisplayCashback17" class="badge rounded-pill bg-warning cashback-badge cashbackhide">3.5-4% Cashback</span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/topup.svg" alt="topup">
+                                                            </div>
+                                                            <div class="text-base mt-1">Topup</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserTV" class="text-center">
+                                                            <span id="spnDisplayCashback18" class="badge rounded-pill bg-warning cashback-badge cashbackhide"></span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/tv.svg" alt="TV">
+                                                            </div>
+                                                            <div class="text-base mt-1">TV</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserInternet" class="text-center">
+                                                            <span id="spnDisplayCashback11" class="badge rounded-pill bg-warning cashback-badge cashbackhide"></span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/router.svg" alt="Internet">
+                                                            </div>
+                                                            <div class="text-base mt-1">Internet</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserlandline" class="text-center">
+                                                            <span id="spnDisplayCashback13" class="badge rounded-pill bg-warning cashback-badge cashbackhide"></span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/telephone.svg" alt="Landline">
+                                                            </div>
+                                                            <div class="text-base mt-1">Landline</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="MyPayUser/MyPayUserElectricity" class="text-center">
+                                                            <span id="spnDisplayCashback6" class="badge rounded-pill bg-warning cashback-badge cashbackhide"></span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/electricity.svg" alt="Electricity">
+                                                            </div>
+                                                            <div class="text-base mt-1">Electricity</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserRCCard" class="text-center">
+                                                            <span id="spnDisplayCashback14" class="badge rounded-pill bg-warning cashback-badge cashbackhide"></span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/rccard.svg" alt="Recharge Card">
+                                                            </div>
+                                                            <div class="text-base mt-1">Recharge Card</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserKhanepani" class="text-center">
+                                                            <span id="spnDisplayCashback12" class="badge rounded-pill bg-warning cashback-badge cashbackhide"></span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/water.svg" alt="Khanepani">
+                                                            </div>
+                                                            <div class="text-base mt-1">Khanepani</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserAntivirus" class="text-center">
+                                                            <span id="spnDisplayCashback1" class="badge rounded-pill bg-warning cashback-badge cashbackhide"></span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/antivirus.svg" alt="Antivirus">
+                                                            </div>
+                                                            <div class="text-base mt-1">Antivirus</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserDatapack" class="text-center">
+                                                            <span id="spnDisplayCashback4" class="badge rounded-pill bg-warning cashback-badge cashbackhide"></span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/datapack.svg" alt="Data Pack">
+                                                            </div>
+                                                            <div class="text-base mt-1">Data Pack</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserInsurance" class="text-center">
+                                                            <span id="spnDisplayCashback10" class="badge rounded-pill bg-warning cashback-badge cashbackhide"></span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/insurance.svg" alt="insurance">
+                                                            </div>
+                                                            <div class="text-base mt-1">Insurance</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserEChallan" class="text-center">
+                                                            <span id="spnDisplayCashback8" class="badge rounded-pill bg-warning cashback-badge cashbackhide"></span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/govt.svg" alt="Government Services">
+                                                            </div>
+                                                            <div class="text-base mt-1">Government Services</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserCreditCard" class="text-center">
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/creditcard.svg" alt="Credit Card">
+                                                            </div>
+                                                            <div class="text-base mt-1">Credit Card</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Categ start -->
+                                        <div class="card-inner flex-5 pt-2">
+                                            <div class="card-title-group">
+                                                <div class="card-title">
+                                                    <h6 class="title mt-3 mb-3">Ticket Booking</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row g-gs">
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserflightAirlines" class="text-center">
+                                                            <span id="spnDisplayCashback21" class="badge rounded-pill bg-warning cashback-badge cashbackhide"></span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/flight.svg" alt="Flight">
+                                                            </div>
+                                                            <div class="text-base mt-1">Flight</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="javascript:void(0)" onclick="showComingSoon();" class="text-center">
+                                                            <span id="spnDisplayCashback16" class="badge rounded-pill bg-warning cashback-badge cashbackhide"></span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/ride.svg" alt="Ride">
+                                                            </div>
+                                                            <div class="text-base mt-1">Ride</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/BusSewa/Index" class="text-center">
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/bus.svg" alt="Bus">
+                                                            </div>
+                                                            <div class="text-base mt-1">Bus</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="javascript:void(0)" onclick="showComingSoon();" class="text-center comingsoon">
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/movie.svg" alt="Movie">
+                                                            </div>
+                                                            <div class="text-base mt-1">Movie</div>
+                                                            <small class="text-soft">Coming Soon...</small>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserCableCar" class="text-center">
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/movie.svg" alt="Movie">
+                                                            </div>
+                                                            <div class="text-base mt-1">CableCar</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <input type="hidden" id="hrIsFirstLogin" value="@ViewBag.IsFirstLogin">
+
+                                            </div>
+                                        </div>
+                                        <!-- Caatg end -->
+                                        <!-- Cat My Pay Events start -->
+                                        <div class="card-inner flex-5 pt-2">
+                                            <div class="card-title-group">
+                                                <div class="card-title">
+                                                    <h6 class="title mt-3 mb-3">MyPay Events</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row g-gs">
+                                                
+                                                
+                                                <div class="col">
+                                                    <div class="card-inner card-inner-md p-0">
+                                                        <a href="/MyPayUser/MyPayUserEvents" class="text-center">
+                                                            <span id="spnDisplayCashback16" class="badge rounded-pill bg-warning cashback-badge cashbackhide"></span>
+                                                            <div class="serv-icon serv-icon-sm">
+                                                                <img src="/Content/assets/MyPayUserApp/images/services-icon/movie.svg" alt="Events">
+                                                            </div>
+                                                            <div class="text-base mt-1">Ticketing</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                
+                                                
+
+                                                <input type="hidden" id="hrIsFirstLogin" value="@ViewBag.IsFirstLogin">
+
+                                            </div>
+                                        </div>
+                                        <!-- Cat My Pay Events End -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                    </div><!-- .row -->
+                </div>
+                <!-- KYC Model -->
+                <div class="modal fade zoom" tabindex="-1" id="kycmodal">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body modal-body-md text-center">
+                                <div class="nk-modal">
+
+                                    <h4 class="nk-modal-title">Complete KYC</h4>
+                                    <div class="serv-icon serv-icon-lg mb-4">
+                                        <div class="preview-icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90"><path d="M62.92,87H10.08A4.08,4.08,0,0,1,6,82.92V7.08A4.08,4.08,0,0,1,10.08,3H47.82L67,21.23V82.92A4.08,4.08,0,0,1,62.92,87ZM47,3V16.92A4,4,0,0,0,50.88,21H66" fill="#fff" stroke="#e85347" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"></path><line x1="14" y1="14" x2="28" y2="14" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="19" x2="36" y2="19" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="37" x2="28" y2="37" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="42" x2="45" y2="42" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="49" x2="40" y2="49" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="56" x2="32" y2="56" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="63" x2="38" y2="63" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><line x1="14" y1="70" x2="30" y2="70" fill="none" stroke="#f2a49e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><path d="M67,40h9a9.59,9.59,0,0,0,8,8.32s.89,19-17,27.68C49.12,67.28,50,48.32,50,48.32A9.59,9.59,0,0,0,58,40Z" fill="#e85347"></path><path d="M67,72.51C52.12,65.35,52.86,49.82,52.86,49.82A7.94,7.94,0,0,0,59.52,43H67Z" fill="#fff"></path><path d="M62,61.77a11.05,11.05,0,0,1,12,0V65H62Z" fill="#fff"></path><circle cx="68.5" cy="54.5" r="3.5" fill="#fff"></circle><path d="M68.47,58.13a4,4,0,1,1,4-4,4,4,0,0,1-4,4Zm0-6.92a3,3,0,1,0,3,3,3,3,0,0,0-3-3Zm0,0" fill="#e85347"></path><path d="M74.5,66h-13a.51.51,0,0,1-.5-.5V62.1a1.46,1.46,0,0,1,.69-1.25,12.32,12.32,0,0,1,12.66,0A1.46,1.46,0,0,1,75,62.1v3.41a.49.49,0,0,1-.5.49ZM62,65H74V62.09a.47.47,0,0,0-.22-.41,11.28,11.28,0,0,0-11.56,0,.47.47,0,0,0-.22.41Zm.53,0" fill="#e85347"></path></svg></div>
+                                    </div>
+                                    <div class="nk-modal-text">
+                                        <p class="lead">This step makes MyPay secure and helps to comply with government regulation.</p>
+                                        <p class="text-soft"><em class="icon ni ni-lock"></em> Your documents are safe with MyPay</p>
+                                    </div>
+                                    <div class="nk-modal-action mt-3 mt-sm-4">
+                                        <a href="javascript:void(0)" class="btn btn-mw btn-light" data-dismiss="modal">Skip</a>
+                                        <button type="button" onclick="window.location.href='/MyPayUser/MyPayUserKyc'" class="btn btn-mw btn-danger">Verify Now</button>
+                                    </div>
+                                </div>
+                            </div><!-- .modal-body -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Pin Confirmation -->
+<div class="modal fade zoom" tabindex="-1" id="ComingSoon" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <label class="form-label text-soft" for="Amount">Coming Soon</label>
+                    </div>
+
+                    <div class="form-group">
+                        <a class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .cashbackhide {
+        display: none;
+    }
+</style>
+@*<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_dashboard.js"></script>*@
+<script>
+    function showhideBalance(obj) {
+        event.preventDefault();
+        event.stopPropagation();
+        $("#" + obj).toggle();
+        $("#" + obj + "XXX").toggle();
+        $("#" + obj + "On").toggle();
+        $("#" + obj + "Off").toggle();
+    }
+</script>

@@ -1,0 +1,134 @@
+﻿@model MyPay.Models.Add.Agent.SampleVoucher
+
+@{
+    ViewBag.Title = "ViewVoucher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">View Sample Voucher</h3>
+                        </div>
+                    </div>
+                    <div class="nk-block">
+                        <div class="card card-bordered">
+                            <div class="card-aside-wrap">
+                                <div class="card-inner">
+                                    <div class="nk-block">
+                                        <div class="nk-block-head">
+                                            <div class="form-group" style="color:red">
+                                                @ViewBag.Message
+                                            </div>
+                                            <div class="form-group" style="color:green">
+                                                @TempData["Message"]
+                                            </div>
+                                        </div><!-- .nk-block-head -->
+                                        <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                            <h6 class="title overline-title text-base">Sample Voucher</h6>
+                                        </div>
+                                    
+                                            <div class="nk-divider divider my-3"></div>
+                                            <div class=" row gy-4  ">
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Bank Id <strong class="text-danger">*</strong></label>
+                                                            @Html.TextBoxFor(m => m.BankId, new { @class = "form-control form-control-md" ,@readonly= "readonly" })
+                                                            <span style="color:red" id="spanBankId"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Bank Name <strong class="text-danger">*</strong></label>
+                                                            @Html.TextBoxFor(m => m.BankName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                            <span style="color:red" id="spanBankName"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Account Name <strong class="text-danger">*</strong></label>
+                                                            @Html.TextBoxFor(m => m.AccountName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                            <span style="color:red" id="spanAccountName"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Account Number <strong class="text-danger">*</strong></label>
+                                                            @Html.TextBoxFor(m => m.AccountNumber, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                            <span style="color:red" id="spanAccountNumber"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Branch <strong class="text-danger">*</strong></label>
+                                                            @Html.TextBoxFor(m => m.Branch, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                            <span style="color:red" id="spanBranch"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <br />
+                                            <div class=" row gy-4  ">
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-group text-center">
+                                                        <div class="form-control-wrap">
+                                                            <label class="form-label">Voucher Image <strong class="text-danger">*</strong></label>
+                                                            <div class="">
+                                                                <a class="gallery-image popup-image" href="~/Images/AgentDocuments/Voucher/Voucher'@Model.VoucherImage'">
+                                                                    @if (string.IsNullOrEmpty(Model.VoucherImage))
+                                                                    {
+                                                                        <img ID="targetVoucherImage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <img ID="targetVoucherImage" class="custom-file-inputrounded-top" width="200" src="~/Images/AgentDocuments/Voucher/Voucher@(Model.VoucherImage)"  alt="">
+
+                                                                    }
+                                                                </a>
+                                                                @Html.HiddenFor(m => m.VoucherImage)
+
+                                                            </div>
+                                                            <div class="custom-file text-left mt-3">
+                                                                <input type="file" multiple class="custom-file-input" id="VoucherImageFile" onchange="PreviewImage(this,'VoucherImage',10000)" name="VoucherImageFile">
+                                                                @*<label class="custom-file-label" for="customMultipleFiles">Choose files</label>*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <span style="color:red" id="spanVoucherImage"></span>
+
+                                                </div>
+                                            </div>
+
+                                           
+
+
+
+                                    </div><!-- .nk-block -->
+
+                                </div><!-- .card-content -->
+                            </div><!-- .card-aside-wrap -->
+                        </div><!-- .card -->
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

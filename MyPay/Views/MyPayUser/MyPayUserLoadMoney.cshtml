@@ -1,0 +1,416 @@
+﻿@model MyPay.Models.Add.AddUser
+@{ ViewBag.Title = "MyPayUserLoadMoney";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml"; }
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+
+
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+
+                                        <div class="card-inner border-bottom">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-none d-sm-block">
+                                                    <h6 class="title">Load Money</h6>
+                                                </div>
+                                                <div class="card-tools">
+                                                    <ul class="card-tools-nav nav justify-content-between">
+                                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#BankingTab" onclick="BankingTabClick()"><span>Load Fund</span></a></li>
+                                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#DivMobileInfoTab" onclick="DivMobileInfoTabClick()"><span>Request Fund</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-content">
+
+                                            <div class="card-inner tab-pane active" id="BankingTab">
+
+
+                                                <div class="row gy-4">
+                                                    <div class="col-12">
+                                                        <ul id="DivAccount" class="nk-support">
+                                                            <li id="DivLinkBankAccount" class="nk-support-item px-0 cursor-pointer">
+                                                                <div class="serv-icon">
+                                                                    <img src="/Content/assets/MyPayUserApp/images/dashboard/services-icon/bank-transfer.svg" width="30" alt="">
+                                                                </div>
+                                                                <div class="nk-support-content">
+                                                                    <div class="title">
+                                                                        <span>Link Bank Account</span>
+                                                                        <em class="icon ni ni-forward-ios"></em>
+                                                                    </div><!--title-->
+                                                                    <p class="w-60">Load fund from linked bank accounts</p>
+                                                                </div><!--nk-support-content-->
+                                                            </li><!--nk-support-item-->
+                                                            <li id="DivMobileBanking" class="nk-support-item px-0 cursor-pointer">
+                                                                <div class="serv-icon">
+                                                                    <img src="/Content/assets/MyPayUserApp/images/dashboard/services-icon/mobile-banking.svg" width="30" alt="">
+                                                                </div>
+                                                                <div class="nk-support-content">
+                                                                    <div class="title">
+                                                                        <span>Mobile Banking</span>
+                                                                        <em class="icon ni ni-forward-ios"></em>
+                                                                    </div><!--title-->
+                                                                    <p class="w-60">Load fund using mobile banking</p>
+                                                                </div><!--nk-support-content-->
+                                                            </li><!--nk-support-item-->
+                                                            <li id="DiveBanking" class="nk-support-item px-0 cursor-pointer">
+                                                                <div class="serv-icon">
+                                                                    <img src="/Content/assets/MyPayUserApp/images/dashboard/services-icon/bank-transfer.svg" width="30" alt="">
+                                                                </div>
+                                                                <div class="nk-support-content">
+                                                                    <div class="title">
+                                                                        <span>eBanking</span>
+                                                                        <em class="icon ni ni-forward-ios"></em>
+                                                                    </div><!--title-->
+                                                                    <p class="w-60">Load fund using ebanking</p>
+                                                                </div><!--nk-support-content-->
+                                                            </li><!--nk-support-item-->
+                                                            <li id="DivDebitCards" class="nk-support-item px-0 cursor-pointer">
+                                                                <div class="serv-icon">
+                                                                    <img src="/Content/assets/MyPayUserApp/images/dashboard/services-icon/debitcard.svg" width="30" alt="">
+                                                                </div>
+                                                                <div class="nk-support-content">
+                                                                    <div class="title">
+                                                                        <span>Debit / Credit Cards</span>
+                                                                        <em class="icon ni ni-forward-ios"></em>
+                                                                    </div><!--title-->
+                                                                    <p class="w-60">Load fund using bank card</p>
+                                                                </div><!--nk-support-content-->
+                                                            </li><!--nk-support-item-->
+                                                            <li id="DivConnectIPS" class="nk-support-item px-0 cursor-pointer">
+                                                                <div class="serv-icon">
+                                                                    <img src="/Content/assets/MyPayUserApp/images/dashboard/services-icon/ipsicon.svg" width="30" alt="">
+                                                                </div>
+                                                                <div class="nk-support-content">
+                                                                    <div class="title">
+                                                                        <span>Connect IPS</span>
+                                                                        <em class="icon ni ni-forward-ios"></em>
+                                                                    </div><!--title-->
+                                                                    <p class="w-60">Use linked bank A/c in connect IPS</p>
+                                                                </div><!--nk-support-content-->
+                                                            </li><!--nk-support-item-->
+                                                        </ul>
+                                                        <div id="DivBankAll" style="display:none">
+                                                            <div class="card-title-group">
+                                                                <div class="card-title d-flex w-100 mb-4">
+                                                                    <h6 class="title">Select Bank to Load Fund</h6>
+                                                                    <a href="javascript:void(0)" onclick="Back('DivBankAll','DivAccount');" class="ml-auto color-black"><em class="icon ni ni-arrow-left"></em> Back</a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex ml-4  align-items-center justify-content-between   votesearchhead">
+                                                                <div class="form-group vote_searchgroup">
+                                                                    <div class="form-control-wrap">
+                                                                        <div class="form-icon form-icon-left"><em class="icon ni ni-search"></em></div>
+                                                                        <input type="text" class="form-control form-control-lg" id="search" placeholder="Search">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-inner selectbank">
+                                                                <div id="dvRecordsDisplay" class="row">
+                                                                    <div id="tblBanks">
+                                                                    </div>
+                                                                    <a href="javascript:void(0)" onclick="Back('DivBankAll','DivAccount');" class="ml-auto color-black"><em class="icon ni ni-arrow-left"></em> Back</a>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div id="DivPaymentGateway" class="nk-block" style="display:none; height:100%;">
+                                                                <iframe id="ifrm" src="" width="100%" height="100%" style="border:0px; min-height:500px;"></iframe>
+                                                                <a href="javacript:void(0)" id="dvpaymentback">Back</a>
+
+                                                            </div>
+
+                                                            <input type="hidden" id="hfWalletBalance" value='@Session["MyPayUserWalletbalance"].ToString()'>
+                                                            <input type="hidden" id="hfBankCode">
+                                                            <input type="hidden" id="hfBankName">
+                                                            <input type="hidden" id="hfBankId">
+                                                            <input type="hidden" id="hfBranchId">
+                                                            <input type="hidden" id="hfBranchName">
+                                                            <input type="hidden" id="hfTransferType">
+                                                        </div>
+                                                    </div><!--col-12-->
+                                                </div><!--row gy-4-->
+                                            </div>
+                                            <div class="card-inner tab-pane active" id="DivMobileInfoTab" style="display:none">
+
+                                                <div class="row gy-4">
+                                                    <div class="col-12 col-sm-7 m-auto">
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">MyPay Reg Mobile Number</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" maxlength="10" placeholder="MyPay Reg Mobile Number" autocomplete="off" id="MobileNo" onkeyup="return CheckRecipientDetail()" onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57">
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Account Holder's Name</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" placeholder="Account Holder's Name" autocomplete="off" id="MobileAccountHolderName" disabled>
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Amount</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" maxlength="6" placeholder="Amount" autocomplete="off" id="MobileAmount" onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57">
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Purpose</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <select id="ddlMobilePurpose" class="form-control form-control-lg">
+                                                                    <option value="0">--Select Purpose--</option>
+                                                                    <option value="1">Personal Use</option>
+                                                                    <option value="2">Bill Payment</option>
+                                                                    <option value="3">Lend/Borrow</option>
+                                                                    <option value="4">Travelling</option>
+                                                                    <option value="5">Others</option>
+
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Remarks</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" placeholder="Remarks" autocomplete="off" id="MobileRemarks" onkeypress="return ValidateEnter(this, 'btnMobileProceed', false, event);">
+                                                            </div>
+                                                            <br />
+                                                            <div class="form-group">
+                                                                <a id="btnMobileProceed" class="btn btn-primary text-center text-white" style="width:auto;display:block">Proceed</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div id="dvMessage" class="form-group" style="color:red">
+                                                <span id="errormsg" style="color:red">
+                                                    @ViewBag.Message
+                                                </span>
+                                                <span id="successmsg" style="color:green">
+                                                    @ViewBag.SuccessMessage
+                                                </span>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="nk-block-head">
+                                    <div class="form-group" style="color:red">
+                                        @ViewBag.Message
+                                    </div>
+                                    <div class="form-group" style="color:green">
+                                        @ViewBag.SuccessMessage
+                                    </div>
+                                    <div class="nk-block">
+                                        <div id="dvMessage" class="form-group" style="color:red">
+                                            <span id="errormsg" style="color:red">
+                                                @ViewBag.Message
+                                            </span>
+                                            <span id="successmsg" style="color:green">
+                                                @ViewBag.SuccessMessage
+                                            </span>
+                                        </div>
+
+                                        <input type="hidden" value="10" id="hdnNotificationTake" />
+                                        <input type="hidden" value="0" id="hdnNotificationSkip" />
+                                        <input type="hidden" value="10" id="hdnFundTake" />
+                                        <input type="hidden" value="0" id="hdnFundSkip" />
+                                    </div>
+                                </div><!-- .nk-block-head -->
+                            </div>
+                        </div>
+
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")}
+
+                    </div><!-- .card -->
+
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<div class="modal fade " tabindex="-1" id="PaymentPopup">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-sm">
+                <div class="nk-modal">
+                    @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                    <h4 class="nk-modal-title text-center" id="paymenttype"></h4>
+                    <h6 class="nk-block-title">
+                        <img id="ImgBankLogo" width="30">
+                        <span id="SpanBankName" />
+                    </h6>
+                    <div class="nk-modal-text">
+                        <div class="row">
+                            <table class="nowrap nk-tb-list nk-tb-ulist  h-100">
+                                <tr class="nk-tb-item">
+                                    <td class="nk-tb-col">
+                                        <input id="txtAmount" type="text" placeholder="Amount (Rs.)" maxlength="6" autocomplete="off" onkeypress="return isNumberKey(this, event);" class="form-control form-control-lg" />
+                                    </td>
+                                </tr>
+                                <tr class="nk-tb-item">
+                                    <td class="nk-tb-col">
+                                        <select id="selectPurpose" class="form-control form-control-lg">
+                                            <option>Select Purpose</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr class="nk-tb-item">
+                                    <td class="nk-tb-col">
+                                        <span id="dvMessageSpan" style="color:red;"></span>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                    <div class="nk-modal-action mt-5 text-center">
+                        <br />
+                        <a id="btnOkPopup" class="btn btn-primary text-center text-white" style="width:auto">Load Fund</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+<div class="modal fade zoom" tabindex="-1" id="DivErrMessage" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnMsg" style="color:#313131"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageClose" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Details -->
+<div class="modal fade zoom" tabindex="-1" id="FundRequestConfirmPopup">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Confirm your request for payment</h5>
+
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                            <td>Name</td>
+                            <td class="fw-bold text-right"><span id="MobileRequestName"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Mobile</td>
+                            <td class="fw-bold text-right"><span id="MobileRequestMobilePopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Amount</td>
+                            <td class="fw-bold text-right">रु  <span id="MobileRequestAmountPopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Purpose</td>
+                            <td class="fw-bold text-right">  <span id="MobileRequestPurposePopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Remarks</td>
+                            <td class="fw-bold text-right">  <span id="MobileRequestRemarksPopup"></span></td>
+                        </tr>
+                    </table>
+                </div>
+                <small class="text-soft d-block text-center mt-1">Do you want to continue?</small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="javascript:void();" class="btn btn-mw btn-light w-45" data-dismiss="modal">Close</a>
+                    <a href="javascript:void();" id="btnOkFundRequestPopup" class="btn btn-mw btn-primary w-45">Submit</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Pin Confirmation -->
+<div class="modal fade zoom" tabindex="-1" id="DivPin" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Verify Transaction</h5>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+
+
+                    <div class="form-control-wrap text-center otp">
+                        <label class="form-label text-soft" for="Amount">Enter your Wallet Pin</label>
+                        <input type="password" class="form-control form-control-lg fs-18px" maxlength="4" placeholder="oooo" id="Pin" name="Pin" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnPinSubmit" class="btn btn-primary text-center text-white btn-lg d-block">Proceed To Pay</a>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <a href="javascript:void(0)" data-dismiss="modal">Close</a>
+                        <a id="btnPinForgot" href="javascript:void(0)">Forgot Pin</a>
+                    </div>
+                     
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Confirmation Details -->
+<div class="modal fade zoom" tabindex="-1" id="PaymentSuccess" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align:center;">
+                <img src="~/Content/assets/MyPayUserApp/images/jeni_success.png" />
+                <h6 class="nk-modal-title text-center">Success</h6>
+                <small class="text-soft d-block text-center mt-1">Fund request submitted successfully</small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="/MyPayUser/MyPayUserNotifications" class="btn btn-mw btn-primary w-45">Ok</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" value="0" id="hdnUniqueCustomerId" />
+@Scripts.Render("~/bundles/mypayuserapp_loadmoney")
+
+@*<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_loadmoney.js"></script>*@

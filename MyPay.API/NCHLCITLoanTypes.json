@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "option": "ESG Retirement Fund (80% Loan) - (क. ब. अ. को. - ८०% सापटी)",
+      "value": "CIT-151-APP-5",
+      "code": "60"
+    },
+    {
+      "id": 2,
+      "option": "Home Loan - (आवाश कर्जा)",
+      "value": "CIT-151-APP-6",
+      "code": "62"
+    },
+    {
+      "id": 3,
+      "option": "Easy Loan - (सरल कर्जा)",
+      "value": "CIT-151-APP-7",
+      "code": "61"
+    },
+    {
+      "id": 4,
+      "option": "Investor Account Scheme (80% Loan) (लगानीकर्ता अवकास कोष योजना कर्जा)",
+      "value": "CIT-151-APP-11",
+      "code": "63"
+    }
+  ]
+}

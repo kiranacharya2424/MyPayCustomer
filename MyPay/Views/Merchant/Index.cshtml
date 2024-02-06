@@ -1,0 +1,375 @@
+﻿@model MyPay.Models.Add.AddMerchant
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Add Merchant</h3>
+                        </div>
+                    </div>
+                    <div class="nk-block">
+                        <div class="card card-bordered">
+                            <div class="card-aside-wrap">
+                                <div class="card-inner">
+                                    <div class="nk-block">
+                                        <div class="nk-block-head">
+                                            <div class="form-group" style="color:red">
+                                                @ViewBag.Message
+                                            </div>
+                                            <div class="form-group" style="color:green">
+                                                @ViewBag.SuccessMessage
+                                            </div>
+                                        </div><!-- .nk-block-head -->
+                                        <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                            <h6 class="title overline-title text-base">Merchant Personal Detail</h6>
+                                        </div>
+                                        <div class="row gy-4">
+
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Merchant Type <strong class="text-danger">*</strong></label>
+                                                        @if ((Model.Id == 0))
+                                                        {
+                                                            @Html.EnumDropDownListFor(x => x.MerChantTypeEnum, "--- Select Merchant Type ---", new { @class = "form-select form-control form-control-md" }) }
+                                                        else
+                                                        {
+                                                            @Html.EnumDropDownListFor(x => x.MerChantTypeEnum, "--- Select Merchant Type ---", new { @class = "form-select form-control form-control-md", @disabled = "true" })
+                                                        }
+                                                        @Html.HiddenFor(m => m.MerchantType)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6" id="div_FirstName">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">First Name <strong class="text-danger">*</strong></label>
+                                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6" id="div_LastName">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Last Name <strong class="text-danger">*</strong></label>
+                                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6" id="div_ContactNo">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Mobile Number <strong class="text-danger">*</strong></label>
+
+                                                        @if (Model.Id == 0)
+                                                        {
+                                                            @Html.TextBoxFor(m => m.ContactNo, new { @class = "form-control form-control-md", @maxlength = 10, @onkeypress = "return isNumberKey(this, event);" }) }
+                                                        else
+                                                        {
+                                                            @Html.TextBoxFor(m => m.ContactNo, new { @class = "form-control form-control-md", @maxlength = 10, @onkeypress = "return isNumberKey(this, event);", @readonly = "true" })}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Email Id <strong class="text-danger">*</strong></label>
+                                                        @Html.TextBoxFor(m => m.EmailID, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Organization Name <strong class="text-danger">*</strong></label>
+                                                        @Html.TextBoxFor(m => m.OrganizationName, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">User Name <strong class="text-danger">*</strong></label>
+                                                        @if ((Model.Id == 0))
+                                                        {
+                                                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-md" }) }
+                                                        else
+                                                        {
+                                                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-md", @readonly = "true" })}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Country <strong class="text-danger">*</strong></label>
+                                                        @Html.DropDownListFor(m => m.CountryId, ViewBag.CountryId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                        @Html.HiddenFor(m => m.CountryName)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Address <strong class="text-danger">*</strong></label>
+                                                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">State <strong class="text-danger">*</strong></label>
+                                                        @Html.TextBoxFor(m => m.State, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">City <strong class="text-danger">*</strong></label>
+                                                        @Html.TextBoxFor(m => m.City, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Zip Code</label>
+                                                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Password<strong class="text-danger">*</strong> </label>
+                                                        <div class="form-control-wrap">
+                                                            @{
+                                                                <a href="javascript:void(0);" class="form-icon form-icon-right passcode-switch md" data-target="Password">
+                                                                    <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                                    <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                                                </a>
+                                                                @Html.TextBoxFor(m => m.Password, new { @class = "form-control form-control-md", @value = @ViewBag.Password }) }
+                                                            <input type="hidden" id="hdnPassword" value="@ViewBag.Password" />
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6" id="div_SuccessURL">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Success URL</label>
+                                                        @Html.TextBoxFor(m => m.SuccessURL, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6" id="div_CancelURL">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Cancel URL</label>
+                                                        @Html.TextBoxFor(m => m.CancelURL, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6" id="div_WebsiteURL">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">WebSite <strong class="text-danger">*</strong></label>
+                                                        @Html.TextBoxFor(m => m.WebsiteURL, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Ip Address <strong class="text-danger">*</strong></label>
+                                                        @Html.TextBoxFor(m => m.MerchantIpAddress, new { @class = "form-control form-control-md" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row gy-4">
+                                            <div class="col-lg-4 col-sm-6">
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group text-center">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Logo Image </label>
+                                                        <div class="">
+                                                            <a class="gallery-image popup-image" href="~/Images/MerchantImages/@Model.Image">
+                                                                @if (string.IsNullOrEmpty(Model.Image))
+                                                                {
+                                                                    <img ID="targetMerchantImage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt=""> }
+                                                                else
+                                                                {
+                                                                    <img ID="targetMerchantImage" class="custom-file-inputrounded-top" width="200" src="~/Images/MerchantImages/@Model.Image" alt="">}
+                                                            </a>
+                                                            @Html.HiddenFor(m => m.Image)
+                                                        </div>
+                                                        <div class="custom-file text-left mt-3">
+                                                            <input type="file" multiple class="custom-file-input" id="MerchantImageFile" onchange="PreviewImage(this,'MerchantImage',5000)" name="MerchantImageFile">
+                                                            <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- .nk-block -->
+                                    <div class="nk-divider divider my-5"></div>
+                                    <div class="nk-block">
+                                        <div class="row mt-5">
+                                            <div class="col-lg-12 col-sm-6">
+                                                <div class="form-group">
+                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                        @ViewBag.Message
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary text-center mr-2" id="btnSubmitMerchant">Save</button>
+                                                    <button type="button" onclick="window.location='/Merchant/MerchantList'" class="btn btn-light text-center mr-2">List</button>
+
+                                                    @if (!string.IsNullOrEmpty(Model.MerchantUniqueId))
+                                                    {
+                                                        <a class="btn btn-success" href="/Merchant/MerchantQRCodeExport?MerchantContact=@Model.ContactNo">Download PDF</a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- .nk-block -->
+                                </div><!-- .card-content -->
+                            </div><!-- .card-aside-wrap -->
+                        </div><!-- .card -->
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/Content/assets/js/userscripts.js"></script>
+<script>
+    $(function () {
+        $("#MerChantTypeEnum").change(function () {
+            toogleForm();
+        });
+    });
+    $("#Password").val($("#hdnPassword").val());
+    $("#Password").attr('type', 'password');
+    $(document).ready(function () {
+        debugger;
+        toogleForm();
+
+        $("#CountryId").change(function () {
+            var value = $("#CountryId option:selected").text();
+            $("#CountryName").val(value);
+        });
+
+        if ($("#CountryName").val() == "") {
+            $("#CountryId").val("216");
+            $("#CountryName").val("Nepal");
+        }
+    });
+    $(document).ready(function () {
+        $("#btnSubmitMerchant").click(function () {
+            var merchantType = $("#MerChantTypeEnum option:selected").text();
+            if (($("#FirstName").val() == "") && (merchantType === "Merchant")) {
+                $("#dvMessage").html("Please enter First Name");
+                return false;
+            }
+            else if (($("#LastName").val() == "") && (merchantType === "Merchant")) {
+                $("#dvMessage").html("Please enter Last Name");
+                return false;
+            }
+            else if (($("#ContactNo").val() == "") && (merchantType === "Merchant")) {
+                $("#dvMessage").html("Please enter ContactNo");
+                return false;
+
+            }
+            else if ($("#EmailID").val() == "") {
+                $("#dvMessage").html("Please enter EmailID");
+                return false;
+
+            }
+            else if ($("#OrganizationName").val() == "") {
+                $("#dvMessage").html("Please enter Organization Name");
+                return false;
+
+            }
+            else if ($("#UserName").val() == "") {
+                $("#dvMessage").html("Please enter User  Name");
+                return false;
+
+            }
+            else if ($("#CountryId").val() == "0") {
+                $("#dvMessage").html("Please select  Country");
+                return false;
+            }
+            else if ($("#Address").val() == "") {
+                $("#dvMessage").html("Please enter Address");
+                return false;
+
+            }
+            else if ($("#State").val() == "") {
+                $("#dvMessage").html("Please enter State");
+                return false;
+
+            }
+            else if ($("#City").val() == "") {
+                $("#dvMessage").html("Please enter City");
+                return false;
+
+            }
+            else if (($("#WebsiteURL").val() == "") && (merchantType === "Merchant")) {
+                $("#dvMessage").html("Please enter WebsiteURL");
+                return false;
+
+            }
+            else if ($("#MerchantIpAddress").val() == "") {
+                $("#dvMessage").html("Please enter MerchantIpAddress");
+                return false;
+
+            }
+            else if ($("#Password").val() == "") {
+                $("#dvMessage").html("Please enter Password");
+                return false;
+            }
+            else {
+                $("#AjaxLoader").show();
+            }
+
+        });
+    });
+
+    function toogleForm() {
+        var value = $("#MerChantTypeEnum option:selected").val();
+        $("#MerchantType").val(value);
+        var text = $("#MerChantTypeEnum option:selected").text();
+        if (text === "Bank" || text === "Remittance") {
+            $("#div_FirstName").hide();
+            $("#div_LastName").hide();
+            $("#div_ContactNo").hide();
+            $("#div_SuccessURL").hide();
+            $("#div_CancelURL").hide();
+            $("#div_WebsiteURL").hide();
+
+        }
+        else {
+            $("#div_FirstName").show();
+            $("#div_LastName").show();
+            $("#div_ContactNo").show();
+            $("#div_SuccessURL").show();
+            $("#div_CancelURL").show();
+            $("#div_WebsiteURL").show();
+
+        }
+    }
+
+</script>

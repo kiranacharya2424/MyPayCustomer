@@ -1,0 +1,264 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserDataPack";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-none d-sm-block">
+                                                    <h6 class="title" id="lblProviderName">Data Pack</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-inner">
+                                            <!-- step1 -->
+                                            <div class="p-2" id="DivDataPack" style="display:none;">
+                                                <div class="row gy-4">
+                                                    <div class="col-12 col-sm-7 m-auto">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Select Data Pack Type</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <table width="100%">
+                                                                        @{
+                                                                            List<MyPay.Models.Get.GetService_Providers> objDisplayList = ViewBag.Providerlist as List<MyPay.Models.Get.GetService_Providers>;
+                                                                            for (int i = 0; i < objDisplayList.Count; i++)
+                                                                            {
+                                                                                <tr class="nk-tb-item">
+                                                                                    <td class="nk-tb-col" style=" height: 100px;  border-bottom: 1px solid #efefef;" onclick="return showDataPackDetails(@objDisplayList[i].ProviderTypeId,'@objDisplayList[i].ProviderName.Replace("DATAPACK", "").ToString()');">
+                                                                                        <img src="@objDisplayList[i].LogoURL" width="80" />
+                                                                                        @objDisplayList[i].ProviderName.Replace("DATAPACK", "").ToString()
+                                                                                        @if (@objDisplayList[i].MPCoinsCashback != "0.00")
+                                                                                        {
+                                                                                            <span class="badge rounded-pill bg-warning cashback-badge cashbackhide" style="display:inline;">@objDisplayList[i].CashbackPercentage% cashback</span>
+                                                                                            <span class="badge rounded-pill bg-warning coin-badge cashbackhide" style="display:inline;">@objDisplayList[i].MPCoinsCashback% coins</span>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <span class="badge rounded-pill bg-warning cashback-badge cashbackhide" style="display:inline;">@objDisplayList[i].CashbackPercentage% cashback</span>
+                                                                                        }
+
+                                                                                    </td>
+                                                                                </tr>
+                                                                            }
+                                                                        }
+                                                                    </table>
+                                                                    <input type="hidden" value="" id="hdnPackageID" />
+                                                                    <input type="hidden" value="" id="hdnProductCode" />
+                                                                    <input type="hidden" value="@ViewBag.ServiceId" id="hdnServiceID" />
+                                                                    <input type="hidden" id="hfBankId" value="" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- step1.1 -->
+                                            <div class="p-2" id="DivDataPackStep2" style="display:none;">
+                                                <div class="row gy-4">
+                                                    <div class="col-12 col-sm-7 m-auto">
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft"> Choose your data package </label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <div id="tblNCellDataPackage" class="col-md-12" style="display: none;">
+
+                                                                    </div>
+                                                                    <div id="tblNTCDataPackage" class="col-md-12" style="display: none;">
+                                                                        <div class="card-tools">
+                                                                            <ul class="card-tools-nav nav justify-content-between">
+                                                                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#datapack"><span>Data Pack</span></a></li>
+                                                                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#voicepack"><span>Voice Pack</span></a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="tab-content">
+                                                                            <div class="card-inner tab-pane active" id="datapack">
+                                                                                <div class="row gy-4">
+                                                                                    <div class="col-12" id="uldatapack">
+                                                                                        @*<ul class="nk-support" id="uldatapack">
+                                                                                            </ul>*@
+                                                                                    </div><!--col-12-->
+                                                                                </div><!--row gy-4-->
+                                                                            </div><!--card-inner-->
+                                                                            <!-- ENd -->
+
+                                                                            <div class="card-inner tab-pane" id="voicepack">
+                                                                                <div class="row gy-4">
+                                                                                    <div class="col-12" id="ulvoicepack">
+                                                                                        @*<ul class="nk-support" id="ulvoicepack">
+                                                                                            </ul>*@
+                                                                                    </div><!--col-12-->
+                                                                                </div><!--row gy-4-->
+                                                                            </div><!--card-inner-->
+                                                                            <!-- ENd -->
+                                                                        </div><!--tab-content-->
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group" style="text-align:center;">
+                                                            <a href="javascript:void(0);" id="btnPackageBack">Back</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-2" id="DivDataPackStep3" style="display:none;">
+
+                                                <div class="row gy-4">
+
+                                                    <div class="col-12 col-sm-7 m-auto">
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft"> Mobile Number</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="MobileNumber" class="form-control form-control-lg fw-medium" maxlength="10" autocomplete="off" placeholder="Mobile Number" onkeypress="return isNumberKey(this, event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft"> Amount</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" value="0" id="Amount" readonly class="form-control form-control-lg fw-medium" maxlength="8" autocomplete="off" placeholder="Amount" onkeypress="return isNumberKey(this, event);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" style="text-align:center;">
+                                                            <a href="javascript:void(0);" id="btnPay" class="btn btn-primary btn-lg d-block ">Pay Bill</a>
+                                                            <div class="clsBackButton mt-4">
+                                                                <a href="javascript:void(0);" id="btnPayBack">Back</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- step2 -->
+
+
+                                            <div class="modal fade zoom" tabindex="-1" id="PackagedetailsPopup">
+                                                <div class="modal-dialog modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header justify-content-center">
+                                                            <h5 class="modal-title">Check your Package details</h5>
+
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-borderless table-sm">
+                                                                    <tr>
+                                                                        <td>Priority_No:</td>
+                                                                        <td class="fw-bold text-right"><span id="Priority_NoPopup"></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Product_Name:</td>
+                                                                        <td class="fw-bold text-right"> <span id="Product_NametPopup"></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Amount:</td>
+                                                                        <td class="fw-bold text-right"> <span id="Amountdata"></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Short_Details:</td>
+                                                                        <td class="fw-bold text-right"><span id="Short_DetailsPopup"></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Product_Code:</td>
+                                                                        <td class="fw-bold text-right"> <span id="Product_CodePopup"></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Description:</td>
+                                                                        <td class="fw-bold text-right"> <span id="DescriptionPopup"></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Product_Type:</td>
+                                                                        <td class="fw-bold text-right"> <span id="Product_TypePopup"></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Validity:</td>
+                                                                        <td class="fw-bold text-right"> <span id="ValidityPopup"></span></td>
+                                                                    </tr>
+
+
+                                                                </table>
+                                                            </div>
+                                                            <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                                                                <a href="javascript:void();" class="btn btn-mw btn-light w-45" data-dismiss="modal">Close</a>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            @RenderPage("~/Views/MyPayUser/MyPayPaymentScreen.cshtml")
+                                            <div class="p-2" style="margin:10px; text-align:center">
+                                                <div id="dvMessage" class="form-group" style="color:red">
+                                                    <span id="errormsg" style="color:red">
+                                                        @ViewBag.Message
+                                                    </span>
+                                                    <span id="successmsg" style="color:green">
+                                                        @ViewBag.SuccessMessage
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+                        }
+                    </div><!-- .row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_datapack.js"></script>
+<style>
+    .paymentoption {
+        min-height: 50px;
+        border: 1px solid cadetblue;
+        padding: 12px;
+        margin: 10px 0px 10px 0px;
+        border-radius: 3px;
+        font-weight: bold;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .content-light {
+        color: #afafaf;
+        font-weight: normal;
+        font-size: 14px;
+    }
+
+    #tblDataPackage tr td {
+        padding: 10px;
+        border-bottom: 1px solid #efefef;
+    }
+</style>

@@ -1,0 +1,427 @@
+﻿
+@{ ViewBag.Title = "RemittanceSettlementReport";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/Content/assets/js/libs/jquery-multiselect/jquery.dropdown.css">
+<script src="/Content/assets/js/libs/jquery-multiselect/jquery.dropdown.js"></script>
+
+<div class="nk-content ">
+    <input type="hidden" id="hdntxnid" value="" />
+    <input type="hidden" id="hdnroleid" value="" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Remittance Settlement Report</h3>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                <div class="nk-block-head">
+                                    <div class="nk-block-head-content">
+                                        <div id="dvMessage" class="form-group form-label" style="color:red; text-align:center;">
+                                            @ViewBag.Message
+                                        </div>
+                                        <div id="dvSuccess" class="form-group form-label" style="color: green; text-align: center;">
+                                            @ViewBag.SuccessMessage
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row gy-4">
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("StartDate", "", new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="fromdate">From Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("ToDate", "", new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="todate">To Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("MerchantUniqueId", "", new { @id = "MerchantUniqueId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Merchant UniqueId" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("ContactNumber", "", new { @id = "ContactNumber", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @maxlength = 10, @onkeypress = "return isNumberKey(this, event);", @placeholder = "Merchant MobileNo" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("TransactionId", "", new { @id = "TransactionId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Transaction Id" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("ParentTransactionId", "", new { @id = "ParentTransactionId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Parent Txn Id" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("GatewayTransactionId", "", new { @id = "GatewayTransactionId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Gateway Txn Id" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("Reference", "", new { @id = "Reference", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Tracker Id" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.DropDownList("Sign", ViewBag.Sign as SelectList, "", new { @id = "Sign", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                <label class="form-label-outlined" for="outlined-normal">Sign</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.DropDownList("WalletType", ViewBag.WalletType as SelectList, "", new { @id = "WalletType", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                <label class="form-label-outlined" for="outlined-normal">Type</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.DropDownList("SourceCurrency", ViewBag.SourceCurrency as SelectList, "", new { @id = "SourceCurrency", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                <label class="form-label-outlined" for="outlined-normal">From Currency</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.DropDownList("DestinationCurrency", ViewBag.DestinationCurrency as SelectList, "", new { @id = "DestinationCurrency", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                <label class="form-label-outlined" for="outlined-normal">To Currency</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <a class="btn btn-primary text-center text-white" onclick="return bindtable();">Search</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="dvtblist" class="card-inner">
+                                @*<div class="row">
+                                        <div class="col">
+                                            <b>Total:</b><span id="totaltra"></span>
+                                            <b>Credit:</b><span id="totalCredit"></span>
+                                            <b>Debit:</b><span id="totalDebit"></span>
+                                        </div>
+                                    </div>*@
+                                <div class="table-responsive">
+                                    <table id="tblist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                        <thead>
+                                            <tr>
+                                                <th class="nk-tb-col">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("SrNo")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Date")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Merchant UniqueId")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Transaction Id")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Gateway Txn Id")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Parent Txn Id")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Tracker Id")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Merchant  Name")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Merchant  ContactNo")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("From Currency")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("From Amount")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("To Currency")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("To Amount")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Sign")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Service Charge")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Conversion Rate")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Converted Amount")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Net Amount")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Type")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Wallet Type")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Current Balance")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Previous Balance")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Fee Type")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Beneficiary Name")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Beneficiary AccountNo")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Beneficiary Bank Name")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Beneficiary Branch Name")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Remarks")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Gateway Status")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("My Pay Status")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Ip Address")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Created By")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("View")
+                                                    </span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div><!-- .card-inner -->
+
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " tabindex="-1" id="singleTransaction">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title text-center">Detail</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-12 " id="singleTxn"></div>
+                            </div>
+                        </div>
+                        <div class="nk-modal-action mt-5 text-center">
+                            <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light " data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="IsFeeAccountTransaction" name="IsFeeAccountTransaction" value="0" />
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="~/content/assets/js/dtable_remittancetxns.js"></script>
+<script type="text/javascript" src="~/Content/assets/js/userscripts.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        var sessroleid =@Session["AdminRole"];
+        $("#hdnroleid").val(sessroleid);
+        $("#dvtblist").css("display", "none");
+        $('.date-picker').datepicker({
+                    format: "dd-M-yyyy"
+                }).datepicker('setDate', 'today');
+
+    });
+
+    function bindtable() {
+        $("#dvtblist").css("display", "block");
+        BindDataTable();
+    };
+
+    function GetTxnDetail(Sign, Status, Date, MemberId, MerchantId, TxnId, VendorTxnId,ParentTxnId, MemberName, ContactNumber, FromAmount, ToAmount, FromCurrency, ToCurrency, SignName, BeneficiaryBankName, BeneficiaryAccountNo, BeneficiaryBranchName, ServiceCharge,ConversionRate,ConvertedAmount,WalletType,Type, GatewayStatus, StatusName, IpAddress,Remarks) {
+               $("#singleTxn").html("");
+        if (Date != "" & TxnId != "" && MemberId != "") {
+            var str = '<div class="table-responsive"><table class="nowrap nk-tb-list nk-tb-ulist table-bordered h-100">';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Date :</span></td><td class="nk-tb-col"><span>' + Date + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Merchant Member Id :</span></td><td class="nk-tb-col"><span class="tb-lead">' + MemberId + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Merchant Unique Id :</span></td><td class="nk-tb-col"><span class="tb-lead">' + MerchantId + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Transaction Id :</span></td><td class="nk-tb-col"><span><strong style="color: #f98c45">#' + TxnId + '</strong></span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Gateway Transaction Id :</span></td><td class="nk-tb-col"><span>' + VendorTxnId + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Parent Transaction Id :</span></td><td class="nk-tb-col"><span>' + ParentTxnId + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Merchant Name :</span></td><td class="nk-tb-col"><span>' + MemberName + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Merchant Contact No. :</span></td><td class="nk-tb-col"><span>' + ContactNumber + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>From Currency:</span></td><td class="nk-tb-col"><span class="tb-lead">' + FromCurrency + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>From Amount:</span></td><td class="nk-tb-col"><span class="tb-lead">' + FromAmount + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>To Currency:</span></td><td class="nk-tb-col"><span class="tb-lead">' + ToCurrency + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>To Amount:</span></td><td class="nk-tb-col"><span class="tb-lead">' + ToAmount + '</span></td></tr>';
+            if (Sign == 1) {
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Sign : </span></td><td class="nk-tb-col"><span class="tb-status text-success">' + SignName + '</span></td></tr>';
+            }
+            else {
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Sign : </span></td><td class="nk-tb-col"><span class="tb-status text-danger">' + SignName + '</span></td></tr>';
+            }
+
+            //str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Merchant Bank Name :</span></td><td class="nk-tb-col"><span>' + MerchantBankName + '</span></td></tr>';
+            //str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Merchant AccountNo :</span></td><td class="nk-tb-col"><span>' + MerchantAccountNo + '</span></td></tr>';
+            //str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Merchant Branch Name :</span></td><td class="nk-tb-col"><span>' + MerchantBranchName + '</span></td></tr>';
+            //str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Beneficiary Name :</span></td><td class="nk-tb-col"><span>' + BeneficiaryName + '</span></td></tr>';
+            //str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Beneficiary Contact No. :</span></td><td class="nk-tb-col"><span>' + BeneficiaryContactNo + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Beneficiary Account No. :</span></td><td class="nk-tb-col"><span>' + BeneficiaryAccountNo + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Beneficiary Bank Name :</span></td><td class="nk-tb-col"><span>' + BeneficiaryBankName + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Beneficiary Branch Name :</span></td><td class="nk-tb-col"><span>' + BeneficiaryBranchName + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Service Charge :</span></td><td class="nk-tb-col"><span>' + ServiceCharge + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Conversion Rate :</span></td><td class="nk-tb-col"><span>' + ConversionRate + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Converted Amount :</span></td><td class="nk-tb-col"><span>' + ConvertedAmount + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Wallet Type :</span></td><td class="nk-tb-col"><span>' + WalletType + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Type :</span></td><td class="nk-tb-col"><span>' + Type + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Remarks:</span></td><td class="nk-tb-col"><span>' + Remarks + '</span></td></tr>';
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Gateway Status:</span></td><td class="nk-tb-col"><span>' + GatewayStatus + '</span></td></tr>';
+            if (Status == 1) {
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Status :</span></td><td class="nk-tb-col"><span class="tb-status text-success">' + StatusName + '</span></td></tr>';
+            }
+            else if (Status == 3) {
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Status :</span></td><td class="nk-tb-col"><span class="tb-status text-danger">' + StatusName + '</span></td></tr>';
+            }
+            else {
+                str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Status :</span></td><td class="nk-tb-col"><span class="tb-status text-orange">' + StatusName + '</span></td></tr>';
+            }
+            str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Ip Address :</span></td><td class="nk-tb-col"><span>' + IpAddress + '</span></td></tr>';
+            str += '</table></div>';
+            $("#singleTxn").append(str);
+            $('#singleTransaction').modal('show');
+            return false;
+        }
+    }
+</script>

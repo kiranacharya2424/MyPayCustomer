@@ -1,0 +1,399 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserTransactions";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+
+
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-none d-sm-block col-md-11 col-sm-10">
+                                                    <h6 class="title">Transaction History</h6>
+                                                    <div class="text-soft">Showing transaction of last 30 days</div>
+                                                </div>
+
+                                                <a href="javascript:void(0)" data-toggle="modal" data-target="#filterModal">
+                                                    <img id="icon_filter" src="/Content/assets/MyPayUserApp/images/dashboard/filter.svg">
+                                                </a>
+                                                <a href="javascript:void(0)" id="icon_Download" data-toggle="modal" data-target="#filterModal">
+                                                    <em class="icon ni fa-2x ni-download"></em>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="card-inner">
+                                            <div class="row gy-4">
+
+                                                <div class="col-12">
+                                                    <!-- step1 -->
+                                                    <div id="dvTransactionParent">
+                                                        <ul class='nk-support' id="dvTransactions">
+                                                        </ul>
+                                                        <div id="nomorerecords" style="display:none;"><span>No More Records</span></div>
+                                                        <div class="form-group text-center mt-5">
+                                                            <a href="javacript:void(0);" id="showmore" onclick="ShowMore();" style="display:none;" class="btn btn-primary btn-lg">Show More</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class='nk-support' id="dvSingleTransaction" style="display:none">
+
+                                                        <div id="dvSingleRecordDisplay"></div>
+
+                                                        <div class="card-title" style="text-align:center; padding:5px;">
+                                                            <a href="javascript:void(0)" onclick="BackToTxns();" class="ml-auto color-black"><em class="icon ni ni-arrow-left"></em> Back</a>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                        <span id="errormsg" style="color:red">
+                                                            @ViewBag.Message
+                                                        </span>
+                                                        <span id="successmsg" style="color:green">
+                                                            @ViewBag.SuccessMessage
+                                                        </span>
+                                                    </div>
+                                                    <input type="hidden" value="10" id="hdnTake" />
+                                                    <input type="hidden" value="0" id="hdnSkip" />
+                                                    <input type="hidden" value="@ViewBag.IsTransferByPhone" id="hdnTransferByPhone" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                        }
+                    </div><!-- .row -->
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " tabindex="-1" id="DivFilter">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="card-inner-group">
+                        <div class="card-inner position-relative card-tools-toggle pb-5">
+                            <div class="row gy-4">
+                                <div class="col-lg-12 col-sm-12">
+
+
+                                    <div class="form-group">
+                                        <div class="dropdown-mul-2">
+                                            @Html.DropDownList("objTransactionTypeList", ViewBag.objTransactionTypeList as SelectList, "", new { @id = "ddlTransactionType", @class = "", @style = "display:none", })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-control-sm  custom-checkbox">
+                                            <input type="checkbox" id="chk_3months" name="chk_dateFilter" value="3" onClick="handleCheckbox('chk_3months')" />&nbsp; Last 3 Months
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                            <input type="checkbox" id="chk_6months" name="chk_dateFilter" value="6" onClick="handleCheckbox('chk_6months')" />&nbsp; Last 6 Months
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                            <input type="checkbox" id="chk_12months" name="chk_dateFilter" value="12" onClick="handleCheckbox('chk_12months')" />&nbsp; Last 12 Months
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                            <input type="checkbox" id="chk_all" name="chk_dateFilter" value="All" onClick="handleCheckbox('chk_all')" />&nbsp; All
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <div class="form-icon form-icon-right md">
+                                                <em class="icon ni ni-calendar-alt"></em>
+                                            </div>
+                                            @Html.TextBox("StartDate", "", new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                            <label class="form-label-outlined" for="fromdate">From Date</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <div class="form-icon form-icon-right md">
+                                                <em class="icon ni ni-calendar-alt"></em>
+                                            </div>
+                                            @Html.TextBox("ToDate", "", new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                            <label class="form-label-outlined" for="todate">To Date</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nk-modal-action mt-5 text-center">
+                        <a href="javascript:void(0);" class="btn btn-primary btn-lg d-block" onclick="filterData()">Apply</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade " tabindex="-1" id="DivDownload">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="card-inner-group">
+                        <div class="card-inner position-relative card-tools-toggle pb-5">
+                            <div class="row gy-4">
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <div class="form-icon form-icon-right md">
+                                                <em class="icon ni ni-calendar-alt"></em>
+                                            </div>
+                                            @Html.TextBox("StartDate", "", new { @id = "fromdatetrans", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                            <label class="form-label-outlined" for="fromdate">From Date</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <div class="form-icon form-icon-right md">
+                                                <em class="icon ni ni-calendar-alt"></em>
+                                            </div>
+                                            @Html.TextBox("ToDate", "", new { @id = "todatetrans", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                            <label class="form-label-outlined" for="todate">To Date</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nk-modal-action mt-5 text-center">
+                        <a href="javascript:void(0);" class="btn btn-primary btn-lg d-block" onclick="AllServiceTxndownload()">Download</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+
+        </div>
+    </div>
+</div>
+
+<!-- Validation Details -->
+<div class="modal fade zoom" tabindex="-1" id="ValidationPopup">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">My Pay</h5>
+
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 id="err_message" class="fs-14px mt-3 mb-4" style="color:#313131"></h6>
+                    </div>
+                </div>
+
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+
+                    <a href="javascript:void();" id="btnValidateOk" class="btn btn-mw btn-primary w-45">OK</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_transactions.js"></script>
+<link rel="stylesheet" type="text/css" href="/Content/assets/js/libs/jquery-multiselect/jquery.dropdown.css">
+<script src="/Content/assets/js/libs/jquery-multiselect/jquery.dropdown.js"></script>
+<script>
+    $('.dropdown-mul-2').dropdown({
+        searchable: true,
+        choice: function () {
+
+        }
+    });
+
+
+
+
+    function AllServiceTxndownload(e) {
+        debugger;
+        var FromDate = $("#fromdatetrans").val();
+        var ToDate = $("#todatetrans").val();
+
+        if ($("#fromdatetrans").val() === "") {
+            $('#err_message').text("Please select from Date")
+            $('#ValidationPopup').modal('show');
+            return;
+        }
+        if ($("#todatetrans").val() === "") {
+            $('#err_message').text("Please select to Date")
+            $('#ValidationPopup').modal('show');
+            return;
+        }
+
+        if (new Date($("#fromdatetrans").val()) > new Date($("#todatetrans").val())) {
+            $("#err_message").html("To date should  be greater than From date.");
+            $('#ValidationPopup').modal('show');
+            return;
+        }
+        var days = daysdifference(FromDate, ToDate);
+        if (days > 30) {
+            $("#err_message").html("You can download max 30 days transaction.");
+            $('#ValidationPopup').modal('show');
+            return;
+        }
+
+        $('#AjaxLoader').show();
+        setTimeout(
+        function() {
+            var FromDate = $("#fromdatetrans").val();
+            var ToDate = $("#todatetrans").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/MyPayUser/MyPayUserTransactionHistoryDownload",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                data: '{"FromDate":"' + FromDate + '","ToDate":"' + ToDate + '"}',
+                success: function (response) {
+                    debugger;
+                    if (response != null) {
+                        var jsonData;
+                        var IsValidJson = false;
+                        try {
+                            jsonData = $.parseJSON(response);
+                            var IsValidJson = true;
+                            debugger;
+
+                        }
+                        catch (err) {
+
+                        }
+                        if (IsValidJson) {
+                            if (jsonData.URL != "") {
+
+                                window.location.href = "@Url.RouteUrl(new { Controller = "MyPayUser", Action = "MyPayUserTransactionDownloadFile" })?filePath=" + jsonData.URL;
+                                $('#AjaxLoader').hide();
+                            }
+                            else {
+                                $('#err_message').text("No Transaction found for the given date.")
+                                $('#ValidationPopup').modal('show');
+                                $('#AjaxLoader').hide();
+
+                            }
+                            $("#DivDownload").modal('hide');
+                        }
+                        else {
+                            if (!IsValidJson) {
+                                $('#err_message').text(response)
+                                $('#AjaxLoader').hide();
+                                $('#ValidationPopup').modal('show');
+
+                                $("#DivDownload").modal('hide');
+                                return false;
+                            }
+
+                        }
+                    }
+                    else {
+                        $('#AjaxLoader').hide();
+                        $('#err_message').text(response)
+                        $('#ValidationPopup').modal('show');
+                        $("#DivDownload").modal('hide');
+                        return false;
+                    }
+
+                },
+                failure: function (response) {
+                    $('#AjaxLoader').hide();
+                    $('#err_message').text(response.responseText)
+                    $('#ValidationPopup').modal('show');
+                    $("#DivDownload").modal('hide');
+                    return false;
+                },
+                error: function (response) {
+                    $('#AjaxLoader').hide();
+                    $('#err_message').text(response.responseText)
+                    $('#ValidationPopup').modal('show');
+                    $("#DivDownload").modal('hide');
+                    return false;
+                }
+            })
+
+        }, 10);
+
+
+
+    }
+
+
+    function daysdifference(FromDate, ToDate) {
+        var FromDate = new Date(FromDate);
+        var ToDate = new Date(ToDate);
+
+        // Determine the time difference between two dates
+        var millisBetween = FromDate.getTime() - ToDate.getTime();
+
+        // Determine the number of days between two dates
+        var days = millisBetween / (1000*3600*24);
+
+        // Show the final number of days between dates
+        return Math.round(Math.abs(days));
+
+    }
+
+</script>
+
+

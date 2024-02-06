@@ -1,0 +1,296 @@
+﻿@model MyPay.Models.Request.Req_Web_OfferBanners
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Offer Banners</h3>
+                            @*<div class="nk-block-des text-soft">
+                                    <p>You have total  @Model.objData.Count users.</p>
+                                </div>*@
+                        </div><!-- .nk-block-head-content -->
+
+
+
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        @*<li>
+                                                <a href="/User/UserExport" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
+
+                                            </li>*@
+                                        <li class="nk-block-tools-opt">
+                                            <div class="drodown">
+                                                <a href="~/OfferBanners/OfferBannersAdd" class="btn btn-icon btn-primary" title="Add Offer Banners"><em class="icon ni ni-plus"></em></a>
+                                                @*<div class="dropdown-menu dropdown-menu-right">
+                                                    <ul class="link-list-opt no-bdr">
+                                                        <li><a href="~/OfferBanners/OfferBannersAdd"><span>Add Offer Banners</span></a></li>
+
+                                                    </ul>
+                                                </div>*@
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                <div class="row gy-4">
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("Name", Model.Name, new { @id = "Name", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off" })
+                                                <label class="form-label-outlined" for="Name">Search</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("FromDate", Model.FromDate, new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="fromdate">Start Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("ToDate", Model.ToDate, new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="todate">End Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.EnumDropDownListFor(m => m.EnumScheduleStatus, "--Select Status--", new { @class = "form-select form-control form-control-md" })
+                                                @* @Html.DropDownListFor("ScheduleStatus", ViewBag.ScheduleStatus as SelectList, "", new { @id = "ScheduleStatus", @class = "form-select form-control form-control-md " })*@
+                                                @*<label class="form-label-outlined" for="status">Status</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.EnumDropDownListFor(m => m.EnumActiveStatus, "--Active Status--", new { @class = "form-select form-control form-control-md" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.EnumDropDownListFor(m => m.EnumTypeProviders, "--Select Type--", new { @class = "form-control form-control-md" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <button id="btnSearch" type="submit" class="btn btn-primary text-center">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-inner position-relative card-tools-toggle pb-3 pt-3">
+                                <!-- <span class="preview-title-lg overline-title mb-4">User List</span> -->
+                                <div class="card-title-group">
+                                    <div class="card-tools">
+                                        <span class="preview-title-lg overline-title pb-0">Offer Banners List</span>
+                                    </div><!-- .card-tools -->
+                                </div><!-- .card-title-group -->
+                                <div class="card-search search-wrap" data-search="search">
+                                    <div class="card-body">
+                                        <div class="search-content">
+                                            <a href="javascript:void(0);" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                                            <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by user or email">
+                                            <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                                        </div>
+                                    </div>
+                                </div><!-- .card-search -->
+                            </div><!-- .card-inner -->
+                            <div class="card-inner">
+                                <div id="dvMsgSuccess" class="tb-status text-success" style="text-align:center; font-weight:bold">
+                                    @ViewBag.SuccessMessage 
+                                </div>
+                                <div id="dvMsg" class="tb-status text-danger" style="text-align: center; font-weight: bold">
+                                    @ViewBag.Message
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="tbllist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                        <thead>
+                                            <tr class="nk-tb-item nk-tb-head">
+                                                <th class="nk-tb-col"><span class="sub-text">SrNo</span></th>
+                                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Updated Date</span></th>
+                                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Created Date</span></th>
+                                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Offer Name</span></th>
+                                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Image</span></th>
+                                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Service Type</span></th>
+                                                <th class="nk-tb-col tb-col-md"><span class="sub-text">URL</span></th>
+                                                <th class="nk-tb-col tb-col-mb"><span class="sub-text">Start Date</span></th>
+                                                <th class="nk-tb-col tb-col-md"><span class="sub-text">End Date</span></th>
+                                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Status</span></th>
+                                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Created By</span></th>
+                                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Priority</span></th>
+                                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">IP Address</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">Status</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">Edit</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var itm in Model.objData)
+                                            {
+                                                <tr class="nk-tb-item">
+                                                    <td class="nk-tb-col">
+                                                        <span>
+                                                            @itm.Row
+                                                        </span>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-md">
+                                                        <span>
+                                                            @itm.UpdatedDate.ToString("dd/MM/yyyy hh:mm:ss tt")
+                                                        </span>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-md">
+                                                        <span>
+                                                            @MyPay.Models.Common.Common.fnGetdatetimeFromInput(itm.CreatedDate)
+                                                        </span>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-md">
+                                                        <span>
+                                                            @itm.Name
+                                                        </span>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-md">
+                                                        <span>
+                                                            <img ID="targetImage" class="custom-file-inputrounded-top" width="100" src="~/Images/BannerImages/@itm.Image" alt="">
+                                                        </span>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-md">
+                                                        <span>@(itm.Type == 0 ? "--" :  Enum.GetName(typeof(MyPay.Models.VendorAPI.VendorRequest_CommonHelper.VendorApi_CommonHelper.KhaltiAPIName), itm.Type).ToString().ToUpper().Replace("_", " ").Replace("KHALTI", " "))</span>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-md">
+                                                        <span>@itm.URL</span>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-md">
+                                                        <span>@itm.FromDate.ToString("dd/MM/yyyy hh:mm:ss")</span>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-md">
+                                                        <span>@itm.ToDate.ToString("dd/MM/yyyy hh:mm:ss")</span>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-md">
+                                                        @if (itm.ScheduleStatus == "Running")
+                                                        {
+                                                            <span class="tb-status text-success">@itm.ScheduleStatus</span> }
+                                                        else if (itm.ScheduleStatus == "Expired")
+                                                        {
+                                                            <span class="tb-status text-danger">@itm.ScheduleStatus</span>}
+                                                        else
+                                                        {
+                                                            <span class="tb-status text-orange">@itm.ScheduleStatus</span>
+                                                        }
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-lg">
+                                                        <span>@itm.CreatedByName</span>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-lg">
+                                                        <span>@itm.Priority</span>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-lg">
+                                                        <span>@itm.IpAddress</span>
+                                                    </td>
+
+                                                    <td class="nk-tb-col tb-col-lg">
+                                                        <a href="OfferBanners/Index" onclick="return BlockUnblock(@itm.Id,'/OfferBanners/OffersBlockUnblock',event)" class="btn @(itm.IsActive == true ? "btn-success" :"btn-danger") btn-sm btn-icon" title="@(itm.IsActive == true ?"Enable":"Disable")"><em class="icon ni @(itm.IsActive==true?"ni-check-circle":"ni-na")"></em></a>
+                                                    </td>
+                                                    <td class="nk-tb-col">
+                                                        <a href="OfferBanners/OfferBannersAdd?Id=@itm.Id" class="btn btn-primary btn-sm btn-icon" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                            <em class="icon ni ni-edit"></em>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!-- .card-inner -->
+
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+@*<script src="~/content/assets/js/dtable_admincommission.js"></script>*@
+<script>
+    function BlockUnblock(id, url,e) {
+        debugger;
+        $("#dvMsgSuccess").html("");
+        $("#dvMsg").html("");
+        $.ajax({
+            type: "POST",
+            url: "" + url + "",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            data: '{"Id":"' + id + '"}',
+            success: function (response) {
+                debugger;
+                if (response != null) {
+                    debugger;
+                    if (response.Id == "0") {
+                        $("#dvMsg").html("Records not updated.");
+                        return false;
+                    }
+                    else {
+                        debugger;
+                        $("#dvMsgSuccess").html("successfully updated");
+                        location.reload();
+                        //e.preventDefault();
+                        //e.stopPropagation();
+                        return true;
+                    }
+                }
+                else {
+                    $("#dvMsg").html("Something went wrong. Please try again later.");
+                    return false;
+                }
+            },            
+            failure: function (response) {
+                $("#dvMsg").html(response.responseText);
+                return false;
+            },
+            error: function (response) {
+                $("#dvMsg").html(response.responseText);
+                return false;
+            }
+        });
+
+    }
+</script>
+

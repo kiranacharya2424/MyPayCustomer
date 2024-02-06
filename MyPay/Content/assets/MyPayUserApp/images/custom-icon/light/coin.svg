@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32.42" height="32.42" viewBox="0 0 32.42 32.42">
+  <g id="coin" transform="translate(-32 -202)">
+    <g id="Group_4390" data-name="Group 4390">
+      <g id="Group_4388" data-name="Group 4388">
+        <circle id="Ellipse_422" data-name="Ellipse 422" cx="16.21" cy="16.21" r="16.21" transform="translate(32 202)" fill="none"/>
+      </g>
+    </g>
+    <g id="Group_2063" data-name="Group 2063" transform="translate(-1454.286 -1793.606)">
+      <g id="Group_2061" data-name="Group 2061" transform="translate(1497.259 2003.9)">
+        <path id="Path_1843" data-name="Path 1843" d="M1503.309,2003.9h6.336a1.4,1.4,0,0,1,1.4,1.4v4.188a5.448,5.448,0,0,1-5.237,5.479h0a5.448,5.448,0,0,1-5.237-5.479V2004.7" transform="translate(-1500.57 -2003.9)" fill="none" stroke="#e45415" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+        <path id="Path_1844" data-name="Path 1844" d="M1511.241,2035.97v.046a.843.843,0,0,1-.843.844h-6.015a.843.843,0,0,1-.843-.844v-.046" transform="translate(-1502.156 -2021.028)" fill="none" stroke="#e45415" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+        <line id="Line_861" data-name="Line 861" y2="4.766" transform="translate(5.237 11.065)" fill="none" stroke="#e45415" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+      </g>
+      <g id="Group_2062" data-name="Group 2062" transform="translate(1494.37 2006.216)">
+        <line id="Line_862" data-name="Line 862" y2="4.44" transform="translate(16.251 0)" fill="none" stroke="#fea400" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+        <line id="Line_863" data-name="Line 863" y1="4.44" transform="translate(0 0)" fill="none" stroke="#fea400" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+      </g>
+    </g>
+  </g>
+</svg>

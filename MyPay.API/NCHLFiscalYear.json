@@ -1,0 +1,36 @@
+{
+  "responseCode": "000",
+  "responseMessage": "SUCCESS",
+  "data": [
+    {
+      "id": 1,
+      "option": "2077/78",
+      "value": "7778",
+      "code": null
+    },
+    {
+      "id": 2,
+      "option": "2078/79",
+      "value": "7879",
+      "code": null
+    },
+    {
+      "id": 3,
+      "option": "2079/80",
+      "value": "7980",
+      "code": null
+    },
+    {
+      "id": 4,
+      "option": "2080/81",
+      "value": "8081",
+      "code": null
+    },
+    {
+      "id": 5,
+      "option": "2076/77",
+      "value": "7677",
+      "code": null
+    }
+  ]
+}

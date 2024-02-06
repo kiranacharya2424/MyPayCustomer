@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://dev.usbooking.org/us/UnitedSolutions?xsd=1" filename="UnitedSolutions.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://dev.usbooking.org/us/UnitedSolutions?wsdl" filename="UnitedSolutionsService.wsdl" />
+  </Results>
+</DiscoveryClientResultsFile>

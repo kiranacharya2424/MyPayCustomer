@@ -1,0 +1,139 @@
+﻿@model MyPay.Models.Add.AddNotificationCampaignExcel
+
+@{
+    ViewBag.Title = "AddNotificationImage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- content --s -->
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Notification Campaign Excel Image</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>@*You have total 2,595 users.*@</p>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+
+
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+
+                            <div class="card-inner position-relative card-tools-toggle pb-3 pt-3">
+                                <!-- <span class="preview-title-lg overline-title mb-4">User List</span> -->
+                                <div class="card-title-group">
+                                    <div class="card-tools">
+                                        <span class="preview-title-lg overline-title pb-0">Add Notification Campaign Excel Image</span>
+                                        <br />
+                                        <div class="nk-block-des text-soft">
+                                            <p><b>Note:</b>Upload Notification Image to be Displayed in Notification.</p>
+                                        </div>
+                                    </div><!-- .card-tools -->
+                                </div><!-- .card-title-group -->
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="nk-block">
+
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Redirection Type</label>
+                                                    @Html.TextBox("NotificationRedirectTypeName", ViewBag.NotificationRedirectTypeName as SelectList, "", new { @class = "form-control form-control-md", @readonly = "readonly" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .card-inner -->
+                                <div id="dvMsgSuccess" class="tb-status text-success" style="text-align:center; font-weight:bold">
+                                    @ViewBag.Message
+                                </div>
+                                <div id="dvMsg" class="tb-status text-danger" style="text-align: center; font-weight: bold">
+                                    @ViewBag.SuccessMessage
+                                </div>
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="row gy-4 justify-center">
+                                    <div class="col-md-6">
+                                        <div class="col-lg-12 col-sm-12 mt-3">
+                                            <div class="form-group">
+                                                <div class="row form-control-wrap">
+                                                    <div class="col-lg-4 col-sm-4">
+                                                        <label class="form-label">Notification Title </label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-sm-8">
+                                                        @Html.TextAreaFor(m => m.Title, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-sm-12 mt-3">
+                                            <div class="form-group">
+                                                <div class="row form-control-wrap">
+                                                    <div class="col-lg-4 col-sm-4">
+                                                        <label class="form-label">Notification Message </label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-sm-8">
+                                                        @Html.TextAreaFor(m => m.NotificationMessage, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-sm-12 mt-3">
+                                            <div class="form-group">
+                                                <div class="row form-control-wrap">
+                                                    <div class="col-lg-4 col-sm-4">
+                                                        <label class="form-label">Image <strong class="text-danger">*</strong></label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-sm-8">
+                                                        <div class="custom-file text-left">
+                                                            <input type="file" multiple class="custom-file-input" id="NotificationImageFile" onchange="PreviewImage(this,'NotificationImage',1054)" name="NotificationImageFile">
+                                                            <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <a id="previewImage" class="gallery-image popup-image" href="~/Images/NotificationImages/@Model.NotificationImage">
+                                                                @if (string.IsNullOrEmpty(Model.NotificationImage))
+                                                                {
+                                                                    <img ID="targetNotificationImage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt=""> }
+                                                                else
+                                                                {
+                                                                    <img ID="targetNotificationImage" class="custom-file-inputrounded-top" width="120" src="~/Images/NotificationImages/@Model.NotificationImage" alt="">}
+                                                            </a>
+                                                            @Html.HiddenFor(m => m.NotificationImage)
+                                                            <span class="tb-status text-danger"> @Html.ValidationMessageFor(model => model.NotificationImage)</span>
+                                                            <input type="hidden" id="hdnImageDataSeleted" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="nk-block">
+                                    <div class="row mt-5">
+                                        <div class="col-lg-12 col-sm-6">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary text-center mr-2">Save</button>
+                                                <button type="button" onclick="window.location='/NotificationCampaign/Index'" class="btn btn-light text-center">List</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .nk-block -->
+                            </div><!-- .card -->
+                        </div><!-- .nk-block -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="~/Content/assets/js/userscripts.js"></script>

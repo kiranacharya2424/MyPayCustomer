@@ -1,0 +1,97 @@
+﻿
+
+@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserCoinsHistory";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+                                <div class="col-md-12">
+                                    <span><b>Expiry:</b> MyPay Coins Valid till: @Session["MPCoinsFlushDate"]</span>
+                                    <div class="card card-bordered card-full border-bottom">
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group  d-flex">
+                                                <div class="card-title d-none- d-sm-block">
+                                                    <div class="card-title d-none- d-sm-block">
+                                                        <h6 class="title d-flex">Points History</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="card-tools">
+                                                    <ul class="card-tools-nav nav justify-content-between">
+                                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#earned" onclick="return EarnedCoins()"><span>Earned</span></a></li>
+                                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#redeemed" onclick="return RedeemedCoins()"><span>Redeemed</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-content">
+                                            <div class="card-inner tab-pane active" id="earned">
+                                                <div class="row gy-4">
+                                                    <div class="col-12">
+                                                        <ul class="nk-support" id="ulEarned">
+                                                        </ul>
+                                                    </div><!--col-12-->
+                                                </div><!--row gy-4-->
+                                            </div><!--card-inner-->
+                                            <!-- ENd -->
+
+                                            <div class="card-inner tab-pane" id="redeemed">
+                                                <div class="row gy-4">
+                                                    <div class="col-12">
+                                                        <ul class="nk-support" id="ulRedeemed">
+                                                        </ul>
+                                                    </div><!--col-12-->
+                                                </div><!--row gy-4-->
+                                            </div><!--card-inner-->
+                                            <!-- ENd -->
+                                            <div class="nk-block-head">
+                                                <div class="form-group" style="color:red">
+                                                    @ViewBag.Message
+                                                </div>
+                                                <div class="form-group" style="color:green">
+                                                    @ViewBag.SuccessMessage
+                                                </div>
+                                                <div class="nk-block">
+                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                        <span id="errormsg" style="color:red">
+                                                            @ViewBag.Message
+                                                        </span>
+                                                        <span id="successmsg" style="color:green">
+                                                            @ViewBag.SuccessMessage
+                                                        </span>
+                                                    </div>
+
+                                                    <input type="hidden" value="10" id="hdnEarnedTake" />
+                                                    <input type="hidden" value="0" id="hdnEarnedSkip" />
+                                                    <input type="hidden" value="10" id="hdnRedeemedTake" />
+                                                    <input type="hidden" value="0" id="hdnRedeemedSkip" />
+                                                </div>
+                                            </div><!-- .nk-block-head -->
+                                        </div><!--tab-content-->
+                                    </div><!--card -->
+                                </div><!--col-md-12-->
+                            </div><!--row-->
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                        }
+
+                    </div><!-- .row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_coinshistory.js"></script>

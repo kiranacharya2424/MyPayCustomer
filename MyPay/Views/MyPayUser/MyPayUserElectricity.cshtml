@@ -1,0 +1,248 @@
+﻿
+@{ ViewBag.Title = "MyPayUserElectricity";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml"; }
+
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+
+
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom ">
+
+                                        <div class="card-inner d-none- d-sm-block border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-sm-block w-100">
+                                                    <div class="card-title d-flex w-100 mb-0 align-items-center">
+                                                        <h6 class="title d-flex mb-0">Electricity Payment</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="card-inner mt-4" id="DivElectricity">
+                                            <div class="row">
+                                                <div class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto">
+                                                    <div class="card-title-group">
+                                                        <div class="card-title mb-0 d-flex w-100">
+                                                            <h6 class="title mb-0 d-flex align-items-center">NEA Payment</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-4">
+                                                        <div class="col-md-12 mb-3">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap ">
+
+                                                                    <div class="dropdown-mul-2">
+                                                                        @Html.DropDownList("objCounterList", ViewBag.objCounterList as SelectList, "Counter", new { @id = "ddlCounter", @class = "", @style = "display:none", })
+
+                                                                        <input type="hidden" value="@ViewBag.ServiceId" id="hdnServiceID" />
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div><!-- .col -->
+                                                        <div class="col-md-12 mb-3">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <input id="scNumber" type="text" class="form-control form-control-lg form-control-outlined" name="">
+                                                                    <label class="form-label-outlined" for="scnumber">SC Number</label>
+                                                                </div>
+                                                            </div>
+                                                        </div><!--col-md-12-->
+                                                        <div class="col-md-12 mb-3">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <input type="text" class="form-control form-control-lg form-control-outlined" id="consumerId" name="">
+                                                                    <label class="form-label-outlined" for="consumerid">Consumer ID</label>
+                                                                </div>
+                                                            </div>
+                                                        </div><!--col-md-12-->
+                                                        <div class="col-md-12">
+                                                            <div class="bg-lighter p-3">
+                                                                <ul class="text-soft list-style-disc fs-12px">
+                                                                    <li>Payment available from 10 AM to 12 AM midnight</li>
+                                                                    <li>Maximum online payment limit for NEA payment is Rs 1,00,000</li>
+                                                                    <li>Rs 5 will be charged for NEA payments above Rs 500</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div><!--col-md-12-->
+                                                        <div class="col-12 mt-4 text-center">
+                                                            <a href="javascript:void(0)" id="btnGetDetail" class="btn btn-primary btn-lg d-block">Pay Bill</a>
+                                                        </div>
+                                                    </div>
+
+                                                </div><!--col-md-10 col-lg-7 col-xl-5 m-auto-->
+                                            </div><!--row-->
+                                        </div><!--card-inner-->
+
+                                        <div class="card-inner" id="DivElectricityDetail" style="display:none;">
+                                            <div class="row">
+                                                <div class="col-md-10 col-lg-7 col-xl-8 col-xxl-5 m-auto">
+
+                                                    <div class="card mt-5">
+                                                        <div class="card-inner p-0">
+                                                            <div class="card-title-group">
+                                                                <div class="card-title mb-4 pb-3 border-bottom d-flex w-100">
+                                                                    <h6 class="title mb-0 d-flex align-items-center">NEA Payment</h6>
+                                                                    <a id="btn_back" class="btn btn-sm btn-danger ml-auto color-black d-flex align-items-center text-white"> Back</a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label class="mb-0 text-soft w-100">Counter</label>
+                                                                    <span id="spn_counter" class="fw-medium"></span>
+                                                                </div><!--col-md-12-->
+                                                                <div class="col-md-6 mb-3 text-sm-right">
+                                                                    <label class="mb-0 text-soft w-100">SC Number</label>
+                                                                    <span id="spn_scNumber" name="scNumber" class="fw-medium"></span>
+                                                                </div><!--col-md-12-->
+                                                                <div class="col-md-12 mb-3">
+                                                                    <label class="mb-0 text-soft w-100">Consumer ID</label>
+                                                                    <span id="spn_consumerId" name="consumerId" class="fw-medium"></span>
+                                                                </div><!--col-md-12-->
+                                                            </div><!--row-->
+                                                            <div class="border-top pt-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label class="mb-0 text-soft w-100">Consumer Name</label>
+                                                                        <span id="spn_consumer" class="fw-medium text-uppercase"></span>
+                                                                    </div><!--col-md-6-->
+                                                                    <div class="col-md-6 mb-3 text-sm-right">
+                                                                        <label class="mb-0 text-soft w-100">Total Due Amount</label>
+                                                                        <span id="spn_totalDue" class="fw-medium text-orange"></span>
+                                                                    </div><!--col-md-6-->
+                                                                </div><!--row-->
+                                                            </div>
+                                                            <div class="row mt-2 billdetrow">
+                                                                <div class="col-md-12 mb-3">
+                                                                    <h5 class="fs-15px">Bill Details</h5>
+                                                                </div><!--col-md-12-->
+                                                                <div class="col-md-3 line-height-1 mb-3">
+                                                                    <label class="mb-1 text-soft w-100">Bill No.</label>
+
+                                                                </div><!--col-md-3-->
+                                                                <div class="col-md-3 line-height-1 mb-3">
+                                                                    <label class="mb-1 text-soft w-100">Bill Amt.</label>
+
+                                                                </div><!--col-md-3-->
+                                                                <div class="col-md-3 line-height-1 mb-3">
+                                                                    <label class="mb-1 text-soft w-100">Status</label>
+
+                                                                </div><!--col-md-3-->
+                                                                <div class="col-md-3 line-height-1 mb-3">
+                                                                    <label class="mb-1 text-soft w-100">Payable Amount</label>
+
+                                                                </div><!--col-md-3-->
+                                                                <!--col-md-12-->
+                                                            </div><!--row-->
+                                                            <div class="row mt-2 billdetrow" id="tblBillDetail">
+
+                                                            </div><!--row-->
+                                                            <div class="row mt-2 billdetrow">
+
+                                                                <div class="col-md-12 mt-1 mb-3">
+                                                                    <div class="form-group">
+                                                                        <div class="form-control-wrap">
+                                                                            <input type="text" value="0" class="form-control form-control-lg form-control-outlined" id="enteramt" name="">
+                                                                            <label class="form-label-outlined" for="enteramt">Enter Amount</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div><!--col-md-12-->
+                                                            </div><!--row-->
+                                                            <div class="bg-lighter p-3">
+                                                                <ul class="text-soft list-style-disc fs-12px">
+                                                                    <li>Payment available from 10 AM to 12 AM midnight</li>
+                                                                    <li>Maximum online payment limit for NEA payment is Rs 1,00,000</li>
+                                                                    <li class="mb-0">Rs 5 will be charged for NEA payments above Rs 500</li>
+                                                                </ul>
+                                                            </div>
+                                                            <a href="javascript:void(0)" id="btnPay" class="btn btn-primary btn-lg d-block mt-4">Pay Bill</a>
+                                                        </div><!--card-inner-->
+                                                    </div><!--card-->
+
+
+                                                </div><!--col-md-10 col-lg-7 col-xl-5 m-auto-->
+                                            </div><!--row-->
+                                        </div><!--card-inner-->
+
+                                        @RenderPage("~/Views/MyPayUser/MyPayPaymentScreen.cshtml")
+
+                                        <input type="hidden" value="@ViewBag.provinceList" id="hdnProvince" />
+
+
+                                        <div class="p-2" style="margin:10px; text-align:center">
+
+                                            <div id="dvMessage" class="form-group" style="color:red">
+                                                <span id="errormsg" style="color:red">
+                                                    @ViewBag.Message
+                                                </span>
+                                                <span id="successmsg" style="color:green">
+                                                    @ViewBag.SuccessMessage
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div><!--card -->
+                                </div><!--col-md-12-->
+                            </div><!--row-->
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+                        }
+                    </div><!-- .row -->
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<input type="hidden" id="Amount" value='0'>
+<input type="hidden" id="hfBankId" value="" />
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_electricity.js"></script>
+<style>
+    .paymentoption {
+        min-height: 50px;
+        border: 1px solid cadetblue;
+        padding: 12px;
+        margin: 10px 0px 10px 0px;
+        border-radius: 3px;
+        font-weight: bold;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .content-light {
+        color: #afafaf;
+        font-weight: normal;
+        font-size: 14px;
+    }
+</style>
+
+
+
+<link rel="stylesheet" type="text/css" href="/Content/assets/js/libs/jquery-multiselect/jquery.dropdown.css">
+<script src="/Content/assets/js/libs/jquery-multiselect/jquery.dropdown.js"></script>
+<script>
+    $('.dropdown-mul-2').dropdown({
+        searchable: true,
+        choice: function () {
+
+        }
+    });
+</script>

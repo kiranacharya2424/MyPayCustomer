@@ -1,0 +1,191 @@
+﻿@model MyPay.Models.Add.AddUser
+@{ ViewBag.Title = "MyPayUserLoadWallet";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml"; }
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+
+
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-none d-sm-block">
+                                                    <h6 class="title">Load Money From Bank</h6>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="card-inner">
+                                            <div class="row gy-4">
+
+                                                <div class="col-12 col-sm-7 m-auto">
+                                                    <div class="nk-block">
+                                                        <div class="nk-block-head" id="DivPrimaryAccount" style="display:none">
+                                                            <div class="nk-block">
+                                                                <p>Primary Account</p>
+                                                                <div id="dvRecordsDisplay" class="form-group">
+                                                                    <table id="table">
+                                                                        <tbody>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <hr />
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label class="form-label">Load Fund from linked bank A/C</label>
+                                                                </div><!--col-12-->
+                                                                <div class="col-12 mb-3">
+                                                                    <div class="form-group">
+                                                                        <div class="form-control-wrap">
+                                                                            <input type="text" class="form-control form-control-lg" maxlength="6" placeholder=" Amount" autocomplete="off" id="Amount" name="Amount" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                                                                        </div>
+                                                                    </div>
+                                                                </div><!--col-12-->
+                                                                <div class="col-12 mb-3">
+                                                                    <div class="form-group">
+                                                                        <div class="form-control-wrap">
+                                                                            <input type="text" class="form-control form-control-lg" placeholder=" Remarks" id="Remarks" autocomplete="off" name="Remarks" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div><!--col-12-->
+                                                                <div class="col-12 text-center">
+                                                                    <a id="btnProceed" class="btn btn-primary btn-lg d-block text-white" style="width:auto;display:block">Proceed</a>
+                                                                </div><!--col-12-->
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+
+                                                    <div class="card-inner bg-lighter" id="DivNoAccount" style="display:none;">
+
+                                                        <div class="between-center flex-wrap flex-md-nowrap g-3">
+
+                                                            <div class="nk-block-text plr-5">
+                                                                <div class="bank-floaticon"><img src="/Content/assets/MyPayUserApp/images/bank-ic.svg" alt="bank" width="70"></div>
+                                                                <h6>Welcome! Start by linking your bank A/c</h6>
+                                                                <p class="text-soft">Send money, Recharge, Pay bills and much more by linking your bank account on MyPay</p>
+                                                            </div>
+
+                                                            <div class="nk-block-actions flex-shrink-0"><a href="/MyPayUser/MyPayUserLinkedAccount" class="btn btn-primary">Link Bank Account</a></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <input type="hidden" id="hfKYCStatus" value='@Session["IsKycVerified"].ToString()' />
+                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                        <span id="errormsg" style="color:red">
+                                                            @ViewBag.Message
+                                                        </span>
+                                                        <span id="successmsg" style="color:green">
+                                                            @ViewBag.SuccessMessage
+                                                        </span>
+                                                    </div>
+                                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")}
+                    </div><!-- .row -->
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade zoom" tabindex="-1" id="DivErrMessage" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnMsg" style="color:#313131"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageClose" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Pin Confirmation -->
+<div class="modal fade zoom" tabindex="-1" id="DivPin" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Verify Transaction</h5>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+
+
+                    <div class="form-control-wrap text-center otp">
+                        <label class="form-label text-soft" for="Amount">Enter your Wallet Pin</label>
+                        <input type="password" class="form-control form-control-lg fs-18px" maxlength="4" placeholder="oooo" id="Pin" name="Pin" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnPin" class="btn btn-primary text-center text-white btn-lg d-block">Proceed To Pay</a>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <a href="javascript:void(0)" data-dismiss="modal">Close</a>
+                        <a id="btnPinForgot" href="javascript:void(0)">Forgot Pin</a>
+                    </div>
+                     
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " tabindex="-1" id="KYCPopup">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-sm">
+                <div class="nk-modal">
+                    <h4 class="nk-modal-title text-center">Your KYC Should be approved to link a bank account</h4>
+                    <div class="nk-modal-action mt-5 text-center">
+                        <a href="javascript:void(0);" class="btn btn-primary text-center btn-light  " data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/mypayuserapp_LoadWallet")
+@*<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_LoadWallet.js"></script>*@

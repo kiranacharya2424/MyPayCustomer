@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card-aside-wrap">
+                            <div class="card-inner">
+                                <div class="nk-block">
+                                    <div class="nk-block-head">
+                                        <div>
+                                            <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card">
+                                                <li class="nav-item">
+                                                    <h5 class="title">Group Notification</h5>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="nk-block-head-content">
+                                            <div class="toggle-wrap nk-block-tools-toggle">
+                                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                                <div class="toggle-expand-content" data-content="pageMenu">
+                                                    @*<ul class="nk-block-tools g-3">
+                                                            <li>
+                                                                <a href="javascript:void(0);" onclick="DownloadSample()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Download Sample Format</span></a>
+                                                            </li>
+                                                        </ul>*@
+                                                </div>
+                                            </div><!-- .toggle-wrap -->
+                                        </div><!-- .nk-block-head-content -->
+                                        <div id="dvMsgSuccess" class="tb-status text-success" style="text-align:center; font-weight:bold">
+                                            @ViewBag.SuccessMessage
+                                        </div>
+                                        <div id="dvMsg" class="tb-status text-danger" style="text-align: center; font-weight: bold">
+                                            @ViewBag.Message
+                                        </div>
+                                    </div><!-- .nk-block-head -->
+                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                        <h6 class="title overline-title text-base">Group Notification</h6>
+                                    </div>
+                                    <div class="row gy-4 justify-center">
+                                        <div class="col-md-6">
+                                            <div class="col-lg-12 col-sm-12 mt-3">
+                                                <div class="form-group">
+                                                    <div class="row form-control-wrap">
+                                                        <div class="col-lg-4 col-sm-4">
+                                                            <label class="form-label">Upload File</label>
+                                                        </div>
+                                                        <div class="col-lg-8 col-sm-8">
+                                                            <input type="file" multiple class="custom-file-input" id="fileUpload" name="fileUpload">
+                                                            <label class="custom-file-label" for="customMultipleFiles">Choose files</label>
+                                                            @*<input type="file" id="fileUpload" classs="form-control form-control-md" />*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <div class="col-lg-12 col-sm-6 justify-center">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary text-center mr-2" onclick="showloader();">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .nk-block -->
+                            </div><!-- .card-content -->
+                            <!-- .nav-tabs -->
+                        </div><!-- .card-aside-wrap -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+        function DownloadSample() {
+            $('#AjaxLoader').hide();
+            window.location.href = "@Url.RouteUrl(new { Controller = "NotificationImport", Action = "DownloadSampleFormat" })/?fileName=GiftCashbackSampleFormat.xlsx";
+    }
+    function showloader() {
+         $('#AjaxLoader').show();
+    }
+    $(document).ready(function () {
+        $('#AjaxLoader').hide();
+    });
+
+
+</script>

@@ -1,0 +1,516 @@
+﻿
+
+@{ ViewBag.Title = "FlightBookingReport";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+@{
+    // Retrieve the message from TempData
+    string message = TempData["Message"] as string;
+}
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Flight Booking Detail</h3>
+
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="exported()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                <div class="row gy-4">
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("StartDate", "", new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="fromdate">From Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("ToDate", "", new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="todate">To Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("MemberId", "", new { @id = "MemberId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Member Id" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Member Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("BookingId", "", new { @id = "BookingId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Booking Id" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Mobile Number</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.DropDownList("TripType", ViewBag.TripType as SelectList, "", new { @id = "TripType", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                <label class="form-label-outlined" for="outlined-normal">Trip Type</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("PnrNumber", "", new { @id = "PnrNumber", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "PNR Number" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Mobile Number</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("Flightno", "", new { @id = "Flightno", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Flight Number" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Mobile Number</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <a class="btn btn-primary text-center text-white" onclick="return bindtable();">Search</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="dvtblist" class="card-inner">
+                                @*<div class="row">
+                                        <div class="col">
+                                            <b>Total:</b><span id="totaltra"></span>
+                                            <b>Credit:</b><span id="totalCredit"></span>
+                                            <b>Debit:</b><span id="totalDebit"></span>
+                                        </div>
+                                    </div>*@
+                                <div class="table-responsive">
+                                    <table id="tblist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                        <thead>
+                                            <tr>
+                                                <th class="nk-tb-col">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("SrNo")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Booking Date")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Member Id")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Booking Id")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Trip Type")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Flight Type")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Contact Name")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Contact Phone")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Flight Issued Status")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Flight Booking Status")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Refundable")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("PNR Number")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("No of Passenger")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Flight Number")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Flight Detail")
+                                                    </span>
+                                                </th>
+
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Txn Detail")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Passenger Detail")
+                                                    </span>
+                                                </th>
+                                                <th class="nk-tb-col tb-col-md">
+                                                    <span class="sub-text">
+                                                        @Html.DisplayName("Ticket Download")
+                                                    </span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div><!-- .card-inner -->
+
+                        </div><!-- .card-inner-group -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+    <div>
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <div id="alertMessage" style="text-align: center; font-weight: 900; color: red;">
+                @message
+            </div>
+        }
+    </div>
+    <div class="modal fade " tabindex="-1" id="dvFlightDetail">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title text-center">Detail</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-12 " id="Inbound"></div>
+                                <div class="col-md-12 " id="Outbound"></div>
+                            </div>
+                        </div>
+                        <div class="nk-modal-action mt-5 text-center">
+                            <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light " data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " tabindex="-1" id="dvFlightTxnDetail">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-sm">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title text-center">Detail</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <div class="col-md-12 " id="txnDetail"></div>
+                            </div>
+                        </div>
+                        <div class="nk-modal-action mt-5 text-center">
+                            <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light " data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="./content/assets/js/dtable_flight.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#dvtblist").css("display", "none");
+        $('.date-picker').datepicker({
+            format: "dd-M-yyyy"
+        }).datepicker('setDate', 'today');
+        //BindFlightBookingDataTable();
+
+        //setTimeout for validation message time
+        setTimeout(function () {
+            $("#alertMessage").fadeOut(500); // 500 milliseconds for fade-out animation
+        }, 5000); // 5000 milliseconds (5 seconds)
+    });
+
+    function bindtable() {
+        $("#dvtblist").css("display", "block");
+        BindFlightBookingDataTable();
+    };
+
+
+    function GetFlightTicketDownload(BookingId) {
+        debugger;
+        if (BookingId != "") {
+            $.ajax({
+                type: "POST",
+                url: "/FlightReport/GetFlightTicketDownload",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                data: '{"BookingId":"' + BookingId + '"}',
+                success: function (response) {
+                    debugger;
+                    if (response != null) {
+                    }
+                    else {
+                        JsonOutput = "Something went wrong. Please try again later.";
+                    }
+                },
+                failure: function (response) {
+                    JsonOutput = (response.responseText);
+                },
+                error: function (response) {
+                    JsonOutput = (response.responseText);
+                }
+            });
+        }
+    }
+
+    function GetFlightIssuedStatusCheck(BookingId) {
+        $("#txnDetail").html("");
+        if (BookingId != "") {
+            $.ajax({
+                type: "POST",
+                url: "/FlightReport/GetFlightIssuedStatusCheck",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                data: '{"BookingId":"' + BookingId + '"}',
+                success: function (response) {
+                    if (response != null) {
+                        var str = "";
+                        str = '<h5>Flight Transaction Detail</h5>';
+                        str += '<div class="table-responsive"><table class="nowrap nk-tb-list nk-tb-ulist table-bordered h-100">';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Date :</span></td><td class="nk-tb-col"><span>' + response.IndiaDate + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Member Id :</span></td><td class="nk-tb-col"><span class="tb-lead">' + response.MemberId + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Booking Id :</span></td><td class="nk-tb-col"><span class="tb-lead">' + response.CustomerID + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Txn Id :</span></td><td class="nk-tb-col"><span>' + response.TransactionUniqueId + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Gateway Txn Id :</span></td><td class="nk-tb-col"><span>' + response.VendorTransactionId + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Member Name :</span></td><td class="nk-tb-col"><span>' + response.MemberName + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Contact Number :</span></td><td class="nk-tb-col"><span>' + response.ContactNumber + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Amount (Rs) :</span></td><td class="nk-tb-col"><span>' + response.Amount + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Sign :</span></td><td class="nk-tb-col"><span>' + response.SignName + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Remarks :</span></td><td class="nk-tb-col"><span>' + response.Remarks + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Current Balance :</span></td><td class="nk-tb-col"><span>' + response.CurrentBalance + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Status :</span></td><td class="nk-tb-col"><span>' + response.StatusName + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Reference :</span></td><td class="nk-tb-col"><span>' + response.Reference + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>CashBack :</span></td><td class="nk-tb-col"><span>' + response.CashBack + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Service Charge :</span></td><td class="nk-tb-col"><span>' + response.ServiceCharge + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Net Amount (Rs) :</span></td><td class="nk-tb-col"><span>' + response.NetAmount + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Ip Address :</span></td><td class="nk-tb-col"><span>' + response.IpAddress + '</span></td></tr>';
+                        str += '</table></div>';
+                        $("#txnDetail").append(str);
+                        $('#dvFlightTxnDetail').modal('show');
+
+                        return false;
+                    }
+                    else {
+                        JsonOutput = "Something went wrong. Please try again later.";
+                    }
+                },
+                failure: function (response) {
+                    JsonOutput = (response.responseText);
+                },
+                error: function (response) {
+                    JsonOutput = (response.responseText);
+                }
+            });
+        }
+    }
+
+    function GetTxnDetail(BookingId,FlightId) {
+        $("#txnDetail").html("");
+        if (BookingId == "undefined") {
+            BookingId = "";
+        }
+        if (BookingId != "") {
+            $.ajax({
+                type: "POST",
+                url: "/FlightReport/GetFlightTxnDetail",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                data: '{"BookingId":"' + BookingId + '"}',
+                success: function (response) {
+                    if (response != null) {
+                        var str = "";
+                        str = '<h5>Flight Transaction Detail</h5>';
+                        str += '<div class="table-responsive"><table class="nowrap nk-tb-list nk-tb-ulist table-bordered h-100">';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Date :</span></td><td class="nk-tb-col"><span>' + response.IndiaDate + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Member Id :</span></td><td class="nk-tb-col"><span class="tb-lead">' + response.MemberId + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Booking Id :</span></td><td class="nk-tb-col"><span class="tb-lead">' + response.CustomerID + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Txn Id :</span></td><td class="nk-tb-col"><span>' + response.TransactionUniqueId + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Gateway Txn Id :</span></td><td class="nk-tb-col"><span>' + response.VendorTransactionId + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Member Name :</span></td><td class="nk-tb-col"><span>' + response.MemberName + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Contact Number :</span></td><td class="nk-tb-col"><span>' + response.ContactNumber + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Amount (Rs) :</span></td><td class="nk-tb-col"><span>' + response.Amount + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Sign :</span></td><td class="nk-tb-col"><span>' + response.SignName + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Remarks :</span></td><td class="nk-tb-col"><span>' + response.Remarks + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Current Balance :</span></td><td class="nk-tb-col"><span>' + response.CurrentBalance + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Status :</span></td><td class="nk-tb-col"><span>' + response.StatusName + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Reference :</span></td><td class="nk-tb-col"><span>' + response.Reference + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>CashBack :</span></td><td class="nk-tb-col"><span>' + response.CashBack + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Service Charge :</span></td><td class="nk-tb-col"><span>' + response.ServiceCharge + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Net Amount (Rs) :</span></td><td class="nk-tb-col"><span>' + response.NetAmount + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Ip Address :</span></td><td class="nk-tb-col"><span>' + response.IpAddress + '</span></td></tr>';
+                        str += '</table></div>';
+                        $("#txnDetail").append(str);
+                        $('#dvFlightTxnDetail').modal('show');
+
+                        return false;
+                    }
+                    else {
+                        JsonOutput = "Something went wrong. Please try again later.";
+                    }
+                },
+                failure: function (response) {
+                    JsonOutput = (response.responseText);
+                },
+                error: function (response) {
+                    JsonOutput = (response.responseText);
+                }
+            });
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/FlightReport/GetFlightTxnDetail",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                data: '{"FlightId":"' + FlightId + '"}',
+                success: function (response) {
+                    if (response != null) {
+                        var str = "";
+                        str = '<h5>Flight Transaction Detail</h5>';
+                        str += '<div class="table-responsive"><table class="nowrap nk-tb-list nk-tb-ulist table-bordered h-100">';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Date :</span></td><td class="nk-tb-col"><span>' + response.IndiaDate + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Member Id :</span></td><td class="nk-tb-col"><span class="tb-lead">' + response.MemberId + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Booking Id :</span></td><td class="nk-tb-col"><span class="tb-lead">' + response.CustomerID + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Txn Id :</span></td><td class="nk-tb-col"><span>' + response.TransactionUniqueId + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Gateway Txn Id :</span></td><td class="nk-tb-col"><span>' + response.VendorTransactionId + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Member Name :</span></td><td class="nk-tb-col"><span>' + response.MemberName + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Contact Number :</span></td><td class="nk-tb-col"><span>' + response.ContactNumber + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Amount (Rs) :</span></td><td class="nk-tb-col"><span>' + response.Amount + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Sign :</span></td><td class="nk-tb-col"><span>' + response.SignName + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Remarks :</span></td><td class="nk-tb-col"><span>' + response.Remarks + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Current Balance :</span></td><td class="nk-tb-col"><span>' + response.CurrentBalance + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Status :</span></td><td class="nk-tb-col"><span>' + response.StatusName + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Reference :</span></td><td class="nk-tb-col"><span>' + response.Reference + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>CashBack :</span></td><td class="nk-tb-col"><span>' + response.CashBack + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Service Charge :</span></td><td class="nk-tb-col"><span>' + response.ServiceCharge + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Net Amount (Rs) :</span></td><td class="nk-tb-col"><span>' + response.NetAmount + '</span></td></tr>';
+                        str += '<tr class="nk-tb-item"><td class="nk-tb-col"><span>Ip Address :</span></td><td class="nk-tb-col"><span>' + response.IpAddress + '</span></td></tr>';
+                        str += '</table></div>';
+                        $("#txnDetail").append(str);
+                        $('#dvFlightTxnDetail').modal('show');
+
+                        return false;
+                    }
+                    else {
+                        JsonOutput = "Something went wrong. Please try again later.";
+                    }
+                },
+                failure: function (response) {
+                    JsonOutput = (response.responseText);
+                },
+                error: function (response) {
+                    JsonOutput = (response.responseText);
+                }
+            });
+        }
+    }
+
+    function exported(e) {
+     var MemberId = $("#MemberId").val();
+     var BookingId = $("#BookingId").val();
+     var fromdate = $("#fromdate").val();
+     var todate = $("#todate").val();
+    // var PnrNumber = $("#PnrNumber").val();
+     var TripType = $("#TripType :selected").val();
+        if (MemberId == "") {
+            MemberId = 0;
+        }
+        if (BookingId == "") {
+            BookingId = 0;
+        }
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ExportExcel", "FlightReport")', //call your controller and action
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            data: '{"Take":"' + parseInt(take) + '","Skip":"' + parseInt(skip) + '","Sort":"' + sort + '","SortOrder":"' + sortdir + '","MemberId":"' + parseInt(MemberId) + '","BookingId":"' + parseInt(BookingId) + '","FromDate": "' + fromdate + '", "ToDate": "' + todate + '", "TripType": "' + TripType + '"}',
+
+        }).done(function (data) {
+            //get the file name for download
+            if (data.fileName != "") {
+                //use window.location.href for redirect to download action for download the file
+                window.location.href = "@Url.RouteUrl(new { Controller = "FlightReport", Action = "Download" })/?fileName=" + data.fileName;
+            }
+        });
+    }
+</script>
+
+
+

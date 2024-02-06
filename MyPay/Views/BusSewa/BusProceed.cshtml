@@ -1,0 +1,390 @@
+﻿@model MyPay.Models.RootobjectRefresh
+@{
+    ViewBag.Title = "BusTrip";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+    var seat = @ViewBag.BusSeatLayout;
+}
+<style>
+    .seats-na {
+        border: none !important;
+        background: none !important;
+    }
+</style>
+<!-- Bootstrap Css -->
+<link href="Content/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+
+@*Icons Css*@
+<link href="Content/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+@*App Css*@
+<link href="Content/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+<link href="Content/assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
+<link href="Content/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css" />
+
+@*<link href="Content/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="Content/assets/images/favicon.png">*@
+<!-- Select Css -->
+<!--<link href="Content/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="Content/assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />-->
+@*Icons Css*@
+<!--<link href="Content/assets/css/icons.min.css" rel="stylesheet" type="text/css" />-->
+@*App Css*@
+<!--<link href="Content/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+<link href="Content/assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
+<link href="Content/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css" />-->
+<!-- Start right Content here -->
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row d-none d-lg-block">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <a id="btn_back" class="mb-sm-0 font-size-14 text-muted"><i class="bx bx-left-arrow-alt"></i> Back</a>
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Services</a></li>
+                            <li class="breadcrumb-item active">Bus</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row">
+                                <div class="col-xl-12" id="DivBusSewa">
+                                    <div class="card ">
+                                        <div class="card-header bg-transparent border-bottom">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h5 class="fw-semibold">@ViewData["from"] to @ViewData["to"] - @ViewBag.OperatorName @ViewBag.Shift</h5>
+                                                    <ul class="list-unstyled hstack gap-2 mb-0">
+                                                        <li>
+                                                            <i class="bx bx-calendar"></i> <span class="text-muted">@ViewData["date"]</span>
+                                                        </li>
+                                                        <li>
+                                                            <i class="bx bx-time"></i> <span class="text-muted">@ViewData["departTime"]</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4 col-6 bus-col">
+                                                    <label class="font-size-16">Choose Seat</label>
+                                                    <div class="bus seat2-2 card">
+
+                                                        @{
+                                                            var busSeatLayout = (Newtonsoft.Json.Linq.JArray)ViewBag.BusSeatLayout;
+                                                            int NoOfColumn = Model.noOfColumn; // Number of items per set
+                                                            int totalSeat = busSeatLayout.Count;
+
+                                                        }
+                                                        <input type="hidden" value="@totalSeat" id="totalSeat" />
+                                                        <div class="seat-row ">
+                                                            <ol class="seats exit-door">
+                                                                <li class="seat exit">
+                                                                    <label for="seat-radio-1-27" style="margin:-1px">
+                                                                        Exit
+                                                                    </label>
+                                                                </li>
+                                                                <li class="seat">
+                                                                    <label for="seat-radio-1-BLANK" class="blanklabel"></label>
+                                                                </li>
+                                                                <li class="seat">
+                                                                    <label for="seat-radio-1-BLANK" class="blanklabel"></label>
+                                                                </li>
+
+                                                                <li class="seat">
+                                                                    <label for="seat-radio-1-BLANK" class="blanklabel"></label>
+                                                                </li>
+                                                                <li class="seat  waves-effect">
+                                                                    <label for="seat-radio-1-BLANK" class="blanklabel"><img src="Content/assets/images/wheel.png " alt="" width="30px" class="img-fluid bx-tada "></label>
+                                                                </li>
+
+                                                            </ol>
+                                                        </div>
+                                                        @for (int startIndex = 0; startIndex < totalSeat; startIndex += NoOfColumn)
+                                                        {
+                                                            <div class="seat-row">
+                                                                <ol class="seats">
+                                                                    @for (int i = startIndex; i < Math.Min(startIndex + NoOfColumn, totalSeat); i++)
+                                                                    {
+                                                                        var data1 = busSeatLayout[i];
+                                                                        <li class="seat">
+                                                                            @if (Convert.ToString(@data1["bookingStatus"]) == "No")
+                                                                            {
+
+                                                                                <input role="input-passenger-seat" name="passengers[@i][seat]" value="@data1["displayName"]" id="seat-radio-1-@i" class="select-seat" required="" type="checkbox">
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <input role="input-passenger-seat" name="passengers[@i][seat]" value="@data1["displayName"]" id="seat-radio-1-@i" class="select-seat" required="" type="checkbox" disabled>
+                                                                            }
+
+                                                                            @if (Convert.ToString(@data1["displayName"]) != "na")
+                                                                            {
+                                                                                <label for="seat-radio-1-@i">
+                                                                                    @data1["displayName"]
+                                                                                </label>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <label for="seat-radio-1-1" class="seats-na">
+
+                                                                                </label>
+                                                                            }
+
+
+
+                                                                        </li>
+                                                                    }
+                                                                </ol>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-6 bus-indicator">
+                                                    <div class="contact-links font-size-14 mt-4 mb-4">
+                                                        <div class="flex-fill">
+                                                            <a href="javascript: void(0);"><i class="bx bxs-square-rounded  text-available me-1"></i>Available Seats</a>
+                                                        </div>
+                                                        <div class="flex-fill">
+                                                            <a href="javascript: void(0);"><i class="bx bxs-square-rounded  text-choosen me-1"></i>Selected Seats</a>
+                                                        </div>
+                                                        <div class="flex-fill">
+                                                            <a href="javascript: void(0);"><i class="bx bxs-square-rounded  text-booked me-1"></i>Booked Seats</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 ms-auto">
+                                                    <div class="card border mt-2">
+                                                        <div class=" p-3   ">
+                                                            <div class="mb-2 text-center border-bottom">
+                                                                <h5>Time Remaining: 50 Sec left</h5>
+
+                                                            </div>
+                                                            <div class="table-responsive">
+                                                                <table class="table table-hover mb-0 table-sm">
+
+
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td scope="row">Seats</td>
+                                                                            <td id="seatData"></td>
+
+                                                                        <tr>
+                                                                            <td scope="row">Per Ticket</td>
+                                                                            <td id="ticketPrice">@ViewData["ticketPrice"]</td>
+
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td scope="row">Total Cost</td>
+                                                                            <td id="totalTicket">Rs. 0</td>
+
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <a class="btn btn-warning w-full mt-2 btm-sm" data-bs-toggle="collapse" onclick="BookSeat()" aria-expanded="true">Proceed</a>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="card  collapse " id="passengerdetails">
+                                    <div class="card-body">
+                                        <form>
+
+                                            <h5 class="mb-0">Passenger Information</h5>
+                                            <p>Booking details will be sent to below contact details</p>
+                                            <div class="row  align-items-center mb-4">
+                                                <div class="col-lg-6 col-sm-4  mt-2">
+                                                    <label for="autoSizingInputGroup">Passenger Name</label>
+                                                    <input type="text" class="form-control" id="passengerName" placeholder="Passenger Name">
+                                                </div>
+                                                <div class="col-lg-6 col-sm-4  mt-2">
+                                                    <label for="autoSizingInputGroup">Passenger Age</label>
+                                                    <input type="text" class="form-control" id="passengerAge" placeholder="Passenger Age">
+                                                </div>
+                                                <div class="col-lg-6 col-sm-4  mt-2">
+                                                    <label for="autoSizingInputGroup">Contact Name</label>
+                                                    <input type="text" class="form-control" id="contactName" placeholder="Contact Name">
+                                                </div>
+                                                <div class="col-lg-6 col-sm-4  mt-2">
+                                                    <label for="autoSizingInputGroup">Phone Number</label>
+                                                    <input type="text" class="form-control" id="passengerNumber" placeholder=" Phone Number">
+                                                </div>
+                                                <div class="col-lg-6 col-sm-4  mt-2">
+                                                    <label for="autoSizingInputGroup"> Email</label>
+                                                    <input type="text" class="form-control" id="passengerEmail" placeholder="Email">
+                                                </div>
+                                                <div class="col-lg-6 col-sm-4  mt-2">
+                                                    <label for="autoSizingInputGroup">Boarding Points</label>
+                                                    <select class="form-control  text-sm-start" id="BoardingPoints">
+                                                        <option value="0">Select</option>
+
+
+                                                    </select>
+                                                    @*@Html.DropDownList("boardingPoints", new SelectList(ViewBag.BoardingPoints), "Choose BoardingPoints", new { @class = "form-control select2 text-sm-start", id = "BoardingPoints", value = @ViewBag.BoardingPoints })*@
+                                                </div>
+                                            </div>
+
+
+
+                                            <a class="btn btn-warning w-full" onclick="PassengerInfo()">Proceed</a>
+
+                                        </form>
+                                    </div>
+                                </div>
+                                @RenderPage("~/Views/MyPayUser/MyPayPaymentScreen.cshtml")
+                                <input type="hidden" value="@ViewBag.ServiceId" id="hdnServiceID" />
+                                <input type="hidden" value="" id="hdnOrderID" />
+                                <input type="hidden" value="" id="hdnTicketCategoryName" />
+                                <div class="nk-block-head">
+                                    <div class="nk-block">
+                                        <div id="dvMessage" class="form-group" style="color:red">
+                                            <span id="errormsg" style="color:red">
+                                                @ViewBag.Message
+                                            </span>
+                                            <span id="successmsg" style="color:green">
+                                                @ViewBag.SuccessMessage
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div><!-- .nk-block-head -->
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Error Message -->
+<div class="modal fade zoom" tabindex="-1" id="DivErrMessage" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnMsg" style="color:#313131"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageClose" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Confirmation Details -->
+<div class="modal fade zoom" tabindex="-1" id="PaymentPopup">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Confirm your payment details</h5>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                            <td>Mobile</td>
+                            <td class="fw-bold text-right"><span id="MobilePopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Amount</td>
+                            <td class="fw-bold text-right">रु  <span id="AmountPopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Cashback</td>
+                            <td class="fw-bold text-right">रु <span id="CashbackPopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Service Charge</td>
+                            <td class="fw-bold text-right">रु <span id="ServiceChargesPopup"></span></td>
+                        </tr>
+                    </table>
+                </div>
+                <small class="text-soft d-block text-center mt-1">Do you want to continue?</small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="javascript:void();" class="btn btn-mw btn-light w-45" data-dismiss="modal">Close</a>
+                    <a href="javascript:void();" id="btnOkPopup" class="btn btn-mw btn-primary w-45">Submit</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Details -->
+<div class="modal fade zoom" tabindex="-1" id="PaymentSuccessBusSewa" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align:center;">
+                <img src="~/Content/assets/MyPayUserApp/images/jeni_success.png" />
+                <h6 class="nk-modal-title text-center">Success</h6>
+                <small id="txn-success" class="text-soft d-block text-center mt-1"></small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="/BusSewa/MyPayUserBusBooking" class="btn btn-mw btn-primary w-45">Ok</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<input type="hidden" id="hfPaymentMode" value="">
+<input type="hidden" id="hdnServiceID" value='@ViewBag.ServiceId.ToString()'>
+<input type="hidden" id="hdncouponcode">
+<input type="hidden" id="hfBankId" value="" />
+<input type="hidden" id="from" value="@ViewData["from"]" />
+<input type="hidden" id="to" value="@ViewData["to"]" />
+<input type="hidden" id="operatorName" value="@ViewBag.OperatorName" />
+<input type="hidden" id="date" value="@ViewData["date"]" />
+<input type="hidden" id="shift" value="@ViewBag.Shift" />
+<input type="hidden" id="departTime" value="@ViewData["departTime"]" />
+<input type="hidden" id="id" value="@ViewData["BusId"]" />
+<input type="hidden" id="busType" value="@ViewData["BusType"]" />
+<input type="hidden" id="busdetailId" value="" />
+<input type="hidden" id="ticketSrlNo" value="" />
+<input type="hidden" id="inputcode" value="@ViewData["inputCode"]" />
+
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_bussewa.js"></script>
+
+<script src="Content/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+
+        $('.date-picker').datepicker({
+            format: "yyyy-mm-dd",
+            startDate: '+0d'
+        });
+    });
+
+</script>

@@ -1,0 +1,461 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserKyc";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+
+
+<div class="nk-content px-2">
+    <input type="hidden" id="hdnmemberid" value="@ViewBag.MemberId" />
+    <input type="hidden" id="hdnImage" value="" />
+    <input type="hidden" id="hdnBackImage" value="" />
+    <input type="hidden" id="hdnUserImage" value="" />
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner border-bottom bg-lighter">
+                                    <div class="card-title-group">
+                                        <div class="card-title">
+                                            <h5 id="PageTitle" class="title">Personal Details</h5>
+                                            <div id="PageDescription" class="text-soft"> Enter Personal Information</div>
+                                        </div>
+                                        <div class="card-tools">
+                                            <ul class="step-count d-flex justify-content-between align-items-center">
+                                                <li id="liStep1" class="step current">
+                                                    <span>1</span>
+                                                </li>
+                                                <li id="liStep2" class="step">
+                                                    <span>2</span>
+                                                </li>
+                                                <li id="liStep3" class="step">
+                                                    <span>3</span>
+                                                </li>
+                                                <li id="liStep4" class="step">
+                                                    <span>4</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-inner p-4 p-md-5">
+                                    <div class="nk-wizard kyc-form">
+                                        <!-- STep 1 -->
+
+                                        <div id="step1" class="nk-wizard-content divSteps">
+                                            <div class="row gy-4">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control form-control-lg form-control-outlined" id="fname" name="fname" value=" ">
+                                                            <label class="form-label-outlined" for="fname">First Name <strong class="text-danger">*</strong></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control form-control-lg form-control-outlined" id="lname" value=" ">
+                                                            <label class="form-label-outlined" for="lname">Last Name <strong class="text-danger">*</strong></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap ">
+                                                            <div class="form-control-select">
+                                                                <select class="form-control form-control-lg form-control-outlined" name="" id="gender">
+                                                                    <option value="0" selected>--Select--</option>
+                                                                    <option value="1">Male</option>
+                                                                    <option value="2">Female</option>
+                                                                    <option value="3">Other</option>
+                                                                </select>
+                                                                <label class="form-label form-label-outlined" for="gender">Select Your Gender</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap ">
+                                                            <div class="form-control-select">
+                                                                <select class="form-control form-control-lg form-control-outlined" id="marital" onchange="showhideSpouse();">
+                                                                    <option value="0">--Select--</option>
+                                                                    <option value="1">Unmarried</option>
+                                                                    <option value="2">Married</option>
+                                                                    <option value="3">Divorce</option>
+                                                                </select>
+                                                                <label class="form-label-outlined" for="martial">Select Your Marital Status</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6" id="dvSpouse">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control form-control-lg form-control-outlined" id="spousefname" name="" value=" ">
+                                                            <label class="form-label-outlined" for="spousefname">Spouse Full Name <strong class="text-danger">*</strong></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control form-control-lg form-control-outlined" id="fatherfname" value=" ">
+                                                            <label class="form-label-outlined" for="fatherfname">Father Full Name <strong class="text-danger">*</strong></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control form-control-lg form-control-outlined" id="motherfname" value=" ">
+                                                            <label class="form-label-outlined" for="motherfname">Mother Full Name <strong class="text-danger">*</strong></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control form-control-lg form-control-outlined" id="grandfname" name="" value=" ">
+                                                            <label class="form-label-outlined" for="grandfname">Grandfather Full Name <strong class="text-danger">*</strong></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap ">
+                                                            <div class="form-control-select">
+                                                                <select class="form-control form-control-lg form-control-outlined" id="ddlOccupation">
+                                                                    <option value="0" selected>select Occupation</option>
+                                                                </select>
+                                                                <label class="form-label-outlined" for="occupation">Select Your Occupation</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- .col -->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap ">
+                                                            <div class="form-control-select">
+                                                                <select class="form-control form-control-lg form-control-outlined" id="nationality">
+                                                                    @*<option value="0"></option>*@
+                                                                    <option value="1">Nepalese</option>
+                                                                    <option value="3">Indian</option>
+                                                                    <option value="2">Other</option>
+                                                                </select>
+                                                                <label class="form-label-outlined" for="nationality">Please select your nationality</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- .col -->
+                                            </div>
+                                            <div class="text-center mt-5 d-flex justify-content-center">
+                                                @*<a href="javascript:void(0);" class="btn btn-light btn-lg mx-2">Back</a>*@
+                                                <a href="javascript:void(0);" onclick="btnNextStepKyc(2)" class="btn btn-primary btn-lg mx-2">Next</a>
+                                            </div>
+                                        </div>
+                                        <!-- STep 1 End -->
+                                        <!-- STep 2 -->
+                                        <div id="step2" class="nk-wizard-content divSteps">
+                                            <div class="row gy-4">
+                                                <div class="col-md-12">
+                                                    <div class="kyc-form-header">
+                                                        <h4 class="nk-block-title text-center mb-1">Current Address</h4>
+                                                        <p class="green-text">Next : Document Details</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row gy-4">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap ">
+                                                            <div class="form-control-select">
+                                                                <select class="form-control form-control-lg form-control-outlined" id="ddlstatepradesh">
+                                                                    <option value="0" selected>Select State</option>
+                                                                    @*<option value="BP">Bagmati Province</option>
+                                                                        <option value="GP">Gandaki Province</option>
+                                                                        <option value="KP">Karnali Province</option>*@
+                                                                </select>
+                                                                <label class="form-label-outlined" for="statepradesh">State/Pradesh<strong class="text-danger">*</strong></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap ">
+                                                            <div class="form-control-select">
+                                                                <select class="form-control form-control-lg form-control-outlined" id="ddldistrict">
+                                                                    <option value="0" selected>Select District</option>
+                                                                    @*<option value="d">Dummy Content</option>
+                                                                        <option value="d">Dummy Content</option>
+                                                                        <option value="d">Dummy Content</option>*@
+                                                                </select>
+                                                                <label class="form-label-outlined" for="district">Select Your District <strong class="text-danger">*</strong></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap ">
+                                                            <div class="form-control-select">
+                                                                <select class="form-control form-control-lg form-control-outlined" id="ddlmunicipality">
+                                                                    <option value="0" selected>Select Municipality</option>
+                                                                    @*<option value="d">Dummy Content</option>
+                                                                        <option value="d">Dummy Content</option>
+                                                                        <option value="d">Dummy Content</option>*@
+                                                                </select>
+                                                                <label class="form-label-outlined" for="municipality">Municipality or Gaupalika <strong class="text-danger">*</strong></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control form-control-lg form-control-outlined" id="wardnumber" name="wardnumber" value=" ">
+                                                            <label class="form-label-outlined" for="outlined">Ward Number <strong class="text-danger">*</strong></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control form-control-lg form-control-outlined" id="streetname" name="streetname" value=" ">
+                                                            <label class="form-label-outlined" for="outlined">Street Name </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control form-control-lg form-control-outlined" id="housenumber" name="housenumber" value=" ">
+                                                            <label class="form-label-outlined" for="outlined">House Number (Optional)</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="text-center mt-5 d-flex justify-content-center">
+                                                <a href="javascript:void(0);" onclick="btnNextStepKyc(1)" class="btn btn-light btn-lg mx-2">Back</a>
+                                                <a href="javascript:void(0);" onclick="btnNextStepKyc(3)" class="btn btn-primary btn-lg mx-2">Next</a>
+                                            </div>
+                                        </div>
+                                        <!-- STep 2 End -->
+                                        <!-- STep 3 -->
+
+                                        <div id="step3" class="nk-wizard-content divSteps">
+                                            <div class="row gy-4">
+                                                <div class="col-md-12">
+                                                    <div class="kyc-form-header">
+                                                        <h4 class="nk-block-title text-center mb-1">Upload Documents</h4>
+                                                        <p>Please upload a copy of your identity document/photo or drag and drop the file below</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row gy-2 justify-content-md-center">
+                                                <input type="hidden" id="hdnimage" />
+                                                <input type="hidden" id="hdnBackImage" value="" />
+                                                <input type="hidden" id="hdnfilename" />
+                                                <div class="col-md-7">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap ">
+                                                            <div class="form-control-select">
+                                                                <select class="form-control form-control-lg form-control-outlined" name="" id="listdoc" onchange="showHide()">
+                                                                    <option value="citizenship">Citizenship</option>
+                                                                    <option value="vid">Voter ID</option>
+                                                                    <option value="dl">Driving License</option>
+                                                                    <option value="passport">Passport</option>
+                                                                    <option value="nid">National ID</option>
+
+                                                                </select>
+                                                                <label class="form-label-outlined" for="listdoc">Select your proof type</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="upload-file-col">
+                                                        <div class="show-hide" id="vid">
+                                                            <div class="upload_field">
+                                                                <img src="/Content/assets/MyPayUserApp/images/kyc/voter-id.jpg" id="prev_img_1">
+                                                                @*<input id="upFileFrontVID" ondrop="return false" onchange="UploadAjaxImage(this, '/UserDocuments/Images/', 'prev_img_1', 1000,0,'front');" type="file" name="" accept=".png, .jpg, .jpeg">*@
+                                                                <input id="upFileFrontvid" ondrop="return false" onchange="SubmitButtonOnclick('vid','Front','prev_img_1');" type="file" name="" accept=".png, .jpg, .jpeg">
+                                                                <div class="upload-with-btn">
+                                                                    <p>Upload Front Image <small>Accepted formats: PDF/JPG/PNG</small></p>
+                                                                    <span id="fileName"><em class="icon ni ni-upload"></em></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="upload-instructions"> <a href="javascript:void(0)" onclick="ShowInstructions();">Upload Instructions</a> </div>
+                                                        </div>
+                                                        <div class="show-hide" id="dl">
+                                                            <div class="upload_field">
+                                                                <div class="upload-preview"> <img src="/Content/assets/MyPayUserApp/images/kyc/dl.jpg" id="prev_img_2"> </div>
+                                                                <input id="upFileFrontdl" ondrop="return false" onchange="SubmitButtonOnclick('dl','Front','prev_img_2');" type="file" name="" accept=".png, .jpg, .jpeg">
+                                                                <div class="upload-with-btn"><p>Upload Front Image <small>Accepted formats: PDF/JPG/PNG</small></p> <span id="fileName"><em class="icon ni ni-upload"></em></span> </div>
+
+                                                            </div>
+                                                            <div class="upload-instructions"> <a href="javascript:void(0)" onclick="ShowInstructions();">Upload Instructions</a> </div>
+                                                        </div>
+                                                        <div class="show-hide" id="passport">
+                                                            <div class="upload_field">
+                                                                <div class="upload-preview"> <img src="/Content/assets/MyPayUserApp/images/kyc/passport-front.jpg" id="prev_img_3"> </div>
+                                                                <input id="upFileFrontpassport" ondrop="return false" onchange="SubmitButtonOnclick('passport','Front','prev_img_3');" type="file" name="" accept=".png, .jpg, .jpeg">
+                                                                <div class="upload-with-btn"><p>Upload Front Image <small>Accepted formats: PDF/JPG/PNG</small></p> <span id="fileName"><em class="icon ni ni-upload"></em></span> </div>
+                                                            </div>
+                                                            <div class="upload_field mt-5">
+                                                                <div class="upload-preview"> <img src="/Content/assets/MyPayUserApp/images/kyc/passport-back.jpg" id="prev_img_4"> </div>
+                                                                <input id="upFileBackpassport" ondrop="return false" onchange="SubmitButtonOnclick('passport','Back','prev_img_4');" type="file" name="" accept=".png, .jpg, .jpeg">
+                                                                <div class="upload-with-btn"><p>Upload Back Image <small>Accepted formats: PDF/JPG/PNG</small></p> <span id="fileName"><em class="icon ni ni-upload"></em></span> </div>
+                                                            </div>
+                                                            <div class="upload-instructions"> <a href="javascript:void(0)" onclick="ShowInstructions();">Upload Instructions</a> </div>
+                                                        </div>
+                                                        <div class="show-hide" id="citizenship">
+                                                            <div class="upload_field">
+                                                                <div class="upload-preview"> <img src="/Content/assets/MyPayUserApp/images/kyc/citizenship-front.jpg" id="prev_img_5"> </div>
+                                                                <input id="upFileFrontcitizenship" ondrop="return false" onchange="SubmitButtonOnclick('citizenship','Front','prev_img_5');" type="file" name="" accept=".png, .jpg, .jpeg">
+                                                                <div class="upload-with-btn"><p>Upload Front Image <small>Accepted formats: PDF/JPG/PNG</small></p> <span id="fileName"><em class="icon ni ni-upload"></em></span> </div>
+                                                            </div>
+                                                            <div class="upload_field mt-5">
+                                                                <div class="upload-preview"> <img src="/Content/assets/MyPayUserApp/images/kyc/citizenship-back.jpg" id="prev_img_6"> </div>
+                                                                <input id="upFileBackcitizenship" ondrop="return false" onchange="SubmitButtonOnclick('citizenship','Back','prev_img_6');" type="file" name="" accept=".png, .jpg, .jpeg">
+                                                                <div class="upload-with-btn"><p>Upload Back Image <small>Accepted formats: PDF/JPG/PNG</small></p> <span id="fileName"><em class="icon ni ni-upload"></em></span> </div>
+                                                            </div>
+                                                            <div class="upload-instructions"> <a href="javascript:void(0)" onclick="ShowInstructions();">Upload Instructions</a> </div>
+                                                        </div>
+                                                        <div class="show-hide" id="nid">
+                                                            <div class="upload_field">
+                                                                <div class="upload-preview"> <img src="/Content/assets/MyPayUserApp/images/kyc/citizenship-front.jpg" id="prev_img_7"> </div>
+                                                                <input id="upFileFrontnid" ondrop="return false" onchange="SubmitButtonOnclick('nid','Front','prev_img_7');" type="file" name="" accept=".png, .jpg, .jpeg">
+                                                                <div class="upload-with-btn"><p>Upload Front Image <small>Accepted formats: PDF/JPG/PNG</small></p> <span id="fileName"><em class="icon ni ni-upload"></em></span> </div>
+                                                            </div>
+                                                            <div class="upload_field mt-5">
+                                                                <div class="upload-preview"> <img src="/Content/assets/MyPayUserApp/images/kyc/citizenship-back.jpg" id="prev_img_8"> </div>
+                                                                <input id="upFileBacknid" ondrop="return false" onchange="SubmitButtonOnclick('nid','Back','prev_img_8');" type="file" name="" accept=".png, .jpg, .jpeg">
+                                                                <div class="upload-with-btn"> <p>Upload Back Image <small>Accepted formats: PDF/JPG/PNG</small></p> <span id="fileName"><em class="icon ni ni-upload"></em></span> </div>
+                                                            </div>
+                                                            <div class="upload-instructions"> <a href="javascript:void(0)" onclick="ShowInstructions();">Upload Instructions</a> </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- .row -->
+                                            <div class="selfie-col">
+                                                <div class="row gy-2 justify-content-md-center">
+                                                    <div class="col-md-12">
+                                                        <div class="row gy-3">
+                                                            <div class="col-md-12">
+                                                                <div class="kyc-form-header">
+                                                                    <h4 class="nk-block-title text-center mb-1">Selfie Photo</h4>
+                                                                    <p>Upload a selfie by using below button. Your selfie will help us to make sure that its your identity documents.</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="selfie-div">
+                                                                    <div class="avatar-upload">
+                                                                        <div class="avatar-edit">
+                                                                            <input type='file' id="upFileSelfie" accept=".png, .jpg, .jpeg" onchange="SubmitButtonOnclick('','Selfie','imagePreview');" />
+                                                                            <label for="upFileSelfie"><em class="icon ni ni-upload"></em> Upload Photo</label>
+                                                                        </div>
+                                                                        <div class="avatar-preview">
+                                                                            <div id="imagePreview" style="background-image: url(Content/assets/MyPayUserApp/images/kyc/selfie.jpg)"> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="selfie-note">
+                                                                        <p>Make sure your eyes are open & both ears are displayed in the photo.</p>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="text-center mt-5 d-flex justify-content-center">
+                                                                    <a href="javascript:void(0);" onclick="btnNextStepKyc(2)" class="btn btn-light btn-lg mx-2">Back</a>
+                                                                    <a href="javascript:void(0);" onclick="btnNextStepKyc(4)" class="btn btn-primary btn-lg mx-2">Submit Kyc</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--row--->
+                                            </div>
+                                        </div>
+                                        <!-- STep 3 End -->
+                                        <!-- KYC Status Confirmed -->
+                                        <div id="step4" class="nk-wizard-content divSteps">
+                                            <div class="row gy-4">
+                                                <div class="col-md-12">
+                                                    <div class="kyc-form-header">
+                                                        <h4 class="nk-block-title text-center mb-1">Your KYC is sent for verification</h4>
+                                                        <p>You can check status of your KYC verification in profile section.</p>
+                                                    </div>
+                                                    <div class="kyc-verify-msg">
+                                                        <div class="kyc-verify-icon">
+                                                            <img src="/Content/assets/MyPayUserApp/images/kyc/men.png">
+                                                            <span class="icon-verify"><em class="icon ni ni-check"></em></span>
+                                                        </div>
+                                                        <p>It takes 1-2 working days for your details to be verified.</p>
+
+                                                    </div>
+                                                    <div class="text-center mt-5 d-flex justify-content-center">
+                                                        <a href="/MyPayUserLogin/Dashboard" class="btn btn-primary btn-lg mx-2">Continue to Dashboard</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End KYC -->
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")}
+
+                    </div><!-- .row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .divSteps {
+        display: none;
+    }
+</style>
+<!-- KYC -->
+
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_kyc.js"></script>
+
+<div class="modal fade zoom" tabindex="-1" id="InstructionsModal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Instruction</h5>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <p>Please ascertain that document you upload is of supreme-quality.</p>
+                    <p>The full name & date of birth must fall similar to the details on MyPay account.</p>
+                    <p>Please upload files with valid extension (.jpeg, .png,.jpg).</p>
+                    <p>Image size should be less than 10 MB.</p>
+                    <p>Once you've submitted all your documents they will be verified against information in the account details section and the section will be updated. It may take up to 2 working days.</p>
+                    <p>Please contact our KYC Support Department on info@mypay.com.np in case you have any query regarding identity documents or KYC.</p>
+                </div>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    @*<a href="javascript:void();" class="btn btn-mw btn-light w-45" data-dismiss="modal">Close</a>*@
+                    <a href="javascript:void();" class="btn btn-mw btn-primary w-45" data-dismiss="modal">OK</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

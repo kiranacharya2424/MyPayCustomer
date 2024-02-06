@@ -1,0 +1,406 @@
+﻿
+
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<link rel="stylesheet" type="text/css" href="/Content/assets/js/libs/jquery-multiselect/jquery.dropdown.css">
+<script src="/Content/assets/js/libs/jquery-multiselect/jquery.dropdown.js"></script>
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Deposit Orders Report</h3>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="exported()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" id="DepositOrderexport" onclick="DepositOrderexported(this, event)" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>LoadFund Dump Export</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="DepositOrderdownload()" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download"></em></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card card-bordered card-stretch">
+                        <div class="card-inner-group">
+                            <div class="card-inner position-relative card-tools-toggle pb-5">
+                                <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                <div class="row gy-4">
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("StartDate", "", new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="fromdate">From Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right md">
+                                                    <em class="icon ni ni-calendar-alt"></em>
+                                                </div>
+                                                @Html.TextBox("ToDate", "", new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                <label class="form-label-outlined" for="todate">To Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("TransactionId", "", new { @id = "TransactionId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Tracker Id" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Txn Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("RefferalsId", "", new { @id = "RefferalsId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Refferals Id" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Txn Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.TextBox("MemberId", "", new { @id = "MemberId", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Member Id" })
+                                                @*<label class="form-label-outlined" for="outlined-normal">Member Id</label>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.DropDownList("Status", ViewBag.Status as SelectList, "", new { @id = "Status", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                <label class="form-label-outlined" for="outlined-normal">Status</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-sm-12">
+                                        <span class="form-label-outlined">Select Type</span>
+
+                                        <div class="form-group">
+                                            <div class="dropdown-mul-2">
+                                                @Html.DropDownList("Type", ViewBag.Type as SelectList, "", new { @id = "Type", @class = "", @style = "display:none", @multiple = "multiple", @placeholder = "Select Type" })
+                                                <input type="hidden" id="selectedType" name="selectedType" value="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                @Html.DropDownList("DayWise", ViewBag.DayWise as SelectList, "", new { @id = "DayWise", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                <label class="form-label-outlined" for="outlined-normal">DayWise</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6">
+                                        <div class="form-group">
+                                            <a class="btn btn-primary text-center text-white" onclick="return bindtable();">Search</a>
+                                            @*<button  class="btn btn-primary text-center" onclick="return bindtable();">Search</button>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="dvtblist" class="card-inner">
+                            <div class="row">
+                                <div class="col">
+                                    <b>Total:</b><span id="totaltra"></span>
+                                    <b>Success:</b><span id="totalsuccess"></span>
+                                    <b>Pending:</b><span id="totalpending"></span>
+                                    <b>Failed:</b><span id="totalfailed"></span>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="tblist" class="nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                    <thead>
+                                        <tr>
+                                            <th class="nk-tb-col">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("SrNo")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Date")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("TransactionId")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("CreatedByName")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("MemberId")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Status")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Amount")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Type")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Remarks")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Particulars")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("RefferalsId")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Response Code")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Gateway")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("View")
+                                                </span>
+                                            </th>
+                                            <th class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">
+                                                    @Html.DisplayName("Status")
+                                                </span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div><!-- .card-inner -->
+
+                    </div><!-- .card-inner-group -->
+                </div><!-- .card -->
+            </div><!-- .nk-block -->
+        </div>
+    </div>
+    <div class="modal fade " tabindex="-1" id="depositapijson">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-lg text-center">
+                    <div class="nk-modal">
+                        @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                        <h4 class="nk-modal-title">Detail</h4>
+                        <div class="nk-modal-text">
+                            <div class="row">
+                                <pre id="Resapijson" class="text-left"></pre>
+                            </div>
+                        </div>
+                        <div class="nk-modal-action mt-5">
+                            <a href="javascript:void(0);" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="./content/assets/js/dtable_transactions.js"></script>
+
+<script>
+    $('.dropdown-mul-2').dropdown({
+        multipleMode: 'label',
+        searchable: true,
+        choice: function () {
+            console.log(arguments, this);
+        }
+    });
+
+    $(document).ready(function () {
+        $("#dvtblist").css("display", "none");
+            var TransactionId = '@ViewBag.TransactionId';
+        if (TransactionId == "") {
+            $('.date-picker').datepicker({
+                format: "dd-M-yyyy"
+            }).datepicker('setDate', 'today');
+        }
+            /*BindDepositOrdersDataTable();*/
+        });
+    function bindtable() {
+        $("#dvtblist").css("display", "block");
+            var selectedType = "";
+             $("#Type :selected").each(function () {
+                if (selectedType != "") {
+                    selectedType = (this.value) + "," + selectedType;
+                }
+                else {
+                    selectedType = (this.value);
+                }
+            });
+            $("#selectedType").val(selectedType);
+            BindDepositOrdersDataTable();
+        };
+
+        function GetDepositOrderDetail(transactionid,e) {
+            if (transactionid != "") {
+                $.ajax({
+                    url: "/DepositOrder/GetDepositOrderJson",
+                    type: "POST",
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: '{"transactionid":"' + transactionid + '"}',
+                    success: function (data) {
+                        var jsonPretty = JSON.stringify(data, null, '\t');
+                        $("#Resapijson").text(jsonPretty);
+                        $('#depositapijson').modal('show');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("There is no Json Data", "warning")
+                        return false;
+                    }
+                });
+            }
+            return false;
+        };
+
+        function GetDepositOrderStatusCheck(transactionid, e) {
+            if (transactionid != "") {
+                $.ajax({
+                    url: "/DepositOrder/GetDepositOrderJson",
+                    type: "POST",
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: '{"transactionid":"' + transactionid + '"}',
+                    success: function (data) {
+                        var jsonPretty = JSON.stringify(data, null, '\t');
+                        $("#Resapijson").text(jsonPretty);
+                        $('#depositapijson').modal('show');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("There is no Json Data", "warning")
+                        return false;
+                    }
+                });
+            }
+            return false;
+        };
+
+        function exported(e) {
+            var MemberId = $("#MemberId").val();
+            var TransactionId = $("#TransactionId").val();
+            var fromdate = $("#fromdate").val();
+            var todate = $("#todate").val();
+            var Status = $("#Status :selected").val();
+            var Type = $("#Type :selected").val();
+            var DayWise = $("#DayWise :selected").val();
+        if (MemberId == "") {
+            MemberId = 0;
+        }
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ExportExcelDepositOrder", "DepositOrder")', //call your controller and action
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            data: '{"MemberId":"' + parseInt(MemberId) + '","TxnId":"' + TransactionId + '","FromDate": "' + fromdate + '", "ToDate": "' + todate + '", "Status": "' + Status + '","DayWise":"' + DayWise + '","Type":"' + Type + '"}',
+
+        }).done(function (data) {
+            //get the file name for download
+            if (data.fileName != "") {
+                //use window.location.href for redirect to download action for download the file
+                window.location.href = "@Url.RouteUrl(new { Controller = "DepositOrder", Action = "Download" })/?fileName=" + data.fileName;
+            }
+        });
+    }
+
+    function DepositOrderexported(obj,e) {
+        alert("Your exported file is being generated. Please download the new excel after 15 mins. Please note that you can request to generate new file after 4 hrs.");
+        //$("#olduserexport").attr('disabled', true);
+        $("#DepositOrderexport").hide();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ExportExcelDepositOrderDump", "DepositOrder")', //call your controller and action
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: true,
+            data: '',
+
+        }).done(function (data) {
+            //get the file name for download
+            if (data.fileName != "") {
+            }
+            else {
+                alert(data.errorMessage);
+            }
+        });
+    }
+
+    function DepositOrderdownload(e) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("DownloadFileName", "DepositOrder")', //call your controller and action
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            data: '',
+
+        }).done(function (data) {
+            //get the file name for download
+            if (data!="" && data.fileName != "") {
+                //use window.location.href for redirect to download action for download the file
+                window.location.href = "@Url.RouteUrl(new { Controller = "DepositOrder", Action = "DownloadFile" })?fileName=" + data.fileName;
+            }
+            else {
+                alert("no file found to download");
+            }
+        });
+    }
+</script>

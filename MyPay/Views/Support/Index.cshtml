@@ -1,0 +1,519 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link id="skin-default" rel="stylesheet" href="/Content/assets/SupportTicket/css/theme.css">
+<script type="text/javascript" async="" src="/Content/assets/SupportTicket/js/analytics.js"></script>
+
+
+@*<asp:HiddenField ID="hdnticketid" Value="" runat="server" />*@
+@Html.Hidden("hdnticketid", "", new { @id = "hdnticketid" })
+@Html.Hidden("hdnquerystring", (object)ViewBag.hdnquerystring, new { @id = "hdnquerystring" })
+
+<input type="hidden" id="hdnimage" value="" />
+<input type="hidden" id="hdnfilename" value="" />
+<input type="hidden" id="hdnStatus" value="" />
+<input type="hidden" id="hdnSingleTake" value="10" />
+<input type="hidden" id="hdnSingleSkip" value="-1" />
+<input type="hidden" id="hdnTake" value="10" />
+<input type="hidden" id="hdnSkip" value="0" />
+<input type="hidden" id="hdnTabType" value="" />
+<div class="nk-app-root">
+    <div class="px-md-6">
+    </div>
+    <div class="px-md-6" id="ErrorMessage">
+    </div>
+    <div class="nk-main ">
+        <div class="nk-wrap" style="min-height:100% !important;">
+            <div class="nk-content p-0">
+                <div class="nk-content-inner">
+                    <div class="nk-content-body">
+                        <div class="nk-block">
+                            <div class="card card-bordered card-stretch">
+                                <div class="card-inner-group">
+                                    <div class="card-inner position-relative card-tools-toggle pb-5">
+                                        <span class="preview-title-lg overline-title mb-4">Quick Search</span>
+                                        @*<div class="nk-block-head">
+                                                <div class="nk-block-head-content">
+                                                    <div id="dvMessage" class="form-group form-label" style="color:red; text-align:center;">
+                                                        @ViewBag.Message
+                                                    </div>
+                                                    <div id="dvSuccess" class="form-group form-label" style="color: green; text-align: center;">
+                                                        @ViewBag.SuccessMessage
+                                                    </div>
+                                                </div>
+                                            </div>*@
+                                        <div class="row gy-4">
+                                            <div class="col-lg-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <div class="form-icon form-icon-right md">
+                                                            <em class="icon ni ni-calendar-alt"></em>
+                                                        </div>
+                                                        @Html.TextBox("StartDate", "", new { @id = "fromdate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                        <label class="form-label-outlined" for="fromdate">From Date</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <div class="form-icon form-icon-right md">
+                                                            <em class="icon ni ni-calendar-alt"></em>
+                                                        </div>
+                                                        @Html.TextBox("ToDate", "", new { @id = "todate", @class = "form-control form-control-md form-control-outlined date-picker", @autocomplete = "off", @readonly = "readonly" })
+                                                        <label class="form-label-outlined" for="todate">To Date</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        @Html.TextBox("TicketNumber", "", new { @id = "TicketNumber", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @placeholder = "Ticket No." })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        @Html.TextBox("ContactNumber", "", new { @id = "ContactNumber", @class = "form-control form-control-md form-control-outlined", @autocomplete = "off", @maxlength = 10, @onkeypress = "return isNumberKey(this, event);", @placeholder = "Contact Number" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        @Html.DropDownList("Category", ViewBag.Category as SelectList, "", new { @id = "Category", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                        <label class="form-label-outlined" for="outlined-normal">Category</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        @Html.DropDownList("Priority", ViewBag.Priority as SelectList, "", new { @id = "Priority", @class = "form-select form-control form-control-md form-control-outlined" })
+                                                        <label class="form-label-outlined" for="outlined-normal">Priority</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <a class="btn btn-primary text-center text-white" onclick="return bindtickets();">Search</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nk-msg supportticket">
+                            <div class="nk-msg-aside hide-aside">
+                                <div class="nk-msg-nav">
+                                    <ul class="nk-msg-menu">
+                                        <li id="act" class="nk-msg-menu-item active">
+                                            <a href="javascript:void(0)" onclick="return CheckMethod(this,1);">Processing</a>
+                                        </li>
+                                        <li id="open" class="nk-msg-menu-item">
+                                            <a href="javascript:void(0)" onclick="return CheckMethod(this,6);">Open</a>
+                                        </li>
+                                        <li class="nk-msg-menu-item">
+                                            <a href="javascript:void(0)" onclick="return CheckMethod(this,2);">Closed</a>
+                                        </li>
+                                        <li class="nk-msg-menu-item">
+                                            <a href="javascript:void(0)" onclick="return CheckMethod(this,3);">Stared</a>
+                                        </li>
+                                        <li class="nk-msg-menu-item">
+                                            <a href="javascript:void(0)" onclick="return CheckMethod(this,4);">All</a>
+                                        </li>
+                                        @*<li class="nk-msg-menu-item">
+                                                <a href="javascript:void(0);" onclick="return CheckMethod(this,5);">Agents</a>
+                                            </li>*@
+
+                                        <li class="nk-msg-menu-item ml-auto">
+                                            <a href="javascript:void(0)" class="search-toggle toggle-search" data-target="search"><em class="icon ni ni-search"></em></a>
+                                        </li>
+                                    </ul>
+                                    <div class="search-wrap" data-search="search">
+                                        <div class="search-content">
+                                            <a href="javascript:void(0)" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                                            <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by user or message">
+                                            <button class="search-submit btn btn-icon">
+                                                <em class="icon ni ni-search"></em>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nk-msg-list" data-simplebar="init">
+                                    <div class="simplebar-wrapper" style="margin: 0px;">
+                                        <div class="simplebar-height-auto-observer-wrapper">
+                                            <div class="simplebar-height-auto-observer"></div>
+                                        </div>
+                                        <div class="simplebar-mask">
+                                            <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                                <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll;">
+                                                    <div class="simplebar-content ticketssidebar" style="padding: 0px;">
+                                                    </div>
+                                                    <div id="nomorerecords" style="display:none;color:red;"><span>No More Records</span></div>
+                                                    <div class="form-group text-center mt-5">
+                                                        <a href="javacript:void(0);" id="showmore" onclick="ShowMore();" style="display:none;" class="btn btn-primary btn-lg">Show More</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="simplebar-placeholder" style="width: auto; height: 1389px;"></div>
+                                    </div>
+                                    <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                                        <div class="simplebar-scrollbar simplebar-visible" style="width: 0px; display: none;"></div>
+                                    </div>
+                                    <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                                        <div class="simplebar-scrollbar simplebar-visible" style="height: 185px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nk-msg-body bg-white profile-shown">
+                                <div class="nk-msg-head">
+                                    <h4 class="title d-none d-lg-block tickettitle"></h4>
+                                    <div class="nk-msg-head-meta">
+                                        <div class="d-none d-lg-block">
+                                            <ul class="nk-msg-tags">
+                                                <li>
+                                                    <span class="label-tag"><em class="icon ni ni-flag-fill"></em><span class="category"></span></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="d-lg-none">
+                                            <a href="javascript:void(0)" class="btn btn-icon btn-trigger nk-msg-hide ml-n1"><em class="icon ni ni-arrow-left"></em></a>
+                                        </div>
+                                        <ul class="nk-msg-actions">
+                                            <li>
+                                                <a href="javascript:void(0)" onclick="return MarkClosed();" class="btn btn-dim btn-sm btn-outline-light"><em class="icon ni ni-check"></em><span id="btn_Close">Mark as Closed</span></a>
+                                            </li>
+                                            <li class="d-lg-none">
+                                                <a href="javascript:void(0)" class="btn btn-icon btn-sm btn-white btn-light profile-toggle"><em class="icon ni ni-info-i"></em></a>
+                                            </li>
+                                            <li class="dropdown">
+                                                <a href="javascript:void(0)" class="btn btn-icon btn-sm btn-white btn-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><em class="icon ni ni-more-h"></em></a>
+                                                <div class="dropdown-menu dropdown-menu-right" style="">
+                                                    <ul class="link-list-opt no-bdr">
+
+                                                        @*<li>
+                                                                <a href="javascript:void(0);"><em class="icon ni ni-user-add"></em><span>Assign To Member</span></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0);"><em class="icon ni ni-archive"></em><span>Move to Archive</span></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0);" onclick="return MarkClosed();"><em class="icon ni ni-done"></em><span>Mark as Close</span></a>
+                                                            </li>*@
+                                                        <li>
+                                                            <a href="javascript:void(0)" onclick="return SetPriority(3);"><em class="icon ni ni-tile-thumb"></em><span>Set High</span></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0)" onclick="return SetPriority(2);"><em class="icon ni ni-tile-thumb"></em><span>Set Medium</span></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0)" onclick="return SetPriority(1);"><em class="icon ni ni-tile-thumb"></em><span>Set Low</span></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p class="title d-none d-lg-block ticketTxnid"></p>
+                                    <a href="javascript:void(0)" class="nk-msg-profile-toggle profile-toggle"><em class="icon ni ni-arrow-left"></em></a>
+                                </div>
+                                <div class="nk-msg-reply nk-reply" data-simplebar="init">
+                                    <div class="simplebar-wrapper" style="margin: 0px;">
+                                        <div class="simplebar-height-auto-observer-wrapper">
+                                            <div class="simplebar-height-auto-observer"></div>
+                                        </div>
+                                        <div class="simplebar-mask">
+                                            <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                                <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll;">
+                                                    <div class="simplebar-content" style="padding: 0px;">
+                                                        <div class="nk-msg-head py-4 d-lg-none">
+                                                            <h4 class="title">Unable to select currency when order</h4>
+                                                            <ul class="nk-msg-tags">
+                                                                <li>
+                                                                    <span class="label-tag"><em class="icon ni ni-flag-fill"></em><span>Technical Problem</span></span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div id="nomoreSinglerecords" style="display: none; color: red;"><span>No More Messages</span></div>
+                                                        <div class="form-group text-center mt-5">
+                                                            <a href="javacript:void(0);" id="showmoreReply" onclick="ShowMoreReply();" style="display:none; width:150px;" class="btn btn-primary">Show Older Msgs</a>
+                                                        </div>
+                                                        <div class="ticketmessage"></div>
+                                                        <div class="nk-reply-form" id="reply_form_detail">
+                                                            <div class="nk-reply-form-header">
+                                                                <ul class="nav nav-tabs-s2 nav-tabs nav-tabs-sm">
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link active" data-toggle="tab" href="#reply-form">Reply</a>
+                                                                    </li>
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link" data-toggle="tab" href="#note-form">Private Note</a>
+                                                                    </li>
+                                                                </ul>
+                                                                @*<div class="nk-reply-form-title">
+                                                                        <div class="title">Reply as:</div>
+                                                                        <div class="user-avatar xs bg-purple">
+                                                                            <span>IH</span>
+                                                                        </div>
+                                                                    </div>*@
+                                                            </div>
+                                                            <div class="tab-content">
+                                                                <div class="tab-pane active" id="reply-form">
+                                                                    <div class="nk-reply-form-editor">
+                                                                        <div class="nk-reply-form-field">
+                                                                            @*<asp:TextBox class="form-control form-control-simple no-resize" MaxLength="1000" TextMode="MultiLine" ID="txtdescription" placeholder="Reply" runat="server" />*@
+                                                                            @Html.TextArea("txtdescription", "", new { @id = "txtdescription", @maxlength = "1000", @class = "form-control form-control-simple no-resize" })
+                                                                        </div>
+                                                                        <div class="nk-reply-form-tools">
+                                                                            <ul class="nk-reply-form-actions g-1">
+                                                                                <li class="mr-2">
+                                                                                    <a class="btn btn-primary" style="color: #fff" onclick="return AddTicket('0');">Reply</a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a onclick="$('#upload').trigger('click'); return false;" class="btn btn-icon btn-sm" data-toggle="tooltip" data-placement="top" title="" href="javascript:void(0)" data-original-title="Upload Attachment"><em class="icon ni ni-clip-v"></em></a>
+                                                                                    <span class="uploadimagetext"></span>
+                                                                                    <input type="file" id="upload" style="display: none" onchange="UploadAjaxImage(this, 'TicketsImages', 'image', 1000,0);" />
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="tab-pane" id="note-form">
+                                                                    <div class="nk-reply-form-editor">
+                                                                        <div class="nk-reply-form-field">
+                                                                            @*<asp:TextBox class="form-control form-control-simple no-resize" MaxLength="1000" TextMode="MultiLine" ID="txtnote" placeholder="Reply" runat="server" />*@
+                                                                            @Html.TextArea("txtnote", "", new { @id = "txtnote", @maxlength = "1000", @class = "form-control form-control-simple no-resize" })
+
+                                                                        </div>
+                                                                        <div class="nk-reply-form-tools">
+                                                                            <ul class="nk-reply-form-actions g-1">
+                                                                                <li class="mr-2">
+                                                                                    <a class="btn btn-primary" style="color: #fff" onclick="return AddTicket('1');">Reply</a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a onclick="$('#noteupload').trigger('click'); return false;" class="btn btn-icon btn-sm" data-toggle="tooltip" data-placement="top" title="" href="javascript:void(0)" data-original-title="Upload Attachment"><em class="icon ni ni-clip-v"></em></a>
+                                                                                    <span class="uploadimagetext"></span>
+                                                                                    <input type="file" id="noteupload" style="display: none" onchange="UploadAjaxImage(this, 'TicketsImages', 'image', 1000,0);" />
+                                                                                </li>
+
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="simplebar-placeholder" style="width: auto; height: 1327px;"></div>
+                                        </div>
+                                        <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                                            <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+                                        </div>
+                                        <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                                            <div class="simplebar-scrollbar" style="height: 138px; transform: translate3d(0px, 180px, 0px); display: block;"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="nk-msg-profile visible" data-simplebar="init">
+                                    <div class="simplebar-wrapper" style="margin: 0px;">
+                                        <div class="simplebar-height-auto-observer-wrapper">
+                                            <div class="simplebar-height-auto-observer"></div>
+                                        </div>
+                                        <div class="simplebar-mask">
+                                            <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                                <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll;">
+                                                    <div class="simplebar-content" style="padding: 0px;">
+                                                        <div class="card">
+                                                            <div class="card-inner-group">
+                                                                <div class="card-inner">
+                                                                    <div class="user-card user-card-s2 mb-2">
+                                                                        <div class="user-avatar md bg-primary">
+                                                                            <span class="usrabr">TT</span>
+                                                                        </div>
+                                                                        <div class="user-info">
+                                                                            <h5 class="username">Test Test</h5>
+                                                                            <span class="sub-text">Customer</span>
+                                                                        </div>
+                                                                        <div class="user-card-menu dropdown">
+                                                                            <a href="javascript:void(0)" class="btn btn-icon btn-sm btn-trigger dropdown-toggle" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                                <ul class="link-list-opt no-bdr">
+                                                                                    <li>
+                                                                                        <a href="javascript:void(0)" id="viewprofile"><em class="icon ni ni-eye"></em><span>View Profile</span></a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <a href="javascript:void(0)" id="vieworders"><em class="icon ni ni-repeat"></em><span>View Orders</span></a>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row text-center g-1">
+                                                                        <div class="col-4">
+                                                                            <div class="profile-stats">
+                                                                                <span class="amount" id="Totalticket">@ViewBag.Totalticket</span><span class="sub-text">Total Tickets</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <div class="profile-stats">
+                                                                                <span class="amount" id="CloseTicket">@ViewBag.CloseTicket</span><span class="sub-text">Complete</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <div class="profile-stats">
+                                                                                <span class="amount" id="PendingTicket">@ViewBag.PendingTicket</span><span class="sub-text">Progress</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-inner">
+                                                                    <div class="aside-wg">
+                                                                        <h6 class="overline-title-alt mb-2">User Information</h6>
+                                                                        <ul class="user-contacts">
+                                                                            <li>
+                                                                                <em class="icon ni ni-mail"></em><span id="email">info@softnio.com</span>
+                                                                            </li>
+                                                                            <li>
+                                                                                <em class="icon ni ni-call"></em><span id="phone">+938392939</span>
+                                                                            </li>
+                                                                            <li>
+                                                                                <em class="icon ni ni-map-pin"></em><span id="address">
+                                                                                    1134 Ridder Park Road
+                                                                                </span>
+                                                                            </li>
+                                                                            <li>
+                                                                                <em class="icon ni ni-mobile"></em><span id="platform">
+                                                                                    Android
+                                                                                </span>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="aside-wg">
+                                                                        <h6 class="overline-title-alt mb-2">Additional</h6>
+                                                                        <div class="row gx-1 gy-3">
+                                                                            <div class="col-6">
+                                                                                <span class="sub-text">Ticket ID: </span><span id="ticketid">TID-049583</span>
+                                                                            </div>
+                                                                            <div class="col-6">
+                                                                                <span class="sub-text">Requested:</span><span class="username">Test Test</span>
+                                                                            </div>
+                                                                            <div class="col-6">
+                                                                                <span class="sub-text">Status:</span><span class="lead-text text-success" id="status">Open</span>
+                                                                            </div>
+                                                                            <div class="col-6">
+                                                                                <span class="sub-text">Last Reply:</span><span id="lastreply">Test Test</span>
+                                                                            </div>
+                                                                            <div class="col-6">
+                                                                                <span class="sub-text">Priority:</span><span id="priority" class="lead-text text-success">Low</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    @*<div class="aside-wg">
+                                                                            <h6 class="overline-title-alt mb-2">Assigned Account</h6>
+                                                                            <ul class="align-center g-2">
+                                                                                <li>
+                                                                                    <div class="user-avatar bg-purple">
+                                                                                        <span>AA</span>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>*@
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="simplebar-placeholder" style="width: auto; height: 713px;"></div>
+                                    </div>
+                                    <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                                        <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+                                    </div>
+                                    <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                                        <div class="simplebar-scrollbar" style="height: 447px; display: block; transform: translate3d(0px, 0px, 0px);"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .nk-msg-aside {
+        width: 350px;
+    }
+
+    .admin-nk-reply-item .nk-reply-header {
+        flex-direction: row-reverse;
+    }
+
+        .admin-nk-reply-item .nk-reply-header .user-card {
+            flex-direction: row-reverse;
+        }
+
+            .admin-nk-reply-item .nk-reply-header .user-card .user-name {
+                margin: 0 0.75rem 0 0;
+            }
+
+    .admin-nk-reply-item .nk-reply-body {
+        margin: 0 43px 0 0 !important;
+        text-align: right;
+    }
+
+    .ticketmessage .nk-reply-entry.entry {
+        padding: 20px;
+        background: #f5f5f5;
+        border-radius: 6px;
+        max-width: 60%;
+    }
+
+    .admin-nk-reply-item .nk-reply-entry.entry {
+        background: #e8f3ff;
+    }
+
+    .ticketmessage .nk-reply-header .date-time {
+        display: none;
+    }
+
+    .nk-reply-item.admin-nk-reply-item .nk-reply-entry.entry {
+        clear: both;
+        display: flex;
+        justify-content: flex-end;
+        margin-left: auto;
+    }
+
+    .ticketmessage .attach-files {
+        max-width: 60%;
+    }
+</style>
+<script src="/Content/assets/SupportTicket/js/demo-settings.js"></script>
+<script src="/Content/assets/SupportTicket/js/messages.js"></script>
+<script src="/Content/assets/js/ticket.js"></script>
+<script>
+    function bindtickets() {
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        var contactno = $("#ContactNumber").val();
+        var ticketno = $("#TicketNumber").val();
+        var category = $("#Category").val();
+        var priority = $("#Priority").val();
+        $('#hdnTake').val(10);
+        $('#hdnSkip').val(0);
+        GetTickets(2, 2, 2, 0, 10, 0, ticketno, category, priority, 0, fromdate, todate, contactno);
+    }
+</script>
+
+

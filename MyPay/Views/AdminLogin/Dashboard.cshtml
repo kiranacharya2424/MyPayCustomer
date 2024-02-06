@@ -1,0 +1,749 @@
+﻿@model MyPay.Models.Add.AddAdmin
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Dashboard</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>Quick overview of MyPay activities. Stay updated.</p>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="javascript:void(0);" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                                @*<div class="toggle-expand-content" data-content="pageMenu">
+                                        <ul class="nk-block-tools g-3">
+                                            <li><a href="javascript:void(0);" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-download-cloud"></em><span>Export</span></a></li>
+
+                                        </ul>
+                                    </div>*@
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-md-4">
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="title">Total Transactions</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <a href="javascript:void(0);" onclick="return bindDashboard('totaltxn');">Click Here</a>
+                                            @*<em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Total Transactions"></em>*@
+                                        </div>
+                                    </div>
+                                    <div class="card-amount">
+                                        @*<span class="amount"> @Model.AllTransactions </span>*@
+                                        <span class="amount" id="AllTransactions"> 0 </span>
+                                    </div>
+                                    <div class="invest-data">
+                                        <div class="invest-data-amount g-2">
+                                            <div class="invest-data-history">
+                                                <div class="title">This Month</div>
+                                                @*<div class="amount"> @Model.ThisMonthTransactions</div>*@
+                                                <span class="amount" id="ThisMonthTransactions"> 0 </span>
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title">This Week</div>
+                                                @*<div class="amount"> @Model.ThisWeekTransactions</div>*@
+                                                <span class="amount" id="ThisWeekTransactions"> 0 </span>
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title">Balance</div>
+                                                @*<div class="amount"> @Model.TotalAmount</div>*@
+                                                <span class="amount" id="TotalAmount"> 0 </span>
+                                            </div>
+                                        </div>
+                                        <div class="invest-data-ck" style="display:none;">
+                                            <canvas class="iv-data-chart" id="totalTransaction"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-4">
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="title">Total Users</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <a href="javascript:void(0);" onclick="return bindDashboard('totalusers');">Click Here</a>
+                                            @*<em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Total Users"></em>*@
+                                        </div>
+                                    </div>
+                                    <div class="card-amount">
+                                        @*<span class="amount"> @Model.TotalUsers </span>*@
+                                        <span class="amount" id="TotalUsers">0</span>
+                                    </div>
+                                    <div class="invest-data">
+                                        <div class="invest-data-amount g-2">
+                                            <div class="invest-data-history">
+                                                <div class="title">THIS MONTH</div>
+                                                <span class="amount" id="ThisMonthUsers">0</span>
+                                                @*<div class="amount">@Model.ThisMonthUsers</div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title">THIS WEEK</div>
+                                                <span class="amount" id="ThisWeekUsers">0</span>
+                                                @*<div class="amount">@Model.ThisWeekUsers</div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title">Total Users</div>
+                                                <span class="amount" id="TotalUser">0</span>
+                                                @*<div class="amount">@Model.ThisWeekUsers</div>*@
+                                            </div>
+                                        </div>
+                                        @*<div class="invest-data-ck">
+
+                            <canvas class="iv-data-chart" id="totalUsers"></canvas>
+                        </div>*@
+                                    </div>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-4">
+                            <div class="card card-bordered  card-full">
+                                <div class="card-inner">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="title">KYC</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <a href="javascript:void(0);" onclick="return bindDashboard('kyc');">Click Here</a>
+                                            @*<em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="KYC"></em>*@
+                                        </div>
+                                    </div>
+                                    <div class="card-amount">
+                                        <span class="amount" id="TotalKYCRequests">0</span>
+                                        @*<span class="amount">@Model.TotalKYCRequests</span>*@
+                                    </div>
+                                    <div class="invest-data ">
+                                        <div class="invest-data-amount g-2">
+                                            <div class="invest-data-history">
+                                                <div class="title text-success">Approved</div>
+                                                <span class="amount" id="CompleteKycRequest">0</span>
+                                                @*<div class="amount">@Model.CompleteKycRequest</div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title text-orange">Pending</div>
+                                                <span class="amount" id="PendingKycRequest">0</span>
+                                                @*<div class="amount">@Model.PendingKycRequest </div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title text-danger">Rejected</div>
+                                                <span class="amount" id="RejectKycRequest">0</span>
+                                                @*<div class="amount">@Model.RejectKycRequest</div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-4">
+                            <div class="card card-bordered  card-full">
+                                <div class="card-inner">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="title">EOD Balance And Users</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <a href="javascript:void(0);" onclick="return bindDashboard('eod');">Click Here</a>
+                                            @*<em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="EOD Balance And Users"></em>*@
+                                        </div>
+                                    </div>
+
+                                    <div class="card-amount">
+                                        <span class="amount" id="EodBalance">0</span>
+                                        @*<span class="amount">@Model.EodBalance</span>*@
+                                    </div>
+                                    <div class="invest-data ">
+                                        <div class="invest-data-amount g-2">
+                                            <div class="invest-data-history">
+                                                <div class="title text-success">Users</div>
+                                                <span class="amount" id="EodUserCount">0</span>
+                                                @*<div class="amount">@Model.EodUserCount</div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title text-orange">Active</div>
+                                                <span class="amount" id="EodActiveUser">0</span>
+                                                @*<div class="amount">@Model.EodActiveUser </div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title text-danger">InActive</div>
+                                                <span class="amount" id="EodInActiveUser">0</span>
+                                                @*<div class="amount">@Model.EodInActiveUser</div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .card -->
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card card-bordered  card-full">
+                                <div class="card-inner">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="title">EOD Balance And Merchant</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <a href="javascript:void(0);" onclick="return bindDashboard('eodm');">Click Here</a>
+                                            @*<em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="EOD Balance And Users"></em>*@
+                                        </div>
+                                    </div>
+
+                                    <div class="card-amount">
+                                        <span class="amount" id="EodmBalance">0</span>
+                                        @*<span class="amount">@Model.EodBalance</span>*@
+                                    </div>
+                                    <div class="invest-data ">
+                                        <div class="invest-data-amount g-2">
+                                            <div class="invest-data-history">
+                                                <div class="title text-success">Merchant</div>
+                                                <span class="amount" id="EodmMerchantCount">0</span>
+                                                @*<div class="amount">@Model.EodUserCount</div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title text-orange">Active</div>
+                                                <span class="amount" id="EodmActiveMerchant">0</span>
+                                                @*<div class="amount">@Model.EodActiveUser </div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title text-danger">InActive</div>
+                                                <span class="amount" id="EodmInActiveMerchant">0</span>
+                                                @*<div class="amount">@Model.EodInActiveUser</div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .card -->
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card card-bordered  card-full">
+                                <div class="card-inner">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="title">Old Users</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <a href="javascript:void(0);" onclick="return bindDashboard('oldusers');">Click Here</a>
+                                            @*<em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Old Users"></em>*@
+                                        </div>
+                                    </div>
+                                    <div class="card-amount">
+                                        <span class="amount" id="OldUsers">0</span>
+                                        @*<span class="amount">@Model.OldUsers</span>*@
+                                    </div>
+                                    <div class="invest-data ">
+                                        <div class="invest-data-amount g-2">
+                                            <div class="invest-data-history">
+                                                <div class="title text-success">Old Pwd Reset</div>
+                                                <span class="amount" id="OldUserPasswordSet">0</span>
+                                                @*<div class="amount">@Model.OldUserPasswordSet</div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title text-danger">App Update</div>
+                                                <span class="amount" id="OldUserLogin">0</span>
+                                                @*<div class="amount">@Model.OldUserLogin</div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title text-orange">New Users</div>
+                                                <span class="amount" id="NewUsers">0</span>
+                                                @*<div class="amount">@Model.NewUsers </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .card -->
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card card-bordered  card-full">
+                                <div class="card-inner">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="title">Monthly Old Pwd Reset Users</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <a href="javascript:void(0);" onclick="return bindDashboard('oldpwdusers');">Click Here</a>
+                                            @*<em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Monthly Old Pwd Reset Users"></em>*@
+                                        </div>
+                                    </div>
+                                    <div class="card-amount">
+                                        <span class="amount" id="MonthlyOldUser">0</span>
+                                        @*<span class="amount">@Model.MonthlyOldUser</span>*@
+                                    </div>
+                                    <div class="invest-data ">
+                                        <div class="invest-data-amount g-2">
+                                            <div class="invest-data-history">
+                                                <div class="title text-success">Today</div>
+                                                <span class="amount" id="TodayOldUser">0</span>
+                                                @*<div class="amount">@Model.TodayOldUser</div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title text-danger">YesterDay</div>
+                                                <span class="amount" id="YesterDayOldUser">0</span>
+                                                @*<div class="amount">@Model.YesterDayOldUser</div>*@
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title text-orange">This Week</div>
+                                                <span class="amount" id="WeeklyOldUser">0</span>
+                                                @*<div class="amount">@Model.WeeklyOldUser </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .card -->
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="card card-bordered h-100">
+                                <div class="card-inner">
+                                    @*<div class="card-title-group align-start mb-3" style="display:none">
+                        <div class="card-title">
+                            <h6 class="title">Transactions Overview</h6>
+                            <p>In last 15 days MyPay Transactions and Fee overview. <a href="javascript:void(0);" class="link link-sm" style="color: #f98c45">Detailed Stats</a></p>
+                        </div>
+                        <div class="card-tools mt-n1 mr-n1">
+                            <div class="drodown" style="display:none;">
+                                <a href="javascript:void(0);" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                    <ul class="link-list-opt no-bdr">
+                                        <li><a href="javascript:void(0);" class="active"><span>15 Days</span></a></li>
+                                        <li><a href="javascript:void(0);"><span>30 Days</span></a></li>
+                                        <li><a href="javascript:void(0);"><span>3 Months</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@<!-- .card-title-group -->
+                                    <div class="nk-order-ovwg">
+                                        <div class="row g-4 align-end">
+                                            <div class="col-xxl-8">
+                                                <div class="nk-order-ovwg-ck" style="display:none">
+                                                    @*<canvas class="order-overview-chart" id="orderOverview"></canvas>*@
+                                                </div>
+                                            </div><!-- .col -->
+                                            <div class="col-xxl-4">
+                                                <div class="row g-4">
+                                                    <div class="col-sm-6 col-xxl-12">
+                                                        <div class="nk-order-ovwg-data buy">
+                                                            <div class="amount"> <span id="spntodaycredittransactions">0</span>  <small class="currenct currency-usd">Rs.</small></div>
+
+                                                            <div class="card-tools clickheredashboard">
+                                                                <a href="javascript:void(0);" onclick="return bindDashboard('todaycredittransactions');">Click Here</a>
+                                                                @*<em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Total Transactions"></em>*@
+                                                            </div>
+                                                            <div class="info">Current month <strong> <span id="spntodaycredittransactionsmonth">0</span> <span class="currenct currency-usd">Rs.</span></strong></div>
+                                                            <div class="title"><em class="icon ni ni-arrow-down-left"></em> Credit</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-xxl-12">
+                                                        <div class="nk-order-ovwg-data sell">
+                                                            <div class="amount"> <span id="spntodaydebittransactions">0</span>  <small class="currenct currency-usd">Rs.</small></div>
+                                                            <div class="card-tools clickheredashboard">
+                                                                <a href="javascript:void(0);" onclick="return bindDashboard('todaydebittransactions');">Click Here</a>
+                                                                @*<em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Total Transactions"></em>*@
+                                                            </div>
+                                                            <div class="info">Current month <strong>  <span id="spntodaydebittransactionsmonth">0</span>   <span class="currenct currency-usd">Rs.</span></strong></div>
+                                                            <div class="title"><em class="icon ni ni-arrow-up-left"></em> Debit</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- .col -->
+                                        </div>
+                                    </div><!-- .nk-order-ovwg -->
+                                </div><!-- .card-inner -->
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-lg-4">
+                            <div class="card card-bordered h-100">
+                                <div class="card-inner border-bottom">
+                                    <div class="card-title-group">
+                                        <div class="card-title">
+                                            <h6 class="title">Support Requests</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <a href="/Support?req=1" class="link" style="color: #f98c45">View Open Requests</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="nk-support">
+                                    @foreach (var recents_tickets in ViewBag.RecentTickets)
+                                    {
+                                        <li class="nk-support-item">
+                                            <div class="user-avatar">
+                                                @if (@recents_tickets.Name.Length > 0)
+                                                {
+                                                    <span>@recents_tickets.Name.Substring(0, 1)</span> }
+                                                else
+                                                {
+                                                    <span>U</span>}
+                                            </div>
+                                            <div class="nk-support-content">
+                                                <div class="title">
+                                                    <span>@recents_tickets.Name</span>
+                                                    @if (!@recents_tickets.IsSeen)
+                                                    {
+                                                        <div class="lable-tag dot bg-pink"></div>}
+                                                </div>
+                                                <p>@recents_tickets.TicketTitle</p>
+                                                <span class="time">@recents_tickets.CreatedDateDt</span>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div><!-- .col -->
+
+                        <div class="col-lg-12" style="display:none">
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner">
+                                    <div class="card-title-group">
+                                        <div class="card-title">
+                                            <h6 class="title"><span class="mr-2">Recent Transactions</span> <a href="/AdminTransactions" class="link d-none d-sm-inline" style="color: #f98c45">See All</a></h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <ul class="card-tools-nav nav">
+                                                <li class="nav-item"><a class="active nav-link" data-toggle="tab" href="#today"><span>Today</span></a></li>
+                                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#yesterday"><span>Yesterday</span></a></li>
+                                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#all"><span>All</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div><!-- .card-inner -->
+
+                                <div class="tab-content">
+                                    <div class="card-inner p-0 border-top tab-pane active" id="today">
+                                        <div class="nk-tb-list nk-tb-orders">
+                                            <div class="nk-tb-item nk-tb-head">
+                                                <div class="nk-tb-col "><span>TransactionID</span></div>
+                                                <div class="nk-tb-col tb-col-lg"><span>MemberId</span></div>
+                                                <div class="nk-tb-col tb-col-lg"><span>Name</span></div>
+                                                <div class="nk-tb-col"><span>Service</span></div>
+                                                <div class="nk-tb-col tb-col-lg"><span>Sign</span></div>
+                                                <div class="nk-tb-col tb-col-lg"><span>Reference</span></div>
+                                                <div class="nk-tb-col tb-col-sm"><span>Date/Time</span></div>
+
+
+                                                <div class="nk-tb-col"><span>Amount (Rs.)</span></div>
+                                                <div class="nk-tb-col text-right"><span>Action</span></div>
+                                            </div><!-- .nk-tb-item -->
+                                            @*@if (((List<MyPay.Models.Add.AddTransaction>)ViewBag.RecentTransaction).Count == 0)
+                            {
+
+                                <div class="nk-tb-item">
+                                    <div class="nk-tb-col ">
+                                        No  Transactions are done today
+                                    </div>
+                                </div>}
+                            @foreach (var recents_transaction in ViewBag.RecentTransaction)
+                            {
+                                <div class="nk-tb-item">
+                                    <div class="nk-tb-col ">
+                                        <span><strong style="color: #f98c45">#@recents_transaction.TransactionUniqueId</strong></span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-lg">
+                                        <span class="tb-lead">@recents_transaction.MemberId</span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-lg">
+                                        <span class="tb-lead">@recents_transaction.MemberName</span>
+                                    </div>
+                                    <div class="nk-tb-col">
+                                        <span class="tb-lead">@Enum.GetName(typeof(MyPay.Models.VendorAPI.VendorRequest_CommonHelper.VendorApi_CommonHelper.KhaltiAPIName), Convert.ToInt64(recents_transaction.Type)).ToString().ToUpper().Replace("_", " ").Replace("KHALTI", " ")</span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-lg">
+                                        <span class="tb-lead">@(recents_transaction.Sign == "1" ? "Credit" : "Debit")</span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-lg">
+                                        <span class="tb-lead">@recents_transaction.Reference</span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-sm">
+                                        <span class="tb-sub">@(Convert.ToDateTime( recents_transaction.CreatedDate).ToString("dd MMM yy hh:mm:ss tt"))</span>
+                                    </div>
+
+                                    <div class="nk-tb-col">
+                                        <span class="tb-sub tb-amount">@recents_transaction.Amount </span>
+                                    </div>
+                                    <div class="nk-tb-col text-right">
+                                        <a href="/AdminTransactions?TransactionId=@recents_transaction.TransactionUniqueId" class="bg-white btn btn-sm btn-outline-light btn-icon btn-tooltip" title="" data-original-title="View"><em class="icon ni ni-eye"></em></a>
+                                    </div>
+                                </div>}*@
+
+
+                                        </div>
+                                    </div><!-- .card-inner -->
+
+
+                                    <div class="card-inner p-0 border-top tab-pane " id="yesterday">
+                                        <div class="nk-tb-list nk-tb-orders">
+                                            <div class="nk-tb-item nk-tb-head">
+                                                <div class="nk-tb-col "><span>TransactionID</span></div>
+                                                <div class="nk-tb-col tb-col-lg"><span>MemberId</span></div>
+                                                <div class="nk-tb-col tb-col-lg"><span>Name</span></div>
+                                                <div class="nk-tb-col"><span>Service</span></div>
+                                                <div class="nk-tb-col tb-col-lg"><span>Sign</span></div>
+                                                <div class="nk-tb-col tb-col-lg"><span>Reference</span></div>
+                                                <div class="nk-tb-col tb-col-sm"><span>Date/Time</span></div>
+
+
+                                                <div class="nk-tb-col"><span>Amount (Rs.)</span></div>
+                                                <div class="nk-tb-col text-right"><span>Action</span></div>
+                                            </div><!-- .nk-tb-item -->
+                                            @*@if (((List<MyPay.Models.Add.AddTransaction>)ViewBag.YesterdayTransaction).Count == 0)
+                            {
+
+                                <div class="nk-tb-item">
+                                    <div class="nk-tb-col ">
+                                        No Transactions was done yesterday
+                                    </div>
+                                </div>}
+                            @foreach (var recents_transaction in ViewBag.YesterdayTransaction)
+                            {
+                                <div class="nk-tb-item">
+                                    <div class="nk-tb-col ">
+                                        <span><strong style="color: #f98c45">#@recents_transaction.TransactionUniqueId</strong></span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-lg">
+                                        <span class="tb-lead">@recents_transaction.MemberId</span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-lg">
+                                        <span class="tb-lead">@recents_transaction.MemberName</span>
+                                    </div>
+                                    <div class="nk-tb-col">
+                                        <span class="tb-lead">@Enum.GetName(typeof(MyPay.Models.VendorAPI.VendorRequest_CommonHelper.VendorApi_CommonHelper.KhaltiAPIName), Convert.ToInt64(recents_transaction.Type)).ToString().ToUpper().Replace("_", " ").Replace("KHALTI", " ")</span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-lg">
+                                        <span class="tb-lead">@(recents_transaction.Sign == "1" ? "Credit" : "Debit")</span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-lg">
+                                        <span class="tb-lead">@recents_transaction.Reference</span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-sm">
+                                        <span class="tb-sub">@(Convert.ToDateTime( recents_transaction.IndiaDate).ToString("dd MMM yy hh:mm:ss tt"))</span>
+                                    </div>
+
+                                    <div class="nk-tb-col">
+                                        <span class="tb-sub tb-amount">@recents_transaction.Amount </span>
+                                    </div>
+                                    <div class="nk-tb-col text-right">
+                                        <a href="/AdminTransactions?TransactionId=@recents_transaction.TransactionUniqueId" class="bg-white btn btn-sm btn-outline-light btn-icon btn-tooltip" title="" data-original-title="View"><em class="icon ni ni-eye"></em></a>
+                                    </div>
+                                </div>}*@
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="card-inner p-0 border-top tab-pane " id="all">
+                                        <div class="nk-tb-list nk-tb-orders">
+                                            <div class="nk-tb-item nk-tb-head">
+                                                <div class="nk-tb-col "><span>TransactionID</span></div>
+                                                <div class="nk-tb-col tb-col-lg"><span>MemberId</span></div>
+                                                <div class="nk-tb-col tb-col-lg"><span>Name</span></div>
+                                                <div class="nk-tb-col"><span>Service</span></div>
+                                                <div class="nk-tb-col tb-col-lg"><span>Sign</span></div>
+                                                <div class="nk-tb-col tb-col-lg"><span>Reference</span></div>
+                                                <div class="nk-tb-col tb-col-sm"><span>Date/Time</span></div>
+
+
+                                                <div class="nk-tb-col"><span>Amount (Rs.)</span></div>
+                                                <div class="nk-tb-col text-right"><span>Action</span></div>
+                                            </div><!-- .nk-tb-item -->
+                                            @*@if (((List<MyPay.Models.Add.AddTransaction>)ViewBag.AllsTransaction).Count == 0)
+                            {
+
+                                <div class="nk-tb-item">
+                                    <div class="nk-tb-col ">
+                                        No Recent Transaction
+                                    </div>
+                                </div>}
+                            @foreach (var recents_transaction in ViewBag.AllsTransaction)
+                            {
+                                <div class="nk-tb-item">
+                                    <div class="nk-tb-col ">
+                                        <span><strong style="color: #f98c45">#@recents_transaction.TransactionUniqueId</strong></span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-lg">
+                                        <span class="tb-lead">@recents_transaction.MemberId</span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-lg">
+                                        <span class="tb-lead">@recents_transaction.MemberName</span>
+                                    </div>
+                                    <div class="nk-tb-col">
+                                        <span class="tb-lead">@Enum.GetName(typeof(MyPay.Models.VendorAPI.VendorRequest_CommonHelper.VendorApi_CommonHelper.KhaltiAPIName), Convert.ToInt64(recents_transaction.Type)).ToString().ToUpper().Replace("_", " ").Replace("KHALTI", " ")</span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-lg">
+                                        <span class="tb-lead">@(recents_transaction.Sign == "1" ? "Credit" : "Debit")</span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-lg">
+                                        <span class="tb-lead">@recents_transaction.Reference</span>
+                                    </div>
+                                    <div class="nk-tb-col tb-col-sm">
+                                        <span class="tb-sub">@(Convert.ToDateTime( recents_transaction.CreatedDate).ToString("dd MMM yy hh:mm:ss tt"))</span>
+                                    </div>
+
+                                    <div class="nk-tb-col">
+                                        <span class="tb-sub tb-amount">@recents_transaction.Amount </span>
+                                    </div>
+                                    <div class="nk-tb-col text-right">
+                                        <a href="/AdminTransactions?TransactionId=@recents_transaction.TransactionUniqueId" class="bg-white btn btn-sm btn-outline-light btn-icon btn-tooltip" title="" data-original-title="View"><em class="icon ni ni-eye"></em></a>
+                                    </div>
+                                </div>}*@
+
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="card-inner-sm border-top text-center d-sm-none">
+                    <a href="javascript:void(0);" class="btn btn-link btn-block">See History</a>
+                </div>*@<!-- .card-inner -->
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+
+                    </div><!-- .row -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="input_hidden_elemsDate" name="input_hidden_elemsDate" value="" />
+<input type="hidden" id="input_hidden_elemsDebitTransactions" name="input_hidden_elemsDebitTransactions" value="" />
+<input type="hidden" id="input_hidden_elemsCreditTransactions" name="input_hidden_elemsCreditTransactions" value="" />
+<script type="text/javascript" src="~/Content/assets/js/dashboard.js"></script>
+<script>
+
+    function bindDashboard(Type) {
+        debugger;
+
+        $('#AjaxLoader').show();
+        setTimeout(
+            function () {
+                if (Type != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/AdminLogin/BindDashboard",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        async: false,
+                        data: '{"Type":"' + Type + '"}',
+                        success: function (response) {
+                            debugger;
+                            if (response != null) {
+                                debugger;
+                                if (Type == "totaltxn") {
+                                    $("#AllTransactions").html(response.AllTransactions);
+                                    $("#ThisMonthTransactions").html(response.ThisMonthTransactions);
+                                    $("#ThisWeekTransactions").html(response.ThisWeekTransactions);
+                                    $("#TotalAmount").html(response.TotalAmount);
+                                    return false;
+                                }
+                                else if (Type == "totalusers") {
+                                    $("#TotalUsers").html(response.TotalUsers);
+                                    $("#ThisMonthUsers").html(response.ThisMonthUsers);
+                                    $("#ThisWeekUsers").html(response.ThisWeekUsers);
+                                    $("#TotalUser").html(response.TotalUsers);
+
+                                    return false;
+                                }
+                                else if (Type == "kyc") {
+                                    $("#TotalKYCRequests").html(response.TotalKYCRequests);
+                                    $("#CompleteKycRequest").html(response.CompleteKycRequest);
+                                    $("#PendingKycRequest").html(response.PendingKycRequest);
+                                    $("#RejectKycRequest").html(response.RejectKycRequest);
+                                    return false;
+                                }
+                                else if (Type == "eod") {
+                                    $("#EodBalance").html(response.EodBalance);
+                                    $("#EodUserCount").html(response.EodUserCount);
+                                    $("#EodActiveUser").html(response.EodActiveUser);
+                                    $("#EodInActiveUser").html(response.EodInActiveUser);
+                                    return false;
+                                }
+                                else if (Type == "eodm") {
+                                    debugger;
+                                    $("#EodmBalance").html(response.EodBalance);
+                                    $("#EodmMerchantCount").html(response.EodUserCount);
+                                    $("#EodmActiveMerchant").html(response.EodActiveUser);
+                                    $("#EodmInActiveMerchant").html(response.EodInActiveUser);
+                                    return false;
+                                }
+                                else if (Type == "oldusers") {
+                                    $("#OldUsers").html(response.OldUsers);
+                                    $("#OldUserPasswordSet").html(response.OldUserPasswordSet);
+                                    $("#OldUserLogin").html(response.OldUserLogin);
+                                    $("#NewUsers").html(response.NewUsers);
+                                    return false;
+                                }
+                                else if (Type == "oldpwdusers") {
+                                    $("#MonthlyOldUser").html(response.MonthlyOldUser);
+                                    $("#TodayOldUser").html(response.TodayOldUser);
+                                    $("#YesterDayOldUser").html(response.YesterDayOldUser);
+                                    $("#WeeklyOldUser").html(response.WeeklyOldUser);
+                                    return false;
+                                }
+                                else if (Type == "todaycredittransactions") {
+                                    $("#spntodaycredittransactions").html(response.TodayCreditTransactions);
+                                    $("#spntodaycredittransactionsmonth").html(response.ThisMonthCreditTransactions);
+                                    return false;
+                                }
+                                else if (Type == "todaydebittransactions") {
+                                    $("#spntodaydebittransactions").html(response.TodayDebitTransactions);
+                                    $("#spntodaydebittransactionsmonth").html(response.ThisMonthDebitTransactions);
+                                    return false;
+                                }
+                               
+                                else {
+                                    return false;
+                                }
+                            }
+                            else {
+                                alert("Something went wrong. Please try again later.");
+                                return false;
+                            }
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                            return false;
+                        },
+                        error: function (xhr, error, code) {
+                            if (xhr.status == 200) {
+                                alert('Session Timeout. Please login again to continue.');
+                            }
+                            else {
+                                alert("Something went wrong try again later");
+                            }
+                            location.reload();
+                        }
+                    });
+                }
+                else {
+                    alert("please select type.");
+                }
+
+                $('#AjaxLoader').hide();
+            }, 50);
+
+
+    }
+</script>
+<style>
+    .clickheredashboard {
+        width: auto;
+        float: right;
+    }
+</style>

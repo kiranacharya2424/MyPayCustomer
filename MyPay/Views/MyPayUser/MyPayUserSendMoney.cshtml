@@ -1,0 +1,473 @@
+﻿@model MyPay.Models.Add.AddUser
+@{ ViewBag.Title = "MyPayUserSendMoney";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml"; }
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+
+
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-none d-sm-block">
+                                                    <h6 class="title">Send Money</h6>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="card-inner selectbank">
+                                            <div class="row">
+
+                                                <div class="col-12 m-auto">
+
+                                                    <ul id="DivAccount" class="nk-support">
+                                                        <li id="DivAnyBankAccount" class="nk-support-item px-0 cursor-pointer">
+                                                            <div class="serv-icon">
+                                                                <img src="/Content/assets/MyPayUserApp/images/dashboard/services-icon/bank-transfer.svg" width="30" alt="">
+                                                            </div>
+                                                            <div class="nk-support-content">
+                                                                <div class="title">
+                                                                    <span>Send to Any Bank Account</span>
+                                                                    <em class="icon ni ni-forward-ios"></em>
+                                                                </div><!--title-->
+                                                                <p class="w-60">Transfer money to banks in Nepal</p>
+                                                            </div><!--nk-support-content-->
+                                                        </li>
+                                                        <li id="DivMyPayUser" class="nk-support-item px-0 cursor-pointer">
+                                                            <div class="serv-icon">
+                                                                <img src="/Content/assets/MyPayUserApp/images/dashboard/services-icon/mobile-banking.svg" width="30" alt="">
+                                                            </div>
+                                                            <div class="nk-support-content">
+                                                                <div class="title">
+                                                                    <span>Send to MyPay User </span>
+                                                                    <small></small>
+                                                                    <em class="icon ni ni-forward-ios"></em>
+                                                                </div><!--title-->
+                                                                <p class="w-60">Transfer money to MyPayFriends</p>
+                                                            </div><!--nk-support-content-->
+                                                        </li>
+                                                    </ul>
+
+                                                    <div class="p-2" id="DivBankAll" style="display:none">
+                                                        @if (ViewBag.IsKycVerified == "3")
+                                                        {
+                                                            <div class="card-title d-flex w-100 mb-4">
+                                                                <h6 class="nk-block-title">Send to Bank Account</h6>
+                                                                <a href="javascript:void(0)" onclick="Back('DivBankAll','DivAccount');" class="ml-auto color-black"><em class="icon ni ni-arrow-left"></em> Back</a>
+                                                            </div>
+                                                            <div class="d-flex ml-4  align-items-center justify-content-between   votesearchhead">
+                                                                <div class="form-group vote_searchgroup">
+                                                                    <div class="form-control-wrap">
+                                                                        <div class="form-icon form-icon-left"><em class="icon ni ni-search"></em></div>
+                                                                        <input type="text" class="form-control form-control-lg" id="search" placeholder="Search">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-inner selectbank">
+
+                                                                <div id="dvRecordsDisplay" class="row">
+
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="form-group" style="color:red;text-align:center">
+                                                                <span style="color:red">
+                                                                    Your Kyc Should be verified to proceed further
+                                                                </span>
+
+                                                            </div>
+
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row gy-4">
+
+                                                <div class="col-12 col-sm-7 m-auto">
+
+                                                    <div class="p-2" id="DivAccountInfo" style="display:none">
+                                                        <div class="card-title d-flex w-100 mb-4">
+                                                            <h6 class="nk-block-title">
+                                                                <img id="ImgBankLogo" width="30">
+                                                                <span id="SpanBankName" />
+                                                            </h6>
+                                                            <a href="javascript:void(0)" onclick="Back('DivAccountInfo','DivBankAll');" class="ml-auto color-black"><em class="icon ni ni-arrow-left"></em> Back</a>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Account No.</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" maxlength="20" placeholder="Enter Account No." onkeypress="return IsAlphaNumeric(event);" autocomplete="off" id="AccountNo">
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Account Holder's Name</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" placeholder="Account Holder's Name" autocomplete="off" id="AccountHolderName">
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Amount</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" maxlength="6" placeholder="Amount" autocomplete="off" id="Amount" onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57">
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Purpose</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <select id="ddlPurpose" class="form-control form-control-lg">
+                                                                    <option value="0">--Select Purpose--</option>
+                                                                    <option value="1">Personal Use</option>
+                                                                    <option value="2">Bill Payment</option>
+                                                                    <option value="3">Lend/Borrow</option>
+                                                                    <option value="4">Travelling</option>
+                                                                    <option value="5">Others</option>
+
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Remarks</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" placeholder="Remarks" autocomplete="off" id="Remarks" onkeypress="return ValidateEnter(this,'btnProceed',false,event);">
+                                                            </div>
+                                                            <br />
+                                                            <div class="form-group">
+                                                                <a id="btnProceed" class="btn btn-primary text-center text-white" style="width:auto;display:block">Proceed</a>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="p-2" id="DivMobileInfo" style="display:none">
+
+                                                        <div class="card-title d-flex w-100 mb-4">
+                                                            <h6>
+                                                                Send to MyPay User
+                                                            </h6>
+                                                            <a href="javascript:void(0)" onclick="Back('DivMobileInfo','DivAccount');" class="ml-auto color-black"><em class="icon ni ni-arrow-left"></em> Back</a>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">MyPay Reg Mobile Number</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" maxlength="10" placeholder="MyPay Reg Mobile Number" autocomplete="off" id="MobileNo" onkeyup="return CheckRecipientDetail()" onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57">
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Account Holder's Name</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" placeholder="Account Holder's Name" autocomplete="off" id="MobileAccountHolderName" disabled>
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Amount</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" maxlength="6" placeholder="Amount" autocomplete="off" id="MobileAmount" onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57">
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Purpose</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <select id="ddlMobilePurpose" class="form-control form-control-lg">
+                                                                    <option value="0">--Select Purpose--</option>
+                                                                    <option value="1">Personal Use</option>
+                                                                    <option value="2">Bill Payment</option>
+                                                                    <option value="3">Lend/Borrow</option>
+                                                                    <option value="4">Travelling</option>
+                                                                    <option value="5">Others</option>
+
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Remarks</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control form-control-lg" placeholder="Remarks" autocomplete="off" id="MobileRemarks" onkeypress="return ValidateEnter(this, 'btnMobileProceed', false, event);">
+                                                            </div>
+                                                            <br />
+                                                            <div class="form-group">
+                                                                <a id="btnMobileProceed" class="btn btn-primary text-center text-white" style="width:auto;display:block">Proceed</a>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <input type="hidden" id="hfWalletBalance" value='@Session["MyPayUserWalletbalance"].ToString()'>
+                                                    <input type="hidden" id="hfBankCode">
+                                                    <input type="hidden" id="hfBankName">
+                                                    <input type="hidden" id="hfBankId">
+                                                    <input type="hidden" id="hfBranchId">
+                                                    <input type="hidden" id="hfBranchName">
+                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                        <span id="errormsg" style="color:red">
+                                                            @ViewBag.Message
+                                                        </span>
+                                                        <span id="successmsg" style="color:green">
+                                                            @ViewBag.SuccessMessage
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")}
+                    </div><!-- .row -->
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Confirmation Details -->
+<div class="modal fade zoom" tabindex="-1" id="PaymentPopup">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Confirm your payment details</h5>
+
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                            <td>Mobile</td>
+                            <td class="fw-bold text-right"><span id="MobilePopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Amount</td>
+                            <td class="fw-bold text-right">रु  <span id="AmountPopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Cashback</td>
+                            <td class="fw-bold text-right">रु <span id="CashbackPopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Service Charge</td>
+                            <td class="fw-bold text-right">रु <span id="ServiceChargesPopup"></span></td>
+                        </tr>
+                    </table>
+                </div>
+                <small class="text-soft d-block text-center mt-1">Do you want to continue?</small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="javascript:void();" class="btn btn-mw btn-light w-45" data-dismiss="modal">Close</a>
+                    <a href="javascript:void();" id="btnOkPopup" class="btn btn-mw btn-primary w-45">Submit</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Pin Confirmation -->
+<div class="modal fade zoom" tabindex="-1" id="DivPin" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Verify Transaction</h5>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+
+
+                    <div class="form-control-wrap text-center otp">
+                        <label class="form-label text-soft" for="Amount">Enter your Wallet Pin</label>
+                        <input type="password" class="form-control form-control-lg fs-18px" maxlength="4" placeholder="oooo" id="Pin" name="Pin" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMobilePin" class="btn btn-primary text-center text-white btn-lg d-block">Proceed To Pay</a>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <a href="javascript:void(0)" data-dismiss="modal">Close</a>
+                        <a id="btnPinForgot" href="javascript:void(0)">Forgot Pin</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Confirmation Details -->
+<div class="modal fade zoom" tabindex="-1" id="PaymentSuccess" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align:center;">
+                <img src="~/Content/assets/MyPayUserApp/images/jeni_success.png" />
+                <h6 class="nk-modal-title text-center">Success</h6>
+                <small class="text-soft d-block text-center mt-1">Transaction Completed Successfully</small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="/MyPayUser/MyPayUserTransactions" class="btn btn-mw btn-primary w-45">Ok</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " tabindex="-1" id="BankPaymentPopup">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-sm">
+                <div class="nk-modal">
+                    @*<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>*@
+                    <h6 class="nk-modal-title text-center">
+                        Confirm your payment details
+                    </h6>
+                    <div class="nk-modal-text">
+                        <div class="row">
+                            <table class="nowrap nk-tb-list nk-tb-ulist table-bordered h-100">
+                                <tr class="nk-tb-item">
+                                    <td class="nk-tb-col">
+                                        Name
+                                    </td>
+                                    <td class="nk-tb-col">
+                                        <label id="BankNamePopup"></label>
+                                    </td>
+                                </tr>
+                                <tr class="nk-tb-item">
+                                    <td class="nk-tb-col">
+                                        Account Number
+                                    </td>
+                                    <td class="nk-tb-col">
+                                        <label id="BankAccountPopup"></label>
+                                    </td>
+                                </tr>
+                                <tr class="nk-tb-item">
+                                    <td class="nk-tb-col">
+                                        Amount :
+                                    </td>
+                                    <td class="nk-tb-col">
+                                        <label id="BankAmountPopup"></label>
+                                    </td>
+                                </tr>
+                                <tr class="nk-tb-item">
+                                    <td class="nk-tb-col">
+                                        Purpose :
+                                    </td>
+                                    <td class="nk-tb-col">
+                                        <label id="BankPurposePopup"></label>
+                                    </td>
+                                </tr>
+
+                                <tr class="nk-tb-item">
+                                    <td class="nk-tb-col">
+                                        Cashback :
+                                    </td>
+                                    <td class="nk-tb-col">
+                                        <label id="BankCashbackPopup"></label>
+                                    </td>
+                                </tr>
+                                <tr class="nk-tb-item">
+                                    <td class="nk-tb-col">
+                                        Service Charges :
+                                    </td>
+                                    <td class="nk-tb-col">
+                                        <label id="BankServiceChargesPopup"></label>
+                                    </td>
+                                </tr>
+                                <tr class="nk-tb-item">
+                                    <td class="nk-tb-col">
+                                        Remarks :
+                                    </td>
+                                    <td class="nk-tb-col">
+                                        <label id="BankRemarksPopup"></label>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                    <div class="nk-modal-action mt-5 text-center">
+                        Do you want to continue ?<br /><br />
+                        <a href="javascript:void(0);" class="btn btn-primary text-center btn-light  " data-dismiss="modal">Close</a>
+                        <a id="btnBankOkPopup" class="btn btn-primary text-center text-white" style="width:auto">Submit</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+<!-- Error Message -->
+<div class="modal fade zoom" tabindex="-1" id="DivErrMessage" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnMsg" style="color:#313131"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageClose" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<input type="hidden" value="0" id="hdnUniqueCustomerId" />
+<input type="hidden" value="0" id="hdnTransferMode" />
+@Scripts.Render("~/bundles/mypayuserapp_sendmoney")
+@*<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_sendmoney.js"></script>*@
+
+@if (ViewBag.RequestFundId != null && Convert.ToString(ViewBag.RequestFundId) != "")
+{
+    <script>
+        debugger;
+        $("#DivMobileInfo").show();
+        $("#DivAccount").hide();
+        $("#MobileNo").val('@ViewBag.SenderPhoneNumber');
+        $("#MobileAmount").val('@ViewBag.Amount');
+        $("#hdnUniqueCustomerId").val('@ViewBag.RequestFundId');
+        $("#MobileNo").attr("disabled", "disabled");
+        $("#MobileAmount").attr("disabled", "disabled");
+        CheckRecipientDetail();
+    </script>
+}

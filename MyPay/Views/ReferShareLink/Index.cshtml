@@ -1,0 +1,79 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "Refer Link";
+    Layout = null;
+}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm d-xxl-none">
+                    <div class="nk-block-between g-3">
+                        <div class="nk-block-head-content d-flex align-items-center">
+                        </div>
+                        <div class="nk-block-head-content">
+                            Please wait while you are redirected to store...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/Content/assets/js/detectdeviceinfo.js"></script>
+<script>
+
+    $(document).ready(function () {
+        debugger;
+        var isiPad = /ipad/i.test(navigator.userAgent.toLowerCase());
+        var isiPhone = /iphone/i.test(navigator.userAgent.toLowerCase());
+        var isiPod = /ipod/i.test(navigator.userAgent.toLowerCase());
+        var isiDevice = /ipad|iphone|ipod/i.test(navigator.userAgent.toLowerCase());
+        var isAndroid = /android/i.test(navigator.userAgent.toLowerCase());
+        var isBlackBerry = /blackberry/i.test(navigator.userAgent.toLowerCase());
+        var isWebOS = /webos/i.test(navigator.userAgent.toLowerCase());
+        var isWindowsPhone = /windows phone/i.test(navigator.userAgent.toLowerCase());
+        if (getMobileOperatingSystem() =="iOS") {
+            window.location.href = "https://apps.apple.com/in/app/mypay-nepal/id1604521445";
+        }
+        else {
+            window.location.href = "https://play.google.com/store/apps/details?id=com.mobile.smartcard";
+        }
+    });
+
+    function getMobileOperatingSystem() {
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+        // Windows Phone must come first because its UA also contains "Android"
+        if (/windows phone/i.test(userAgent)) {
+            return "Windows Phone";
+        }
+
+        if (/android/i.test(userAgent)) {
+            return "Android";
+        }
+
+        // iOS detection from: http://stackoverflow.com/a/9039885/177710
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            return "iOS";
+        }
+
+        return "unknown";
+    }
+
+    function iOS() {
+        return [
+            'iPad Simulator',
+            'iPhone Simulator',
+            'iPod Simulator',
+            'iPad',
+            'iPhone',
+            'iPod'
+        ].includes(navigator.platform)
+            // iPad on iOS 13 detection
+            || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+    }
+</script>

@@ -1,0 +1,445 @@
+{
+  "data": [
+    {
+      "province_code": "000",
+      "province_name": "Kathmandu Valley",
+      "province_name_np": "काठमाडौँ उपत्यका ",
+      "districts": [
+        {
+          "district_code": "000",
+          "district_desc": "Bhaktapur",
+          "district_desc_np": "भक्तपूर"
+        },
+        {
+          "district_code": "000",
+          "district_desc": "Lalitpur",
+          "district_desc_np": "ललितपुर"
+        },
+        {
+          "district_code": "000",
+          "district_desc": "Kathmandu",
+          "district_desc_np": "काठमाण्डौ"
+        }
+      ]
+    },
+    {
+      "province_code": "001",
+      "province_name": "Province No 1",
+      "province_name_np": "Province No 1",
+      "districts": [
+        {
+          "district_code": "001",
+          "district_desc": "Taplejung",
+          "district_desc_np": "ताप्लेजुङ्ग"
+        },
+        {
+          "district_code": "002",
+          "district_desc": "Panchthar",
+          "district_desc_np": "पाँचथर"
+        },
+        {
+          "district_code": "003",
+          "district_desc": "Ilam",
+          "district_desc_np": "ईलाम"
+        },
+        {
+          "district_code": "004",
+          "district_desc": "Jhapa",
+          "district_desc_np": "झापा"
+        },
+        {
+          "district_code": "005",
+          "district_desc": "Sankhuwasabha",
+          "district_desc_np": "संखुवासभा "
+        },
+        {
+          "district_code": "006",
+          "district_desc": "Tehrathum",
+          "district_desc_np": "तेह्रथुम"
+        },
+        {
+          "district_code": "007",
+          "district_desc": "Bhojpur",
+          "district_desc_np": "भोजपुर"
+        },
+        {
+          "district_code": "008",
+          "district_desc": "Dhankuta",
+          "district_desc_np": "धनकुटा"
+        },
+        {
+          "district_code": "009",
+          "district_desc": "Morang",
+          "district_desc_np": "मोरङ"
+        },
+        {
+          "district_code": "010",
+          "district_desc": "Sunsari",
+          "district_desc_np": "सुनसरी"
+        },
+        {
+          "district_code": "011",
+          "district_desc": "Solukhumbu",
+          "district_desc_np": "सोलुखुम्बु"
+        },
+        {
+          "district_code": "012",
+          "district_desc": "Khotang",
+          "district_desc_np": "खोटाङ्ग"
+        },
+        {
+          "district_code": "013",
+          "district_desc": "Okhaldhunga",
+          "district_desc_np": "ओखलढुङ्गा"
+        },
+        {
+          "district_code": "014",
+          "district_desc": "Udayapur",
+          "district_desc_np": "उदयपुर"
+        }
+      ]
+    },
+    {
+      "province_code": "002",
+      "province_name": "Madhesh Province",
+      "province_name_np": "मधेश प्रदेश ",
+      "districts": [
+        {
+          "district_code": "015",
+          "district_desc": "Saptari",
+          "district_desc_np": "सप्तरी"
+        },
+        {
+          "district_code": "016",
+          "district_desc": "Siraha",
+          "district_desc_np": "सिराहा"
+        },
+        {
+          "district_code": "020",
+          "district_desc": "Dhanusha",
+          "district_desc_np": "धनुषा"
+        },
+        {
+          "district_code": "021",
+          "district_desc": "Mahottari",
+          "district_desc_np": "महोत्तरी"
+        },
+        {
+          "district_code": "022",
+          "district_desc": "Sarlahi",
+          "district_desc_np": "सर्लाही"
+        },
+        {
+          "district_code": "031",
+          "district_desc": "Rautahat",
+          "district_desc_np": "रौतहट"
+        },
+        {
+          "district_code": "033",
+          "district_desc": "Bara",
+          "district_desc_np": "बारा"
+        },
+        {
+          "district_code": "034",
+          "district_desc": "Parsa",
+          "district_desc_np": "पर्सा"
+        }
+      ]
+    },
+    {
+      "province_code": "003",
+      "province_name": "Bagmati Province",
+      "province_name_np": "बागमती  प्रदेश ",
+      "districts": [
+        {
+          "district_code": "017",
+          "district_desc": "Dolakha",
+          "district_desc_np": "दोलखा"
+        },
+        {
+          "district_code": "018",
+          "district_desc": "Ramechhap",
+          "district_desc_np": "रामेछाप"
+        },
+        {
+          "district_code": "019",
+          "district_desc": "Sindhuli",
+          "district_desc_np": "सिन्धुली"
+        },
+        {
+          "district_code": "023",
+          "district_desc": "Sindhupalchok",
+          "district_desc_np": "सिन्धुपाल्चोक"
+        },
+        {
+          "district_code": "024",
+          "district_desc": "Kavrepalanchowk",
+          "district_desc_np": "काभ्रेपलान्चोक"
+        },
+        {
+          "district_code": "028",
+          "district_desc": "Rasuwa",
+          "district_desc_np": "रसुवा"
+        },
+        {
+          "district_code": "029",
+          "district_desc": "Nuwakot",
+          "district_desc_np": "नुवाकोट"
+        },
+        {
+          "district_code": "030",
+          "district_desc": "Dhading",
+          "district_desc_np": "धादिङ्ग"
+        },
+        {
+          "district_code": "032",
+          "district_desc": "Makawanpur",
+          "district_desc_np": "मकवानपुर"
+        }
+      ]
+    },
+    {
+      "province_code": "004",
+      "province_name": "Gandaki Province",
+      "province_name_np": "गण्डकी प्रदेश ",
+      "districts": [
+        {
+          "district_code": "035",
+          "district_desc": "Chitwan",
+          "district_desc_np": "चितवन"
+        },
+        {
+          "district_code": "036",
+          "district_desc": "Gorkha",
+          "district_desc_np": "गोरखा"
+        },
+        {
+          "district_code": "037",
+          "district_desc": "Lamjung",
+          "district_desc_np": "लमजुङ"
+        },
+        {
+          "district_code": "038",
+          "district_desc": "Tanahun",
+          "district_desc_np": "तनहुँ"
+        },
+        {
+          "district_code": "039",
+          "district_desc": "Manang",
+          "district_desc_np": "मनाङ्ग"
+        },
+        {
+          "district_code": "040",
+          "district_desc": "Kaski",
+          "district_desc_np": "कास्की"
+        },
+        {
+          "district_code": "041",
+          "district_desc": "Syangja",
+          "district_desc_np": "स्याङ्जा"
+        },
+        {
+          "district_code": "042",
+          "district_desc": "Nawalparasi (West of Bardaghat Susta)",
+          "district_desc_np": "नबलपरासी(बर्दघाट सुस्ता पश्चिम)"
+        },
+        {
+          "district_code": "048",
+          "district_desc": "Mustang",
+          "district_desc_np": "मुस्ताङ्ग"
+        },
+        {
+          "district_code": "049",
+          "district_desc": "Myagdi",
+          "district_desc_np": "म्याग्दी"
+        },
+        {
+          "district_code": "050",
+          "district_desc": "Parbat",
+          "district_desc_np": "पर्वत"
+        },
+        {
+          "district_code": "051",
+          "district_desc": "Baglung",
+          "district_desc_np": "बागलुङ्ग"
+        },
+        {
+          "district_code": "077",
+          "district_desc": "Nawalpur (East of Bardaghat Susta)",
+          "district_desc_np": "नवलपुर(वर्दघाट सुस्ता पुर्व)"
+        }
+      ]
+    },
+    {
+      "province_code": "005",
+      "province_name": "Lumbini Province",
+      "province_name_np": "लुम्बिनी प्रदेश ",
+      "districts": [
+        {
+          "district_code": "043",
+          "district_desc": "Palpa",
+          "district_desc_np": "पाल्पा"
+        },
+        {
+          "district_code": "044",
+          "district_desc": "Rupandehi",
+          "district_desc_np": "रुपन्देही"
+        },
+        {
+          "district_code": "045",
+          "district_desc": "Gulmi",
+          "district_desc_np": "गुल्मी"
+        },
+        {
+          "district_code": "046",
+          "district_desc": "Kapilbastu",
+          "district_desc_np": "कपिलवस्तु"
+        },
+        {
+          "district_code": "047",
+          "district_desc": "Arghakhanchi",
+          "district_desc_np": "अर्घाखाँची"
+        },
+        {
+          "district_code": "052",
+          "district_desc": "Pyuthan",
+          "district_desc_np": "प्युठान"
+        },
+        {
+          "district_code": "054",
+          "district_desc": "Rolpa",
+          "district_desc_np": "रोल्पा"
+        },
+        {
+          "district_code": "055",
+          "district_desc": "Dang",
+          "district_desc_np": "दाङ्ग"
+        },
+        {
+          "district_code": "058",
+          "district_desc": "Banke",
+          "district_desc_np": "बांके"
+        },
+        {
+          "district_code": "059",
+          "district_desc": "Bardiya",
+          "district_desc_np": "बर्दिया"
+        },
+        {
+          "district_code": "076",
+          "district_desc": "Rukum East",
+          "district_desc_np": "रुकुम पुर्व"
+        }
+      ]
+    },
+    {
+      "province_code": "006",
+      "province_name": "Karnali Province",
+      "province_name_np": "कर्णाली प्रदेश ",
+      "districts": [
+        {
+          "district_code": "053",
+          "district_desc": "Rukum West",
+          "district_desc_np": "रुकुम  पश्चिम"
+        },
+        {
+          "district_code": "056",
+          "district_desc": "Salyan",
+          "district_desc_np": "सल्यान"
+        },
+        {
+          "district_code": "057",
+          "district_desc": "Jajarkot",
+          "district_desc_np": "जाजरकोट"
+        },
+        {
+          "district_code": "060",
+          "district_desc": "Surkhet",
+          "district_desc_np": "सुर्खेत"
+        },
+        {
+          "district_code": "061",
+          "district_desc": "Dailekh",
+          "district_desc_np": "दैलेख"
+        },
+        {
+          "district_code": "062",
+          "district_desc": "Dolpa",
+          "district_desc_np": "डोल्पा"
+        },
+        {
+          "district_code": "063",
+          "district_desc": "Jumla",
+          "district_desc_np": "जुम्ला"
+        },
+        {
+          "district_code": "064",
+          "district_desc": "Kalikot",
+          "district_desc_np": "कालीकोट"
+        },
+        {
+          "district_code": "065",
+          "district_desc": "Mugu",
+          "district_desc_np": "मुगु"
+        },
+        {
+          "district_code": "066",
+          "district_desc": "Humla",
+          "district_desc_np": "हुम्ला"
+        }
+      ]
+    },
+    {
+      "province_code": "007",
+      "province_name": "SudurPaschim Province",
+      "province_name_np": "सुदुरपश्चिम प्रदेश ",
+      "districts": [
+        {
+          "district_code": "067",
+          "district_desc": "Bajura",
+          "district_desc_np": "बाजुरा"
+        },
+        {
+          "district_code": "068",
+          "district_desc": "Achham",
+          "district_desc_np": "अछाम"
+        },
+        {
+          "district_code": "069",
+          "district_desc": "Kailali",
+          "district_desc_np": "कैलाली"
+        },
+        {
+          "district_code": "070",
+          "district_desc": "Doti",
+          "district_desc_np": "डोटी "
+        },
+        {
+          "district_code": "071",
+          "district_desc": "Bajhang",
+          "district_desc_np": "बझाङ्ग"
+        },
+        {
+          "district_code": "072",
+          "district_desc": "Darchula",
+          "district_desc_np": "दार्चुला"
+        },
+        {
+          "district_code": "073",
+          "district_desc": "Baitadi",
+          "district_desc_np": "बैतडी"
+        },
+        {
+          "district_code": "074",
+          "district_desc": "Dadeldhura",
+          "district_desc_np": "डडेलधुरा"
+        },
+        {
+          "district_code": "075",
+          "district_desc": "Kanchanpur",
+          "district_desc_np": "कन्चनपुर"
+        }
+      ]
+    }
+  ]
+}

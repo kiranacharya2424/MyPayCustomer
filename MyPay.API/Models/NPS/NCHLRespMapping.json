@@ -1,0 +1,165 @@
+{
+  "services": [
+
+    {
+      "vendorAPIType": 121,
+      "mapping": {
+        "serviceName": "Office of Company Registrar",
+        "applicationID": "MER-7-APP-6",
+        "organization": "appId",
+        "voucherNo": "refId",
+        "amount": "amount",
+        "serviceCharge": "chargeAmount",
+        "requestedBy": "particulars",
+        "paidTo": "remarks"
+      }
+    },
+    {
+      "vendorAPIType": 124,
+      "mapping": {
+        "serviceName": "Inland Revenue Department",
+        "applicationID": "MER-7-APP-3",
+        "organization": "appId",
+        "amount": "amount",
+        "serviceCharge": "chargeAmount",
+        "requestedBy": "particulars",
+        "voucherNo": "refId",
+        "paidTo": "remarks"
+      }
+    },
+    {
+      "vendorAPIType": 125,
+      "mapping": {
+        "serviceName": "loksewa",
+        "applicationID": "MER-7-APP-7",
+        "voucherNo": "refId",
+        "amount": "amount",
+        "serviceCharge": "chargeAmount",
+        "organization": "appId",
+        "requestedBy": "particulars",
+        "paidTo": "remarks"
+      }
+    },
+
+    {
+      "vendorAPIType": 126,
+      "mapping": {
+        "serviceName": "passport",
+        "applicationID": "MER-7-APP-4",
+        "voucherNo": "refId",
+        "amount": "amount",
+        "serviceCharge": "chargeAmount",
+        "organization": "appId",
+        "requestedBy": "particulars",
+        "paidTo": "remarks"
+      }
+    },
+    {
+      "vendorAPIType": 133,
+      "mapping": {
+        "serviceName": "Social Security Fund",
+        "applicationID": "SSF-101-APP-1",
+        "submissionNo": "refId",
+        "amount": "amount",
+        "serviceCharge": "chargeAmount",
+        "employerId": "freeText1",
+        "yearMonth": "addenda3",
+        "employerName": "particulars",
+        "organization": "freeText2",
+        "paidTo": "appId"
+      }
+    },
+    {
+      "vendorAPIType": 143,
+      "mapping": {
+        "serviceName": "DOFE Individual",
+        "applicationID": "GON-7-TVRS-1",
+        "address": "remarks",
+        "amount": "amount",
+        "paidTo": "appId",
+        "serviceCharge": "chargeAmount",
+        "particular": "particulars",
+        "passportNo": "refId",
+        "creditorName": "creditorName",
+        "companyName": "addenda3",
+        "dob": "freeCode2",
+        "country": "addenda4",
+        "employeeType": "freeText1"
+
+      }
+    },
+
+    {
+      "vendorAPIType": 142,
+      "mapping": {
+        "serviceName": "DOFE Organization",
+        "applicationID": "GON-7-TVRS-1",
+        "address": "remarks",
+        "amount": "amount",
+        "paidTo": "appId",
+        "serviceCharge": "chargeAmount",
+        "particular": "particulars",
+        "passportNo": "refId",
+        "creditorName": "creditorName",
+        "companyName": "addenda3",
+        "dob": "freeCode2",
+        "country": "addenda4",
+        "employeeType": "freeText1",
+        "lotNo": "freeCode1"
+
+      }
+    },
+
+    {
+      "vendorAPIType": 151,
+      "mapping": {
+        "serviceCharge": "chargeAmount",
+        "violator": "particulars",
+        "ebpNo": "appTxnId",
+        "amount": "amount",
+        "serviceName": "Traffic Fine",
+        "applicationID": "GON-7-TVRS-1",
+        "paidTo": "appId",
+        "submissionNo": "refId",
+        "paidFor": "remarks"
+      }
+    },
+
+    {
+      "vendorAPIType": 80,
+      "mapping": {
+        "serviceCharge": "chargeAmount",
+        "amount": "amount",
+        "Name": "particulars",
+        "CardNo": "refId",
+        "cardType": "appId"
+      }
+    },
+    {
+      "vendorAPIType": 154,
+      "mapping": {
+        "serviceName": "No Objection Certificate",
+        "applicationID": "GON-6-EBL-FDRL",
+        "organization": "appId",
+        "amount": "amount",
+        "serviceCharge": "chargeAmount",
+        "requestedBy": "particulars",
+        "voucherNo": "refId",
+        "paidTo": "remarks"
+      }
+    },
+    {
+      "vendorAPIType": 134,
+      "mapping": {
+        "serviceName": "Financial Comptroller General Office",
+        "applicationID": "MER-7-APP-16",
+        "organization": "appId",
+        "amount": "amount",
+        "serviceCharge": "chargeAmount",
+        "requestedBy": "particulars",
+        "voucherNo": "refId",
+        "paidTo": "remarks"
+      }
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+﻿@model MyPay.Models.Add.AddUser
+@{ ViewBag.Title = "MyPayUserCreditCard";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml"; }
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+
+                                <input type="hidden" id="hdnBaseAmount" name="BaseAmount" value="0" />
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title d-none d-sm-block">
+                                                    <h6 class="title">  CreditCard</h6>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="card-inner">
+
+                                            <!-- step1 -->
+                                            <div class="p-2" id="DivCreditCard" style="display:none;">
+                                                <div class="row gy-4">
+
+                                                    <div class="col-12 col-sm-7 m-auto">
+
+                                                        <div class="form-group">
+                                                            <label class="form-label">Select BankCode</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    @Html.DropDownList("BankCodes", ViewBag.BankCodes as SelectList, "", new { @class = "form-select form-control form-control-md", @id = "BankCodes", @onchange = "EnableDisablePayButton();" })
+                                                                    <input type="hidden" value="@ViewBag.ServiceId" id="hdnServiceID" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="form-label">Card Number</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="Number" class="form-control form-control-lg fw-medium" maxlength="16" onkeypress="return isNumberKey(this, event);" autocomplete="off" placeholder="Card Number">
+                                                                </div>
+                                                                <small class="text-soft mt-1 d-block">Enter 16 digits credit card number</small>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="form-label">Credit Card Owner</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="CardOwner" class="form-control form-control-lg fw-medium" autocomplete="off" placeholder="Card Owner">
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Amount (Rs)</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="Amount" class="form-control form-control-lg fw-medium" maxlength="5" autocomplete="off" onkeypress="return isNumberKey(this, event);" placeholder="Amount">
+                                                                </div>
+                                                                <small class="text-soft mt-1 d-block">Amount should be between 100-100000</small>
+
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <a href="javascript:void(0);" id="btnNextStep" class="btn btn-primary btn-lg d-block disabled">Proceed</a>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- step1.1 -->
+                                            <div class="p-4 mt-2 mb-4" id="DivCreditCardStep2" style="display:none;">
+                                                <div class="row gy-4">
+
+                                                    <div class="col-12 col-sm-7 m-auto">
+
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft"> Bank Name</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <span id="spnBankName" style="font-weight:bold" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft">Card Number</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <span id="spnCardNumber" style="font-weight:bold" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft">Credit Card Owner</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    <span id="spnCreditCardOwner" style="font-weight:bold" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft">Amount</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    Rs. <span id="spnCreditCardAmount" style="font-weight:bold" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="form-label text-soft">Credit Card Fee</label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="input-group">
+                                                                    Rs. <span id="spnCreditCardFee" style="font-weight:bold" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="p-4 bg-lighter mt-2 mb-4">
+                                                                <div class="p-3 text-center border-dashed">
+                                                                    <span class="fs-18px fw-medium"><small class="fw-medium">Rs.</small><span id="spnDueAmount">0.00</span></span>
+                                                                    <p class="m-0 text-soft fs-12px">Total Payable Amount</p>
+                                                                    <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
+                                                                        <label class="text-soft fs-13px m-0">Cashback</label>
+                                                                        <span class="fs-13px fw-medium">Rs. <span id="spnCashbackAmount">0.00</span></span>
+                                                                    </div><!--d-flex-->
+                                                                    <div class="d-flex justify-content-between align-items-center">
+                                                                        <label class="text-soft fs-13px m-0">Service Charge</label>
+                                                                        <span class="fs-13px fw-medium">Rs.<span id="spnServiceChargeAmount">0.00</span></span>
+                                                                    </div><!--d-flex-->
+                                                                </div><!--border-dashed-->
+                                                                <input type="hidden" id="CashbackAmount" name="Amount" value="0" />
+                                                                <input type="hidden" id="ServiceChargeAmount" name="Amount" value="0" />
+
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+
+                                                        </div>
+                                                        <div class="form-group" style="text-align:center;">
+                                                            <a href="javascript:void(0);" id="btnPay" class="btn btn-primary btn-lg d-block ">Pay Bill</a>
+                                                            <a href="javascript:void(0);" id="btnPayBack">Back</a>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- step2 -->
+                                            @RenderPage("~/Views/MyPayUser/MyPayPaymentScreen.cshtml")
+
+
+
+
+                                            <div class="p-2" style="margin:10px; text-align:center">
+
+                                                <div id="dvMessage" class="form-group" style="color:red">
+                                                    <span id="errormsg" style="color:red">
+                                                        @ViewBag.Message
+                                                    </span>
+                                                    <span id="successmsg" style="color:green">
+                                                        @ViewBag.SuccessMessage
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+        }
+                    </div><!-- .row -->
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<input type="hidden" id="hfBankId" value="" />
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_CreditCard.js"></script>
+<style>
+    .paymentoption {
+        min-height: 50px;
+        border: 1px solid cadetblue;
+        padding: 12px;
+        margin: 10px 0px 10px 0px;
+        border-radius: 3px;
+        font-weight: bold;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .content-light {
+        color: #afafaf;
+        font-weight: normal;
+        font-size: 14px;
+    }
+</style>

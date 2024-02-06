@@ -1,0 +1,369 @@
+﻿@model MyPay.Models.Get.GetTicketTypesCableCar
+@{
+    ViewBag.Title = "MyPayUserCableCarList";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+<!-- content -->
+<!-- Bootstrap Css -->
+<link href="Content/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+
+ @*Icons Css*@ 
+<link href="Content/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+ @*App Css*@
+<link href="Content/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+<link href="Content/assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
+<link href="Content/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css" />
+
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <!-- Start right Content here -->
+                            <!-- ============================================================== -->
+                            <div class="container-fluid">
+                                <!-- start page title -->
+                                <div class="card-inner border-bottom bg-lighter-">
+                                    <div class="card-title-group d-block d-sm-flex">
+                                        <div class="card-title  d-sm-block w-100">
+                                            <div class="card-title align-items-center d-flex w-100 mb-0">
+                                                <h6 class="title d-flex mb-0">MyPay Cable Car</h6>
+                                                <a id="btn_back" class="btn btn-sm btn-danger ml-auto color-black d-flex align-items-center text-white"> Back</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end page title -->
+                                <div class="row">
+                                    <div class="col-xl-12" id="DivCableCar">
+                                        <div class="card">
+                                            <div class="card-header bg-transparent border-bottom">
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <h5 class="fw-semibold">Annapurna Cable Car</h5>
+                                                        <ul class="list-unstyled hstack gap-2 mb-0">
+                                                            @*<li>
+                                                                    <i class="mdi mdi-ticket-confirmation-outline"></i> <span class="text-muted">2 Normal | One way</span>
+                                                                </li>*@
+                                                            <li>
+                                                                <i class="bx bx-calendar"></i> <span class="text-muted">14 Sep, 2023, Thursday</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <form>
+                                                    <div class=" mb-3">
+                                                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" checked="">
+                                                            <label class="btn btn-outline-warning" for="btnradio4">One Way</label>
+
+                                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+                                                            <label class="btn btn-outline-warning" for="btnradio5">Round Trip</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <table class="rwd-table" id="oneway">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th style="width:60%">Ticket Type</th>
+                                                                <th style="width:20%">Fare</th>
+                                                                <th style="width:20%">Number</th>
+
+                                                            </tr>
+                                                            @{ var i = 1;}
+                                                            @foreach (var data in Model.Data.Where(x => x.TripType == "One Way"))
+                                                            {
+                                                                <tr>
+                                                                    <input type="text" value="@data.PassengerType" hidden>
+                                                                    <td data-th="Ticket Type">
+                                                                        <h6><a id="TicketName_@i" value="@data.PassengerType">@data.PassengerTypeDesc Ticket</a></h6>
+                                                                    </td>
+                                                                    <td data-th="Fare">
+                                                                        <p id="onewayprice_@i">Rs. @data.Price/ticket</p>
+                                                                    </td>
+                                                                    <td data-th="Number" id="num">
+                                                                        <input data-toggle="touchspin" type="text" id="onenum_@i">
+                                                                    </td>
+                                                                </tr>
+                                                                <input type="hidden" value="@(i++)" />
+                                                            }
+                                                           
+
+                                                        </tbody>
+                                                    </table>
+                                                    <table class="rwd-table" id="twoway">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th style="width:60%">Ticket Type</th>
+                                                                <th style="width:20%">Fare</th>
+                                                                <th style="width:20%">Number</th>
+
+                                                            </tr>
+                                                            @{ i = 1;}
+                                                            @foreach (var data in Model.Data.Where(x => x.TripType == "Two Way"))
+                                                            {
+                                                                <tr>
+                                                                    <input type="text" value="@data.PassengerType" hidden>
+                                                                    <td data-th="Ticket Type">
+                                                                        <h6><a id="TicketName_@i" value="@data.PassengerType">@data.PassengerTypeDesc Ticket</a></h6>
+                                                                    </td>
+                                                                    <td data-th="Fare">
+                                                                        <p id="twowayprice_@i">Rs. @data.Price/ticket</p>
+                                                                    </td>
+                                                                    <td data-th="Number" id="num">
+                                                                        <input data-toggle="touchspin" type="text" id="twonum_@i">
+                                                                    </td>
+                                                                </tr>
+                                                                <input type="hidden" value="@(i++)" />
+                                                            }
+                                                           
+
+                                                        </tbody>
+                                                    </table>
+                                                    <a class="btn btn-warning w-full mt-2 btm-sm" data-bs-toggle="collapse" href="#passengerdetails3" id="ProceedToCalc" aria-expanded="true">Proceed</a>
+
+                                                </form>
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="card  collapse " id="passengerdetails3">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <form>
+
+                                                            <h5 class="mb-0">Contact Person Details</h5>
+                                                            <p>Booking details will be sent to below contact details</p>
+                                                            <div class="row  align-items-center mb-4">
+
+                                                                <div class="col-lg-6 col-sm-4  mt-2">
+                                                                    <label for="autoSizingInputGroup">Contact Name</label>
+                                                                    <input type="text" class="form-control" id="name" placeholder="Contact Name">
+                                                                </div>
+                                                                <div class="col-lg-6 col-sm-4  mt-2">
+                                                                    <label for="autoSizingInputGroup">Phone Number</label>
+                                                                    <input type="text" class="form-control" id="phonenum" placeholder=" Phone Number">
+                                                                </div>
+                                                                <div class="col-lg-6 col-sm-4  mt-2">
+                                                                    <label for="autoSizingInputGroup"> Email</label>
+                                                                    <input type="text" class="form-control" id="email" placeholder="Contact Email">
+                                                                </div>
+
+                                                            </div>
+
+
+
+                                                            <a href="javascript:void(0);" onclick="bookTicket()" class="btn btn-warning w-full  mb-3">Proceed</a>
+
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-md-4">
+
+                                                        <div class="card border">
+
+                                                            <div class=" p-3  ">
+                                                                <div class="mb-4 text-center border-bottom">
+                                                                    <h5>Total Payable Amount:</h5>
+                                                                    <h3 id="TotalPayAmt"></h3>
+                                                                    <hr>
+                                                                </div>
+
+                                                                <div class="table-responsive summary">
+                                                                    <table class="table mb-0 table-borderless" id="myTable">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th scope="row">Purchased Date :</th>
+                                                                                <td id="purchasedDate"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th scope="row">Ticket Type :</th>
+                                                                                <td id="TicketType"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th scope="row">Traveller :</th>
+                                                                                <td id="Traveller"></td>
+                                                                            </tr>
+                                                                            @*<tr>
+                                                                                    <th scope="row">2 Normal x 700:</th>
+                                                                                    <td>Rs.1400</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th scope="row">2 Child x 400:</th>
+                                                                                    <td>Rs.800</td>
+                                                                                </tr>*@
+
+                                                                            <tr>
+                                                                                <th scope="row">Tax :</th>
+                                                                                <td id="Tax"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th scope="row">Total Amount :</th>
+                                                                                <th id="TotalAmt">Rs. </th>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="alert alert-warning mb-3 font-xs mt-1" role="alert">
+                                            <h5>Terms & Conditions:</h5>
+                                            <ul class="mb-0 ps-2">
+                                                <li>The validity of ticket shall be 3 days from the date of purchase.</li>
+                                                <li>Ticket once purchased are non-refundable.</li>
+                                                <li> For children below 3 ft no charges applicable.</li>
+                                                <li>Valid Student ID Card compulsory before boarding.</li>
+                                                <li> Proof of age compulsory before boarding for Senior Citizens.</li>
+                                            </ul>
+                                        </div>
+
+
+
+                                    </div>
+                                    @RenderPage("~/Views/MyPayUser/MyPayPaymentScreen.cshtml")
+                                    <input type="hidden" value="@ViewBag.ServiceId" id="hdnServiceID" />
+                                    <input type="hidden" value="" id="hdnOrderID" />
+                                    <input type="hidden" value="" id="hdnTicketCategoryName" />
+                                    <div class="nk-block-head">
+                                        <div class="nk-block">
+                                            <div id="dvMessage" class="form-group" style="color:red">
+                                                <span id="errormsg" style="color:red">
+                                                    @ViewBag.Message
+                                                </span>
+                                                <span id="successmsg" style="color:green">
+                                                    @ViewBag.SuccessMessage
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div><!-- .nk-block-head -->
+                                    <!-- end row -->
+                                </div>
+
+                                <!-- container-fluid -->
+                            </div>
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml");
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Error Message -->
+<div class="modal fade zoom" tabindex="-1" id="DivErrMessage" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <img class="logo-dark logo-img" src="/Content/assets/MyPayUserApp/images/dashboard/logo-dark.png" srcset="/Content/assets/MyPayUserApp/images/logo-dark2x.png 2x" alt="logo-dark">
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-control-wrap text-center otp">
+                        <h6 class="fs-14px mt-3 mb-4" id="txnMsg" style="color:#313131"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a id="btnMessageClose" class="btn btn-primary text-center text-white btn-lg d-block" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Confirmation Details -->
+<div class="modal fade zoom" tabindex="-1" id="PaymentPopup">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Confirm your payment details</h5>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                            <td>Mobile</td>
+                            <td class="fw-bold text-right"><span id="MobilePopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Amount</td>
+                            <td class="fw-bold text-right">रु  <span id="AmountPopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Cashback</td>
+                            <td class="fw-bold text-right">रु <span id="CashbackPopup"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Service Charge</td>
+                            <td class="fw-bold text-right">रु <span id="ServiceChargesPopup"></span></td>
+                        </tr>
+                    </table>
+                </div>
+                <small class="text-soft d-block text-center mt-1">Do you want to continue?</small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="javascript:void();" class="btn btn-mw btn-light w-45" data-dismiss="modal">Close</a>
+                    <a href="javascript:void();" id="btnOkPopup" class="btn btn-mw btn-primary w-45">Submit</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Details -->
+<div class="modal fade zoom" tabindex="-1" id="PaymentSuccessCableCar" style="display:none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align:center;">
+                <img src="~/Content/assets/MyPayUserApp/images/jeni_success.png" />
+                <h6 class="nk-modal-title text-center">Success</h6>
+                <small id="txn-success" class="text-soft d-block text-center mt-1"></small>
+                <div class="nk-modal-action mt-3 mt-sm-4 text-center">
+                    <a href="/MyPayUser/MyPayUserCableCarBooking" class="btn btn-mw btn-primary w-45">Ok</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="hfKYCStatus" value='@ViewBag.IsKycVerified.ToString()'>
+<input type="hidden" id="hfWalletbalance" value='@ViewBag.MyPayUserWalletbalance.ToString()'>
+<input type="hidden" id="hfIsBankAdded" value='0'>
+<input type="hidden" id="hfIsBankAdded" value=''>
+<input type="hidden" id="hdnServiceID" value='@ViewBag.ServiceId.ToString()'>
+<input type="hidden" id="hdncouponcode">
+<input type="hidden" id="hfBankId" value="" />
+<input type="hidden" id="ReferenceNo" value="" />
+<input type="hidden" id="TransactionUniqueId" value="" />
+
+<script src="Content/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="Content/assets/libs/metismenu/metisMenu.min.js"></script>
+
+<!-- select js -->
+<script src="Content/assets/libs/select2/js/select2.min.js"></script>
+<script src="Content/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="Content/assets/libs/spectrum-colorpicker2/spectrum.min.js"></script>
+<script src="Content/assets/libs/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script src="Content/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+<script src="Content/assets/js/pages/form-advanced.init.js"></script>
+
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_cablecar.js"></script>
+
+

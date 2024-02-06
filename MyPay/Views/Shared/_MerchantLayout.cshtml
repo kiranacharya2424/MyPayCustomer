@@ -1,0 +1,482 @@
+﻿<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+    <base href="../">
+    <meta charset="utf-8">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="./content/images/favicon.png">
+    <!-- Page Title  -->
+    <title>MyPay Merchant</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="./content/assets/css/dashlite.css?ver=2.9.1">
+    <link rel="stylesheet" href="./content/assets/css/style.css">
+    <link id="skin-default" rel="stylesheet" href="./content/assets/css/theme.css?ver=2.9.1">
+    <script src="//code.jquery.com/jquery-3.5.1.js"></script>
+</head>
+
+<body class="nk-body bg-lighter npc-general has-sidebar ">
+
+
+    <div class="loader" id="AjaxLoader" style="display:none;">
+        <div class="strip-holder">
+            <div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>
+        </div>
+    </div>
+    <div class="nk-app-root">
+        <!-- main -->
+        <div class="nk-main ">
+            <!-- sidebar  -->
+            <div class="nk-sidebar nk-sidebar-fixed is-dark " data-content="sidebarMenu">
+                <div class="nk-sidebar-element nk-sidebar-head">
+                    <div class="nk-menu-trigger">
+                        <a href="javascript:void(0);" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
+                        <a href="javascript:void(0);" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                    </div>
+                    <div class="nk-sidebar-brand">
+                        <a href="/Merchantlogin/Dashboard" class="logo-link nk-sidebar-logo">
+                            <img class="logo-light logo-img" src="./content/images/logo.png" srcset="./content/images/logo2x.png 2x" alt="logo">
+                            <img class="logo-dark logo-img" src="./content/images/logo-dark.png" srcset="./content/images/logo-dark2x.png 2x" alt="logo-dark">
+                        </a>
+                    </div>
+                </div><!-- .nk-sidebar-element -->
+                <div class="nk-sidebar-element nk-sidebar-body">
+                    <div class="nk-sidebar-content">
+                        <div class="nk-sidebar-menu" data-simplebar>
+                            <ul class="nk-menu">
+
+                                <li class="nk-menu-heading">
+                                    <h6 class="overline-title text-primary-alt">Merchant Panel</h6>
+                                </li><!-- .nk-menu-item -->
+
+                                @{
+                                    MyPayEntities context = new MyPayEntities();
+                                    Int32 RoleID = MyPay.Models.Common.Common.GetMerchantLoginMemberId();
+                                    //var servicestatus = context.Merchants.FirstOrDefault().ServiceStatus;
+                                    var q = (from m in context.Menus
+                                             join ma in context.MenuAssigns on m.Id equals ma.MenuId
+                                             where (m.ParentId == 0 && m.IsActive == true && m.IsDeleted == false && ma.RoleId == RoleID && m.IsInnerURL == false)
+                                             select new
+                                             {
+                                                 m.Id,
+                                                 m.Icon,
+                                                 m.IsActive,
+                                                 m.IsDeleted,
+                                                 m.MenuName,
+                                                 m.ParentId,
+                                                 m.Url,
+                                                 ma.MenuId,
+                                                 ma.RoleId
+
+                                             }).ToList();
+                                    //List<Menu> listmenu = q.Where(c => c.ParentId == 0 && c.IsActive == true &&c.IsDeleted==false && c.RoleId==1).ToList();
+
+                                }
+                                @foreach (var item in q)
+                                {
+                                    var subq = (from m in context.Menus
+                                                join ma in context.MenuAssigns on m.Id equals ma.MenuId
+                                                where (m.ParentId == item.Id && m.IsActive == true && m.IsDeleted == false && ma.RoleId == RoleID && m.IsInnerURL == false)
+                                                select new
+                                                {
+                                                    m.Id,
+                                                    m.Icon,
+                                                    m.IsActive,
+                                                    m.IsDeleted,
+                                                    m.MenuName,
+                                                    m.ParentId,
+                                                    m.Url,
+                                                    ma.MenuId,
+                                                    ma.RoleId
+
+                                                }).ToList();
+                                    //List<Menu> one = context.Menus.Where(x => x.ParentId == item.Id && x.IsActive == true).ToList();
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="@item.Url" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="@item.Icon"></em></span>
+                                            <span class="nk-menu-text">@item.MenuName</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            @foreach (var items in subq)
+                                            {
+                                                <li class="nk-menu-item">
+                                                    <a href="@items.Url" class="nk-menu-link"><span class="nk-menu-text">@items.MenuName</span></a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul><!-- .nk-menu -->
+                        </div><!-- .nk-sidebar-menu -->
+                    </div><!-- .nk-sidebar-content -->
+                </div><!-- .nk-sidebar-element -->
+            </div>
+            <!-- sidebar  -->
+            <!-- wrap   -->
+            <div class="nk-wrap ">
+                <!-- main header   -->
+                <div class="nk-header nk-header-fixed is-light">
+                    <div class="container-fluid">
+                        <div class="nk-header-wrap">
+                            <div class="nk-menu-trigger d-xl-none ml-n1">
+                                <a href="javascript:void(0);" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                            </div>
+                            <div class="nk-header-brand d-xl-none">
+                                <a href="/Merchantlogin/Dashboard" class="logo-link">
+                                    <img class="logo-light logo-img" src="./content/images/logo.png" srcset="./content/images/logo2x.png 2x" alt="logo">
+                                    <img class="logo-dark logo-img" src="./content/images/logo-dark.png" srcset="./content/images/logo-dark2x.png 2x" alt="logo-dark">
+                                </a>
+                            </div><!-- .nk-header-brand -->
+                            <div class="nk-header-news d-none d-xl-block">
+                                <div class="nk-news-list">
+                                    <a class="nk-news-item" href="javascript:void(0);">
+                                        <div class="nk-news-icon">
+                                            <em class="icon ni ni-happy"></em>
+                                        </div>
+                                        <div class="nk-news-text">
+                                            <p>Welcome to MyPay Merchant Panel</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div><!-- .nk-header-news -->
+                            <div class="nk-header-tools">
+                                <ul class="nk-quick-nav">
+
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <li class="dropdown user-dropdown">
+                                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                                                <div class="user-toggle">
+                                                    <div class="user-avatar sm">
+                                                        <em class="icon ni ni-user-alt"></em>
+                                                    </div>
+                                                    <div class="user-info d-none d-md-block">
+                                                        @*@if (servicestatus == "Connected")
+                                                            {
+                                                                <div class="user-status" style="color:green">@servicestatus</div> }
+                                                            else
+                                                            {
+                                                                <div class="user-status" style="color:red">@servicestatus</div>}*@
+                                                        <div class="user-name dropdown-indicator">@Session["MerchantUserName"]</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-s1">
+                                                <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                                                    <div class="user-card">
+                                                        <div class="user-avatar">
+                                                            @if (@Session["MerchantUserName"] == null)
+                                                            {
+                                                                Response.Redirect("/MerchantLogin");
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@Session["MerchantUserName"].ToString().Substring(0, 1)</span>
+                                                            }
+
+                                                        </div>
+                                                        <div class="user-info">
+                                                            <span class="lead-text">@Session["MerchantUserName"]</span>
+
+                                                            <!-- <span class="sub-text">info@softnio.com</span> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-inner">
+                                                    <ul class="link-list">
+                                                        @*<li><a href="javascript:void(0);"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>*@
+                                                        @*<li><a href="javascript:void(0);"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>*@
+                                                        @*<li><a href="javascript:void(0);"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>*@
+                                                        <li><a href="/MerchantLogin/ChangePassword"><em class="icon ni ni-setting-alt"></em><span>Change Password</span></a></li>
+                                                        @*<li><a class="dark-switch" href="javascript:void(0);"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>*@
+                                                    </ul>
+                                                </div>
+                                                <div class="dropdown-inner">
+                                                    <ul class="link-list">
+                                                        <li>
+                                                            <a href="javascript:void(0);" style="float:left">
+                                                                <em class="icon ni ni-signout"></em><span>
+                                                                    @if (User.Identity.IsAuthenticated)
+                                                                    {
+                                                                        @Html.ActionLink("Sign out", "Logout", "MerchantLogin")
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.ActionLink("Sign In", "Index", "MerchantLogin")
+                                                                    }
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li><!-- .dropdown -->
+                                        <!-- .nk-notification -->
+                                        <!--</div>--><!-- .nk-dropdown-body -->
+                                        <!-- .dropdown -->
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Sign-In", "Index", "MerchantLogin", null, new { @class = "nk-menu-link" })
+
+                                    }
+                                </ul><!-- .nk-quick-nav -->
+                            </div><!-- .nk-header-tools -->
+                        </div><!-- .nk-header-wrap -->
+                    </div><!-- .container-fliud -->
+                </div>
+                <!-- end main header -->
+                <div style="margin-top:80px;">
+                    <form id="frm1" method="post" enctype="multipart/form-data">
+                        @RenderBody()
+                    </form>
+                </div>
+                <!-- footer -->
+                <div class="nk-footer">
+                    <div class="container-fluid">
+                        <div class="nk-footer-wrap">
+                            <div class="nk-footer-copyright">
+                                &copy; 2022 MyPay.
+                            </div>
+                            <div class="nk-footer-links">
+                                <ul class="nav nav-sm">
+                                    <li class="nav-item dropup">
+                                        <a herf="#" class="dropdown-toggle dropdown-indicator has-indicator nav-link" data-toggle="dropdown" data-offset="0,10"><span>English</span></a>
+                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                            <ul class="language-list">
+                                                <li>
+                                                    <a href="javascript:void(0);" class="language-item">
+                                                        <span class="language-name">English</span>
+                                                    </a>
+                                                </li>
+                                                @*<li>
+                                                        <a href="javascript:void(0);" class="language-item">
+                                                            <span class="language-name">Español</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="language-item">
+                                                            <span class="language-name">Français</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="language-item">
+                                                            <span class="language-name">Türkçe</span>
+                                                        </a>
+                                                    </li>*@
+                                            </ul>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- wrap -->
+        </div>
+        <!-- main -->
+    </div>
+    <!-- app-root -->
+    <!-- JavaScript -->
+    <script src="./content/assets/js/bundle.js?ver=2.9.1"></script>
+    <script src="./content/assets/js/scripts.js?ver=2.9.1"></script>
+    <script src="./content/assets/js/libs/datatable-btns.js?ver=2.9.1"></script>
+    <script src="./content/assets/js/charts/chart-hotel.js?ver=2.9.1"></script>
+    <script src="./content/assets/js/charts/gd-default.js?ver=2.9.1"></script>
+
+    @*//<script>
+        //    var ajax_call = function () {
+        //        $.ajax({
+        //            type: "POST",
+        //            url: "/MerchantLogin/UpdateData",
+        //            contentType: "application/json; charset=utf-8",
+        //            async: true,
+        //            success: function (response) { }
+        //        });
+        //    };
+        //
+        //    var interval = 1000 *  1; // where X is your every X minutes
+        //
+        //    setInterval(ajax_call, interval);
+        //</script>*@
+
+    <style>
+
+        /*!
+        // 3. Loader
+        // --------------------------------------------------*/
+        .loader {
+            top: 0;
+            left: 0;
+            position: fixed;
+            opacity: 0.8;
+            z-index: 10000000;
+            background: Black;
+            height: 100%;
+            width: 100%;
+            margin: auto;
+        }
+
+        .strip-holder {
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            left: 50%;
+            margin-left: -50px;
+            position: relative;
+        }
+
+        .strip-1,
+        .strip-2,
+        .strip-3 {
+            width: 20px;
+            height: 20px;
+            background: #ffa353;
+            position: relative;
+            -webkit-animation: stripMove 2s ease infinite alternate;
+            animation: stripMove 2s ease infinite alternate;
+            -moz-animation: stripMove 2s ease infinite alternate;
+        }
+
+        .strip-2 {
+            -webkit-animation-duration: 2.1s;
+            animation-duration: 2.1s;
+            background-color: #F8E401;
+        }
+
+        .strip-3 {
+            -webkit-animation-duration: 2.2s;
+            animation-duration: 2.2s;
+            background-color: #E45415;
+        }
+
+        @@-webkit-keyframes stripMove {
+            0% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+        }
+
+        @@-moz-keyframes stripMove {
+            0% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(50px, 0px, 0px);
+                -webkit-transform: translate3d(50px, 0px, 0px);
+                -moz-transform: translate3d(50px, 0px, 0px);
+            }
+        }
+
+        @@keyframes stripMove {
+            0% {
+                transform: translate3d(-50px, 0px, 0px);
+                -webkit-transform: translate3d(-50px, 0px, 0px);
+                -moz-transform: translate3d(-50px, 0px, 0px);
+            }
+
+            50% {
+                transform: translate3d(0px, 0px, 0px);
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                transform: scale(4, 1);
+                -webkit-transform: scale(4, 1);
+                -moz-transform: scale(4, 1);
+            }
+
+            100% {
+                transform: translate3d(50px, 0px, 0px);
+                -webkit-transform: translate3d(50px, 0px, 0px);
+                -moz-transform: translate3d(50px, 0px, 0px);
+            }
+        }
+    </style>
+    <style>
+
+        #dvtblist select.custom-select.custom-select-sm {
+            margin: 0 10px;
+        }
+
+        #dvtblist .dt-buttons.btn-group.flex-wrap {
+            float: left;
+            margin-bottom: 10px;
+        }
+
+        #dvtblist thead {
+            background: #f5f6fa;
+        }
+
+            #dvtblist thead th {
+                border: none;
+            }
+
+        #dvtblist tfoot {
+            background: #f5f6fa;
+        }
+
+            #dvtblist tfoot th {
+                border: none;
+            }
+
+        #dvtblist table.dataTable.no-footer {
+            border: none;
+        }
+
+        #dvtblist table#tblist {
+            width: auto !important;
+        }
+
+        #dvtblist .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0px;
+        }
+
+        #dvtblist div.dataTables_wrapper div.dataTables_info,
+        #dvtblist div.dataTables_wrapper div.dataTables_paginate {
+            margin-top: 20px;
+        }
+
+        #dvtblist table.dataTable tbody td {
+            padding: 8px 20px;
+        }
+    </style>
+    <script src="~/Content/assets/js/merchant.js"></script>
+</body>
+
+</html>

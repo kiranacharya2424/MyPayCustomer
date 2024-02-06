@@ -1,0 +1,23 @@
+{
+  "id": 2,
+  "checkVersion": 0,
+  "checkDevicecode": 0,
+  "checkAndroidVersion": 0,
+  "checkTimestamp": 0,
+  "checkHash": 0,
+  "checkPlatform": 0,
+  "createdDate": "2022-06-12",
+  "updatedDate": "2022-06-12",
+  "isActive": false,
+  "isDeleted": false,
+  "isApprovedByAdmin": true,
+  "createdBy": 0,
+  "createdByName": "admin",
+  "scheduleStartTime": "2022-03-12",
+  "scheduleEndTime": "2022-03-12",
+  "schedulerMessage": "MyPay will be performing System Maintenence. During this time you will not be able to access your account through App. Thank you for your patience as we make system improvements. ",
+  "scheduleStatus": false,
+  "androidVersion": "3.1.8",
+  "iosVersion": "9.3",
+  "IsTestVendor": true
+}

@@ -1,0 +1,53 @@
+div.dataTables_wrapper div.dataTables_filter input
+{
+width:auto;
+}
+
+.user-avatar-lg, .user-avatar.lg
+{
+    font-size:15px;
+    text-align:center;
+}
+
+.gallery-image.popup-image {
+    min-height: 143px;
+    height: 100px;
+    display: inline-block;
+}
+#tbllist
+{
+    width:100% !important;
+}
+
+.btnaddsearch {
+    background-color: #E45415;
+}
+#tbllist_filter label {
+    float: right;
+}
+.dtdatecontrol_inGrid
+{
+ padding:5px;
+    width:115px;
+}
+.dttxtcontrol_inGrid {
+    padding: 5px;
+    width: 50px;
+    float:left;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: none !important;
+    background-color: #fff !important;
+    border: 1px solid transparent !important;
+}
+.custom-file-inputrounded-top {
+    max-height: 143px;
+    object-fit:cover;
+}
+.nk-msg.supportticket {
+    max-height:100%;
+}
+.spandatetime
+{
+    width:180px;
+}

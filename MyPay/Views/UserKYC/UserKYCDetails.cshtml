@@ -1,0 +1,756 @@
+﻿@model MyPay.Models.Add.AddUser
+
+@{ ViewBag.Title = "UserKYCDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm d-xxl-none">
+                    <div class="nk-block-between g-3">
+                        <div class="nk-block-head-content d-flex align-items-center">
+                            <div class="user-avatar lg mr-3">
+                                @if (!string.IsNullOrEmpty(Model.UserImage))
+                                {
+                                    <img src="~/UserDocuments/Images/@Model.UserImage" alt=""> }
+                                else
+                                {
+                                    if (Model.FirstName.Length > 0 && Model.LastName.Length > 0)
+                                    {
+                                        <span>@Model.FirstName.Substring(0, 1)@Model.LastName.Substring(0, 1)</span> }
+                                    else
+                                    {
+                                        <span>U</span>}
+                                }
+                            </div>
+                            <div>
+                                <h3 class="nk-block-title page-title"><strong class="text-primary small">@Model.FirstName @Model.MiddleName @Model.LastName</strong></h3>
+                                <div class="nk-block-des text-soft d-none d-sm-inline-flex">
+                                    <ul class="list-inline">
+
+                                        <li>Member ID: <span class="text-base">@Model.MemberId</span></li>
+                                        <li>Status: <span class="text-@(Model.IsActive? "success" : "danger" )">@(Model.IsActive?"Active":"Suspended")</span></li>
+                                        <li>RefCode: <span class="text-base">@Model.RefCode</span></li>
+                                        <li>Last Login: <span class="text-base">@(MyPay.Models.Common.Common.fnGetdatetimeFromInput( Model.LastLogin))</span></li>
+                                        <li>
+                                            KYC Status :
+                                            @if (Model.IsKYCApproved != 3)
+                                            {
+                                                <span style="color:red; font-weight:bold;">  @Enum.GetName(typeof(MyPay.Models.Add.AddUser.kyc), Convert.ToInt64(Model.IsKYCApproved == 0 ? 0 : Model.IsKYCApproved)).ToString().Replace("_", " ") </span> }
+                                            else
+                                            {
+                                                <span style="color: #4acf1f !important; font-weight: bold; ">    @Enum.GetName(typeof(MyPay.Models.Add.AddUser.kyc), Convert.ToInt64(Model.IsKYCApproved)).ToString()</span>}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nk-block-head-content">
+                            <div class="text-center">
+                                <img class="rounded-top" width="80" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.QRCode))" />
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card card-bordered">
+                        @*<div class="card-aside-wrap">*@
+                        <div class="card-content">
+                            <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="User/UserDetails?MemberId=@Model.MemberId"><em class="icon ni ni-user-circle"></em><span>Personal</span></a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" style="color: #E45415 " href="UserKyc/UserKycDetails?MemberId=@Model.MemberId"><em class="icon ni ni-file-text"></em><span>KYC Information</span></a>
+                                </li>
+                                <li class="nav-item nav-item-trigger d-xxl-none">
+                                    <a href="javascript:void(0);" class="toggle btn btn-icon btn-trigger" data-target="userAside"><em class="icon ni ni-user-list-fill"></em></a>
+                                </li>
+                            </ul><!-- .nav-tabs -->
+                            <div class="card-inner">
+                                <div class="nk-block">
+                                    <div class="nk-block-head">
+                                        <div class="nk-block-between g-3">
+                                            <div class="nk-block-head-content">
+                                                <div class="form-group" style="color:red">
+                                                    @ViewBag.Message
+                                                </div>
+                                                <div class="form-group" style="color:green">
+                                                    @ViewBag.SuccessMessage
+                                                </div>
+                                                <h5 class="title">KYC Details</h5>
+                                                <p>Below is the KYC information user filled on the MyPay Platform</p>
+                                            </div>
+                                            <div class="nk-block-head-content">
+                                                <a href="User/UserEdit?MemberId=@Model.MemberId" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-edit"></em><span>Edit</span></a>
+                                            </div>
+                                        </div>
+
+
+                                    </div><!-- .nk-block-head -->
+                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                        <h6 class="title overline-title text-base">Personal Details</h6>
+                                    </div>
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">First Name <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("FirstName", Model.FirstName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*<div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Middle Name</label>
+                                                        @Html.TextBox("MiddleName", Model.MiddleName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>*@
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Last Name <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("LastName", Model.LastName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Date of Birth (AD) <strong class="text-danger">*</strong></label>
+                                                    @if (Model.IsKYCApproved == 0)
+                                                    {
+                                                        @Html.TextBox("DateofBirth", "", new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.TextBox("DateofBirth", Model.DateofBirth, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*<div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Date of Birth (BS) <strong class="text-danger">*</strong></label>
+                                                        <input type="text" class="form-control form-control-md" value="" id="dobbs" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>*@
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Gender <strong class="text-danger">*</strong></label>
+                                                    @if (Model.Gender == 0)
+                                                    {
+                                                        @Html.TextBox("Gender", "Not Selected", new { @class = "form-control form-control-md", @readonly = "readonly" }) }
+                                                    else
+                                                    {
+                                                        @Html.TextBox("Gender", Enum.GetName(typeof(MyPay.Models.Add.AddUser.sex), Model.Gender), new { @class = "form-control form-control-md", @readonly = "readonly" })}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Mobile Number <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("ContactNumber", Model.ContactNumber, new { @class = "form-control form-control-md", @readonly = "readonly", @maxlength = 10, @onkeypress = "return isNumberKey(this, event);" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*<div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Alternative Mobile Number </label>
+                                                        <input type="text" class="form-control form-control-md" value="" id="ambno" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>*@
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Email Address</label>
+                                                    @Html.TextBox("Email", Model.Email, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Marital Status <strong class="text-danger">*</strong></label>
+                                                    @if (Model.MeritalStatus == 0)
+                                                    {
+                                                        @Html.TextBox("MeritalStatus", "Not Selected", new { @class = "form-control form-control-md", @readonly = "readonly" }) }
+                                                    else
+                                                    {
+                                                        @Html.TextBox("MeritalStatus", Enum.GetName(typeof(MyPay.Models.Add.AddUser.meritalstatus), Model.MeritalStatus), new { @class = "form-control form-control-md", @readonly = "readonly" })}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Father's Name <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("FatherName", Model.FatherName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Grand Father's Name <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("GrandFatherName", Model.GrandFatherName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Mother's Name <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("MotherName", Model.MotherName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (Model.MeritalStatus == 2)
+                                        {
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Spouse Name <strong class="text-danger">*</strong></label>
+                                                        @Html.TextBox("SpouseName", Model.SpouseName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Occupation <strong class="text-danger">*</strong></label>
+                                                    @{string occupation = ViewBag.CategoryName;}
+                                                    @if (Model.EmployeeType == 0)
+                                                    {
+                                                        @Html.TextBox("Occupation", "Not Selected", new { @class = "form-control form-control-md", @readonly = "readonly" }) }
+                                                    else
+                                                    {
+                                                        @Html.TextBox("Occupation", occupation, new { @class = "form-control form-control-md", @readonly = "readonly" })}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Nationality <strong class="text-danger">*</strong></label>
+                                                    @if (Model.Nationality == 0)
+                                                    {
+                                                        @Html.TextBox("Nationality", "Not Selected", new { @class = "form-control form-control-md", @readonly = "readonly" }) }
+                                                    else
+                                                    {
+                                                        @Html.TextBox("Nationality", Enum.GetName(typeof(MyPay.Models.Add.AddUser.nationality), Model.Nationality), new { @class = "form-control form-control-md", @readonly = "readonly" })}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div><!-- .nk-block -->
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                        <h6 class="title overline-title text-base">Permanent Address Information</h6>
+                                    </div>
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">State/Pradesh <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("State", Model.State, new { @class = "form-control form-control-md", @readonly = "readonly" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">District <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("District", Model.City, new { @class = "form-control form-control-md", @readonly = "readonly" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Municipality or Gaupalika <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("Municipality", Model.Municipality, new { @class = "form-control form-control-md", @readonly = "readonly" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Ward No. <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("WardNumber", Model.WardNumber, new { @class = "form-control form-control-md", @readonly = "readonly" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Street Name </label>
+                                                    @Html.TextBox("StreetName", Model.StreetName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">House Number </label>
+                                                    @Html.TextBox("HouseNumber", Model.HouseNumber, new { @class = "form-control form-control-md", @readonly = "readonly" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div><!-- .nk-block -->
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                        <h6 class="title overline-title text-base">Current Address Information</h6>
+                                    </div>
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Current State/Pradesh <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("CurrentState", Model.CurrentState, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Current District <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("CurrentDistrict", Model.CurrentDistrict, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Current Municipality or Gaupalika <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("CurrentMunicipality", Model.CurrentMunicipality, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Current Ward No. <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("CurrentWardNumber", Model.CurrentWardNumber, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Current Street Name </label>
+                                                    @Html.TextBox("CurrentStreetName", Model.CurrentStreetName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Current House Number </label>
+                                                    @Html.TextBox("CurrentHouseNumber", Model.CurrentHouseNumber, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- .nk-block -->
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                        <h6 class="title overline-title text-base">Document Information</h6>
+                                    </div>
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">ID Type <strong class="text-danger">*</strong></label>
+                                                    @if (Model.ProofType == 0)
+                                                    {
+                                                        @Html.TextBox("ProofType", "Not Selected", new { @class = "form-control form-control-md", @readonly = "readonly" }) }
+                                                    else
+                                                    {
+                                                        @Html.TextBox("ProofType", @Enum.GetName(typeof(MyPay.Models.Add.AddUser.ProofTypes), Convert.ToInt64(Model.ProofType)).ToString().Replace("_", " "), new { @class = "form-control form-control-md", @readonly = "readonly" })}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Document Number <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("DocumentNumber", Model.DocumentNumber, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Issued By State <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("IssueFromStateName", Model.IssueFromStateName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Issued By District <strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("IssueFromDistrictName", Model.IssueFromDistrictName, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Issue Date<strong class="text-danger">*</strong></label>
+                                                    @Html.TextBox("IssueDate", Model.IssueDate, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (Model.ProofType == 4)
+                                        {
+                                            <div class="col-lg-4 col-sm-6" style="display:none;">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Expiry Date<strong class="text-danger"> </strong></label>
+                                                        @Html.TextBox("ExpiryDate", Model.ExpiryDate, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <label class="form-label">Expiry Date<strong class="text-danger"> </strong></label>
+                                                        @Html.TextBox("ExpiryDate", Model.ExpiryDate, new { @class = "form-control form-control-md", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="row mt-5">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group mb-3">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">ID Front Image <strong class="text-danger">*</strong></label>
+                                                    <div class="">
+                                                        <a class="gallery-image popup-image" href="~/UserDocuments/Images/@Model.NationalIdProofFront">
+                                                            @if (string.IsNullOrEmpty(Model.NationalIdProofFront))
+                                                            {
+                                                                <img ID="targetNationalIdProofFront" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <img ID="targetNationalIdProofFront" class="custom-file-inputrounded-top" width="200" src="~/UserDocuments/Images/@Model.NationalIdProofFront" alt="">
+
+                                                            }
+                                                        </a>
+                                                        @Html.HiddenFor(m => m.NationalIdProofFront)
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group mb-3">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">ID Back Image <strong class="text-danger">*</strong></label>
+                                                    <div class="">
+                                                        <a class="gallery-image popup-image" href="~/UserDocuments/Images/@Model.NationalIdProofBack">
+                                                            @if (string.IsNullOrEmpty(Model.NationalIdProofBack))
+                                                            {
+                                                                <img ID="targetNationalIdProofBack" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <img ID="targetNationalIdProofBack" class="custom-file-inputrounded-top" width="200" src="~/UserDocuments/Images/@Model.NationalIdProofBack" alt="">
+
+                                                            }
+                                                        </a>
+                                                        @Html.HiddenFor(m => m.NationalIdProofBack)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">Valid Profile Photo <strong class="text-danger">*</strong></label>
+                                                    <div class="">
+                                                        @*@if (!string.IsNullOrEmpty(Model.UserImage))
+                                                            {*@
+                                                        <a class="gallery-image popup-image" href="~/UserDocuments/Images/@Model.UserImage">
+                                                            @if (string.IsNullOrEmpty(Model.UserImage))
+                                                            {
+                                                                <img ID="targetUserImage" class="custom-file-inputrounded-top" width="120" src="~/Content/assets/Images/noimageblank.png" alt="">
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <img ID="targetUserImage" class="custom-file-inputrounded-top" width="200" src="~/UserDocuments/Images/@Model.UserImage" alt="">
+
+                                                            }
+                                                        </a>
+                                                        @*}*@
+                                                        @Html.HiddenFor(m => m.UserImage)
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="nk-divider divider my-5"></div>
+                                    <div class="row gy-4">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <label class="form-label">KYC Status <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.IsKYCApproved, ViewBag.IsKYCApproved as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-6" id="dvKycRemarks">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    @*<p class="form-label text-danger mb-3">* Note Please select remarks before rejecting</p>*@
+                                                    <label class="form-label">Remarks <strong class="text-danger">*</strong></label>
+                                                    @Html.DropDownListFor(m => m.Remarks, ViewBag.Remarks as SelectList, "", new { @class = "form-select form-control form-control-md" })
+
+                                                    @*@Html.TextAreaFor(m => m.Remarks, new { @class = "form-control form-control-md" })*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-5">
+                                        <div class="col-lg-12 col-sm-6">
+                                            <div class="form-group">
+                                                <button type="submit" id="KycSubmit" name="Submit" class="btn btn-success text-center mr-2">Submit</button>
+                                            </div>
+                                            <div class="form-group" style="color:red">
+                                                <div id="dvMsg"> @ViewBag.Message</div>
+                                            </div>
+                                            <div class="form-group" style="color:green">
+                                                <div id="dvSuccessMsg">   @ViewBag.SuccessMessage</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .nk-block -->
+                                <!-- .nk-block -->
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                        <h6 class="title overline-title text-base">Additional Information</h6>
+                                    </div>
+                                    <div class="profile-ud-list">
+
+                                        <div class="profile-ud-item d-block">
+                                            <div class="profile-ud wider d-block">
+                                                <span class="profile-ud-label mb-1">Checked By</span>
+                                                <span class="profile-ud-value d-block text-left">@Model.ApprovedorRejectedByName</span>
+                                            </div>
+                                        </div>
+                                        <div class="profile-ud-item d-block">
+                                            <div class="profile-ud wider d-block">
+                                                <span class="profile-ud-label mb-1">Updated Date</span>
+                                                <span class="profile-ud-value d-block text-left">@(MyPay.Models.Common.Common.fnGetdatetimeFromInput( Model.UpdatedDate))</span>
+                                            </div>
+                                        </div>
+                                        <div class="profile-ud-item d-block">
+                                            <div class="profile-ud wider d-block">
+                                                <span class="profile-ud-label mb-1">Review Date</span>
+                                                <span class="profile-ud-value d-block text-left">@(MyPay.Models.Common.Common.fnGetdatetimeFromInput( Model.KYCReviewDate))</span>
+                                            </div>
+                                        </div>
+                                        <div class="profile-ud-item d-block">
+                                            <div class="profile-ud wider d-block">
+                                                <span class="profile-ud-label mb-1">Status</span>
+                                                <span class="profile-ud-value d-block text-left">
+                                                    @if (Model.IsKYCApproved != 3)
+                                                    {
+                                                        <span style="color:red; font-weight:bold;">
+                                                            @Enum.GetName(typeof(MyPay.Models.Add.AddUser.kyc), Convert.ToInt64(Model.IsKYCApproved == 0 ? 0 : Model.IsKYCApproved)).ToString().Replace("_", " ")
+                                                        </span>}
+                                                    else
+                                                    {
+                                                        <span style="color: #4acf1f !important; font-weight: bold; ">
+                                                            @Enum.GetName(typeof(MyPay.Models.Add.AddUser.kyc), Convert.ToInt64(Model.IsKYCApproved)).ToString()
+                                                        </span>}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        @*<div class="profile-ud-item d-block">
+            <div class="profile-ud wider d-block">
+                <span class="profile-ud-label mb-1">Rejected By</span>
+                <span class="profile-ud-value d-block text-left"></span>
+            </div>
+        </div>*@
+                                        <div class="profile-ud-item d-block">
+                                            <div class="profile-ud wider d-block">
+                                                <span class="profile-ud-label mb-1">Remarks</span>
+                                                <span class="profile-ud-value d-block text-left">@Model.Remarks</span>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div><!-- .nk-block -->
+                                <div class="nk-divider divider my-5"></div>
+                                <div class="card-inner table-responsive">
+                                    <h5>KYC Status History</h5>
+                                    <table id="tblkychistory" class=" nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                                        <thead>
+                                            <tr class="nk-tb-item nk-tb-head">
+                                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Date</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">Created By</span></th>
+                                                @*<th class="nk-tb-col"><span class="sub-text">Name</span></th>*@
+                                                @*<th class="nk-tb-col"><span class="sub-text">MemberId</span></th>*@
+                                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">KYC Status</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">Remarks</span></th>
+                                                <th class="nk-tb-col"><span class="sub-text">Ip Address</span></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div><!-- .card-inner -->
+                            </div><!-- .card-inner -->
+                        </div><!-- .card-content -->
+                        <div class="card-aside card-aside-right user-aside toggle-slide toggle-slide-right toggle-break-xxl" data-content="userAside" data-toggle-screen="xxl" data-toggle-overlay="true" data-toggle-body="true">
+                            <div class="card-inner-group" data-simplebar>
+                                <div class="card-inner">
+                                    <div class="user-card user-card-s2">
+                                        <div class="user-avatar lg bg-primary">
+                                            @if (!string.IsNullOrEmpty(Model.UserImage))
+                                            {
+                                                <img src="~/UserDocuments/Images/@Model.UserImage" alt=""> }
+                                            else
+                                            {
+                                                if (Model.FirstName.Length > 0 && Model.LastName.Length > 0)
+                                                {
+                                                    <span>@Model.FirstName.Substring(0, 1)@Model.LastName.Substring(0, 1)</span> }
+                                                else
+                                                {
+                                                    <span>U</span>}
+                                            }
+                                        </div>
+                                        <div class="user-info">
+
+                                            <h5>@Model.FirstName @Model.MiddleName @Model.LastName</h5>
+                                            <span class="sub-text">(Ref.Code :@Model.RefCode)</span>
+                                            <span class="sub-text">@Model.Email</span>
+                                            @if (Model.IsActive)
+                                            {
+                                                <span style="color:#4acf1f; font-weight:bold; text-align: center;">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="color: red; font-weight: bold; text-align: center;">Suspended</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div><!-- .card-inner -->
+                                <div class="card-inner card-inner-sm">
+                                    <ul class="btn-toolbar justify-center gx-1">
+                                        <li><a href="User/UserDetails?MemberId=@Model.MemberId" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit Details"><em class="icon ni ni-edit"></em></a></li>
+
+                                        <li><a href="/User/ResetPassword?MemberId=@Model.MemberId" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reset Pass"><em class="icon ni ni-shield-star"></em></a></li>
+
+                                        @if (Model.IsActive)
+                                        {
+                                            <li><a href="javascript:void(0);" onclick="return BlockUnblockUser(@Model.MemberId,event)" class="btn btn-trigger btn-icon text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Disable User"><em class="icon ni ni-user-cross-fill"></em></a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a href="javascript:void(0);" onclick="return BlockUnblockUser(@Model.MemberId,event)" class="btn btn-trigger btn-icon text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Enable User"><em class="icon ni ni-user-check-fill"></em></a></li>
+                                        }
+                                    </ul>
+                                </div><!-- .card-inner -->
+                                <div class="card-inner">
+                                    <div class="overline-title-alt mb-2 text-center">Scan QR</div>
+                                    <div class="text-center">
+                                        <img class="rounded-top" width="150" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.QRCode))" />
+                                    </div>
+
+                                </div><!-- .card-inner -->
+                                <div class="card-inner">
+                                    <div class="row text-center">
+
+                                        <div class="col-12">
+                                            <div class="profile-stats">
+                                                <span class="amount">@ViewBag.TotalTransactions </span>
+                                                <span class="sub-text">Transactions</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div><!-- .card-inner -->
+                                <div class="card-inner">
+                                    <h6 class="overline-title-alt mb-2">Additional</h6>
+                                    <div class="row g-3">
+                                        <div class="col-6">
+                                            <span class="sub-text">Ref.Code:</span>
+                                            <span>@Model.RefCode</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="sub-text">Last Login:</span>
+                                            <span>@(MyPay.Models.Common.Common.fnGetdatetimeFromInput( Model.LastLogin))</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="sub-text">Register At:</span>
+                                            <span>@(MyPay.Models.Common.Common.fnGetdatetimeFromInput( Model.CreatedDate))</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="sub-text">Wallet Amount</span>
+                                            <span> Rs. @ViewBag.SumTransactions</span>
+                                        </div>
+                                    </div>
+                                </div><!-- .card-inner -->
+
+                            </div><!-- .card-inner -->
+                        </div><!-- .card-aside -->
+                        <!--</div>--><!-- .card-aside-wrap -->
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="./content/assets/js/dtable_userskycrequest.js"></script>
+<script>
+    $(document).ready(function () {
+        BindKYCStatusHistoryDataTable(@Model.MemberId);
+    });
+</script>

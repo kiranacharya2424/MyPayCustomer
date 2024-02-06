@@ -1,0 +1,126 @@
+﻿@model MyPay.Models.Add.Agent.AgentCategory
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Add Agent Category</h3>
+                        </div>
+                    </div>
+                    <div class="nk-block">
+                        <div class="card card-bordered">
+                            <div class="card-aside-wrap">
+                                <div class="card-inner">
+                                    <div class="nk-block">
+                                        <div class="nk-block-head">
+                                            <div class="form-group" style="color:red">
+                                                @ViewBag.Message
+                                            </div>
+                                            <div class="form-group" style="color:green">
+                                                @TempData["Message"]
+                                            </div>
+                                        </div><!-- .nk-block-head -->
+                                        <div class="nk-block-head nk-block-head-line mt-3 mb-2">
+                                            <h6 class="title overline-title text-base">Category Detail</h6>
+                                        </div>
+                                        @using (Html.BeginForm("AddAgentCategory", "Agent", new { }, FormMethod.Post, new { @role = "form", @id = "AddAgentCategoryform" }))
+                                        {
+                                            @Html.HiddenFor(m => m.AgentCategoryId, new { id = "AgentCategoryId" })
+                            
+                                                <div id="Firmtab_organizationdetails" class="cls_Firmtab_organizationdetails">
+          
+                                                    <div class="nk-divider divider my-3"></div>
+                                                    <div class=" row gy-4  ">
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Category Name <strong class="text-danger">*</strong></label>
+                                                                    @Html.TextBoxFor(m => m.Category, new { @class = "form-control form-control-md" })
+                                                                    <span style="color:red" id="spanOrganizationFullName"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                                                                            
+                                                     
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <label class="form-label">Status<strong class="text-danger">*</strong></label>
+                                                                    @Html.DropDownListFor(m => m.StatusId, ViewBag.StatusId as SelectList, "", new { @class = "form-select form-control form-control-md" })
+                                                                    @Html.HiddenFor(m => m.Status)
+                                                                    <span style="color:red" id="StatusIdId"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                   
+                                                    </div>
+
+                                                    <div class="nk-divider divider my-5"></div>
+                                                   
+                                                    <div class="nk-block">
+                                                        <div class="row mt-5">
+                                                            <div class="col-lg-12 col-sm-6">
+                                                                <div class="form-group">
+                                                                    <div id="dvMessage" class="form-group" style="color:red">
+                                                                        @ViewBag.Message
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-primary text-center mr-2" id="btnContinue_Category">SUBMIT</button>
+                                                                    @*<button type="button" class="btn btn-light text-center mr-2" id="btnbackOrg_BANK">BACK</button>*@
+                                                                    @*<button type="button" onclick="window.location='/Merchant/MerchantList'" class="btn btn-light text-center mr-2">List</button>*@
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .nk-block -->
+                                                </div>
+
+                                         
+
+
+                                        }
+
+                                    </div><!-- .nk-block -->
+
+                                </div><!-- .card-content -->
+                            </div><!-- .card-aside-wrap -->
+                        </div><!-- .card -->
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="~/Content/assets/js/agentscripts.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnContinue_Category").submit(function (event) {
+            debugger;  
+            var DocumentTypeId = $("#DocumentTypeId").val();
+            var DocumentTypeId = $("#DocumentTypeId").val();
+            if (DocumentTypeId == "0") {
+                $("#spanDocumentTypeId").text("Required");
+                isvalidate = 1
+            }
+            if (DocumentTypeId == "0") {
+                $("#spanDocumentTypeId").text("Required");
+                isvalidate = 1
+            }
+            if (isvalidate == 1) {
+
+                return false;
+            }
+            $("#AddAgentCategory").submit();
+        });
+    });
+</script>

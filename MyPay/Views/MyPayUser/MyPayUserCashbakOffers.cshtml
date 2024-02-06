@@ -1,0 +1,82 @@
+﻿@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserCashbackOffers";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+<!-- content -->
+<div class="nk-content px-2">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="row g-2 h-100">
+                                <div class="col-md-12">
+                                    <div class="card card-bordered card-full border-bottom">
+                                        <div class="card-inner border-bottom bg-lighter">
+                                            <div class="card-title-group d-block d-sm-flex">
+                                                <div class="card-title  d-sm-block w-100">
+                                                    <div class="card-title align-items-center d-flex w-100 mb-0">
+                                                        <h6 class="title d-flex mb-0">Cashback</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>	<!--card-inner-->
+                                        <!-- first_step start -->
+                                        <div class="card-inner" id="allnotification">
+                                            <div class="row" id="table">
+                                               
+
+
+                                            </div><!--row-->
+                                            <div id="nomorerecords" style="display:none;"><span>No More Records</span></div>
+                                            <a href="javacript:void(0);" id="showmore" onclick="ShowMore();" style="display:none;" class="btn btn-block btn-primary text-white">Show More</a>
+                                        </div><!--card-inner-->
+                                        <div id="dvMessage" class="form-group" style="color:red">
+                                            <span id="errormsg" style="color:red">
+                                                @ViewBag.Message
+                                            </span>
+                                            <span id="successmsg" style="color:green">
+                                                @ViewBag.SuccessMessage
+                                            </span>
+                                        </div>
+                                        <!-- first_step end -->
+                                        <div class="nk-block-head">
+                                            <div class="nk-block">
+                                                <div id="dvMessage" class="form-group" style="color:red">
+                                                    <span id="errormsg" style="color:red">
+                                                        @ViewBag.Message
+                                                    </span>
+                                                    <span id="successmsg" style="color:green">
+                                                        @ViewBag.SuccessMessage
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div><!-- .nk-block-head -->
+                                    </div><!--card -->
+                                </div><!--col-md-12-->
+                            </div><!--row-->
+                        </div>
+                        <!-- Right Sidebar -->
+                        @if (@Session["IsKycVerified"] != null)
+                        {
+                            @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                        }
+                    </div><!-- .row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content -->
+
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_cashbackoffers.js"></script>
+@*<style>
+    .tdBanners {
+        border-bottom: 1px solid #efefef;
+        margin: 10px;
+        padding: 10px;
+    }
+</style>*@

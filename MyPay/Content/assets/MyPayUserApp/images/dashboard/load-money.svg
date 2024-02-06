@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 46 46">
+  <g id="Group_4387" data-name="Group 4387" transform="translate(-30 -211)">
+    <g id="Group_2894" data-name="Group 2894" transform="translate(-2 9)">
+      <g id="Ellipse_425" data-name="Ellipse 425" transform="translate(32 202)" fill="#FFF2EC" stroke="#e45415" stroke-width="1">
+        <circle cx="23" cy="23" r="23" stroke="none"/>
+        <circle cx="23" cy="23" r="22.5" fill="none"/>
+      </g>
+      <g id="Group_2893" data-name="Group 2893">
+        <g id="Group_2457" data-name="Group 2457" transform="translate(1425.861 -3263.082)">
+          <g id="Group_2453" data-name="Group 2453" transform="translate(-1381.86 3479.08)">
+            <g id="Group_2452" data-name="Group 2452">
+              <path id="Path_2353" data-name="Path 2353" d="M-1350.007,3499.735h-5.212a1.749,1.749,0,0,1-1.751-1.751v-.683a1.748,1.748,0,0,1,1.751-1.751h5.212Z" transform="translate(1371.019 -3485.938)" fill="none" stroke="#fea400" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3"/>
+              <path id="Path_2354" data-name="Path 2354" d="M-1360.028,3481.812v-.4a2.334,2.334,0,0,0-2.335-2.335h-15.846a2.83,2.83,0,0,0-2.831,2.831h0a2.83,2.83,0,0,0,2.831,2.831h15.846a2.334,2.334,0,0,1,2.335,2.335v8.334a1.749,1.749,0,0,1-1.751,1.751h-15.759a3.5,3.5,0,0,1-3.5-3.5v-11.615a2.959,2.959,0,0,1,2.959-2.959h11.393" transform="translate(1381.04 -3479.08)" fill="none" stroke="#e45415" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3"/>
+            </g>
+          </g>
+        </g>
+        <g id="Group_2891" data-name="Group 2891" transform="translate(3.543 2.64)">
+          <line id="Line_604" data-name="Line 604" y2="6.63" transform="translate(61.546 209.918)" fill="none" stroke="#fff2ec" stroke-linecap="square" stroke-linejoin="round" stroke-width="3"/>
+          <g id="Group_1617" data-name="Group 1617" transform="translate(57.872 213.23)">
+            <line id="Line_605" data-name="Line 605" x2="7.195" transform="translate(0)" fill="none" stroke="#fff2ec" stroke-linecap="square" stroke-linejoin="round" stroke-width="3"/>
+          </g>
+        </g>
+        <g id="Group_2892" data-name="Group 2892" transform="translate(3.543 2.64)">
+          <line id="Line_604-2" data-name="Line 604" y2="6.916" transform="translate(61.239 209.918)" fill="none" stroke="#fea400" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3"/>
+          <g id="Group_1617-2" data-name="Group 1617" transform="translate(57.872 213.373)">
+            <line id="Line_605-2" data-name="Line 605" x2="6.596" transform="translate(0)" fill="none" stroke="#fea400" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

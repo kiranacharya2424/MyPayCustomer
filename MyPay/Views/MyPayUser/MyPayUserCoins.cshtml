@@ -1,0 +1,100 @@
+﻿
+@model MyPay.Models.Add.AddUser
+@{
+    ViewBag.Title = "MyPayUserCoins";
+    Layout = "~/Views/Shared/_MyPayUserLayout.cshtml";
+}
+
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                    </div>
+                    <div class="nk-block">
+                        <div class="row g-gs">
+                            <div class="col-12 col-md-8 col-lg-9">
+                                <div class="row g-2 h-100">
+                                    <div class="col-md-12">
+                                        <div class="card card-bordered card-full border-bottom">
+                                            <div class="card-inner border-bottom">
+                                                <div class="card-title-group d-block d-sm-flex">
+                                                    <div class="card-title d-none d-sm-block">
+                                                        <h6 class="title">Coins History</h6>
+                                                    </div>
+                                                    <div class="card-tools">
+                                                        <ul class="card-tools-nav nav justify-content-between">
+                                                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#earned" onclick="return EarnedCoins()"><span>Earned</span></a></li>
+                                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#redeemed" onclick="return RedeemedCoins()"><span>Redeemed</span></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-content">
+                                                <div class="card-inner tab-pane active" id="earned">
+                                                    <div class="timeline">
+                                                        <table id="tableEarned">
+                                                            <tbody>
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                        <a id="showmore" href="javacript:void(0);" onclick="ShowMore();" class="btn btn-block btn-primary text-center text-white">Show More</a>
+                                                    </div>
+                                                </div>
+                                                <!-- ENd -->
+
+                                                <div class="card-inner tab-pane" id="redeemed">
+                                                    <div class="timeline">
+                                                        <table id="tableRedeemed">
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
+                                                        <a id="showmoreRedeemedCoins" href="javacript:void(0);" onclick="showmoreRedeemedCoins();" class="btn btn-block btn-primary text-center text-white">Show More</a>
+                                                    </div>
+                                                </div>
+                                                <!-- ENd -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="nk-block-head">
+                                        <div class="form-group" style="color:red">
+                                            @ViewBag.Message
+                                        </div>
+                                        <div class="form-group" style="color:green">
+                                            @ViewBag.SuccessMessage
+                                        </div>
+                                        <div class="nk-block">
+                                            <div id="dvMessage" class="form-group" style="color:red">
+                                                <span id="errormsg" style="color:red">
+                                                    @ViewBag.Message
+                                                </span>
+                                                <span id="successmsg" style="color:green">
+                                                    @ViewBag.SuccessMessage
+                                                </span>
+                                            </div>
+
+                                            <input type="hidden" value="10" id="hdnEarnedTake" />
+                                            <input type="hidden" value="0" id="hdnEarnedSkip" />
+                                            <input type="hidden" value="10" id="hdnRedeemedTake" />
+                                            <input type="hidden" value="0" id="hdnRedeemedSkip" />
+                                        </div>
+                                    </div><!-- .nk-block-head -->
+                                </div>
+                            </div>
+
+                            @if (@Session["IsKycVerified"] != null)
+                            {
+                                @RenderPage("~/Views/MyPayUser/MyPayRightSide.cshtml")
+                            }
+
+                        </div><!-- .card -->
+
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/assets/MyPayUserApp/js/mypayuserapp_coins.js"></script>
